@@ -337,7 +337,11 @@ FileETag None
 
   RewriteRule %{REQUEST_FILENAME} !-f
   RewriteRule %{REQUEST_FILENAME} !-d
-  RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+  RewriteRule ^images/.*$ - [PT]
+  RewriteRule ^css/.*$ - [PT]
+  RewriteRule ^js/.*$ - [PT]
+  RewriteRule ^test/.*$ - [PT]
+  RewriteRule ^(.*)$ index.php?url=$1, [PT,L]
 </IfModule>
 
 # ----------------------------------------------------------------------

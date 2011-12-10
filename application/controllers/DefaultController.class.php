@@ -6,7 +6,6 @@
 class DefaultController Extends LiriopeController {
   public function show()
   {
-    die('Default/show');
   }
 }
 

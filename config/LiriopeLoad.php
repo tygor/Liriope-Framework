@@ -26,14 +26,23 @@ spl_autoload_register( function ( $className ) {
         APPLICATION_PATH.DS.'library'                     .DS.$className.'.class.php', 
         $className.'.class.php' 
     ); 
-    foreach( $possibilities as $file ) { 
-        if( file_exists( $file )) { 
-            require_once( $file ); 
-            return true; 
-        } 
-    } 
-		/* Error Generation Code Here */
-    return false; 
+    try {
+      $loaded = false;
+      foreach( $possibilities as $file ) { 
+          if( file_exists( $file )) { 
+              require_once( $file ); 
+              $loaded = true;
+          } 
+      } 
+      if( !$loaded ) {
+        throw new Exception( 'Unable to find the ' . $className . ' Object in the APPLICATION_PATH' );
+      }
+    } catch( Exception $e ) {
+        header("HTTP/1.0 500 Internal Server Error");
+        echo $e->getMessage();
+        exit;
+    }
+    return true; 
 }); 
 
 # --------------------------------------------------
@@ -120,7 +129,7 @@ function callHook() {
 	$controller = ucwords( LiriopeTools::cleanInput( $controller, 'alphaOnly' ));
 	$model = rtrim($controller, 's');
 	$controller .= 'Controller';
-	$dispatch = new $controller($model,$controllerName,$action);
+  $dispatch = new $controller($model,$controllerName,$action);
 
 	if ((int)method_exists($controller, $action)) {
 		call_user_func_array(array($dispatch,$action),$queryString);

@@ -18,7 +18,7 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title></title>
+  <title><?php echo $pageTitle; ?></title>
   <meta name="description" content="">
   <meta name="author" content="">
 

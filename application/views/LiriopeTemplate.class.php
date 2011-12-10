@@ -13,8 +13,9 @@ class LiriopeTemplate {
 		$this->_controller = $controller;
 		$this->_action = $action;
 
-    # Define a default DOCTYPE
+    # Define a default template variables
     $this->variables['DOCTYPE'] = "<!doctype html>";
+    $this->variables['pageTitle'] = "Liriope : Monkey Grass";
 	}
 
   /**

@@ -18,7 +18,7 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?php echo $pageTitle; ?></title>
+  <title><?= $pageTitle; ?></title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -29,7 +29,7 @@
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <!-- end CSS-->
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
@@ -37,13 +37,17 @@
   <!-- All JavaScript at the bottom, except for Modernizr / Respond.
        Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
        For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="js/libs/modernizr-2.0.6.min.js"></script>
+  <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
 <body>
 
   <div id="container">
     <header>
+
+      <div style="width: 250px; height: 72px; background-color: gray;"></div>
+      <h1>Liriope is a home grown MVC framework</h1>
+      <p><em>(Currently without any models or DB connection)</em></p>
 
     </header>
     <div id="main" role="main">

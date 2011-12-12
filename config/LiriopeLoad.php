@@ -6,6 +6,7 @@
 # --------------------------------------------------
 # Constants
 # --------------------------------------------------
+define( 'DEVELOPMENT_ENVIRONMENT', true );
 defined( 'DS' ) ? null : define( 'DS', DIRECTORY_SEPARATOR );
 define( 'SERVER_ROOT', realpath( dirname(__FILE__) . DS . '..' ) );
 // TODO: the SITE_ROOT needs to be defined in a better way
@@ -16,37 +17,7 @@ define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
 # --------------------------------------------------
 # Grab the required files
 # --------------------------------------------------
-require_once( SERVER_ROOT . DS . 'config' . DS . 'config.php' );
-
-# --------------------------------------------------
-# Setup an Autoloader
-# --------------------------------------------------
-spl_autoload_register( function ( $className ) { 
-    $possibilities = array( 
-        SERVER_ROOT.DS.'application'.DS.'controllers'.DS.$className.'.class.php', 
-        SERVER_ROOT.DS.'application'.DS.'models'     .DS.$className.'.class.php', 
-        SERVER_ROOT.DS.'application'.DS.'views'      .DS.$className.'.class.php', 
-        SERVER_ROOT.DS.'library'                     .DS.$className.'.class.php', 
-        $className.'.class.php' 
-    ); 
-    try {
-      $loaded = false;
-      foreach( $possibilities as $file ) { 
-          if( file_exists( $file )) { 
-              require_once( $file ); 
-              $loaded = true;
-          } 
-      } 
-      if( !$loaded ) {
-        throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' );
-      }
-    } catch( Exception $e ) {
-        header("HTTP/1.0 500 Internal Server Error");
-        echo $e->getMessage();
-        exit;
-    }
-    return true; 
-}); 
+require_once( SERVER_ROOT . DS . 'config' . DS . 'LiriopeRouter.php' );
 
 # --------------------------------------------------
 # Check if environment is development and display errors
@@ -93,52 +64,6 @@ function unregisterGlobals() {
             }
         }
     }
-}
-
-# --------------------------------------------------
-# Main Call Function
-# --------------------------------------------------
-$url = $_SERVER['REQUEST_URI'];
-
-function callHook() {
-	global $url;
-
-	$urlArray = array();
-	$urlArray = explode("/",$url);
-
-  # The first item in the array is blank due to a leading '/'
-  # so let's just cut that off
-  array_shift( $urlArray );
-
-  # The first part of the url after index.php will be the name
-  # of the controller, but it it's empty, then we're most likely
-  # on the homepage so use default
-  $controller = !empty( $urlArray[0] ) ? $urlArray[0] : 'default';
-  array_shift($urlArray);
-
-  # If there is another piece to the url, it's the action
-  # but if not, then default to the show action
-    $action = !empty( $urlArray[0] ) ? $urlArray[0] : 'show';
-  if( !empty( $urlArray[0] ))
-  {
-    array_shift($urlArray);
-  }
-
-  # Now that the controller and action are popped off the of array
-  # the remaining should be considered query string in name = value pairs
-  $queryString = $urlArray;
-
-	$controllerName = $controller;
-	$controller = ucwords( LiriopeTools::cleanInput( $controller, 'alphaOnly' ));
-	$model = rtrim($controller, 's');
-	$controller .= 'Controller';
-  $dispatch = new $controller($model,$controllerName,$action);
-
-	if ((int)method_exists($controller, $action)) {
-		call_user_func_array(array($dispatch,$action),$queryString);
-	} else {
-		/* Error Generation Code Here */
-	}
 }
 
 setReporting();

@@ -11,6 +11,9 @@ back into web pages.
 Resources:
 --------------------------------------------------------------------------------
 - http://anantgarg.com/2009/03/13/write-your-own-php-mvc-framework-part-1/
+- http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-one
+- http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-two
+- http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-three
 
 Coding Conventions:
 --------------------------------------------------------------------------------

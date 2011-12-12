@@ -7,6 +7,13 @@
     </div>
     <footer>
 
+      <ul>
+        <li><a href="#">Link</a>
+        <li><a href="#">Link</a>
+        <li><a href="#">Link</a>
+        <li><a href="#">Link</a>
+      </ul>
+
     </footer>
   </div> <!--! end of #container -->
 

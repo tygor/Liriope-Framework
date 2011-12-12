@@ -17,7 +17,7 @@ class LiriopeController {
 		$this->_model = $model;
 
 		$this->$model =& $model;
-    $template = new LiriopeTemplate($controller,$action);
+    $template = new LiriopeView($controller,$action);
 		$this->_template =& $template;
 
 	}

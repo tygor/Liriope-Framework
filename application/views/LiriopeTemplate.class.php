@@ -31,22 +31,22 @@ class LiriopeTemplate {
   function render() {
     extract($this->variables);
 
-    if (file_exists(APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'header.php')) {
-      include (APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'header.php');
+    if (file_exists(SERVER_ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'header.php')) {
+      include (SERVER_ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'header.php');
     } else {
-      include (APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . 'default' . DS . 'header.php');
+      include (SERVER_ROOT . DS . 'application' . DS . 'views' . DS . 'default' . DS . 'header.php');
     }
 
-    if (file_exists(APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
-      include (APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php');		 
+    if (file_exists(SERVER_ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php')) {
+      include (SERVER_ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php');		 
     } else {
-      include (APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . 'default' . DS . 'default' . '.php');		 
+      include (SERVER_ROOT . DS . 'application' . DS . 'views' . DS . 'default' . DS . 'default' . '.php');		 
     }
 
-    if (file_exists(APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'footer.php')) {
-      include (APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'footer.php');
+    if (file_exists(SERVER_ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'footer.php')) {
+      include (SERVER_ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . 'footer.php');
     } else {
-      include (APPLICATION_PATH . DS . 'application' . DS . 'views' . DS . 'default' . DS . 'footer.php');
+      include (SERVER_ROOT . DS . 'application' . DS . 'views' . DS . 'default' . DS . 'footer.php');
     }
   }
 

@@ -7,23 +7,26 @@
 # Constants
 # --------------------------------------------------
 defined( 'DS' ) ? null : define( 'DS', DIRECTORY_SEPARATOR );
-define( 'APPLICATION_PATH', realpath( dirname(__FILE__) . DS . '..' ) );
-define( 'WEB_PATH', realpath( APPLICATION_PATH . DS . 'web' ) );
+define( 'SERVER_ROOT', realpath( dirname(__FILE__) . DS . '..' ) );
+// TODO: the SITE_ROOT needs to be defined in a better way
+// but for now, I'll hard-code it
+define( 'SITE_ROOT', 'http://liriope.ubuntu' );
+define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
 
 # --------------------------------------------------
 # Grab the required files
 # --------------------------------------------------
-require_once( APPLICATION_PATH . DS . 'config' . DS . 'config.php' );
+require_once( SERVER_ROOT . DS . 'config' . DS . 'config.php' );
 
 # --------------------------------------------------
 # Setup an Autoloader
 # --------------------------------------------------
 spl_autoload_register( function ( $className ) { 
     $possibilities = array( 
-        APPLICATION_PATH.DS.'application'.DS.'controllers'.DS.$className.'.class.php', 
-        APPLICATION_PATH.DS.'application'.DS.'models'     .DS.$className.'.class.php', 
-        APPLICATION_PATH.DS.'application'.DS.'views'      .DS.$className.'.class.php', 
-        APPLICATION_PATH.DS.'library'                     .DS.$className.'.class.php', 
+        SERVER_ROOT.DS.'application'.DS.'controllers'.DS.$className.'.class.php', 
+        SERVER_ROOT.DS.'application'.DS.'models'     .DS.$className.'.class.php', 
+        SERVER_ROOT.DS.'application'.DS.'views'      .DS.$className.'.class.php', 
+        SERVER_ROOT.DS.'library'                     .DS.$className.'.class.php', 
         $className.'.class.php' 
     ); 
     try {
@@ -35,7 +38,7 @@ spl_autoload_register( function ( $className ) {
           } 
       } 
       if( !$loaded ) {
-        throw new Exception( 'Unable to find the ' . $className . ' Object in the APPLICATION_PATH' );
+        throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' );
       }
     } catch( Exception $e ) {
         header("HTTP/1.0 500 Internal Server Error");
@@ -56,7 +59,7 @@ function setReporting() {
     error_reporting(E_ALL);
     ini_set('display_errors','Off');
     ini_set('log_errors', 'On');
-    ini_set('error_log', APPLICATION_PATH . DS . 'tmp' . DS . 'logs' . DS . 'error.log');
+    ini_set('error_log', SERVER_ROOT . DS . 'tmp' . DS . 'logs' . DS . 'error.log');
   }
 }
 

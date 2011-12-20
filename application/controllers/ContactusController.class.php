@@ -4,10 +4,8 @@
  */
 
 class ContactusController Extends LiriopeController {
-  public function show( $getVars )
+  public function show( $getVars=NULL )
   {
-    LiriopeTools::devPrint(__METHOD__.' - This is the Contact Us controller show action');
-    LiriopeTools::devPrint($getVars);
   }
 }
 

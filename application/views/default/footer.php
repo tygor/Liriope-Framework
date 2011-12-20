@@ -5,7 +5,7 @@
  */
 ?>
     </div>
-    <footer>
+    <footer id="main">
 
       <ul>
         <li><a href="#">Link</a>
@@ -24,13 +24,15 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
 
-
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>
   <script defer src="js/script.js"></script>
   <!-- end scripts-->
-
 	
+  <!-- Orbit slider script -->
+  <script src="plugins/orbit/jquery.orbit-1.3.0.js" type="text/javascript"></script>
+  <!-- end orbit -->
+
   <!-- Change UA-XXXXX-X to be your site's ID -->
   <script>
     window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];

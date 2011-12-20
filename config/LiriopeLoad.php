@@ -18,6 +18,7 @@ define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
 # Grab the required files
 # --------------------------------------------------
 require_once( SERVER_ROOT . DS . 'config' . DS . 'LiriopeRouter.php' );
+include_once( SERVER_ROOT . DS . 'library' . DS . 'helpers' . DS . 'LiriopeHelpers.php' );
 
 # --------------------------------------------------
 # Check if environment is development and display errors

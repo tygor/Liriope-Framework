@@ -30,6 +30,12 @@
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet/less" href="/css/style.less">
+  <script src="js/libs/less-1.1.5.min.js" type="text/javascript"></script>
+  <script type="text/javascript" charset="UTF-8">
+    less.watch();
+  </script>
+  <link rel="stylesheet" href="plugins/orbit/orbit-1.3.0.css">
   <!-- end CSS-->
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
@@ -43,11 +49,21 @@
 <body>
 
   <div id="container">
-    <header>
+    <header id="main">
 
       <div style="width: 250px; height: 72px; background-color: gray;"></div>
-      <h1>Liriope is a home grown MVC framework</h1>
-      <p><em>(Currently without any models or DB connection)</em></p>
+      <hgroup>
+        <h1>Liriope is a home grown MVC framework</h1>
+        <p>(Currently without any models or DB connection)</p>
+      </hgroup>
+
+      <nav id="main" class="menu">
+        <ul>
+          <li><?= getLink( 'Home', '/' ); ?></li>
+          <li><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
+        </ul>
+      </nav>
 
     </header>
+
     <div id="main" role="main">

@@ -1,0 +1,127 @@
+/**
+ * LESSCSS.org
+ * styles using the LESS compiler
+ * for developement only. to publish create a CSS file with the 
+ * compiled styles
+ */
+
+// Variables
+// --------------------------------------------------
+@linkColor:     rgb(0,102,238);
+@linkColor-alt: rgb(254,87,161);
+@baseFontSize:  16px;
+@baseTextColor: rgb(20,20,20);
+@fontFamilyStack: Trebuchet, sans;
+
+// Mixins
+// --------------------------------------------------
+@import 'goodies';
+
+// HTML Basic
+// --------------------------------------------------
+html
+{
+  width: 100%;
+  height: 100%;
+  font-size: @baseFontSize;
+  font-family: @fontFamilyStack;
+}
+
+body
+{
+  margin: 0 auto;
+  width: 960px;
+  background: url('../images/wallpaper.png') repeat;
+  font-size: @baseFontSize;
+  color: @baseTextColor;
+  line-height: 168%;
+  padding-bottom: @baseFontSize;
+}
+
+hgroup
+{
+  margin: 2em 0;
+  * { margin: 0; }
+}
+
+p,
+li
+{
+  font-size: 0.875em;
+}
+
+article
+{
+  footer
+  {
+    font-size: 0.875em;
+    color: lighten( @baseTextColor, 30);
+  }
+}
+
+footer#main
+{
+  border-top: 1px solid;
+  margin-top: 2em;
+  padding-top: 2em;
+}
+
+// MENU
+// <nav class="menu"><ul><li><a></a></li></ul></nav>
+// --------------------------------------------------
+nav.menu
+{
+  a,
+  a:link,
+  a:active,
+  a:visited
+  {
+    text-decoration: none;
+  }
+
+  ul
+  {
+    li
+    {
+      display: inline;
+      padding: .25em 1.25em;
+      background-color: rgb(210,210,210);
+      font-size: 0.75em;
+      .rounded();
+      .shadow();
+
+      a
+      {
+        color: @linkColor;
+      }
+
+      &:hover
+      {
+        background-color: rgb(190,190,190);
+
+        a
+        {
+          color: @linkColor-alt;
+        }
+      }
+    }
+  }
+}
+
+// .orbit-wrapper holds the Orbit slider
+// it needs some space for the bullets below the slider which overlap the following content
+.orbit-wrapper
+{
+  margin: 20px 10px 40px;
+  .shadow();
+
+  div.orbit
+  {
+    width: 940px;
+    height: 450px;
+    background: #000 url('../plugins/orbit/orbit/loading.gif') no-repeat 50% 50%;
+    overflow: hidden;
+
+    img, div { display: none; }
+  }
+}

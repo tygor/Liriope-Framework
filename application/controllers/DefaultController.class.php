@@ -4,12 +4,18 @@
  */
 
 class DefaultController Extends LiriopeController {
-  public function show()
+  public function show( $getVars=NULL )
   {
-    $header = new LiriopeView( 'default', 'header' );
-    $footer = new LiriopeView( 'default', 'footer' );
-    $this->_template->set('header', $header->render(FALSE));
-    $this->_template->set('footer', $footer->render(FALSE));
+    $slider = new LiriopeView( 'default', 'slider' );
+    $this->_template->set('slider', $slider->render(FALSE));
+  }
+
+  public function header( $getVars=NULL )
+  {
+  }
+
+  public function footer( $getVars=NULL )
+  {
   }
 }
 

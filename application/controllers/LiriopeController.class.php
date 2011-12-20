@@ -20,6 +20,15 @@ class LiriopeController {
     $template = new LiriopeView($controller,$action);
 		$this->_template =& $template;
 
+    // Set some default variables
+    // TODO: I'd like to be able to call these template parts from a controller
+    //       like $header = getTemplate( 'default' 'header' ) but that controller
+    //       needs to be able to assign variables that can be read during this
+    //       __destruct function as the templates are stored then spit out.
+    $header = new LiriopeView( 'default', 'header' );
+    $footer = new LiriopeView( 'default', 'footer' );
+    $this->_template->set('header', $header->render(FALSE));
+    $this->_template->set('footer', $footer->render(FALSE));
 	}
 
 	function set($name,$value) {
@@ -27,7 +36,7 @@ class LiriopeController {
 	}
 
 	function __destruct() {
-			$this->_template->render();
+    $this->_template->render();
 	}
 
 }

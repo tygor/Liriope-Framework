@@ -340,6 +340,7 @@ FileETag None
   RewriteRule ^images/.*$ - [PT]
   RewriteRule ^css/.*$ - [PT]
   RewriteRule ^js/.*$ - [PT]
+  RewriteRule ^plugins/.*$ - [PT]
   RewriteRule ^test/.*$ - [PT]
   RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
 </IfModule>

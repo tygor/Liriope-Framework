@@ -1,0 +1,14 @@
+// Goodies.less MIXIN
+
+.rounded( @top: 4px, @right: 4px, @bottom: 4px, @left: 4px ) {
+  -moz-border-radius: @arguments;
+  -webkit-border-radius: @arguments;
+  border-radius: @arguments;
+}
+
+.shadow( @x: 0px, @y: 1px, @blur: 3px, @color: #000, @opacity: 70 ) {
+  -moz-box-shadow: @x @y @blur fadeOut( @color, @opacity );
+  -webkti-box-shadow: @x @y @blur fadeOut( @color, @opacity );
+  box-shadow: @x @y @blur fadeOut( @color, @opacity );
+}
+

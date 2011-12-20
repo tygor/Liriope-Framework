@@ -19,6 +19,21 @@ Coding Conventions:
 --------------------------------------------------------------------------------
 1. mySQL tables will always be lowercase and plural e.g. items, cars
 2. Models will always be singular and first letter capital e.g. Item, Car
-3. Controllers will always have “Controller” appended to them. e.g. ItemsController, CarsController
+3. Controllers will always have "Controller" appended to them. e.g. ItemsController, CarsController
 4. Views will have plural name followed by action name as the file. e.g. items/view.php, cars/buy.php
 
+Application Flow:
+--------------------------------------------------------------------------------
+web > index.php
+  |
+  |
+  LiriopeLoad.php / LiriopeRouter.php
+     . Uses function callHook() which breaks down the URL into $controller, $action, and $getVars
+     . and uses call_user_func_array to call $controller::$action passing $getVars
+     |
+     |
+     $controller::$action($getVars) : example DefaultController() -> show()
+        . The __construct() function looks for a $action.php file in the views/$controller folder
+        . The $action function sets default variables for that template
+        . Then the __destruct function either outputs the tempalte, or stores it for output buffering
+     

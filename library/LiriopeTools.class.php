@@ -31,9 +31,13 @@ class LiriopeTools
         $pattern = '#[^a-z]*#i';
         $replacement = '';
         break;
+      case 'whiteAlphaNum':
+        $pattern = '#[^a-z0-9\s_-]*#i';
+        $replacement = '';
+        break;
       default:
       case 'alphaNumeric':
-        $pattern = '#[^a-z0-9-_]*#i';
+        $pattern = '#[^a-z0-9_-]*#i';
         $replacement = '';
         break;
     }

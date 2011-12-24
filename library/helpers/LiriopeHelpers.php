@@ -7,7 +7,7 @@
 function getLink( $label=NULL, $url=NULL, $args=array() )
 {
   // clean input
-  $label = LiriopeTools::cleanInput( $label );
+  $label = LiriopeTools::cleanInput( $label, 'whiteAlphaNum' );
 
   // take the variables and send back a HTML <a> tag
   $format = '<a href="%s" %s>%s</a>';

@@ -1,6 +1,12 @@
 <?php
 /**
  * Liriope Load
+ * The spark into life:
+ *
+ * In a backyard full of leaves and weeds, there was a *pop* and evolution
+ * occured. Out of the primordial filth--compost--came the first steps
+ * to becoming a website: Liriope (aka monkey grass). Yes, evolution
+ * from monkies.
  */
 
 # --------------------------------------------------
@@ -10,8 +16,11 @@ define( 'DEVELOPMENT_ENVIRONMENT', true );
 defined( 'DS' ) ? null : define( 'DS', DIRECTORY_SEPARATOR );
 define( 'SERVER_ROOT', realpath( dirname(__FILE__) . DS . '..' ) );
 // TODO: the SITE_ROOT needs to be defined in a better way
-// but for now, I'll hard-code it
-define( 'SITE_ROOT', 'http://liriope.ubuntu' );
+// but for now, I'll hard-code it. I'd like it to be selected
+// from a config file.
+// On my desktop: liriope.ubuntu
+// on my laptop:  liriope.local
+define( 'SITE_ROOT', 'http://liriope.local' );
 define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
 
 # --------------------------------------------------
@@ -37,6 +46,8 @@ function setReporting() {
 
 # --------------------------------------------------
 # Check for Magic Quotes and remove them
+# This detects if magic quotes is enabled, and if so, cleans
+# them from the REQUEST variables.
 # --------------------------------------------------
 function stripSlashesDeep( $value ) {
 	$value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
@@ -53,6 +64,7 @@ function removeMagicQuotes() {
 
 # --------------------------------------------------
 # Check register globals and remove them
+# If superglobals are set, then go ahead and remove $Global values
 # --------------------------------------------------
 function unregisterGlobals() {
     if (ini_get('register_globals')) {

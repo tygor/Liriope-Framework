@@ -40,8 +40,13 @@ spl_autoload_register( function ( $className ) {
 // Main Call Function
 $url = $_SERVER['REQUEST_URI'];
 function callHook() {
+
+  // This is what I'm expecting to see here:
+  // http://somesite.com/controller-name/action-name/variable/value/variable/value
+
   // Get the REQUEST_URI
   $route = $_SERVER['REQUEST_URI'];
+
   // clean up leading and trailing slashes
   $route = trim( $route, '/' );
 
@@ -51,10 +56,7 @@ function callHook() {
   
   // If index.php was used in the url, it will be the first
   // item in the array. We don't need it.
-  if( strtolower( $routeArray[0] ) == 'index.php' )
-  {
-    array_shift( $routeArray );
-  }
+  if( strtolower( $routeArray[0] ) == 'index.php' ) { array_shift( $routeArray ); }
 
   // Controller
   // The first value in the array will be the name
@@ -69,7 +71,7 @@ function callHook() {
   $action = !empty( $routeArray[0] ) ? $routeArray[0] : 'show';
   array_shift($routeArray);
 
-  // Any other parts  of the array are get statements, parse them out.
+  // Any other parts of the array are variable/value pairs. Parse them out.
   $getVars = array();
   while( !empty( $routeArray ) ) 
   {
@@ -84,26 +86,33 @@ function callHook() {
     $getVars[] = $value;
   }
 
+  // Expect the naming conventions:
+  // Controller are uppercase on words (ex: Shovel)
+  //   with "Controller" appended
+  // Models are the plural of the controller (ex: Shovels)
+  //   (yes, grammer can be horrible here)
 	$controllerName = $controller;
 	$controller = ucwords( LiriopeTools::cleanInput( $controller, 'alphaOnly' ));
 	$model = rtrim( $controller, 's' );
 	$controller .= 'Controller';
 
-  // Compute the path to the controller file
-  // naming convention: NameController.class.php
+  // Build the path to the controller file
   $target = SERVER_ROOT . DS . 'application' . DS . 'controllers' . DS .
     $controller . '.class.php';
 
-  // get the target
+  // HERE'S THE MAGIC
+  // Grab that file
   if( file_exists( $target ))
   {
     include_once( $target );
 
-    // instantiate the appropriate class
+    // Does the object exist?
     if( class_exists( $controller ))
     {
+      // Does the object have that function?
       if( method_exists( $controller, $action ))
       {
+        // Ok, run that object's function!
         $dispatch = new $controller( $model, $controllerName, $action );
         call_user_func_array( array( $dispatch,$action ), $getVars );
       }
@@ -121,6 +130,17 @@ function callHook() {
   }
   else
   {
+    // OK, so the controller file doesn't exist, but don't freak out!
+    // Perhaps there is a view sitting in the default folder. If there is
+    // then just show that HTML.
+    $target = SERVER_ROOT . DS . 'application' . DS . 'views' . DS . 'default' . DS . "$controllerName.php";
+    if( file_exists( $target ))
+    {
+      // Ok, run that hidden page!
+      $dispatch = new LiriopeController( 'Liriope', 'default', $controllerName );
+      call_user_func_array( array( $dispatch,'dummyPages' ), $getVars );
+    }
+
     // TODO: route to the home page with an error
     // or show the 404 page.
     /* Error Generation Code Here */

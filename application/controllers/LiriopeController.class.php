@@ -39,5 +39,12 @@ class LiriopeController {
     $this->_template->render();
 	}
 
+  /**
+   * For controller-less pages
+   */
+  public function dummyPages( $getVars=NULL )
+  {
+  }
+
 }
 

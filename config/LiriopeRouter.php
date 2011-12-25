@@ -37,10 +37,13 @@ spl_autoload_register( function ( $className ) {
 # Begin working with the REQUEST_URI for routing
 # --------------------------------------------------
 
-// Main Call Function
-$url = $_SERVER['REQUEST_URI'];
-function callHook() {
-
+/**
+ * destructURI()
+ *
+ * Reads the REQUEST_URI for translation
+ * into a controller/action call
+ */
+function destructURI() {
   // This is what I'm expecting to see here:
   // http://somesite.com/controller-name/action-name/variable/value/variable/value
 
@@ -86,6 +89,25 @@ function callHook() {
     $getVars[] = $value;
   }
 
+  return array(
+    'controller' => $controller,
+    'action'     => $action,
+    'getVars'    => $getVars
+  );
+}
+
+/**
+ * callHook()
+ * 
+ * Reads the REQUEST_URI and converts the paramaters
+ * into a user function call.
+ *
+ * $controller @string The name of the class controller to use
+ * $action     @string The function to call inside of the controller
+ * $getVars    @array  Any name/value pairs for the action to use
+ */
+function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
+
   // Expect the naming conventions:
   // Controller are uppercase on words (ex: Shovel)
   //   with "Controller" appended
@@ -118,13 +140,13 @@ function callHook() {
       }
       else
       {
-        /* Error Generation Code Here */
+        /* TODO: Error Generation Code Here */
         die( 'View does not exist!' );
       }
     }
     else
     {
-      /* Error Generation Code Here */
+      /* TODO: Error Generation Code Here */
       die( 'Class does not exist!' );
     }
   }
@@ -147,5 +169,16 @@ function callHook() {
     header("HTTP/1.0 404 Not Found");
     exit;
   }
+}
+
+/**
+ * callLiriope()
+ * Main Call Function
+ * 
+ * Begins the framework inner-workings
+ */
+function callLiriope() {
+  extract( destructURI() );
+  callHook( $controller, $action, $getVars );
 }
 

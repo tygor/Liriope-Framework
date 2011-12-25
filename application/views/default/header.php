@@ -46,7 +46,7 @@
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body>
+<body class="<?= "$ua[shortname] $ua[shortname]$ua[shortver] $ua[platform]"; ?>">
 
   <div id="container">
     <header id="main" class="clear">

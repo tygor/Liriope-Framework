@@ -82,5 +82,5 @@ function unregisterGlobals() {
 setReporting();
 removeMagicQuotes();
 unregisterGlobals();
-callHook();
+callLiriope();
 

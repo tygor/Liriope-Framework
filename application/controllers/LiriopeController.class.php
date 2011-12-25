@@ -26,9 +26,14 @@ class LiriopeController {
     //       needs to be able to assign variables that can be read during this
     //       __destruct function as the templates are stored then spit out.
     $header = new LiriopeView( 'default', 'header' );
+    #$header = addPart( 'default', 'header' ); // $controller, $action
+    $user_agent = LiriopeTools::getBrowser();
+    $header->set( 'ua', $user_agent );
+
     $footer = new LiriopeView( 'default', 'footer' );
     $this->_template->set('header', $header->render(FALSE));
     $this->_template->set('footer', $footer->render(FALSE));
+
 	}
 
 	function set($name,$value) {

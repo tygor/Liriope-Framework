@@ -18,6 +18,18 @@
 @import 'goodies';
 @import 'elements/elements';
 
+// Helpers
+// --------------------------------------------------
+.clear:after
+{
+  content: ".";
+  display: block;
+  height: 1px;
+  line-height: 1px;
+  visibility: hidden;
+  clear: both;
+}
+
 // HTML Basic
 // --------------------------------------------------
 html
@@ -65,6 +77,25 @@ footer#main
   border-top: 1px solid;
   margin-top: 2em;
   padding-top: 2em;
+}
+
+// Styles by ID tags
+// --------------------------------------------------
+#identity
+{
+  margin: .25em 0 1em 0;
+  float: left;
+
+  h1
+  {
+    font-weight: bold;
+  }
+}
+
+nav#main
+{
+  float: left;
+  margin: 0 0 0 1em;
 }
 
 // MENU

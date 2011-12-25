@@ -49,12 +49,10 @@
 <body>
 
   <div id="container">
-    <header id="main">
+    <header id="main" class="clear">
 
-      <div style="width: 250px; height: 72px; background-color: gray;"></div>
-      <hgroup>
-        <h1>Liriope is a home grown MVC framework</h1>
-        <p>(Currently without any models or DB connection)</p>
+      <hgroup id="identity">
+        <img src="" style="width: 150px; height: 50px; background-color: gray;">
       </hgroup>
 
       <nav id="main" class="menu">

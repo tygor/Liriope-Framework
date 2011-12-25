@@ -1,5 +1,5 @@
-Liriope
-Monkey Grass
+# Liriope
+> Monkey Grass
 
 A PHP framework for the un-controlled site.
 No CMS, just MVC goodness: putting the web content

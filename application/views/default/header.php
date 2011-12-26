@@ -56,11 +56,7 @@
       </hgroup>
 
       <nav id="main" class="menu">
-        <ul>
-          <li><?= getLink( 'Home', '/' ); ?></li>
-          <li><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
-          <li><?= getLink( 'Hidden', '/hidden' . '' ); ?></li>
-        </ul>
+        <?= $nav; ?>
       </nav>
 
     </header>

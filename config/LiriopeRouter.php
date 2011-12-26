@@ -88,15 +88,13 @@ function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
 	$model = rtrim( $controller, 's' );
 	$controller .= 'Controller';
 
-  // Build the path to the controller file
-  $target = SERVER_ROOT . DS . 'application' . DS . 'controllers' . DS .
-    $controller . '.class.php';
+  $target = $controller . '.class.php';
 
   // HERE'S THE MAGIC
   // Grab that file
-  if( file_exists( $target ))
+  if( $file = seekFile( $target ))
   {
-    include_once( $target );
+    include_once( $file );
 
     // Does the object exist?
     if( class_exists( $controller ))

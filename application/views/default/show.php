@@ -4,6 +4,7 @@
 <article>
   <header>
     <h1>Liriope Framework</h1>
+    <p>Written by: Tyler</p>
   </header>
 
   <p>The Liriope Framework is a home grown framework. I wanted to manage a site with
@@ -12,7 +13,10 @@
   Symfony.</p>
 
   <footer>
-    <p>Written by: Tyler</p>
+    <ul class="tags">
+      <li>Home page</li>
+      <li>article</li>
+    </ul>
   </footer>
 </article>
 

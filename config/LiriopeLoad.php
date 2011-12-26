@@ -40,6 +40,15 @@ function seekFile( $file )
       SERVER_ROOT.DS.'library'                     .DS,
       SERVER_ROOT.DS.'library'.DS.'helpers'        .DS,
   ); 
+  $loaded = false;
+  foreach( $paths as $path ) { 
+      if( file_exists( $path . $file )) { 
+          $loaded = $path . $file;
+      } 
+  } 
+  return $loaded;
+
+  // Execptions shouldn't happen in this function
   try {
     $loaded = false;
     foreach( $paths as $path ) { 
@@ -67,14 +76,8 @@ spl_autoload_register( function ( $className ) {
   $className = ucfirst( $className ) . '.class.php';
   // find out if the file exists
   try {
-    $loaded = false;
-    if( $file = seekFile( $className )) {
-      require_once( $file );
-      $loaded = true;
-    }
-    if( !$loaded ) {
-      throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' );
-    }
+    if( $file = seekFile( $className )) { require_once( $file ); }
+    else { throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' ); }
   } catch( Exception $e ) {
       header("HTTP/1.0 500 Internal Server Error");
       echo $e->getMessage();
@@ -138,7 +141,6 @@ function unregisterGlobals() {
     }
 }
 
-
 /**
  * useHelper
  *
@@ -155,12 +157,14 @@ function useHelper( $name=NULL )
   // work with the $name to follow the naming convention
   $helperName = ucfirst( $name ) . 'Helpers.php';
   // find out if the file exists
-  if( $file = seekFile( $helperName )) {
-    include_once( $file );
-    return true;
+  try {
+    if( $file = seekFile( $helperName )) { include_once( $file ); }
+    else { throw new Exception( 'Unable to find that helper: ' . $className ); }
+  } catch( Exception $e ) {
+      header("HTTP/1.0 500 Internal Server Error");
+      echo $e->getMessage();
+      exit;
   }
-  /* TODO: error handling */
-  die( 'We can\'t find the helper file' );
 }
 
 setReporting();

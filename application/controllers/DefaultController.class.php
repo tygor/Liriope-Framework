@@ -12,6 +12,8 @@ class DefaultController Extends LiriopeController {
 
   public function header( $getVars=NULL )
   {
+    die(' DefaultController::header ');
+    exit;
   }
 
   public function footer( $getVars=NULL )

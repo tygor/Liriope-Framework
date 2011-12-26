@@ -25,13 +25,14 @@ Coding Conventions:
 Application Flow:
 --------------------------------------------------------------------------------
 - web > index.php
--- LiriopeLoad.php / LiriopeRouter.php
-     . Uses function callHook() which breaks down the URL into $controller, $action, and $getVars
-     . and uses call_user_func_array to call $controller::$action passing $getVars
-     |
-     |
-     $controller::$action($getVars) : example DefaultController() -> show()
-        . The __construct() function looks for a $action.php file in the views/$controller folder
-        . The $action function sets default variables for that template
-        . Then the __destruct function either outputs the tempalte, or stores it for output buffering
+- - LiriopeLoad.php / LiriopeRouter.php
+
+   > Uses function callHook() which breaks down the URL into $controller, $action, and $getVars
+   > and uses call_user_func_array to call $controller::$action passing $getVars
+
+- - - $controller::$action($getVars) : example DefaultController() -> show()
+
+      > The __construct() function looks for a $action.php file in the views/$controller folder
+      > The $action function sets default variables for that template
+      > Then the __destruct function either outputs the tempalte, or stores it for output buffering
      

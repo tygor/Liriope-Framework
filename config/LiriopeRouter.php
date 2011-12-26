@@ -4,36 +4,6 @@
  */
 
 # --------------------------------------------------
-# Setup an Autoloader
-# --------------------------------------------------
-spl_autoload_register( function ( $className ) { 
-    $possibilities = array( 
-        SERVER_ROOT.DS.'application'.DS.'controllers'.DS.$className.'.class.php', 
-        SERVER_ROOT.DS.'application'.DS.'models'     .DS.$className.'.class.php', 
-        SERVER_ROOT.DS.'application'.DS.'views'      .DS.$className.'.class.php', 
-        SERVER_ROOT.DS.'library'                     .DS.$className.'.class.php', 
-        $className.'.class.php' 
-    ); 
-    try {
-      $loaded = false;
-      foreach( $possibilities as $file ) { 
-          if( file_exists( $file )) { 
-              require_once( $file ); 
-              $loaded = true;
-          } 
-      } 
-      if( !$loaded ) {
-        throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' );
-      }
-    } catch( Exception $e ) {
-        header("HTTP/1.0 500 Internal Server Error");
-        echo $e->getMessage();
-        exit;
-    }
-    return true; 
-}); 
-
-# --------------------------------------------------
 # Begin working with the REQUEST_URI for routing
 # --------------------------------------------------
 

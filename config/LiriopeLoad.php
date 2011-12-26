@@ -24,10 +24,69 @@ define( 'SITE_ROOT', 'http://liriope.local' );
 define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
 
 # --------------------------------------------------
+# Setup an Autoloader
+# --------------------------------------------------
+/**
+ * seekFile
+ *
+ * Checks the framework path for the given $file
+ */
+function seekFile( $file )
+{
+  $paths = array( 
+      SERVER_ROOT.DS.'application'.DS.'controllers'.DS,
+      SERVER_ROOT.DS.'application'.DS.'models'     .DS,
+      SERVER_ROOT.DS.'application'.DS.'views'      .DS,
+      SERVER_ROOT.DS.'library'                     .DS,
+      SERVER_ROOT.DS.'library'.DS.'helpers'        .DS,
+  ); 
+  try {
+    $loaded = false;
+    foreach( $paths as $path ) { 
+        if( file_exists( $path . $file )) { 
+            $loaded = $path . $file;
+        } 
+    } 
+    if( !$loaded ) {
+      throw new Exception( 'Liriope was unable to find ' . $file . '.' );
+    }
+  } catch( Exception $e ) {
+      header("HTTP/1.0 500 Internal Server Error");
+      echo $e->getMessage();
+      exit;
+  }
+  return $loaded; 
+}
+
+/**
+ * spl_autoload_register
+ * my autoloader
+ */
+spl_autoload_register( function ( $className ) { 
+  // Apply the naming convention
+  $className = ucfirst( $className ) . '.class.php';
+  // find out if the file exists
+  try {
+    $loaded = false;
+    if( $file = seekFile( $className )) {
+      require_once( $file );
+      $loaded = true;
+    }
+    if( !$loaded ) {
+      throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' );
+    }
+  } catch( Exception $e ) {
+      header("HTTP/1.0 500 Internal Server Error");
+      echo $e->getMessage();
+      exit;
+  }
+  return true; 
+}); 
+
+# --------------------------------------------------
 # Grab the required files
 # --------------------------------------------------
 require_once( SERVER_ROOT . DS . 'config' . DS . 'LiriopeRouter.php' );
-include_once( SERVER_ROOT . DS . 'library' . DS . 'helpers' . DS . 'LiriopeHelpers.php' );
 
 # --------------------------------------------------
 # Check if environment is development and display errors
@@ -77,6 +136,31 @@ function unregisterGlobals() {
             }
         }
     }
+}
+
+
+/**
+ * useHelper
+ *
+ * Look for a helper with the passed $name
+ * and include the file.
+ * 
+ * Helpers are php files containing a set of functions
+ * to be used in the view templates.
+ */
+function useHelper( $name=NULL )
+{
+  // rename "default" to "liriope"
+  if( strtolower( $name ) == 'default' ) $name = 'Liriope';
+  // work with the $name to follow the naming convention
+  $helperName = ucfirst( $name ) . 'Helpers.php';
+  // find out if the file exists
+  if( $file = seekFile( $helperName )) {
+    include_once( $file );
+    return true;
+  }
+  /* TODO: error handling */
+  die( 'We can\'t find the helper file' );
 }
 
 setReporting();

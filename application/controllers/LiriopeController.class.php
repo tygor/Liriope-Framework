@@ -2,6 +2,7 @@
 /**
  * LiriopeController.class.php
  */
+useHelper( 'default' );
 
 class LiriopeController {
 

@@ -7,12 +7,17 @@
 
 // Variables
 // --------------------------------------------------
-@linkColor:     rgb(0,102,238);
-@linkColor-alt: rgb(254,87,161);
-@baseFontSize:  16px;
-@baseTextColor: rgb(20,20,20);
+@white           : rgb(200,200,200);
+@black           : rgb(50,50,50);
+@BaseColor       : rgb(180,0,40);
+@AccentColor1    : rgb(12,98,129);
+@AccentColor2    : rgb(192,182,19);
+@linkColor       : @AccentColor1;
+@linkColorAlt    : lighten( @AccentColor1, 10%);
+@baseFontSize    : 16px;
+@BaseCopyColor   : @black;
 @fontFamilyStack : 'Podkova', serif;
-@fontFamilyAlt   : 'Questrial', Trebuchet, sans-serif;
+@fontFamilyAlt   : 'PT Sans', Trebuchet, sans-serif;
 
 
 // Mixins
@@ -47,9 +52,14 @@ body
   background: url('../images/wallpaper.png') repeat;
   font-size: @baseFontSize;
   font-family: @fontFamilyStack;
-  color: @baseTextColor;
+  color: @BaseCopyColor;
   line-height: 1.68;
   padding-bottom: @baseFontSize;
+}
+
+ins
+{
+  background-color: hsl( hue(@AccentColor2), 100%, 75% );
 }
 
 // Headings
@@ -57,14 +67,39 @@ body
 h1, h2, h3, h4, h5, h6
 {
   font-family: @fontFamilyAlt;
+  margin: 0.5em 0;
 }
 
-h1 { font-size: 2.25em; margin: 0.5em 0; }
-h2 { font-size: 2.00em; margin: 0.5em 0; }
-h3 { font-size: 1.75em; margin: 0.5em 0; }
-h4 { font-size: 1.50em; margin: 0.5em 0; }
-h5 { font-size: 1.25em; margin: 0.5em 0; }
-h6 { font-size: 1.00em; margin: 0.5em 0; }
+h1
+{
+  font-size: 2.25em;
+  color: @BaseColor;
+}
+h2
+{
+  font-size: 2.00em;
+  color: @AccentColor1;
+}
+h3
+{
+  font-size: 1.75em;
+  color: darken( @AccentColor1, 10% );
+}
+h4
+{
+  font-size: 1.50em;
+  color: darken( @AccentColor1, 20% );
+}
+h5
+{
+  font-size: 1.25em;
+  color: darken( @AccentColor1, 20% );
+}
+h6
+{
+  font-size: 1.00em;
+  color: darken( @AccentColor1, 20% );
+}
 
 // Stop nested elemnts from shrinking further
 h1, h2, h3, h4, h5, h6
@@ -114,7 +149,7 @@ article
   footer
   {
     font-size: 0.875em;
-    color: lighten( @baseTextColor, 30);
+    color: lighten( @BaseCopyColor, 30);
   }
 }
 
@@ -163,23 +198,23 @@ nav.menu
     {
       display: inline;
       padding: .25em 1.25em;
-      background-color: rgb(210,210,210);
+      background-color: @AccentColor1;
       font-size: 0.75em;
       .rounded();
       .shadow();
 
       a
       {
-        color: @linkColor;
+        color: @white;
       }
 
       &:hover
       {
-        background-color: rgb(190,190,190);
+        background-color: lighten( @AccentColor1, 10% );
 
         a
         {
-          color: @linkColor-alt;
+          color: lighten( @white, 20% );
         }
       }
     }

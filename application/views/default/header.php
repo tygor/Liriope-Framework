@@ -39,7 +39,7 @@
   <!-- end CSS-->
 
   <!-- FONTS -->
-  <link href='http://fonts.googleapis.com/css?family=Questrial|Podkova' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=PT+Sans|Podkova' rel='stylesheet' type='text/css'>
   <!-- end FONTS -->
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->

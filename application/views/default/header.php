@@ -38,6 +38,10 @@
   <link rel="stylesheet" href="plugins/orbit/orbit-1.3.0.css">
   <!-- end CSS-->
 
+  <!-- FONTS -->
+  <link href='http://fonts.googleapis.com/css?family=Questrial|Podkova' rel='stylesheet' type='text/css'>
+  <!-- end FONTS -->
+
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
   <!-- All JavaScript at the bottom, except for Modernizr / Respond.

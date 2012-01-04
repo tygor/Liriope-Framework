@@ -11,7 +11,9 @@
 @linkColor-alt: rgb(254,87,161);
 @baseFontSize:  16px;
 @baseTextColor: rgb(20,20,20);
-@fontFamilyStack: Trebuchet, sans;
+@fontFamilyStack : 'Podkova', serif;
+@fontFamilyAlt   : 'Questrial', Trebuchet, sans-serif;
+
 
 // Mixins
 // --------------------------------------------------
@@ -36,8 +38,6 @@ html
 {
   width: 100%;
   height: 100%;
-  font-size: @baseFontSize;
-  font-family: @fontFamilyStack;
 }
 
 body
@@ -46,21 +46,67 @@ body
   width: 960px;
   background: url('../images/wallpaper.png') repeat;
   font-size: @baseFontSize;
+  font-family: @fontFamilyStack;
   color: @baseTextColor;
-  line-height: 168%;
+  line-height: 1.68;
   padding-bottom: @baseFontSize;
 }
 
-hgroup
+// Headings
+// --------------------------------------------------
+h1, h2, h3, h4, h5, h6
+{
+  font-family: @fontFamilyAlt;
+}
+
+h1 { font-size: 2.25em; margin: 0.5em 0; }
+h2 { font-size: 2.00em; margin: 0.5em 0; }
+h3 { font-size: 1.75em; margin: 0.5em 0; }
+h4 { font-size: 1.50em; margin: 0.5em 0; }
+h5 { font-size: 1.25em; margin: 0.5em 0; }
+h6 { font-size: 1.00em; margin: 0.5em 0; }
+
+// Stop nested elemnts from shrinking further
+h1, h2, h3, h4, h5, h6
+{
+  *
+  {
+    font-size: 1em;
+  }
+}
+
+// place this after the h# tags
+hgroup 
 {
   margin: 2em 0;
   * { margin: 0; }
 }
 
+// Body copy elements
+// --------------------------------------------------
 p,
+dl,
 li
 {
   font-size: 0.875em;
+
+  // Stop nested elements from shrinking further
+  * { font-size: 1em; }
+}
+
+li
+{
+  *
+  {
+    // 2nd level elements are smaller
+    font-size: 0.875em;
+
+    *
+    {
+      // then stop shrinking
+      font-size: 1em;
+    }
+  }
 }
 
 article

@@ -39,7 +39,7 @@
   <!-- end CSS-->
 
   <!-- FONTS -->
-  <link href='http://fonts.googleapis.com/css?family=Questrial|Podkova' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=PT+Sans|Podkova' rel='stylesheet' type='text/css'>
   <!-- end FONTS -->
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
@@ -56,11 +56,11 @@
     <header id="main" class="clear">
 
       <hgroup id="identity">
-        <img src="" style="width: 150px; height: 50px; background-color: gray;">
+        <img src="/images/cope-logo.png" alt="J. M. Cope Construction Management" height="48" width="199">
       </hgroup>
 
       <nav id="main" class="menu">
-        <?= $nav; ?>
+        <?php snippet( 'default/navigation' ); ?>
       </nav>
 
     </header>

@@ -2,13 +2,17 @@
 /**
  * Slider.php
  * homepage slider
- * shows a sample of construction images from all building types
  */
 ?>
 
 <div id="featured"> 
-  <img src="images/slider/churches/Gold-Hill-Rd-Church-of-Christ-7.jpg" alt="" height="450" width="960" />
-  <img src="images/slider/churches/baptist_001.jpg" alt="" height="450" width="960" />
-  <img src="images/slider/churches/baptist_006.jpg" alt="" height="450" width="960" />
-  <img src="images/slider/churches/project-4-26-11-004.jpg" alt="" height="450" width="960" />
+  <div class="content" style="background-color: #ccc;">
+    <h1>Div Tag Content!</h1>
+    <p>Hi</p>
+  </div>
+  <img src="https://github.com/zurb/orbit/raw/master/demo/dummy-images/overflow.jpg" alt="Overflow: Hidden No More" />
+  <img src="https://github.com/zurb/orbit/raw/master/demo/dummy-images/captions.jpg"  alt="HTML Captions" data-caption="#htmlCaption" />
+  <img src="https://github.com/zurb/orbit/raw/master/demo/dummy-images/features.jpg" alt="and more features" />
 </div>
+<!-- Captions for Orbit -->
+<span class="orbit-caption" id="htmlCaption">I'm a <a href="http://en.wikipedia.org/wiki/HTML" target="_blank">HTML</a> caption</span>

@@ -57,7 +57,7 @@
 
       <hgroup id="identity">
         <a href="/">
-          <img src="/images/cope-logo.png" alt="J. M. Cope Construction Management" height="48" width="199">
+          <img src="" alt="Logo" height="48" width="199" style="background-color: gray; height: 48px; width: 199px; display: block;">
         </a>
       </hgroup>
 

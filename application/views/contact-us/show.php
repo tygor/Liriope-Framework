@@ -5,7 +5,6 @@
 <div class='twocolumns'>
 
   <div class='column'>
-    <img src="images/cope-building.jpg" alt="J. M. Cope building" width="320" height="139" /><br />
     <dl class="contact-us">
       <dt>Phone</dt>
       <dd><?= $phone ?></dd>

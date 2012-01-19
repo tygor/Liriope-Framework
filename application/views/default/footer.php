@@ -8,7 +8,7 @@
     <footer id="main">
       <div class="fourcolumns">
         <div class="column span-2">
-          <p>&copy;2012 J. M. Cope
+          <p>&copy;2012 Liriope Framework
         </div>
         <div class="column">
           <?php snippet( 'contact-us/address'); ?>

@@ -10,7 +10,7 @@
 @white           : rgb(200,200,200);
 @black           : rgb(50,50,50);
 @BaseColor       : rgb(180,0,40);
-@AccentColor1    : rgb(12,98,129);
+@AccentColor1    : rgb(158,55,42);
 @AccentColor2    : rgb(192,182,19);
 @linkColor       : @AccentColor1;
 @linkColorAlt    : lighten( @AccentColor1, 10%);
@@ -35,6 +35,13 @@
   line-height: 1px;
   visibility: hidden;
   clear: both;
+}
+
+img.alignleft
+{
+  float: left;
+  margin-right: @baseFontSize;
+  margin-bottom: @baseFontSize;
 }
 
 // HTML Basic
@@ -162,6 +169,11 @@ footer#main
 
 // Styles by ID tags
 // --------------------------------------------------
+header#main
+{
+  margin-top: @baseFontSize;
+}
+
 #identity
 {
   margin: .25em 0 1em 0;
@@ -194,27 +206,32 @@ nav.menu
 
   ul
   {
+    height: 48px;
+
     li
     {
       display: inline;
       padding: .25em 1.25em;
-      background-color: @AccentColor1;
-      font-size: 0.75em;
-      .rounded();
-      .shadow();
+      font-size: 1em;
+      font-family: @fontFamilyAlt;
+      line-height: 48px;
+      border-right: 2px solid @AccentColor1;
 
       a
       {
-        color: @white;
+        color: @AccentColor1;
+      }
+
+      &.last
+      {
+        border-right: 0 none;
       }
 
       &:hover
       {
-        background-color: lighten( @AccentColor1, 10% );
-
         a
         {
-          color: lighten( @white, 20% );
+          color: darken( @AccentColor1, 20% );
         }
       }
     }
@@ -230,11 +247,29 @@ nav.menu
 
   div.orbit
   {
-    width: 940px;
+    width: 960px;
     height: 450px;
     background: #000 url('../plugins/orbit/orbit/loading.gif') no-repeat 50% 50%;
     overflow: hidden;
 
     img, div { display: none; }
+  }
+
+  div.slider-nav span
+  {
+    width: 50px;
+    height: 40px;
+  }
+
+  div.slider-nav span.left
+  {
+    background: url('../plugins/orbit/orbit/left-arrow-cope.png');
+    left: -10px;
+  }
+
+  div.slider-nav span.right
+  {
+    background: url('../plugins/orbit/orbit/right-arrow-cope.png');
+    right: -10px;
   }
 }

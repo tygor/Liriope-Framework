@@ -56,7 +56,9 @@
     <header id="main" class="clear">
 
       <hgroup id="identity">
-        <img src="/images/cope-logo.png" alt="J. M. Cope Construction Management" height="48" width="199">
+        <a href="/">
+          <img src="/images/cope-logo.png" alt="J. M. Cope Construction Management" height="48" width="199">
+        </a>
       </hgroup>
 
       <nav id="main" class="menu">

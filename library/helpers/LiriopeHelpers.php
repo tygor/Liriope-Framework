@@ -21,3 +21,21 @@ function getLink( $label=NULL, $url=NULL, $args=array() )
 
   return sprintf( $format, $url, $argString, $label );
 }
+
+/**
+ * Snippet
+ * grabs a piece of code
+ */
+function snippet( $name=NULL )
+{
+  // return nothing if they don't give us a $name
+  if( empty( $name )) return false;
+
+  // we're expecting something like "default/header" so we'll need to break it appart
+  $v = explode( "/", $name );
+  $controller = $v[0];
+  $action = $v[1];
+
+  callHook( $controller, $action );
+}
+

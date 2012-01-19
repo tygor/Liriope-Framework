@@ -5,8 +5,8 @@
  */
 ?>
 <ul>
-  <li><?= getLink( 'Home', '/' ); ?></li>
   <li><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
-  <li><?= getLink( 'Hidden', '/hidden' . '' ); ?></li>
+  <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
+  <li class="last"><?= getLink( 'Hidden', '/hidden' . '' ); ?></li>
 </ul>
 

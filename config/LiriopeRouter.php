@@ -88,6 +88,9 @@ function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
 	$model = rtrim( $controller, 's' );
 	$controller .= 'Controller';
 
+  // $getVars nees to be an array
+  if( empty( $getVars )) $getVars = array();
+
   $target = $controller . '.class.php';
 
   // HERE'S THE MAGIC
@@ -109,7 +112,7 @@ function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
       else
       {
         /* TODO: Error Generation Code Here */
-        die( 'View does not exist!' );
+        die( "View does not exist ($controller->$action)!" );
       }
     }
     else

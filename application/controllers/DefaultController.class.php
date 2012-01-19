@@ -6,18 +6,25 @@
 class DefaultController Extends LiriopeController {
   public function show( $getVars=NULL )
   {
-    $slider = new LiriopeView( 'default', 'slider' );
-    $this->_template->set('slider', $slider->render(FALSE));
   }
 
   public function header( $getVars=NULL )
   {
-    die(' DefaultController::header ');
-    exit;
+    $this->_template->set( 'pageTitle', 'J. M. Cope' );
+    $this->_template->set( 'ua', LiriopeTools::getBrowser() );
   }
 
   public function footer( $getVars=NULL )
   {
   }
+
+  public function navigation( $getVars=NULL )
+  {
+  }
+
+  public function slider( $getVars=NULL )
+  {
+  }
+
 }
 

@@ -5,7 +5,7 @@
  * but does have this view file
  */
 ?>
-<?= $header; ?>
+<?php snippet( 'default/header'); ?>
 
 <article>
   <h1>Heading 1</h1>
@@ -75,5 +75,4 @@
   </ol>
 </article>
 
-<?= $footer; ?>
-
+<?php snippet( 'default/footer'); ?>

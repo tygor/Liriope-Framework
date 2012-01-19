@@ -30,7 +30,7 @@ class LiriopeView {
     else
     {
       // TODO: Error Reporting
-      die( __METHOD__ . " can't find that view template.");
+      die( __METHOD__ . " can't find that view template ($file).");
     }
 	}
 

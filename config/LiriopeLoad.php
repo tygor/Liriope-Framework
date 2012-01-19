@@ -20,7 +20,7 @@ define( 'SERVER_ROOT', realpath( dirname(__FILE__) . DS . '..' ) );
 // from a config file.
 // On my desktop: liriope.ubuntu
 // on my laptop:  liriope.local
-define( 'SITE_ROOT', 'http://liriope.local' );
+define( 'SITE_ROOT', 'http://cope.local' );
 define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
 
 # --------------------------------------------------

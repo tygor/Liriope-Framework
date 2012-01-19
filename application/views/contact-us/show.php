@@ -1,27 +1,24 @@
-<?= $header; ?>
+<?php snippet('default/header'); ?>
 
-<div class='threecolumns'>
+<h1>Contact us</h1>
+
+<div class='twocolumns'>
 
   <div class='column'>
-    <p>Content 1</p>
-  </div><!-- /column -->
-  <div class='column'>
-    <p>Content 2</p>
+    <img src="images/cope-building.jpg" alt="J. M. Cope building" width="320" height="139" /><br />
+    <dl class="contact-us">
+      <dt>Phone</dt>
+      <dd><?= $phone ?></dd>
+      <dt>Email</dt>
+      <dd><?= $email ?></dd>
+      <dt>Address</dt>
+      <dd><?= $street ?>, <?= $postofficebox ?>, <?= $city ?> <?= $state ?> <?= $zip ?></dd>
+    </dl>
   </div><!-- /column -->
   <div class='column last'>
-    <p>Content 3</p>
+    <?php snippet( 'contact-us/contact_form' ); ?>
   </div><!-- /column -->
 
-  <div class='column'>
-    <p>Content 1</p>
-  </div><!-- /column -->
-  <div class='column'>
-    <p>Content 2</p>
-  </div><!-- /column -->
-  <div class='column last'>
-    <p>Content 3</p>
-  </div><!-- /column -->
+</div><!-- /twocolumns -->
 
-</div><!-- /threecolumns -->
-
-<?= $footer; ?>
+<?php snippet('default/footer'); ?>

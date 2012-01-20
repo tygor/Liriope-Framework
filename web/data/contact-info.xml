@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<contacts>
+
+  <contact>
+    <name>Liriope Framework</name>
+    <phone>123.456.7890</phone>
+    <address>
+      <street>1234 Main Street</street>
+      <pobox>1234</pobox>
+      <city>Rock Hill</city>
+      <state>SC</state>
+      <zip>29730</zip>
+    </address>
+    <email>info@liriope.local</email>
+    <website>http://liriope.local</website>
+  </contact>
+
+  <contact>
+    <name>Liriope Framework</name>
+    <phone>123.456.7890</phone>
+    <address>
+      <street>1234 Main Street</street>
+      <pobox>1234</pobox>
+      <city>Rock Hill</city>
+      <state>SC</state>
+      <zip>29730</zip>
+    </address>
+    <email>info@liriope.local</email>
+    <website>http://liriope.local</website>
+  </contact>
+
+</contacts>

@@ -46,6 +46,15 @@ class LiriopeTools
     return $cleaned;
   }
 
+  /**
+   * replaceSpaces
+   * swaps all spaces with a dash (-)
+   */
+  public static function replaceSpaces ( $input )
+  {
+    return preg_replace( "/\s/", "-", $input );
+  }
+
   public static function getBrowser() {
     $u_agent = $_SERVER['HTTP_USER_AGENT']; 
     $bname = 'Unknown';

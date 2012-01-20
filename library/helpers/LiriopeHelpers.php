@@ -39,3 +39,10 @@ function snippet( $name=NULL )
   callHook( $controller, $action );
 }
 
+function slugify( $input=NULL )
+{
+  if( empty( $input )) return false;
+  $input = strtolower( LiriopeTools::replaceSpaces( $input ));
+  return LiriopeTools::cleanInput( $input );
+}
+

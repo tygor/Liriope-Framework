@@ -87,6 +87,24 @@ spl_autoload_register( function ( $className ) {
 }); 
 
 # --------------------------------------------------
+# Setup Exception Handler
+# This will be where we define what to do with
+# uncaught exceptions.
+# --------------------------------------------------
+function LiriopeException( $exception )
+{
+  //error message
+  $errorMsg = '<b>Liriope Exception:</b> Error on line '.$exception->getLine().' in '.$exception->getFile()
+  .': <b>'.$exception->getMessage().'</b>';
+  echo $errorMsg . "<br/>\n";
+  echo "<pre>";
+  echo $exception->getTraceAsString();
+  echo "</pre>";
+  exit;
+}
+set_exception_handler( 'LiriopeException' );
+
+# --------------------------------------------------
 # Grab the required files
 # --------------------------------------------------
 require_once( SERVER_ROOT . DS . 'config' . DS . 'LiriopeRouter.php' );

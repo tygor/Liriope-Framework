@@ -34,13 +34,13 @@ class XmlModel {
       // was a file name given?
       if( empty( $file )) throw new Exception( __METHOD__ . ': No file was passed.' );
       // can we see that file?
-      if( !file_exists( $file )) throw new Exception( __METHOD__ . ': I don\'t think that file exists.' );
+      if( !file_exists( $file )) throw new Exception( __METHOD__ . ' doesn\'t think that file exists <em>'.$file.'</em>.' );
       // ok, then let's get it loaded
       $this->xmlUrl = $file;
       $this->setFlag = true;
       $this->loadFile();
     } catch( Exception $e ) {
-      die( 'Caught Exception: ' . $e->getMessage() . "\n" );
+      LiriopeException( $e );
     }
   }
 

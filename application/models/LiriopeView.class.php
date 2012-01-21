@@ -29,8 +29,7 @@ class LiriopeView {
     }
     else
     {
-      // TODO: Error Reporting
-      die( __METHOD__ . " can't find that view template ($file).");
+      throw new Exception( __METHOD__ . " can't find that view template ($file)." );
     }
 	}
 

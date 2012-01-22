@@ -18,9 +18,7 @@ define( 'SERVER_ROOT', realpath( dirname(__FILE__) . DS . '..' ) );
 // TODO: the SITE_ROOT needs to be defined in a better way
 // but for now, I'll hard-code it. I'd like it to be selected
 // from a config file.
-// On my desktop: liriope.ubuntu
-// on my laptop:  liriope.local
-define( 'SITE_ROOT', 'http://cope.local' );
+define( 'SITE_ROOT', 'http://liriope.local' );
 define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
 
 # --------------------------------------------------

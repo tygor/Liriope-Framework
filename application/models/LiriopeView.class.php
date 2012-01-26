@@ -1,6 +1,8 @@
 <?php
 /**
  * LiriopeTemplate.class.php
+ * 
+ * Handles throwing to HTML.
  */
 
 class LiriopeView {
@@ -21,7 +23,9 @@ class LiriopeView {
     $this->set( 'DOCTYPE', '<!doctype html>');
     $this->set('pageTitle', 'Liriope : Monkey Grass');
 
+    // The file should be here...
     $file = SERVER_ROOT . DS . 'application' . DS . 'views' . DS . strtolower($controller) . DS . strtolower($action) . '.php';
+    // ...but is it?
     if( file_exists( $file ))
     {
       // Trigger render to include the file when this object is destroyed
@@ -29,7 +33,7 @@ class LiriopeView {
     }
     else
     {
-      throw new Exception( __METHOD__ . " can't find that view template ($file)." );
+      throw new Exception( __METHOD__ . " can't find that view ($file)." );
     }
 	}
 
@@ -65,10 +69,6 @@ class LiriopeView {
     {
       return ob_get_clean();
     }
-  }
-
-  public function __destruct()
-  {
   }
 
 }

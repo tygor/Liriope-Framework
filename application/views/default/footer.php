@@ -11,7 +11,8 @@
           <p>&copy;2012 Liriope Framework
         </div>
         <div class="column">
-          <?php snippet( 'contact-us/address'); ?>
+          <p>1234 Main Street<br>
+          Rock Hill, SC 29730</p>
         </div>
         <div class="column last">
           <?php snippet( 'default/navigation' ); ?>

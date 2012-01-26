@@ -111,14 +111,12 @@ function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
       }
       else
       {
-        /* TODO: Error Generation Code Here */
-        die( "View does not exist ($controller->$action)!" );
+        throw new Exception( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>." );
       }
     }
     else
     {
-      /* TODO: Error Generation Code Here */
-      die( 'Class does not exist!' );
+      throw new Exception( "We can't find the class file <b>" . ucfirst($controller) . "Controller.class.php</b>." );
     }
   }
   else
@@ -150,6 +148,10 @@ function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
  */
 function callLiriope() {
   extract( destructURI() );
-  callHook( $controller, $action, $getVars );
+  try {
+    callHook( $controller, $action, $getVars );
+  } catch ( Exception $e ) {
+    die( "Caught Exception in " . __FUNCTION__ . ": " . $e->getMessage() );
+  }
 }
 

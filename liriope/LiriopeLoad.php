@@ -1,7 +1,15 @@
 <?php
-/**
+
+// direct access protection
+if( !isset( $root )) die( 'Direct access is not allowed ~Liriope.' );
+
+// used for direct access protection
+define( 'LIRIOPE', true );
+
+/* --------------------------------------------------
  * Liriope Load
- * The spark into life:
+ * The spark into life
+ * --------------------------------------------------
  *
  * In a backyard full of leaves and weeds, there was a *pop* and evolution
  * occured. Out of the primordial filth--compost--came the first steps
@@ -105,7 +113,7 @@ set_exception_handler( 'LiriopeException' );
 # --------------------------------------------------
 # Grab the required files
 # --------------------------------------------------
-require_once( SERVER_ROOT . DS . 'config' . DS . 'LiriopeRouter.php' );
+require_once( __DIR__ . DS . 'LiriopeRouter.php' );
 
 # --------------------------------------------------
 # Check if environment is development and display errors

@@ -6,91 +6,20 @@ if( !isset( $root )) die( 'Direct access is not allowed ~Liriope.' );
 // used for direct access protection
 define( 'LIRIOPE', true );
 
-/* --------------------------------------------------
- * Liriope Load
- * The spark into life
- * --------------------------------------------------
- *
- * In a backyard full of leaves and weeds, there was a *pop* and evolution
- * occured. Out of the primordial filth--compost--came the first steps
- * to becoming a website: Liriope (aka monkey grass). Yes, evolution
- * from monkies.
- */
+// Include Liriope
+require_once( $rootLiriope . '/library/liriope.php' );
 
-# --------------------------------------------------
-# Constants
-# --------------------------------------------------
-define( 'DEVELOPMENT_ENVIRONMENT', true );
-defined( 'DS' ) ? null : define( 'DS', DIRECTORY_SEPARATOR );
-define( 'SERVER_ROOT', realpath( dirname(__FILE__) . DS . '..' ) );
-// TODO: the SITE_ROOT needs to be defined in a better way
-// but for now, I'll hard-code it. I'd like it to be selected
-// from a config file.
-define( 'SITE_ROOT', 'http://liriope.local' );
-define( 'WEB_PATH', realpath( SERVER_ROOT . DS . 'web' ) );
+// enable development
+c::set( 'development', true );
 
-# --------------------------------------------------
-# Setup an Autoloader
-# --------------------------------------------------
-/**
- * seekFile
- *
- * Checks the framework path for the given $file
- */
-function seekFile( $file )
-{
-  $paths = array( 
-      SERVER_ROOT.DS.'application'.DS.'controllers'.DS,
-      SERVER_ROOT.DS.'application'.DS.'models'     .DS,
-      SERVER_ROOT.DS.'application'.DS.'views'      .DS,
-      SERVER_ROOT.DS.'library'                     .DS,
-      SERVER_ROOT.DS.'library'.DS.'helpers'        .DS,
-  ); 
-  $loaded = false;
-  foreach( $paths as $path ) { 
-      if( file_exists( $path . $file )) { 
-          $loaded = $path . $file;
-      } 
-  } 
-  return $loaded;
+// set the root
+c::set( 'root', $root );
+c::set( 'root.web', $rootWeb );
+c::set( 'root.liriope', $rootLiriope );
 
-  // Execptions shouldn't happen in this function
-  try {
-    $loaded = false;
-    foreach( $paths as $path ) { 
-        if( file_exists( $path . $file )) { 
-            $loaded = $path . $file;
-        } 
-    } 
-    if( !$loaded ) {
-      throw new Exception( 'Liriope was unable to find ' . $file . '.' );
-    }
-  } catch( Exception $e ) {
-      header("HTTP/1.0 500 Internal Server Error");
-      echo $e->getMessage();
-      exit;
-  }
-  return $loaded; 
-}
+load::lib();
 
-/**
- * spl_autoload_register
- * my autoloader
- */
-spl_autoload_register( function ( $className ) { 
-  // Apply the naming convention
-  $className = ucfirst( $className ) . '.class.php';
-  // find out if the file exists
-  try {
-    if( $file = seekFile( $className )) { require_once( $file ); }
-    else { throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' ); }
-  } catch( Exception $e ) {
-      header("HTTP/1.0 500 Internal Server Error");
-      echo $e->getMessage();
-      exit;
-  }
-  return true; 
-}); 
+// ----------------------------------------------------------------------------------------------------
 
 # --------------------------------------------------
 # Setup Exception Handler
@@ -111,18 +40,16 @@ function LiriopeException( $exception )
 set_exception_handler( 'LiriopeException' );
 
 # --------------------------------------------------
-# Grab the required files
-# --------------------------------------------------
-require_once( __DIR__ . DS . 'LiriopeRouter.php' );
-
-# --------------------------------------------------
 # Check if environment is development and display errors
 # --------------------------------------------------
 function setReporting() {
-  if (DEVELOPMENT_ENVIRONMENT == true) {
+  if ( c::get( 'development' ) == true )
+  {
     error_reporting(E_ALL);
     ini_set('display_errors','On');
-  } else {
+  }
+  else
+  {
     error_reporting(E_ALL);
     ini_set('display_errors','Off');
     ini_set('log_errors', 'On');
@@ -182,8 +109,7 @@ function useHelper( $name=NULL )
   $helperName = ucfirst( $name ) . 'Helpers.php';
   // find out if the file exists
   try {
-    if( $file = seekFile( $helperName )) { include_once( $file ); }
-    else { throw new Exception( 'Unable to find that helper: ' . $className ); }
+    if( !load::seek( $helperName )) throw new Exception( 'Unable to find that helper: ' . $className );
   } catch( Exception $e ) {
       header("HTTP/1.0 500 Internal Server Error");
       echo $e->getMessage();
@@ -194,5 +120,8 @@ function useHelper( $name=NULL )
 setReporting();
 removeMagicQuotes();
 unregisterGlobals();
+
+// Begin
 callLiriope();
 
+?>

@@ -36,7 +36,7 @@ function snippet( $name=NULL )
   $controller = $v[0];
   $action = $v[1];
 
-  callHook( $controller, $action );
+  router::callHook( $controller, $action );
 }
 
 function slugify( $input=NULL )

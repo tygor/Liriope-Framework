@@ -20,11 +20,11 @@ class LiriopeView {
 
     // Define a default template variables
     // TODO: later to be defined within some sort of config file
-    $this->set( 'DOCTYPE', '<!doctype html>');
-    $this->set('pageTitle', 'Liriope : Monkey Grass');
+    $this->set( 'DOCTYPE', '<!doctype html>' );
+    $this->set( 'pageTitle', 'Liriope : Monkey Grass' );
 
     // The file should be here...
-    $file = SERVER_ROOT . DS . 'application' . DS . 'views' . DS . strtolower($controller) . DS . strtolower($action) . '.php';
+    $file = load::exists( '/' . strtolower( $controller ) . '/' . strtolower( $action ) . '.php' );
     // ...but is it?
     if( file_exists( $file ))
     {
@@ -33,7 +33,7 @@ class LiriopeView {
     }
     else
     {
-      throw new Exception( __METHOD__ . " can't find that view ($file)." );
+      throw new Exception( __CLASS__ . " can't find that view ($file)." );
     }
 	}
 

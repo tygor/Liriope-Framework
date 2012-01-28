@@ -1,13 +1,22 @@
 <?php
 
 /* --------------------------------------------------
- * Server root of your site
+ * Web root of your site
  * --------------------------------------------------
  * this should be the same as the directory where
  * index.php is located
  *
  */
-$root = dirname(__FILE__);
+$rootWeb = dirname(__FILE__);
+
+/* --------------------------------------------------
+ * Server root of your site
+ * --------------------------------------------------
+ * This is where the the meat of the application
+ * code lives.
+ *
+ */
+$root = realpath( $rootWeb . '/..' );
 
 /* --------------------------------------------------
  * Liriope framework folder
@@ -18,14 +27,13 @@ $root = dirname(__FILE__);
  * so that multiple sites can be run from one installation.
  *
  */
-$rootLiriope = $root . '/../liriope';
-
+$rootLiriope = $root . '/liriope';
 
 // Load Liriope: Monkey Grass
-if( !file_exists( $rootLiriope . '/LiriopeLoad.php' )) {
+if( !file_exists( $rootLiriope . '/seed.php' )) {
   die( 'The Liriope framework could not be loaded.' );
 }
 
-require_once( $rootLiriope . '/LiriopeLoad.php' );
+require_once( $rootLiriope . '/seed.php' );
 
 ?>

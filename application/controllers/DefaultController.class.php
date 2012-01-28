@@ -10,7 +10,7 @@ class DefaultController Extends LiriopeController {
 
   public function header( $getVars=NULL )
   {
-    $this->_template->set( 'ua', LiriopeTools::getBrowser() );
+    $this->_page->set( 'ua', LiriopeTools::getBrowser() );
   }
 
   public function footer( $getVars=NULL )

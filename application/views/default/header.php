@@ -31,7 +31,7 @@
   <!-- CSS concatenated and minified via ant build script-->
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet/less" href="/css/style.less">
-  <script src="js/libs/less-1.1.5.min.js" type="text/javascript"></script>
+  <script src="/js/libs/less-1.1.5.min.js" type="text/javascript"></script>
   <script type="text/javascript" charset="UTF-8">
     less.watch();
   </script>

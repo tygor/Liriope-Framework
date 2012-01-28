@@ -8,14 +8,14 @@ class ContactusController Extends LiriopeController {
   {
     $xml = new XmlModel();
     $xml->setFile( 'data/contact-info.xml' );
-    $this->_template->set( 'contacts', $xml->get() );
+    $this->_page->set( 'contacts', $xml->get() );
   }
 
   public function address( $getVars=NULL )
   {
     $xml = new XmlModel();
     $xml->setFile( 'data/contact-info.xml' );
-    $this->_template->set( 'c', $xml->get()->contact[0] );
+    $this->_page->set( 'c', $xml->get()->contact[0] );
   }
 
   public function contact_form( $getVars=NULL )

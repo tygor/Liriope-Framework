@@ -13,9 +13,13 @@ class router
 {
 
   static function destructURI() {
+    // TODO: Be ready to account for a no Rewrite situation
+    // which I may have already done, but I'm not sure
+    
     /*
      * Expected URI string breakdown:
      * http://somesite.com/controller-name/action-name/variable/value/variable/value
+     * http://somesite.com/index.php/controller-name/action-name/variable/value/variable/value
      */
 
     $route = $_SERVER['REQUEST_URI'];

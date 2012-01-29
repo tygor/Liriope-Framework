@@ -16,7 +16,30 @@ class load
   {
     $root = c::get( 'root.liriope' );
     require_once( $root . '/library/router.class.php' );
+    require_once( $root . '/library/LiriopeController.class.php' );
+    require_once( $root . '/library/LiriopeModel.class.php' );
+    require_once( $root . '/library/LiriopeTheme.class.php' );
+    require_once( $root . '/library/LiriopeView.class.php' );
+  }
+
+  static function models()
+  {
+    $root = c::get( 'root.liriope' );
+    require_once( $root . '/library/XmlModel.class.php' );
+    require_once( $root . '/library/SQLQuery.class.php' );
+    require_once( $root . '/library/LiriopeRequest.class.php' );
+  }
+
+  static function tools()
+  {
+    $root = c::get( 'root.liriope' );
     require_once( $root . '/library/tools.class.php' );
+  }
+
+  static function helpers()
+  {
+    $root = c::get( 'root.liriope' );
+    require_once( $root . '/library/LiriopeHelpers.php' );
   }
 
   static function file( $file=NULL )

@@ -1,6 +1,6 @@
 <?php
 /**
- * LiriopeTemplate.class.php
+ * LiriopeView.class.php
  * 
  * Handles throwing to HTML.
  */

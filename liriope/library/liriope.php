@@ -9,6 +9,7 @@ require_once( $rootLiriope . '/library/load.class.php' );
 
 // set the default path and default controller name
 c::set( 'path', array(
+  $root . '/liriope/library',
   $root . '/application/controllers',
   $root . '/application/models',
   $root . '/application/views',

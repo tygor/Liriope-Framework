@@ -18,6 +18,9 @@ c::set( 'root.web', $rootWeb );
 c::set( 'root.liriope', $rootLiriope );
 
 load::lib();
+load::models();
+load::helpers();
+load::tools();
 
 // ----------------------------------------------------------------------------------------------------
 
@@ -109,10 +112,13 @@ function useHelper( $name=NULL )
   $helperName = ucfirst( $name ) . 'Helpers.php';
   // find out if the file exists
   try {
-    if( !load::seek( $helperName )) throw new Exception( 'Unable to find that helper: ' . $className );
+    if( !load::seek( $helperName )) throw new Exception( 'Unable to find that helper: ' . $helperName );
   } catch( Exception $e ) {
       header("HTTP/1.0 500 Internal Server Error");
       echo $e->getMessage();
+			echo "<pre>";
+			var_dump( $e->getTrace());
+			echo "</pre>";
       exit;
   }
 }

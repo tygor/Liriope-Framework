@@ -10,14 +10,23 @@ require_once( $rootLiriope . '/library/load.class.php' );
 // set the default path and default controller name
 c::set( 'path', array(
   $root . '/liriope/library',
+  $root . '/liriope/controllers',
+  $root . '/liriope/models',
   $root . '/application/controllers',
   $root . '/application/models',
   $root . '/application/views',
   $root . '/library',
   $root . '/library/helpers'
   ));
+
+/*
+ *
+ * Configuration Defaults
+ * --------------------------------------------------
+ */
 c::set( 'controller.default', 'default' );
 c::set( 'action.default',     'show' );
+c::set( 'theme.default',      'Grass' );
 
 /*
  * Setup an Autoloader
@@ -31,10 +40,13 @@ spl_autoload_register( function ( $className ) {
 
   // find out if the file exists
   try {
-    if( !load::seek( $className )) throw new Exception( 'Unable to find the ' . $className . ' Object in the SERVER_ROOT' );
+    if( !load::seek( $className )) throw new Exception( 'Unable to find the ' . $className . ' object with the autoloader.' );
   } catch( Exception $e ) {
       header("HTTP/1.0 500 Internal Server Error");
       echo $e->getMessage();
+      echo "<pre>";
+      echo $e->getTraceAsString();
+      echo "</pre>";
       exit;
   }
   return true; 

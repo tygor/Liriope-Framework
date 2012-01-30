@@ -16,18 +16,25 @@ class load
   {
     $root = c::get( 'root.liriope' );
     require_once( $root . '/library/router.class.php' );
-    require_once( $root . '/library/LiriopeController.class.php' );
-    require_once( $root . '/library/LiriopeModel.class.php' );
-    require_once( $root . '/library/LiriopeTheme.class.php' );
-    require_once( $root . '/library/LiriopeView.class.php' );
+    require_once( $root . '/controllers/LiriopeController.class.php' );
   }
 
   static function models()
   {
     $root = c::get( 'root.liriope' );
-    require_once( $root . '/library/XmlModel.class.php' );
-    require_once( $root . '/library/SQLQuery.class.php' );
-    require_once( $root . '/library/LiriopeRequest.class.php' );
+    require_once( $root . '/models/SQLQuery.class.php' );
+    require_once( $root . '/models/LiriopeModel.class.php' );
+    require_once( $root . '/models/LiriopeTheme.class.php' );
+    require_once( $root . '/models/LiriopeView.class.php' );
+    require_once( $root . '/models/LiriopeRequest.class.php' );
+    require_once( $root . '/models/XmlModel.class.php' );
+  }
+
+  static function themes()
+  {
+    $root = c::get( 'root.liriope' );
+    require_once( $root . '/models/LiriopeTheme.class.php' );
+    require_once( $root . '/models/GrassTheme.class.php' );
   }
 
   static function tools()

@@ -9,9 +9,7 @@
 
 <article>
   <h1>About Us</h1>
-  <p>
-
-  </p>
+  <p>stuff</p>
 </article>
 
 <?php snippet( 'default/footer'); ?>

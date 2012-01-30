@@ -2,7 +2,9 @@
 /**
  * LiriopeController.class.php
  */
-useHelper( 'default' );
+
+// Direct access protection
+if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class LiriopeController {
 
@@ -12,7 +14,7 @@ class LiriopeController {
   protected $_theme;
   protected $_page;
 
-  function __construct($model, $controller, $action, $theme=FALSE) {
+  function __construct($model, $controller, $action) {
 
     $this->_controller = $controller;
     $this->_action = $action;
@@ -25,35 +27,26 @@ class LiriopeController {
     $page = new LiriopeView($controller,$action);
     $this->_page =& $page;
 
-    // if $theme is set, then put that in play
-    if( !empty( $theme )) 
-    {
-      $this->setTheme( $theme );
-    }
+    // Theme
+    // A theme should be set in the configuration or default to
+    // the theme packaged with Liriope
+    $theme = c::get( 'theme' );
+    $theme = empty( $theme ) ? c::get( 'theme.default' ) : c::get( 'theme' );
+    $this->setTheme( $theme );
     
     // return this object for chaining functions
     return $this;
   }
 
-# TODO: UNFINISHED THEME SYSTEM
-# was a great idea I had while sleeping but I can't remember
-# the whole process of getting it to work.
   function setTheme( $theme ) {
-# TODO: Once a config system is in place, grab the below
-# settings from the config and let this be an override.
-    $themeName = 'Liriope';
-
-    $theme = new LiriopeView( $themeName, 'showTheme' );
+    $themeName = ucfirst( $theme ) . 'Theme';
+    $theme = new $themeName();
+    
     $this->_theme = $theme;
-    $this->_theme->set( '_page', $this->_page );
   }
 
   function set($name,$value) {
     $this->_page->set($name,$value);
-  }
-
-  function __destruct() {
-    $this->_page->render();
   }
 
   /**
@@ -61,6 +54,19 @@ class LiriopeController {
    */
   public function dummyPages( $getVars=NULL )
   {
+  }
+
+  function __destruct() {
+    if( isset( $this->_theme ) && is_object( $this->_theme ))
+    {
+      $content = $this->_page->render(FALSE);
+      $this->_theme->save_content( $content );
+      $this->_theme->render();
+    }
+    else
+    {
+      $this->_page->render();
+    }
   }
 
 }

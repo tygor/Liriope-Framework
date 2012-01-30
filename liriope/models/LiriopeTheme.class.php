@@ -14,8 +14,8 @@ class LiriopeTheme {
 
   var $_content;
   var $_page;
-  var $name;
   var $themeFile;
+  var $variables = array();
   var $stylesheets = array();
   var $scripts = array();
 
@@ -26,7 +26,9 @@ class LiriopeTheme {
 
   function start()
   {
-    $this->name = "Default Theme";
+    // set default values
+    $this->set( 'name', 'Default Theme' );
+    $this->set( 'DOCTYPE', '<!DOCTYPE html>' );
     $this->setThemeFile( 'default.php' );
 
     // initialize the content variable
@@ -60,6 +62,16 @@ class LiriopeTheme {
 
   public function addStylesheet( $file=NULL )
   {
+  }
+
+  public function set( $key, $value )
+  {
+    $this->variables[$key] = $value;
+  }
+
+  public function get( $key )
+  {
+    return $this->variables[$key];
   }
 
   public function render() {

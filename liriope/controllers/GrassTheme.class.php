@@ -13,10 +13,10 @@ class GrassTheme extends LiriopeTheme
   {
     parent::start();
 
-    $this->name = "Grass";
+    $this->set( 'name', 'Grass' );
     
     // set the theme template file
-    $this->setThemeFile( 'grass.php' );
+    #$this->setThemeFile( 'grass.php' );
   }
 
 }

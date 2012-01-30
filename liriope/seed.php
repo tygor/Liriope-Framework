@@ -46,7 +46,7 @@ set_exception_handler( 'LiriopeException' );
 # Check if environment is development and display errors
 # --------------------------------------------------
 function setReporting() {
-  if ( c::get( 'development' ) == true )
+  if ( c::get( 'development' ) )
   {
     error_reporting(E_ALL);
     ini_set('display_errors','On');

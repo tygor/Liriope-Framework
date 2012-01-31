@@ -1,9 +1,9 @@
 <?php
 /**
- * Header.php
- * default header
+ * default.php
+ * Default theme
  */
-  echo $this->get( 'DOCTYPE' );
+  echo $this->get( 'page.DOCTYPE' );
 ?>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
@@ -18,7 +18,7 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?= $pageTitle; ?></title>
+  <title><?= $this->get( 'page.title' ); ?></title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -29,12 +29,12 @@
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet/less" href="/css/style.less">
+  <?= $this->getStylesheets(); ?>
   <script src="/js/libs/less-1.1.5.min.js" type="text/javascript"></script>
   <script type="text/javascript" charset="UTF-8">
     less.watch();
   </script>
+
   <link rel="stylesheet" href="plugins/orbit/orbit-1.3.0.css">
   <!-- end CSS-->
 

@@ -66,11 +66,17 @@ class load
     return false;
   }
 
-  static function exists( $file=NULL )
+  static function exists( $file=NULL, $searchPath=NULL )
   {
     if( empty( $file )) return false;
-
+    
     $paths = c::get( 'path' );
+
+    if( !empty( $searchPath ))
+    {
+      if( is_array( $searchPath )) $path = array_unshift( $path, $searchPath );
+      else $path[] = $arrayPath;
+    }
 
     foreach( $paths as $path ) { 
       if( file_exists( "$path/$file" )) return "$path/$file"; 

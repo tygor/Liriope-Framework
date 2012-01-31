@@ -14,40 +14,69 @@ class LiriopeTheme {
 
   var $_content;
   var $_page;
-  var $themeFile;
+  var $themeCheck;
   var $variables = array();
   var $stylesheets = array();
   var $scripts = array();
 
   function __construct()
   {
+    // this function is overridden by extending classes
+    // use $this->start() instead
     self::start();
   }
 
   function start()
   {
+    $this->themeCheck = FALSE;
+
+    $path = realpath( dirname( __FILE__ ) . '/../views/theme' );
+    $this->set( 'theme.path', $path );
+
     // set default values
-    $this->set( 'name', 'Default Theme' );
-    $this->set( 'DOCTYPE', '<!DOCTYPE html>' );
-    $this->setThemeFile( 'default.php' );
+    $this->set( 'theme.name', 'Default' );
+    $this->set( 'theme.folder', 'default' );
+    $this->set( 'theme.file', 'default.php' );
+    $this->set( 'page.title', 'Liriope : Monkey Grass' );
+    $this->set( 'page.DOCTYPE', '<!DOCTYPE html>' );
+
+    // add theme stylesheets
+    $this->addStylesheet( 'style.css' );
+    $this->addStylesheet( 'style.less', 'stylesheet/less' );
 
     // initialize the content variable
     $this->_content = "";
   }
 
-  public function setThemeFile( $file=NULL )
+  public function getPathToTheme()
   {
-    $file = realpath( dirname(__FILE__) . "/../views/theme/$file" );
-    if( file_exists( $file ))
-    {
-      $this->themeFile = $file;
-    }
+    $path = $this->get( 'theme.path' );
+    $path .= '/' . $this->get( 'theme.folder' );
+    $path .= '/' . $this->get( 'theme.file' );
+    return $path;
   }
 
-  public function getThemeFile()
+  private function checkTheme()
   {
-    if( !isset( $this->themeFile )) return false;
-    return $this->themeFile;
+    $name =   $this->get( 'theme.name' );
+    $folder = $this->get( 'theme.folder' );
+    $file =   $this->get( 'theme.file' );
+    if( !empty( $name ) && empty( $folder ))
+    {
+      $folder = strtolower( $name );
+      $this->set( 'theme.folder', $folder );
+    }
+    if( !empty( $name ) && empty( $file ))
+    {
+      $file = strtolower( $name );
+      $this->set( 'theme.file', "$file.php" );
+    }
+    if( !empty( $name ) && !empty( $folder ) && !empty( $file ))
+    {
+      $this->themeCheck = true;
+      return true;
+    }
+    return false;
   }
 
   public function save_content( $html )
@@ -60,8 +89,21 @@ class LiriopeTheme {
     echo $this->_content;
   }
 
-  public function addStylesheet( $file=NULL )
+  public function addStylesheet( $file=NULL, $rel='stylesheet' )
   {
+    if( empty( $file )) return false;
+    $this->stylesheets[] = array( 'file' => $file, 'rel' => $rel );
+  }
+
+  public function getStylesheets()
+  {
+    $string = "";
+    foreach( $this->stylesheets as $css )
+    {
+      $format = '<link rel="%s" href="%s">';
+      $string .= sprintf( $format, $css['rel'], 'css/' . $css['file'] ) . "\n";
+    }
+    return $string;
   }
 
   public function set( $key, $value )
@@ -71,12 +113,14 @@ class LiriopeTheme {
 
   public function get( $key )
   {
+    if( !isset( $this->variables[$key] )) return false;
     return $this->variables[$key];
   }
 
   public function render() {
-    $file = $this->getThemeFile();
-    include( $this->getThemeFile() );
+    if( !$this->checkTheme() ) throw new Exception( "Your theme " . __METHOD__ . " is not ready to be rendered." );
+    $file = $this->getPathToTheme();
+    include( $file );
   }
 }
 

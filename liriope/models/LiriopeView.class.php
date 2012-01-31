@@ -21,11 +21,6 @@ class LiriopeView {
 		$this->_controller = $controller;
 		$this->_action = $action;
 
-    // Define a default template variables
-    // TODO: later to be defined within some sort of config file
-    $this->set( 'DOCTYPE', '<!doctype html>' );
-    $this->set( 'pageTitle', 'Liriope : Monkey Grass' );
-
     // The file should be here...
     $file = load::exists( '/' . strtolower( $controller ) . '/' . strtolower( $action ) . '.php' );
     // ...but is it?

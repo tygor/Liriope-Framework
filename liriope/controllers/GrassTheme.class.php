@@ -1,6 +1,6 @@
 <?php
 /**
- * LiriopeTheme.class.php
+ * GrassTheme.class.php
  * --------------------------------------------------
  */
 
@@ -13,7 +13,7 @@ class GrassTheme extends LiriopeTheme
   {
     parent::start();
 
-    $this->set( 'name', 'Grass' );
+    $this->set( 'theme.name', 'Grass' );
     
     // set the theme template file
     #$this->setThemeFile( 'grass.php' );

@@ -238,6 +238,45 @@ nav.menu
   }
 }
 
+footer nav.menu
+{
+  a,
+  a:link,
+  a:active,
+  a:visited
+  {
+    text-decoration: none;
+  }
+
+  ul
+  {
+    height: auto;
+
+    li
+    {
+      display: block;
+      padding: .125em 0;
+      font-size: 0.875em;
+      font-family: @fontFamilyAlt;
+      line-height: inherit;
+      border-right: 0 none;
+
+      a
+      {
+        color: @AccentColor1;
+      }
+
+      &:hover
+      {
+        a
+        {
+          color: darken( @AccentColor1, 20% );
+        }
+      }
+    }
+  }
+}
+
 // .orbit-wrapper holds the Orbit slider
 // it needs some space for the bullets below the slider which overlap the following content
 .orbit-wrapper

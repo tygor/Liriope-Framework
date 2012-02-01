@@ -15,6 +15,7 @@ class LiriopeTheme {
   var $_content;
   var $_page;
   var $themeCheck;
+  var $homepageFlag = FALSE;
   var $variables = array();
   var $stylesheets = array();
   var $scripts = array();
@@ -23,6 +24,8 @@ class LiriopeTheme {
   {
     // this function is overridden by extending classes
     // use $this->start() instead
+    $path = realpath( c::get( 'root.liriope') . '/views/theme' );
+    $this->set( 'theme.path', $path );
     self::start();
   }
 
@@ -30,8 +33,12 @@ class LiriopeTheme {
   {
     $this->themeCheck = FALSE;
 
-    $path = realpath( dirname( __FILE__ ) . '/../views/theme' );
-    $this->set( 'theme.path', $path );
+    $path = $this->get( 'path' );
+    if( empty( $path ))
+    {
+      $path = realpath( c::get( 'root') . '/application/views/theme' );
+      $this->set( 'theme.path', $path );
+    }
 
     // set default values
     $this->set( 'theme.name', 'Default' );
@@ -46,6 +53,16 @@ class LiriopeTheme {
 
     // initialize the content variable
     $this->_content = "";
+  }
+
+  public function setHomePage( $bool )
+  {
+    $this->homepageFlag = $bool;
+  }
+
+  public function isHomePage()
+  {
+    return $this->homepageFlag;
   }
 
   public function getPathToTheme()

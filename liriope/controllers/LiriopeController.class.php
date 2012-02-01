@@ -42,6 +42,14 @@ class LiriopeController {
     $themeName = ucfirst( $theme ) . 'Theme';
     $theme = new $themeName();
     
+    // tell the theme if this is the homepage (uses the default controller and action)
+    $defaultC = c::get( 'controller.default' );
+    $defaultA = c::get( 'action.default' );
+    if( $this->_controller  == $defaultC && $this->_action == $defaultA )
+    {
+      $theme->setHomePage( TRUE );
+    }
+
     $this->_theme = $theme;
   }
 

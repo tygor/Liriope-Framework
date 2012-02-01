@@ -1,9 +1,9 @@
 <?php
 /**
- * Header.php
- * default header
+ * grass.php
+ * Grass theme
  */
-  echo $DOCTYPE;
+  echo $this->get( 'page.DOCTYPE' );
 ?>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
@@ -18,7 +18,7 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?= $pageTitle; ?></title>
+  <title><?= $this->get( 'page.title' ); ?></title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -29,12 +29,12 @@
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet/less" href="/css/style.less">
+  <?= $this->getStylesheets(); ?>
   <script src="/js/libs/less-1.1.5.min.js" type="text/javascript"></script>
   <script type="text/javascript" charset="UTF-8">
     less.watch();
   </script>
+
   <link rel="stylesheet" href="plugins/orbit/orbit-1.3.0.css">
   <!-- end CSS-->
 
@@ -57,65 +57,25 @@
 
       <hgroup id="identity">
         <a href="/">
-          <img src="" alt="Logo" height="48" width="199" style="background-color: gray; height: 48px; width: 199px; display: block;">
+          <img src="http://4.bp.blogspot.com/-CIj2Sne5LeE/TuUutid2F6I/AAAAAAAAAY4/9GqFWLRuDhQ/s1600/flying+Monkeys.jpg" alt="Logo" height="150" width="">
         </a>
       </hgroup>
 
       <nav id="main" class="menu">
-<?php
-/**
- * Header.php
- * default header
- */
-?>
-<ul>
-  <li><?= getLink( 'Work', '/work' . '' ); ?></li>
-  <li><?= getLink( 'People', '/people' . '' ); ?></li>
-  <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
-  <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
-</ul>
-
+        <ul>
+          <li><?= getLink( 'Work', '/work' . '' ); ?></li>
+          <li><?= getLink( 'People', '/people' . '' ); ?></li>
+          <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
+          <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
+        </ul>
       </nav>
 
     </header>
 
     <div id="main" role="main">
 
-<?php
-/**
- * Slider.php
- * homepage slider
- */
-?>
+<?php $this->get_content(); ?>
 
-<div id="featured"> 
-  <div class="content" style="background-color: #ccc;">
-    <h1>Div Tag Content!</h1>
-    <p>Hi</p>
-  </div>
-  <img src="https://github.com/zurb/orbit/raw/master/demo/dummy-images/overflow.jpg" alt="Overflow: Hidden No More" />
-  <img src="https://github.com/zurb/orbit/raw/master/demo/dummy-images/captions.jpg"  alt="HTML Captions" data-caption="#htmlCaption" />
-  <img src="https://github.com/zurb/orbit/raw/master/demo/dummy-images/features.jpg" alt="and more features" />
-</div>
-<!-- Captions for Orbit -->
-<span class="orbit-caption" id="htmlCaption">I'm a <a href="http://en.wikipedia.org/wiki/HTML" target="_blank">HTML</a> caption</span>
-
-<?php
-/*
- * --------------------------------------------------
- */
-  $this->get_content();
-/*
- * --------------------------------------------------
- */
-?>
-
-<?php
-/**
- * Footer.php
- * default footer
- */
-?>
     </div>
     <footer id="main">
       <div class="fourcolumns">
@@ -123,11 +83,17 @@
           <p>&copy;2012 Liriope Framework
         </div>
         <div class="column">
-          <p>1234 Main Street<br>
-          Rock Hill, SC 29730</p>
+        <br>
         </div>
         <div class="column last">
-          <?php snippet( 'default/navigation' ); ?>
+          <nav id="footer" class="menu">
+            <ul>
+              <li><?= getLink( 'Work', '/work' . '' ); ?></li>
+              <li><?= getLink( 'People', '/people' . '' ); ?></li>
+              <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
+              <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
+            </ul>
+          </nav>
         </div>
       </div>
     </footer>

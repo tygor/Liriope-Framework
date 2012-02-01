@@ -13,10 +13,11 @@ class GrassTheme extends LiriopeTheme
   {
     parent::start();
 
+    // set default values
     $this->set( 'theme.name', 'Grass' );
-    
-    // set the theme template file
-    #$this->setThemeFile( 'grass.php' );
+    $this->set( 'theme.folder', 'grass' );
+    $this->set( 'theme.file', 'grass.php' );
+    $this->set( 'page.title', 'Liriope : Monkey Grass' );
   }
 
 }

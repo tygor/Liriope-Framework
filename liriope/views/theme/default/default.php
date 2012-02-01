@@ -74,7 +74,62 @@
 
     <div id="main" role="main">
 
-<hr>
-<h1>Default theme</h1>
 <?php $this->get_content(); ?>
-<hr>
+
+    </div>
+    <footer id="main">
+      <div class="fourcolumns">
+        <div class="column span-2">
+          <p>&copy;2012 Liriope Framework
+        </div>
+        <div class="column">
+        <br>
+        </div>
+        <div class="column last">
+          <nav id="footer" class="menu">
+            <ul>
+              <li><?= getLink( 'Work', '/work' . '' ); ?></li>
+              <li><?= getLink( 'People', '/people' . '' ); ?></li>
+              <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
+              <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </footer>
+  </div> <!--! end of #container -->
+
+
+  <!-- JavaScript at the bottom for fast page loading -->
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script defer src="js/plugins.js"></script>
+  <script defer src="js/script.js"></script>
+  <!-- end scripts-->
+	
+  <!-- Orbit slider script -->
+  <script src="plugins/orbit/jquery.orbit-1.3.0.js" type="text/javascript"></script>
+  <!-- end orbit -->
+
+  <!-- Change UA-XXXXX-X to be your site's ID -->
+  <script>
+    window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+    Modernizr.load({
+      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+    });
+  </script>
+
+
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+  
+</body>
+

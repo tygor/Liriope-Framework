@@ -28,10 +28,10 @@ class LiriopeController {
     $this->_page =& $page;
 
     // Theme
-    // A theme should be set in the configuration or default to
+    // A theme should be set in the configuration else default to
     // the theme packaged with Liriope
     $theme = c::get( 'theme' );
-    $theme = empty( $theme ) ? c::get( 'theme.default' ) : c::get( 'theme' );
+    if( !$theme ) $theme = c::get( 'theme.default' );
     $this->setTheme( $theme );
     
     // return this object for chaining functions
@@ -40,9 +40,18 @@ class LiriopeController {
 
   function setTheme( $theme ) {
     $themeName = ucfirst( $theme ) . 'Theme';
-    $theme = new $themeName();
-    
-    $this->_theme = $theme;
+    $this->_theme = $themeName;
+    $themeName::start();
+    if( $this->isHomepage() ) $themeName::set( 'body.class', 'homepage' );
+  }
+
+  function isHomepage() {
+    if( $this->_controller == c::get( 'controller.default' ) &&
+      $this->_action == c::get( 'action.default' )) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   function set($name,$value) {
@@ -57,14 +66,13 @@ class LiriopeController {
   }
 
   function __destruct() {
-    if( isset( $this->_theme ) && is_object( $this->_theme ))
-    {
+    $theme = $this->_theme;
+    // if a theme is set, use it
+    if( isset( $theme )) {
       $content = $this->_page->render(FALSE);
-      $this->_theme->save_content( $content );
-      $this->_theme->render();
-    }
-    else
-    {
+      $theme::save_content( $content );
+      $theme::render();
+    } else {
       $this->_page->render();
     }
   }

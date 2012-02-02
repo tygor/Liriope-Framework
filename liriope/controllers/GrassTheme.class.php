@@ -7,16 +7,13 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class GrassTheme extends LiriopeTheme
+class GrassTheme extends theme
 {
-  function __construct()
-  {
+  static function start() {
     parent::start();
 
-    $this->set( 'theme.name', 'Grass' );
-    
-    // set the theme template file
-    #$this->setThemeFile( 'grass.php' );
+    self::set( 'theme.name', 'Grass' );
+    //self::set( 'theme.folder', 'grass' );
+    //self::set( 'theme.file', 'grass.php' );
   }
-
 }

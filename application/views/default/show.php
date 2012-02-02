@@ -1,5 +1,4 @@
-<?php //snippet( 'default/header' ); ?>
-<?php //snippet( 'default/slider' ); ?>
+<?= $slider ?>
 
 <article>
   <header>
@@ -11,5 +10,3 @@
   <footer>
   </footer>
 </article>
-
-<?php //snippet( 'default/footer' ); ?>

@@ -1,5 +1,3 @@
-<?php snippet('default/header'); ?>
-
 <h1>Contact us</h1>
 
 <div class='twocolumns'>
@@ -21,9 +19,6 @@
     <?php endforeach; ?>
   </div><!-- /column -->
   <div class='column last'>
-    <?php snippet( 'contact-us/contact_form' ); ?>
   </div><!-- /column -->
 
 </div><!-- /twocolumns -->
-
-<?php snippet('default/footer'); ?>

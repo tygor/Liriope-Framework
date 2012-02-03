@@ -1,10 +1,10 @@
 <?php
-/**
+/* --------------------------------------------------
  * theme.class.php
  * --------------------------------------------------
- * 
  * A controller specifically for the chrome or theme or template
  * of the site.
+ *
  */
 
 // Direct access protection

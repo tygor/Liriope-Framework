@@ -4,7 +4,7 @@
  * Web root of your site
  * --------------------------------------------------
  * this should be the same as the directory where
- * index.php is located
+ * index.php is located.
  *
  */
 $rootWeb = dirname(__FILE__);
@@ -28,6 +28,15 @@ $root = realpath( $rootWeb . '/..' );
  *
  */
 $rootLiriope = $root . '/liriope';
+
+/* --------------------------------------------------
+ * Production or Development
+ * --------------------------------------------------
+ * for a production environment: $dev = FALSE
+ * during development:           $dev = TRUE
+ *
+ */
+$dev = TRUE;
 
 // Load Liriope: Monkey Grass
 if( !file_exists( $rootLiriope . '/seed.php' )) {

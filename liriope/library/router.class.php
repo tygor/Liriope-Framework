@@ -42,7 +42,7 @@ class router
      * of the page controller, but if it's empty, then
      * get the defulat controller name
      */
-    $controller = !empty( $routeArray[0] ) ? $routeArray[0] : c::get( 'controller.default' );
+    $controller = !empty( $routeArray[0] ) ? $routeArray[0] : c::get( 'default.controller' );
     array_shift($routeArray);
 
     /*
@@ -51,7 +51,7 @@ class router
      * The next value in the array will be the action to
      * use within the controller.
      */
-    $action = !empty( $routeArray[0] ) ? $routeArray[0] : c::get( 'action.default' );
+    $action = !empty( $routeArray[0] ) ? $routeArray[0] : c::get( 'default.action' );
     array_shift($routeArray);
 
     // Any other parts of the array are variable/value pairs. Parse them out.
@@ -131,7 +131,7 @@ class router
       // OK, so the controller file doesn't exist, but don't freak out!
       // Perhaps there is a view sitting in the default folder. If there is
       // then just show that HTML.
-      if( load::exists( c::get( 'controller.default' ) . "/$controllerName.php" ))
+      if( load::exists( c::get( 'default.controller' ) . "/$controllerName.php" ))
       {
         // Ok, run that hidden page!
         $dispatch = new LiriopeController( 'Liriope', 'default', $controllerName );

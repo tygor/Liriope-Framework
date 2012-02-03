@@ -1,8 +1,8 @@
 <?php
-/**
+/* --------------------------------------------------
  * LiriopeView.class.php
- * 
- * Handles throwing to HTML.
+ * --------------------------------------------------
+ * handles throwing to HTML
  */
 
 // Direct access protection
@@ -12,9 +12,7 @@ class LiriopeView {
 
 	protected $_controller;
 	protected $_action;
-  // Holds template variables
 	protected $variables = array();
-  // Holds render status of view.
   private $render;
 
 	public function __construct( $controller, $action ) {
@@ -23,14 +21,12 @@ class LiriopeView {
 
     // The file should be here...
     $file = load::exists( '/' . strtolower( $controller ) . '/' . strtolower( $action ) . '.php' );
+
     // ...but is it?
-    if( file_exists( $file ))
-    {
+    if( file_exists( $file )) {
       // Trigger render to include the file when this object is destroyed
       $this->render = $file;
-    }
-    else
-    {
+    } else {
       throw new Exception( __CLASS__ . " can't find that view ($file)." );
     }
 	}
@@ -51,8 +47,7 @@ class LiriopeView {
    */
   public function render( $direct_output = TRUE ) {
     // Turn output buffering on capturing all output
-    if( $direct_output !== TRUE )
-    {
+    if( $direct_output !== TRUE ) {
       ob_start();
     }
 
@@ -63,8 +58,7 @@ class LiriopeView {
     include( $this->render );
 
     // Get the contents of the buffer and return it
-    if( $direct_output !== TRUE )
-    {
+    if( $direct_output !== TRUE ) {
       return ob_get_clean();
     }
   }

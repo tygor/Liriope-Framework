@@ -1,12 +1,20 @@
 <?php
 /**
- * Default/Show.php
+ * Home.php
  * --------------------------------------------------
  * homepage
  */
+
+// page configuration
+// ------------------
+
+page::addStylesheet( 'css/style.css' );
+page::addStylesheet( 'css/style.less', 'stylesheet/less' );
+page::addScript( 'js/orbit.js' );
+
 ?>
 
-<?php snippet( 'slider.php'); ?>
+<?php snippet( 'slider' ); ?>
 
 <article>
   <header>

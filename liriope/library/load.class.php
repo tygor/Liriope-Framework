@@ -49,18 +49,19 @@ class load
     require_once( $root . '/library/LiriopeHelpers.php' );
   }
 
-  static function file( $file=NULL )
+  static function file( $file=NULL, $require=FALSE )
   {
     if( !file_exists( $file )) return false;
-    require_once( $file );
+    if( $require ) require_once( $file );
+    else include( $file );
     return true;
   }
 
   static function seek( $file=NULL )
   {
-    if( empty( $file )) return false;
+    if( $file===NULL ) return false;
     if( $file = self::exists( $file )) {
-      self::file( $file );
+      self::file( $file, TRUE );
       return true; 
     }
     return false;

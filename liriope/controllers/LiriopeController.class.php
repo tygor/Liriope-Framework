@@ -20,8 +20,6 @@ class LiriopeController {
     $this->_action = $action;
     $this->_model = $model;
     
-# TODO: I'm not sure why I define model again here.
-# Should it be removed?
     $this->$model =& $model;
 
     $page = new LiriopeView($controller,$action);
@@ -31,7 +29,7 @@ class LiriopeController {
     // A theme should be set in the configuration else default to
     // the theme packaged with Liriope
     $theme = c::get( 'theme' );
-    if( !$theme ) $theme = c::get( 'theme.default' );
+    if( !$theme ) $theme = c::get( 'default.theme' );
     $this->setTheme( $theme );
     
     // return this object for chaining functions
@@ -46,8 +44,8 @@ class LiriopeController {
   }
 
   function isHomepage() {
-    if( $this->_controller == c::get( 'controller.default' ) &&
-      $this->_action == c::get( 'action.default' )) {
+    if( $this->_controller == c::get( 'default.controller' ) &&
+      $this->_action == c::get( 'default.action' )) {
       return true;
     } else {
       return false;
@@ -60,6 +58,7 @@ class LiriopeController {
 
   /**
    * For controller-less pages
+   * this action will be used
    */
   public function dummyPages( $getVars=NULL )
   {

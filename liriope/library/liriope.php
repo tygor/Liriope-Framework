@@ -19,20 +19,18 @@ c::set( 'path', array(
   $root . '/library/helpers'
   ));
 
-/*
- *
- * Configuration Defaults
+/* --------------------------------------------------
+ * Load Defaults
  * --------------------------------------------------
  */
-c::set( 'controller.default', 'default' );
-c::set( 'action.default',     'show' );
-c::set( 'theme.default',      'Grass' );
+c::set( 'default.controller', 'default' );
+c::set( 'default.action',     'show' );
+c::set( 'default.theme',      'Grass' );
 
-/*
+/* --------------------------------------------------
  * Setup an Autoloader
  * --------------------------------------------------
  */
-
 spl_autoload_register( function ( $className ) { 
   
   // Apply the naming convention
@@ -44,18 +42,18 @@ spl_autoload_register( function ( $className ) {
   } catch( Exception $e ) {
       header("HTTP/1.0 500 Internal Server Error");
       echo $e->getMessage();
-      echo "<pre>";
+      echo "<hr><pre>";
       echo $e->getTraceAsString();
-      echo "</pre>";
+      echo "</pre><hr>";
       exit;
   }
   return true; 
 }); 
 
-/**
- * callLiriope()
- * Main Call Function
- * 
+/* --------------------------------------------------
+ * callLiriope
+ * --------------------------------------------------
+ * main call function
  * Begins the framework inner-workings
  */
 function callLiriope() {

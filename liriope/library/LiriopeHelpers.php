@@ -4,8 +4,13 @@
  * Base helpers for the Liriope templates
  */
 
-function getLink( $label=NULL, $url=NULL, $args=array() )
-{
+/* --------------------------------------------------
+ * getLink
+ * --------------------------------------------------
+ * takes the arguments and spits out an anchor tag link
+ *
+ */
+function getLink( $label=NULL, $url=NULL, $args=array() ) {
   // clean input
   $label = LiriopeTools::cleanInput( $label, 'whiteAlphaNum' );
 
@@ -22,25 +27,25 @@ function getLink( $label=NULL, $url=NULL, $args=array() )
   return sprintf( $format, $url, $argString, $label );
 }
 
-/**
+/* --------------------------------------------------
  * Snippet
- * grabs a piece of code
+ * --------------------------------------------------
+ * grabs a piece of page
+ *
  */
-function snippet( $name=NULL )
-{
-  // return nothing if they don't give us a $name
-  if( empty( $name )) return false;
-
-  // we're expecting something like "default/header" so we'll need to break it appart
-  $v = explode( "/", $name );
-  $controller = $v[0];
-  $action = $v[1];
-
-  router::callHook( $controller, $action );
+function snippet( $file=NULL ) {
+  if( $file===NULL ) return NULL;
+  $path = c::get( 'root.snippets' );
+  load::file( $path . '/' . $file );
 }
 
-function slugify( $input=NULL )
-{
+/* --------------------------------------------------
+ * Slugify
+ * --------------------------------------------------
+ * replaces spaces with dashes and converts to all lowercase
+ *
+ */
+function slugify( $input=NULL ) {
   if( empty( $input )) return false;
   $input = strtolower( LiriopeTools::replaceSpaces( $input ));
   return LiriopeTools::cleanInput( $input );

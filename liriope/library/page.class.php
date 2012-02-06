@@ -1,16 +1,14 @@
 <?php
 /* --------------------------------------------------
- * theme.class.php
+ * page.class.php
  * --------------------------------------------------
- * A controller specifically for the chrome or theme or template
- * of the site.
  *
  */
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class theme extends page {
+class page {
 
   static public $_content; 
 
@@ -20,8 +18,6 @@ class theme extends page {
 
   static function start()
   {
-    self::set( 'theme.check', FALSE );
-
     $path = realpath( dirname( __FILE__ ) . '/../views/theme' );
     self::set( 'theme.path', $path );
 
@@ -92,11 +88,21 @@ class theme extends page {
     return $string;
   }
 
-  static function render( $vars = array(), $dump = FALSE ) {
-    if( !self::checkTheme() ) {
-      throw new Exception( "Your theme " . __METHOD__ . " is not ready to be rendered." );
+  static function set( $key, $value=FALSE ) {
+    if( is_array( $key )) {
+      self::$vars = array_merge( self::$vars, $key );
+    } else {
+      self::$vars[$key] = $value;
     }
+  }
 
+  static function get( $key=NULL, $default=NULL ) {
+    if( $key===NULL ) return (array)self::$vars;
+    if( !empty( self::$vars[$key] )) return self::$vars[$key];
+    return $default;
+  }
+
+  static function render( $vars = array(), $dump = FALSE ) {
     $file = self::getPath();
 
     extract( self::$vars );
@@ -113,15 +119,5 @@ class theme extends page {
     }
     ob_end_flush();
   }
-  
-  static function renderFile( $file, $vars=array(), $return=FALSE ) {
-    if( !file_exists( $file )) return false;
-    @extract( self::$vars );
-    @extract( $vars );
-    self::startBuffer();
-    require( $file );
-    return self::endBuffer( $return );
-  }
-
 }
 

@@ -139,10 +139,11 @@ class router
       }
       else
       {
-        // TODO: route to the home page with an error
-        // or show the 404 page.
+        // TODO: route to the default controller error action
         /* Error Generation Code Here */
         header("HTTP/1.0 404 Not Found");
+        // TODO: remove the error folder from .htaccess
+        header("location: error/404.html");
         exit;
       }
     }

@@ -16,7 +16,9 @@ class load
   {
     $root = c::get( 'root.liriope' );
     require_once( $root . '/library/router.class.php' );
+    require_once( $root . '/library/page.class.php' );
     require_once( $root . '/library/theme.class.php' );
+    require_once( $root . '/library/browser.class.php' );
     require_once( $root . '/controllers/LiriopeController.class.php' );
   }
 

@@ -25,25 +25,13 @@ class LiriopeController {
     $page = new LiriopeView($controller,$action);
     $this->_page =& $page;
 
-    // Theme
-    // A theme should be set in the configuration else default to
-    // the theme packaged with Liriope
-    $theme = c::get( 'theme' );
-    if( !$theme ) $theme = c::get( 'default.theme' );
-    $this->setTheme( $theme );
-    
     // return this object for chaining functions
     return $this;
   }
 
-  function setTheme( $theme ) {
-    $themeName = ucfirst( $theme ) . 'Theme';
-    $this->_theme = $themeName;
-    $themeName::start();
-    if( $this->isHomepage() ) $themeName::set( 'body.class', 'homepage' );
-  }
-
   function isHomepage() {
+    // assume that if the default controller and action are used that this is the homepage
+    // TODO: this is more of a URI decision so perhaps a URI class is needed
     if( $this->_controller == c::get( 'default.controller' ) &&
       $this->_action == c::get( 'default.action' )) {
       return true;
@@ -56,24 +44,16 @@ class LiriopeController {
     $this->_page->set($name,$value);
   }
 
-  /**
-   * For controller-less pages
-   * this action will be used
+  function __destruct() {
+    $this->_page->render();
+  }
+
+  /* --------------------------------------------------
+   * Default actions
+   * --------------------------------------------------
    */
   public function dummyPages( $getVars=NULL )
   {
-  }
-
-  function __destruct() {
-    $theme = $this->_theme;
-    // if a theme is set, use it
-    if( isset( $theme )) {
-      $content = $this->_page->render(FALSE);
-      $theme::save_content( $content );
-      $theme::render();
-    } else {
-      $this->_page->render();
-    }
   }
 
 }

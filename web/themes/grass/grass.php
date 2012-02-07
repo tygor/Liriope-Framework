@@ -3,7 +3,7 @@
  * grass.php
  * Grass theme
  */
-  echo $this->get( 'page.DOCTYPE' );
+  echo page::get( 'page.DOCTYPE' );
 ?>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
@@ -18,9 +18,9 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?= $this->get( 'page.title' ); ?></title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <title><?= page::get( 'page.title' ); ?></title>
+  <meta name="description" content="<?= page::get( 'page.description', 'Liriope Framework default theme titled Grass.' ) ?>">
+  <meta name="author" content="<?= page::get( 'page.author', 'Tyler Gordon' ) ?>">
 
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -28,19 +28,18 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
   <!-- CSS: implied media=all -->
-  <!-- CSS concatenated and minified via ant build script-->
-  <?= $this->getStylesheets(); ?>
-  <script src="/js/libs/less-1.1.5.min.js" type="text/javascript"></script>
+  <?php foreach( page::getStylesheets() as $css ): ?>
+  <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
+  <?php endforeach; ?>
+  <?php foreach( page::getScripts() as $script): ?>
+  <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+  <?php endforeach; ?>
+  <?php foreach( page::getScriptBlocks() as $block): ?>
   <script type="text/javascript" charset="UTF-8">
-    less.watch();
+    <?= $block; ?>
   </script>
-
-  <link rel="stylesheet" href="plugins/orbit/orbit-1.3.0.css">
+  <?php endforeach; ?>
   <!-- end CSS-->
-
-  <!-- FONTS -->
-  <link href='http://fonts.googleapis.com/css?family=PT+Sans|Podkova' rel='stylesheet' type='text/css'>
-  <!-- end FONTS -->
 
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
@@ -50,14 +49,14 @@
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body class="<?= "$ua[shortname] $ua[shortname]$ua[shortver] $ua[platform]"; ?>">
+<body class="<?= browser::getBodyClass(); ?>">
 
   <div id="container">
     <header id="main" class="clear">
 
       <hgroup id="identity">
         <a href="/">
-          <img src="http://4.bp.blogspot.com/-CIj2Sne5LeE/TuUutid2F6I/AAAAAAAAAY4/9GqFWLRuDhQ/s1600/flying+Monkeys.jpg" alt="Logo" height="150" width="">
+          <img src="<?= theme::folder(); ?>/images/Grass-icon.png" alt="Logo" height="100" width="100">
         </a>
       </hgroup>
 
@@ -74,7 +73,7 @@
 
     <div id="main" role="main">
 
-<?php $this->get_content(); ?>
+<?= page::getContent(); ?>
 
     </div>
     <footer id="main">

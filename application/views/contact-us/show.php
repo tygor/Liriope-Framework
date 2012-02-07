@@ -3,7 +3,7 @@
 <div class='twocolumns'>
 
   <div class='column'>
-    <?php foreach( $contacts as $c): ?>
+    <?php foreach( page::get( 'contacts') as $c): ?>
     <dl class="contact-us" id="<?= slugify( $c->name ); ?>">
       <dt>Name</dt>
       <dd><?= $c->name ?></dd>

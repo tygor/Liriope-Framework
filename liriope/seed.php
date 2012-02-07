@@ -13,10 +13,11 @@ require_once( $rootLiriope . '/library/liriope.php' );
 c::set( 'development', $dev );
 
 // set the root
-c::set( 'root', $root );
-c::set( 'root.web', $rootWeb );
-c::set( 'root.liriope', $rootLiriope );
-c::set( 'root.content', $rootWeb . '/content' );
+c::set( 'root',          $root );
+c::set( 'root.web',      $rootWeb );
+c::set( 'root.liriope',  $rootLiriope );
+c::set( 'root.content',  $rootWeb . '/content' );
+c::set( 'root.theme',    $rootWeb . '/themes' );
 c::set( 'root.snippets', $rootWeb . '/snippets' );
 
 load::lib();

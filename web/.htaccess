@@ -341,6 +341,9 @@ FileETag None
   RewriteRule ^css/.*$ - [PT]
   RewriteRule ^js/.*$ - [PT]
   RewriteRule ^plugins/.*$ - [PT]
+  RewriteRule ^themes/.*$ - [PT]
+  RewriteRule ^content/.*$ - [PT]
+  RewriteRule ^snippets/.*$ - [PT]
   RewriteRule ^test/.*$ - [PT]
   RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
 </IfModule>

@@ -69,10 +69,11 @@ class router
       $getVars[] = $value;
     }
 
+
     return array(
       'controller' => $controller,
       'action'     => $action,
-      'getVars'    => $getVars
+      'getVars'    => $getVars,
     );
   }
 
@@ -104,47 +105,48 @@ class router
 
     // HERE'S THE MAGIC
     // Grab that file
-    if( load::seek( $target ))
-    {
+    if( load::seek( $target )) {
+
       // Does the object exist?
-      if( class_exists( $controller ))
-      {
+      if( class_exists( $controller )) {
+
         // Does the object have that function?
-        if( method_exists( $controller, $action ))
-        {
+        if( method_exists( $controller, $action )) {
+
           // Ok, run that object's function!
           $dispatch = new $controller( $model, $controllerName, $action );
-          call_user_func_array( array( $dispatch,$action ), $getVars );
-        }
-        else
-        {
+          call_user_func( array( $dispatch,$action ), $getVars );
+
+        } else {
+
           throw new Exception( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>." );
+
         }
-      }
-      else
-      {
+      } else {
+
         throw new Exception( "We can't find the class file <b>" . ucfirst($controller) . ".class.php</b>." );
+
       }
-    }
-    else
-    {
+    } else {
+
       // OK, so the controller file doesn't exist, but don't freak out!
       // Perhaps there is a view sitting in the default folder. If there is
       // then just show that HTML.
-      if( load::exists( c::get( 'default.controller' ) . "/$controllerName.php" ))
-      {
+      if( load::exists( c::get( 'default.controller' ) . "/$controllerName.php" )) {
+
         // Ok, run that hidden page!
         $dispatch = new LiriopeController( 'Liriope', 'default', $controllerName );
         call_user_func_array( array( $dispatch,'dummyPages' ), $getVars );
-      }
-      else
-      {
+
+      } else {
+
         // TODO: route to the default controller error action
         /* Error Generation Code Here */
         header("HTTP/1.0 404 Not Found");
         // TODO: remove the error folder from .htaccess
         header("location: error/404.html");
         exit;
+
       }
     }
   }

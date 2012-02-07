@@ -29,10 +29,10 @@
 
   <!-- CSS: implied media=all -->
   <?php foreach( page::getStylesheets() as $css ): ?>
-  <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
+  <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
   <?php foreach( page::getScripts() as $script): ?>
-  <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+  <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
   <?php endforeach; ?>
   <?php foreach( page::getScriptBlocks() as $block): ?>
   <script type="text/javascript" charset="UTF-8">
@@ -56,7 +56,7 @@
 
       <hgroup id="identity">
         <a href="/">
-          <img src="<?= theme::folder(); ?>/images/Grass-icon.png" alt="Logo" height="100" width="100">
+          <img src="/<?= theme::folder(); ?>/images/Grass-icon.png" alt="Logo" height="100" width="100">
         </a>
       </hgroup>
 
@@ -64,7 +64,7 @@
         <ul>
           <li><?= getLink( 'Work', '/work' . '' ); ?></li>
           <li><?= getLink( 'People', '/people' . '' ); ?></li>
-          <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
+          <li><?= getLink( 'About Us', '/default/page/about-us' . '' ); ?></li>
           <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
         </ul>
       </nav>
@@ -89,7 +89,7 @@
             <ul>
               <li><?= getLink( 'Work', '/work' . '' ); ?></li>
               <li><?= getLink( 'People', '/people' . '' ); ?></li>
-              <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
+              <li><?= getLink( 'About Us', '/default/page/about-us' . '' ); ?></li>
               <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
             </ul>
           </nav>

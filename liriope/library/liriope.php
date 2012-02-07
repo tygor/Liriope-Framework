@@ -57,12 +57,8 @@ spl_autoload_register( function ( $className ) {
  * Begins the framework inner-workings
  */
 function callLiriope() {
-  extract( router::destructURI() );
-  try {
-    router::callHook( $controller, $action, $getVars );
-  } catch ( Exception $e ) {
-    die( "Caught Exception in " . __FUNCTION__ . ": " . $e->getMessage() );
-  }
+  @extract( router::destructURI() );
+  router::callHook( $controller, $action, $getVars );
 }
 
 ?>

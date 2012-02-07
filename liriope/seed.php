@@ -17,6 +17,7 @@ c::set( 'root',          $root );
 c::set( 'root.web',      $rootWeb );
 c::set( 'root.liriope',  $rootLiriope );
 c::set( 'root.content',  $rootWeb . '/content' );
+c::set( 'root.content.file', 'index' );
 c::set( 'root.theme',    $rootWeb . '/themes' );
 c::set( 'root.snippets', $rootWeb . '/snippets' );
 

@@ -57,7 +57,7 @@ spl_autoload_register( function ( $className ) {
  * Begins the framework inner-workings
  */
 function callLiriope() {
-  @extract( router::destructURI() );
+  @extract( router::getParts() );
   router::callHook( $controller, $action, $getVars );
 }
 

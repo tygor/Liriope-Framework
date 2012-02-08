@@ -8,8 +8,8 @@
 // page configuration
 // ------------------
 
-//page::addStylesheet( 'plugins/orbit/orbit-1.3.0.css' );
-//page::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
+page::addStylesheet( 'plugins/orbit/orbit-1.3.0.css' );
+page::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
 
 ?>
 

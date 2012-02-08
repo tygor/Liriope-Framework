@@ -64,7 +64,7 @@
         <ul>
           <li><?= getLink( 'Work', '/work' . '' ); ?></li>
           <li><?= getLink( 'People', '/people' . '' ); ?></li>
-          <li><?= getLink( 'About Us', '/default/page/about-us' . '' ); ?></li>
+          <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
           <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
         </ul>
       </nav>
@@ -89,7 +89,7 @@
             <ul>
               <li><?= getLink( 'Work', '/work' . '' ); ?></li>
               <li><?= getLink( 'People', '/people' . '' ); ?></li>
-              <li><?= getLink( 'About Us', '/default/page/about-us' . '' ); ?></li>
+              <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
               <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
             </ul>
           </nav>

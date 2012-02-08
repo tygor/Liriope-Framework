@@ -19,11 +19,8 @@ class page {
 
   static function start() {
     // set default values
-    self::set( 'page.title', 'Liriope : Monkey Grass' );
-    self::set( 'page.DOCTYPE', '<!DOCTYPE html>' );
-
-    // initialize the content variable
-    self::set( '_content', '' );
+    self::set( 'page.title', self::get( 'page.title', 'Liriope : Monkey Grass' ));
+    self::set( 'page.DOCTYPE', self::get( 'page.DOCTYPE', '<!DOCTYPE html>' ));
 
     // add the default stylesheets and scripts
     self::addStylesheet( 'css/style.css' );
@@ -82,24 +79,14 @@ class page {
   static function render( $file, $vars = array(), $dump=FALSE ) {
     // receives the view file and variables
     // and outputs the result in a buffer or directly
+    self::set( $vars );
     return self::renderFile( $file, $vars, $dump );
   }
 
   static function renderFile( $file, $vars=array(), $dump=FALSE ) {
     if( !file_exists( $file )) return false;
 
-    /* OMIT: and use the double colon (::) reference to page::get() instead
-    @extract( self::$vars );
-    @extract( $vars );
-    */
-
-    // the controller passes variables to the view
-    // and the view passes them here to the page
-    // so set these variables for output
-    self::set( $vars );
-    
     ob_start();
-
     require( $file );
 
     if( $dump ) {
@@ -107,6 +94,7 @@ class page {
       ob_end_clean();
       return $content;
     }
+
     ob_end_flush();
   }
 }

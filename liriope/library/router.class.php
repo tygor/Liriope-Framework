@@ -1,39 +1,96 @@
 <?php
+/* --------------------------------------------------
+ * router.class.php
+ * --------------------------------------------------
+ */
+
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-/*
- * --------------------------------------------------
- * Router code
- * --------------------------------------------------
- */
+class router {
 
-class router
-{
+  /* --------------------------------------------------
+   * getParts
+   * --------------------------------------------------
+   * Following the routing rules, returns the parts of the route
+   *
+   * http://site.com/var1/var2/var3/var4/var5/var6/...
+   * RULES:
+   * H) var1 is empty, assign var1=home, use Rule #2 
+   * 1) var1 is a controller
+   *      a) var2 is blank, use default
+   *      b) var2 is an action in that controller
+   * 2) var 1 is a folder in /web/content,
+   *    use the default controller, filepage action
+   *    which implements the FolderfileModel
+   *      a) var2 is blank, use default
+   *      b) var2 is a file within that folder
+   *      c) var2 is a folder, proceed to (2a) to check var3
+   */
+  static function getParts() {
+    $parts = uri::getURIArray();
+#var_dump( $parts );
+    
+    // is the first part a controller?
+    $controller = strtolower( $parts[0] );
+    $controllerFile = ucwords( LiriopeTools::cleanInput( $controller, 'alphaOnly' )) . 'Controller.class.php';
+    if( !load::seek( $controllerFile )) {
+      if( empty( $parts[0] )) {
+#echo("Rule #H<br>\n");
+        $parts = NULL;
+        page::set( 'homepage', TRUE );
+      }
+#echo("Rule #2<br>\n");
+      // use Rule #2
+      $controller = c::get( 'default.controller' );
+      $action = 'filepage';
+      $getVars = $parts;
+    } else {
+#echo("Rule #1<br>\n");
+      array_shift( $parts );
+      // we're following Rule #1
+      $action = !empty( $parts[0]) ? array_shift( $parts ) : c::get( 'default.action' );
+      $getVars = self::pairGetVars( $parts );
+    }
 
+    return array(
+      'controller' => $controller,
+      'action'     => $action,
+      'getVars'    => $getVars
+    );
+  }
+
+  /* --------------------------------------------------
+   * pairGetVars
+   * --------------------------------------------------
+   * turns an array of values into a key=>value pair
+   *
+   */
+  static function pairGetVars( $vars=array() ) {
+    $array = array();
+    while( !empty( $vars ) ) 
+    {
+      if( count( $vars ) >= 2 )
+      {
+        $key = array_shift( $vars );
+        $value = array_shift( $vars );
+        $array[ $key ] = $value;
+        continue;
+      }
+      $value = array_shift( $vars );
+      $array[] = $value;
+    }
+    return (array) $array;
+  }
+
+  /* --------------------------------------------------
+   * destructURI (DEPRECATED)
+   * --------------------------------------------------
+   *
+   */
   static function destructURI() {
-    // TODO: Be ready to account for a no Rewrite situation
-    // which I may have already done, but I'm not sure
-    
-    /*
-     * Expected URI string breakdown:
-     * http://somesite.com/controller-name/action-name/variable/value/variable/value
-     * http://somesite.com/index.php/controller-name/action-name/variable/value/variable/value
-     */
-
-    $route = $_SERVER['REQUEST_URI'];
-
-    // clean up leading and trailing slashes
-    $route = trim( $route, '/' );
-
-    // Parse the page request and other GET variables
-    $routeArray = array();
-    $routeArray = explode( '/', $route );
-    
-    // If index.php was used in the url, it will be the first
-    // item in the array. We don't need it so remove it
-    if( strtolower( $routeArray[0] ) == 'index.php' ) { array_shift( $routeArray ); }
+    $routeArray = uri::getURIArray();
 
     /*
      * Controller
@@ -55,20 +112,7 @@ class router
     array_shift($routeArray);
 
     // Any other parts of the array are variable/value pairs. Parse them out.
-    $getVars = array();
-    while( !empty( $routeArray ) ) 
-    {
-      if( count( $routeArray ) >= 2 )
-      {
-        $key = array_shift( $routeArray );
-        $value = array_shift( $routeArray );
-        $getVars[ $key ] = $value;
-        continue;
-      }
-      $value = array_shift( $routeArray );
-      $getVars[] = $value;
-    }
-
+    $getVars = self::pairGetVars( $routeArray );
 
     return array(
       'controller' => $controller,
@@ -151,6 +195,4 @@ class router
     }
   }
 
-}
-
-?>
+} ?>

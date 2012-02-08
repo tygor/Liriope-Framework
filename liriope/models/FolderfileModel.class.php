@@ -16,10 +16,9 @@ class FolderfileModel
 
   // __construct
   //
-  public function __construct( $folder, $file, $root=NULL ) {
+  public function __construct( $path, $root=NULL ) {
     $this->root = $root;
-    $this->setFolder( $folder );
-    $this->setFile( "$file.php" );
+    $this->parsePath( $path );
   }
 
   // get
@@ -40,6 +39,21 @@ class FolderfileModel
     }
     ob_end_flush();
 
+  }
+
+  // parsePath
+  //
+  public function parsePath( $path=NULL ) {
+    if( empty( $path )) throw new Exception( __CLASS__ . ':' . __METHOD__ . ' requires a path in the arguments.' );
+    $path = explode( '/', $path );
+    $file = array_pop( $path );
+    if( $this->fileExists( $file )) {
+      $this->setFile( $file );
+      $this->setFolder( implode( '/', $path ));
+    } elseif( $this->folderExists( $path . $file )) {
+      $this->setFile( 'index.php' );
+      $this->setFolder( implode( '/', $path ));
+    }
   }
 
   // setFolder

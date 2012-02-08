@@ -28,7 +28,7 @@
 <IfModule mod_headers.c>
     Header set X-UA-Compatible "IE=Edge,chrome=1"
     # mod_headers can't match by content-type, but we don't want to send this header on *everything*...
-    <FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|xpi|safariextz|vcf)$" >
+    <FilesMatch "\.(js|css|less|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|xpi|safariextz|vcf)$" >
       Header unset X-UA-Compatible
     </FilesMatch>
 </IfModule>
@@ -239,8 +239,8 @@ AddType text/x-vcard                   vcf
   ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
     
 # CSS and JavaScript
-  ExpiresByType text/css                  "access plus 1 year"
-  ExpiresByType application/javascript    "access plus 1 year"
+  ExpiresByType text/css                  "access plus 1 week"
+  ExpiresByType application/javascript    "access plus 1 week"
   
   <IfModule mod_headers.c>
     Header append Cache-Control "public"
@@ -427,7 +427,7 @@ ErrorDocument 404 /404.html
 AddDefaultCharset utf-8
 
 # Force UTF-8 for a number of file formats
-AddCharset utf-8 .html .css .js .xml .json .rss .atom
+AddCharset utf-8 .html .css .less .js .xml .json .rss .atom
 
 
 

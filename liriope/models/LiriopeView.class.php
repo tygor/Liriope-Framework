@@ -23,9 +23,7 @@ class LiriopeView {
 
     // The file should be here...
     $file = load::exists( '/' . strtolower( $controller ) . '/' . strtolower( $action ) . '.php' );
-
-    // ...but is it?
-    if( !file_exists( $file )) {
+    if( !$file ) {
       throw new Exception( __CLASS__ . " can't find that view ($file)." );
       return false;
     }

@@ -36,7 +36,8 @@ function getLink( $label=NULL, $url=NULL, $args=array() ) {
 function snippet( $file=NULL ) {
   if( $file===NULL ) return NULL;
   $path = c::get( 'root.snippets' );
-  load::file( $path . '/' . $file );
+  $success = load::file( $path . '/' . $file );
+  if( !$success ) throw new Exception( 'Woops! Can\'t find the snippet ' . $file );
 }
 
 /* --------------------------------------------------

@@ -45,15 +45,27 @@ class FolderfileModel
   //
   public function parsePath( $path=NULL ) {
     if( empty( $path )) throw new Exception( __CLASS__ . ':' . __METHOD__ . ' requires a path in the arguments.' );
-    $path = explode( '/', $path );
-    $file = array_pop( $path );
-    if( $this->fileExists( $file )) {
+    // expect folder/file or simply folder/
+    $path = ltrim( $path, '/' );
+    $pathArray = explode( '/', $path );
+
+    // if there is a file, it will be a the end of the array
+    if( $this->fileExists( $path . '.php' )) {
+      $file = end( $pathArray ) . '.php';
+      array_pop( $pathArray );
+      $path = implode( '/', $pathArray );
+      $this->setFolder( $path );
       $this->setFile( $file );
-      $this->setFolder( implode( '/', $path ));
-    } elseif( $this->folderExists( $path . $file )) {
-      $this->setFile( 'index.php' );
-      $this->setFolder( implode( '/', $path ));
+      return true;
     }
+    
+    if( $this->folderExists( $path ) && $this->fileExists( $path . '/index.php' )) {
+      $this->setFolder( $path );
+      $this->setFile( 'index.php' );
+      return true;
+    }
+
+    router::go( '/', 404 );
   }
 
   // setFolder

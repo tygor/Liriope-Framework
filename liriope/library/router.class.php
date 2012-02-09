@@ -186,13 +186,42 @@ class router {
 
         // TODO: route to the default controller error action
         /* Error Generation Code Here */
-        header("HTTP/1.0 404 Not Found");
+        self::go( '/', 404 );
+        #header("HTTP/1.0 404 Not Found");
         // TODO: remove the error folder from .htaccess
-        header("location: error/404.html");
-        exit;
+        #header("location: error/404.html");
+        #exit;
 
       }
     }
+  }
+
+  /* --------------------------------------------------
+   * go
+   * --------------------------------------------------
+   * the redirection function
+   *
+   */
+  static function go ( $url=FALSE, $code=FALSE ) {
+
+    if( empty( $url )) $url = c::get( 'root.URL', '/' );
+    switch( $code ) {
+      case 301:
+        header( 'HTTP/1.1 301 Moved Permanently' );
+        break;
+      case 302:
+        header( 'HTTP/1.1 302 Found' );
+        break;
+      case 303:
+        header( 'HTTP/1.1 303 See Other' );
+        break;
+      case 404:
+        header( 'HTTP/1.0 404 Not Found' );
+        $url = 'error/404.html';
+        break;
+    }
+    header( 'Location:' . $url);
+    exit();
   }
 
 } ?>

@@ -120,9 +120,9 @@ function useHelper( $name=NULL )
   } catch( Exception $e ) {
       header("HTTP/1.0 500 Internal Server Error");
       echo $e->getMessage();
-			echo "<pre>";
-			var_dump( $e->getTrace());
-			echo "</pre>";
+      echo "<pre>";
+      var_dump( $e->getTrace());
+      echo "</pre>";
       exit;
   }
 }

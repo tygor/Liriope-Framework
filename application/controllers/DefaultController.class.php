@@ -15,9 +15,6 @@ class DefaultController Extends LiriopeController {
       $path = '/' . implode( '/', $getVars );
     }
     $content = new FolderfileModel( $path, c::get( 'root.content' ));
-echo "<pre>";
-var_dump($content);
-echo "</pre>";
 
     $this->set( 'content', $content->get() );
   }

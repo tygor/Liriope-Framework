@@ -187,10 +187,6 @@ class router {
         // TODO: route to the default controller error action
         /* Error Generation Code Here */
         self::go( '/', 404 );
-        #header("HTTP/1.0 404 Not Found");
-        // TODO: remove the error folder from .htaccess
-        #header("location: error/404.html");
-        #exit;
 
       }
     }
@@ -217,7 +213,7 @@ class router {
         break;
       case 404:
         header( 'HTTP/1.0 404 Not Found' );
-        $url = 'error/404.html';
+        $url = '/error/404';
         break;
     }
     header( 'Location:' . $url);

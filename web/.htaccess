@@ -339,7 +339,6 @@ FileETag None
   RewriteRule %{REQUEST_FILENAME} !-d
   RewriteRule ^images/.*$ - [PT]
   RewriteRule ^css/.*$ - [PT]
-  RewriteRule ^error/.*$ - [PT]
   RewriteRule ^js/.*$ - [PT]
   RewriteRule ^plugins/.*$ - [PT]
   RewriteRule ^themes/.*$ - [PT]

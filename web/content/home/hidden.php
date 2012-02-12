@@ -5,14 +5,19 @@
  * but does have this view file
  */
 ?>
-<?php snippet( 'default/header'); ?>
 
 <article>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget vestibulum eros. Sed quis metus in turpis vehicula adipiscing. In metus est, vulputate quis euismod ac, pretium non est. Aliquam varius, felis eget aliquet suscipit, mi orci condimentum ipsum, laoreet laoreet magna dui id lorem. Duis feugiat commodo leo ut condimentum. In ante neque, scelerisque sit amet commodo ut, egestas in odio. In fermentum nulla sit amet ante placerat eleifend. Pellentesque vel posuere mauris.</p>
   <h1>Heading 1</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget vestibulum eros. Sed quis metus in turpis vehicula adipiscing. In metus est, vulputate quis euismod ac, pretium non est. Aliquam varius, felis eget aliquet suscipit, mi orci condimentum ipsum, laoreet laoreet magna dui id lorem. Duis feugiat commodo leo ut condimentum. In ante neque, scelerisque sit amet commodo ut, egestas in odio. In fermentum nulla sit amet ante placerat eleifend. Pellentesque vel posuere mauris.</p>
   <h2>Heading 2</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget vestibulum eros. Sed quis metus in turpis vehicula adipiscing. In metus est, vulputate quis euismod ac, pretium non est. Aliquam varius, felis eget aliquet suscipit, mi orci condimentum ipsum, laoreet laoreet magna dui id lorem. Duis feugiat commodo leo ut condimentum. In ante neque, scelerisque sit amet commodo ut, egestas in odio. In fermentum nulla sit amet ante placerat eleifend. Pellentesque vel posuere mauris.</p>
   <h3>Heading 3</h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget vestibulum eros. Sed quis metus in turpis vehicula adipiscing. In metus est, vulputate quis euismod ac, pretium non est. Aliquam varius, felis eget aliquet suscipit, mi orci condimentum ipsum, laoreet laoreet magna dui id lorem. Duis feugiat commodo leo ut condimentum. In ante neque, scelerisque sit amet commodo ut, egestas in odio. In fermentum nulla sit amet ante placerat eleifend. Pellentesque vel posuere mauris.</p>
   <h4>Heading 4</h4>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget vestibulum eros. Sed quis metus in turpis vehicula adipiscing. In metus est, vulputate quis euismod ac, pretium non est. Aliquam varius, felis eget aliquet suscipit, mi orci condimentum ipsum, laoreet laoreet magna dui id lorem. Duis feugiat commodo leo ut condimentum. In ante neque, scelerisque sit amet commodo ut, egestas in odio. In fermentum nulla sit amet ante placerat eleifend. Pellentesque vel posuere mauris.</p>
   <h5>Heading 5</h5>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget vestibulum eros. Sed quis metus in turpis vehicula adipiscing. In metus est, vulputate quis euismod ac, pretium non est. Aliquam varius, felis eget aliquet suscipit, mi orci condimentum ipsum, laoreet laoreet magna dui id lorem. Duis feugiat commodo leo ut condimentum. In ante neque, scelerisque sit amet commodo ut, egestas in odio. In fermentum nulla sit amet ante placerat eleifend. Pellentesque vel posuere mauris.</p>
   <h6>Heading 6</h6>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget vestibulum eros. Sed quis metus in turpis vehicula adipiscing. In metus est, vulputate quis euismod ac, pretium non est. Aliquam varius, felis eget aliquet suscipit, mi orci condimentum ipsum, laoreet laoreet magna dui id lorem. Duis feugiat commodo leo ut condimentum. In ante neque, scelerisque sit amet commodo ut, egestas in odio. In fermentum nulla sit amet ante placerat eleifend. Pellentesque vel posuere mauris.</p>
   <ul>
@@ -75,4 +80,3 @@
   </ol>
 </article>
 
-<?php snippet( 'default/footer'); ?>

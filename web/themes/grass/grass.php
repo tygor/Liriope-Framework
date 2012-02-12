@@ -55,7 +55,7 @@
         </a>
       </hgroup>
 
-      <nav id="main" class="menu">
+      <nav id="main" class="menu dewey">
         <ul>
           <li><?= getLink( 'Work', '/work' . '' ); ?></li>
           <li><?= getLink( 'People', '/people' . '' ); ?></li>

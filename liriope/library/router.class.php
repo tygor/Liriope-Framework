@@ -30,24 +30,20 @@ class router {
    */
   static function getParts() {
     $parts = uri::getURIArray();
-#var_dump( $parts );
     
     // is the first part a controller?
     $controller = strtolower( $parts[0] );
     $controllerFile = ucwords( LiriopeTools::cleanInput( $controller, 'alphaOnly' )) . 'Controller.class.php';
     if( !load::seek( $controllerFile )) {
       if( empty( $parts[0] )) {
-#echo("Rule #H<br>\n");
         $parts = NULL;
         page::set( 'homepage', TRUE );
       }
-#echo("Rule #2<br>\n");
       // use Rule #2
       $controller = c::get( 'default.controller' );
       $action = 'filepage';
       $getVars = $parts;
     } else {
-#echo("Rule #1<br>\n");
       array_shift( $parts );
       // we're following Rule #1
       $action = !empty( $parts[0]) ? array_shift( $parts ) : c::get( 'default.action' );

@@ -48,13 +48,5 @@ class LiriopeController {
     $this->_page->render();
   }
 
-  /* --------------------------------------------------
-   * Default actions
-   * --------------------------------------------------
-   */
-  public function dummyPages( $getVars=NULL )
-  {
-  }
-
 }
 

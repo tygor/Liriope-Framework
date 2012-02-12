@@ -264,32 +264,22 @@ nav.menu.dewey {
 
   ul {
     overflow: hidden;
-    height: 5em;
+    height: 7em;
+    position: relative;
 
     li {
-      display: block;
-      float: left;
+      display: inline;
       border: 0 none;
       line-height: 1.75em;
       font-size: 1.25em;
       font-weight: bold;
-      margin-top: 2em;
-      transition: margin-top 0.5s;
-      -webkit-transition: margin-top 0.5s;
-
-      &:hover { margin-top: 0em; }
-
-      a {
-      }
-      a:hover {
-      }
+      position: relative;
 
       ul {
-        position: relative;
         display: block;
         overflow: normal;
         height: auto;
-
+        
         li {
           display: block;
           float: none;
@@ -298,11 +288,7 @@ nav.menu.dewey {
           font-weight: normal;
           transition: margin-top 0s;
           margin-top: 0em;
-
-          a {
-          }
-          a:hover {
-          }
+          line-height: 1.25em;
         }
       }
     }
@@ -343,7 +329,12 @@ footer nav.menu
         {
           color: darken( @AccentColor1, 20% );
         }
+
+        ul {
+            display: none;
+        }
       }
+
     }
   }
 }

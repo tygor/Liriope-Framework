@@ -59,13 +59,17 @@ class FolderfileModel
       return true;
     }
     
+    // so the file part isn't in the folder path, so look for an index.php
     if( $this->folderExists( $path ) && $this->fileExists( $path . '/index.php' )) {
       $this->setFolder( $path );
       $this->setFile( 'index.php' );
       return true;
     }
 
-    router::go( '/', 404 );
+    // hijack the "content" and replace with 404 content
+    $this->setFolder( '/' . c::get( 'default.404.folder' ));
+    $this->setFile( c::get( 'default.404.file' ));
+    return true;
   }
 
   // setFolder

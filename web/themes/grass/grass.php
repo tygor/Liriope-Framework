@@ -56,17 +56,7 @@
       </hgroup>
 
       <nav id="main" class="menu dewey">
-        <ul>
-          <li><?= getLink( 'Work', '/work' . '' ); ?></li>
-          <li><?= getLink( 'People', '/people' . '' ); ?></li>
-          <li><?= getLink( 'About Us', '/about-us' . '' ); ?>
-            <ul>
-              <li><?= getLink( 'Vision', '/about-us/vision' . '' ); ?>
-              <li><?= getLink( 'Glasses', '/about-us/vision/glasses' . '' ); ?>
-            </ul>
-          </li>
-          <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
-        </ul>
+        <?php snippet( 'navigation.php' ); ?>
       </nav>
 
     </header>
@@ -86,12 +76,7 @@
         </div>
         <div class="column last">
           <nav id="footer" class="menu">
-            <ul>
-              <li><?= getLink( 'Work', '/work' . '' ); ?></li>
-              <li><?= getLink( 'People', '/people' . '' ); ?></li>
-              <li><?= getLink( 'About Us', '/about-us' . '' ); ?></li>
-              <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
-            </ul>
+            <?php snippet( 'navigation.php' ); ?>
           </nav>
         </div>
       </div>

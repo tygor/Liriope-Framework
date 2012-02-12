@@ -80,43 +80,6 @@ class router {
     return (array) $array;
   }
 
-  /* --------------------------------------------------
-   * destructURI (DEPRECATED)
-   * --------------------------------------------------
-   *
-   */
-  static function destructURI() {
-    $routeArray = uri::getURIArray();
-
-    /*
-     * Controller
-     * --------------------------------------------------
-     * The first value in the array will be the name
-     * of the page controller, but if it's empty, then
-     * get the defulat controller name
-     */
-    $controller = !empty( $routeArray[0] ) ? $routeArray[0] : c::get( 'default.controller' );
-    array_shift($routeArray);
-
-    /*
-     * Action
-     * --------------------------------------------------
-     * The next value in the array will be the action to
-     * use within the controller.
-     */
-    $action = !empty( $routeArray[0] ) ? $routeArray[0] : c::get( 'default.action' );
-    array_shift($routeArray);
-
-    // Any other parts of the array are variable/value pairs. Parse them out.
-    $getVars = self::pairGetVars( $routeArray );
-
-    return array(
-      'controller' => $controller,
-      'action'     => $action,
-      'getVars'    => $getVars,
-    );
-  }
-
   /**
    * callHook()
    * 

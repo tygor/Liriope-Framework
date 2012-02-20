@@ -7,6 +7,7 @@
  *
  */
 ?>
+
 <ul>
   <li><?= getLink( 'Work', '/work' . '' ); ?></li>
   <li><?= getLink( 'People', '/people' . '' ); ?></li>

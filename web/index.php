@@ -38,6 +38,14 @@ $rootLiriope = $root . '/liriope';
  */
 $dev = TRUE;
 
+/* --------------------------------------------------
+ * Theme
+ * --------------------------------------------------
+ * set your site theme here
+ *
+ */
+$theme = 'cope';
+
 // Load Liriope: Monkey Grass
 if( !file_exists( $rootLiriope . '/seed.php' )) {
   die( 'The Liriope framework could not be loaded.' );

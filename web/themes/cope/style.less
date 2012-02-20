@@ -7,7 +7,7 @@
 
 // Variables
 // --------------------------------------------------
-@white           : rgb(200,200,200);
+@white           : rgb(250,250,250);
 @black           : rgb(50,50,50);
 @BaseColor       : rgb(180,0,40);
 @AccentColor1    : rgb(158,55,42);
@@ -23,7 +23,7 @@
 // Mixins
 // --------------------------------------------------
 @import '../LESS-goodies/goodies';
-@import '../LESS-goodies/menu';
+@import '../LESS-goodies/deweymenu';
 @import '../LESS-goodies/elements/elements';
 
 // Helpers
@@ -57,7 +57,7 @@ body
 {
   margin: 0 auto;
   width: 960px;
-  background: url('/images/wallpaper.png') repeat;
+  background: @white;
   font-size: @baseFontSize;
   font-family: @fontFamilyStack;
   color: @BaseCopyColor;
@@ -200,100 +200,6 @@ nav#main
 {
   float: left;
   margin: 0 0 0 1em;
-}
-
-// MENU
-// <nav class="menu"><ul><li><a></a></li></ul></nav>
-// --------------------------------------------------
-nav.menu
-{
-  a,
-  a:link,
-  a:active,
-  a:visited
-  {
-    text-decoration: none;
-  }
-
-  ul
-  {
-    height: 48px;
-
-    li
-    {
-      display: inline;
-      padding: .25em 1.25em;
-      font-size: 1em;
-      font-family: @fontFamilyAlt;
-      line-height: 48px;
-      border-right: 2px solid @AccentColor1;
-
-      a
-      {
-        color: @AccentColor1;
-      }
-
-      &.last
-      {
-        border-right: 0 none;
-      }
-
-      &:hover
-      {
-        a
-        {
-          color: darken( @AccentColor1, 20% );
-        }
-
-        ul
-        {
-          display: block;
-        }
-      }
-    }
-
-    ul
-    {
-      display: none;
-      position: absolute;
-    }
-  }
-}
-
-nav.menu.dewey {
-  position: relative;
-
-  ul {
-    overflow: hidden;
-    height: 7em;
-    position: relative;
-
-    li {
-      display: inline;
-      border: 0 none;
-      line-height: 1.75em;
-      font-size: 1.25em;
-      font-weight: bold;
-      position: relative;
-
-      ul {
-        display: block;
-        overflow: normal;
-        height: auto;
-        
-        li {
-          display: block;
-          float: none;
-          padding: 0;
-          font-size: 0.875em;
-          font-weight: normal;
-          transition: margin-top 0s;
-          margin-top: 0em;
-          line-height: 1.25em;
-        }
-      }
-    }
-  }
 }
 
 footer nav.menu

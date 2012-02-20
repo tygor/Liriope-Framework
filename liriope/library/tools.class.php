@@ -3,7 +3,7 @@
  * LiriopeTools.class.php
  */
 
-class LiriopeTools
+class tools
 {
   public static function devPrint ( $var = NULL, $dump = false )
   {

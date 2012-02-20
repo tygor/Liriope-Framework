@@ -12,7 +12,7 @@
  */
 function getLink( $label=NULL, $url=NULL, $args=array() ) {
   // clean input
-  $label = LiriopeTools::cleanInput( $label, 'whiteAlphaNum' );
+  $label = tools::cleanInput( $label, 'whiteAlphaNum' );
 
   // take the variables and send back a HTML <a> tag
   $format = '<a href="%s" %s>%s</a>';
@@ -21,7 +21,7 @@ function getLink( $label=NULL, $url=NULL, $args=array() ) {
   $argString = "";
   foreach( $args as $key => $value )
   {
-    $argString .= LiriopeTools::cleanInput( $key ) . '="' . LiriopeTools::cleanInput( $value ) . '" ';
+    $argString .= tools::cleanInput( $key ) . '="' . tools::cleanInput( $value ) . '" ';
   }
 
   return sprintf( $format, $url, $argString, $label );
@@ -48,7 +48,7 @@ function snippet( $file=NULL ) {
  */
 function slugify( $input=NULL ) {
   if( empty( $input )) return false;
-  $input = strtolower( LiriopeTools::replaceSpaces( $input ));
-  return LiriopeTools::cleanInput( $input );
+  $input = strtolower( tools::replaceSpaces( $input ));
+  return tools::cleanInput( $input );
 }
 

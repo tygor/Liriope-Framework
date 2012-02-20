@@ -12,6 +12,12 @@
   box-shadow: @x @y @blur fadeOut( @color, @opacity );
 }
 
+.transition( @s: height, @d: 1s ) {
+  -moz-transition: @s @d;
+  -webkit-transition: @s @d;
+  transition: @s @d;
+}
+
 // Columns
 // --------------------------------------------------
 @gutter: 10%;

@@ -19,7 +19,7 @@ class LiriopeView {
 	public function __construct( $controller, $action ) {
 		$this->_controller = $controller;
 		$this->_action = $action;
-    $this->setTheme( c::get( 'default.theme' ));
+    $this->setTheme( c::get( 'theme', c::get( 'default.theme' )));
 
     // The file should be here...
     $file = load::exists( '/' . strtolower( $controller ) . '/' . strtolower( $action ) . '.php' );

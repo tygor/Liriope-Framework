@@ -33,7 +33,7 @@ class router {
     
     // is the first part a controller?
     $controller = strtolower( $parts[0] );
-    $controllerFile = ucwords( LiriopeTools::cleanInput( $controller, 'alphaOnly' )) . 'Controller.class.php';
+    $controllerFile = ucwords( tools::cleanInput( $controller, 'alphaOnly' )) . 'Controller.class.php';
     if( !load::seek( $controllerFile )) {
       if( empty( $parts[0] )) {
         $parts = NULL;
@@ -97,7 +97,7 @@ class router {
     // Models are the plural of the controller (ex: Shovels)
     //   (yes, grammer can be horrible here)
     $controllerName = $controller;
-    $controller = ucwords( LiriopeTools::cleanInput( $controller, 'alphaOnly' ));
+    $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
     $model = rtrim( $controller, 's' );
     $controller .= 'Controller';
 

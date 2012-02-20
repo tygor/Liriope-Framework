@@ -55,7 +55,7 @@
         </a>
       </hgroup>
 
-      <nav id="main" class="menu">
+      <nav id="main" class="menu punchcard">
         <?php snippet( 'navigation.php' ); ?>
       </nav>
 

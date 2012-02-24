@@ -49,24 +49,28 @@
   <div id="container">
     <header id="main" class="clear">
 
-      <hgroup id="identity">
-        <a href="/">
-          <img src="/<?= theme::folder(); ?>/images/cope-logo.png" alt="Logo" height="50" width="208">
-        </a>
-      </hgroup>
+      <div class="globalwidth">
 
-      <nav id="main" class="menu punchcard">
-        <?php snippet( 'navigation.php' ); ?>
-      </nav>
+        <hgroup id="identity">
+          <a href="/">
+            <img src="/<?= theme::folder(); ?>/images/cope-logo.png" alt="Logo" height="50" width="208">
+          </a>
+        </hgroup>
+
+        <nav id="main" class="menu punchcard">
+          <?php snippet( 'navigation.php' ); ?>
+        </nav>
+
+      </div>
 
     </header>
 
-    <div id="main" role="main">
+    <div id="main" role="main" class="globalwidth">
 
 <?= page::getContent(); ?>
 
     </div>
-    <footer id="main">
+    <footer id="main" class="globalwidth">
       <div class="fourcolumns">
         <div class="column span-2">
           <p>&copy;2012 Liriope Framework

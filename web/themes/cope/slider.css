@@ -1,0 +1,31 @@
+/*
+ * Cope custom Slider CSS
+ * slider.css
+ * updated: 2012/02/23
+ */
+
+div#main {
+  background: url('images/cope-slider-wallpaper.jpg') no-repeat 50% 0%;
+}
+
+div.orbit-wrapper > div.slider-nav > span {
+  top: 60%;
+}
+
+div.orbit-wrapper > div.slider-nav span.right {
+  background: url('images/cope-right.png');
+  right: -8px;
+  height: 44px;
+  width: 44px;
+}
+
+div.orbit-wrapper > div.slider-nav span.left {
+  background: url('images/cope-left.png');
+  left: -8px;
+  height: 44px;
+  width: 44px;
+}
+
+div.orbit-wrapper > ul.orbit-bullets li {
+  background-image: url('images/cope-bullets.png');
+}

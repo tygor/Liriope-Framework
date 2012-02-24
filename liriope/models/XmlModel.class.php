@@ -16,11 +16,11 @@ class XmlModel {
   var $loadFlag = false;
   var $_xml; // the XML object
   
-  function __construct( $file=false )
+  function __construct( $file=false, $feed=false )
   {
     if( !empty( $file ))
     {
-      $this->setFile( $file );
+      $this->setFile( $file, $feed );
       $this->loadFile();
     }
   }
@@ -28,13 +28,14 @@ class XmlModel {
   // setFile
   // 
   // Select the file to be read and written to
-  public function setFile( $file=false )
+  public function setFile( $file=false, $feed=false )
   {
     try {
       // was a file name given?
       if( empty( $file )) throw new Exception( __METHOD__ . ': No file was passed.' );
       // can we see that file?
-      if( !file_exists( $file )) throw new Exception( __METHOD__ . ' doesn\'t think that file exists <em>'.$file.'</em>.' );
+      // if it's a feed, then skip the check
+      if( !$feed && !is_readable( $file )) throw new Exception( __METHOD__ . ' doesn\'t think that file exists <em>'.$file.'</em>.' );
       // ok, then let's get it loaded
       $this->xmlUrl = $file;
       $this->setFlag = true;
@@ -56,7 +57,7 @@ class XmlModel {
   // loadFile
   //
   // Load the contents of the object's set XML file
-  private function loadFile()
+  protected function loadFile()
   {
     try {
       // if a file set?

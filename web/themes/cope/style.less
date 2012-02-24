@@ -54,8 +54,6 @@ html
 
 body
 {
-  margin: 0 auto;
-  width: 960px;
   background: @white;
   font-size: @baseFontSize;
   font-family: @fontFamilyStack;
@@ -67,6 +65,13 @@ body
 ins
 {
   background-color: hsl( hue(@AccentColor2), 100%, 75% );
+}
+
+// Global settings
+// --------------------------------------------------
+.globalwidth {
+  margin: 0 auto;
+  width: 960px;
 }
 
 // Headings
@@ -172,7 +177,7 @@ article
 
 footer#main
 {
-  border-top: 1px solid;
+  border-top: 1px solid @BaseColor;
   margin-top: 2em;
   padding-top: 2em;
 }
@@ -182,11 +187,12 @@ footer#main
 header#main
 {
   margin-top: @baseFontSize;
+  border-bottom: 2px solid @BaseColor;
 }
 
 #identity
 {
-  margin: .25em 0 1em 0;
+  margin: 1.25em 0 1em 0;
   float: left;
 
   h1

@@ -345,6 +345,7 @@ FileETag None
   RewriteRule ^content/.*$ - [PT]
   RewriteRule ^snippets/.*$ - [PT]
   RewriteRule ^test/.*$ - [PT]
+  RewriteRule ^favicon.ico*$ - [PT]
   RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
 </IfModule>
 

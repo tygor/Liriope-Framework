@@ -44,7 +44,7 @@
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body class="<?= browser::getBodyClass(); ?>">
+<body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
 
   <div id="container">
     <header id="main" class="clear">
@@ -55,7 +55,7 @@
         </a>
       </hgroup>
 
-      <nav id="main" class="menu dewey">
+      <nav id="main" class="menu punchcard">
         <?php snippet( 'navigation.php' ); ?>
       </nav>
 

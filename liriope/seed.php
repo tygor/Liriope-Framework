@@ -26,9 +26,7 @@ load::models();
 load::helpers();
 load::tools();
 
-// set config variables from index.php
-// TODO: enable loading these from a config file
-if( $theme ) c::set( 'theme', $theme );
+include( 'defaults.php' );
 
 // ----------------------------------------------------------------------------------------------------
 

@@ -8,6 +8,7 @@ class TumblrModel extends XmlModel {
   protected $params = array();
   protected $isRead = false;
   var $name;
+  var $href;
   var $timezone;
   var $title;
   var $startPost;
@@ -85,6 +86,7 @@ class TumblrModel extends XmlModel {
 
   private function readTumblr( $objXml=NULL ) {
     $this->name = $objXml->tumblelog['name'];
+    $this->href = "http://" . $this->name . ".tumblr.com";
     $this->title = $objXml->tumblelog['title'];
     $this->timezone = $objXml->tumblelog['timezone'];
     $this->startPost = $objXml->posts['start'];
@@ -238,5 +240,7 @@ class TumblrPhoto extends TumblrItem {
     return false;
   }
 }
+
+// TODO setup classes for any other Tumlbr post types with their own unique values
 
 ?>

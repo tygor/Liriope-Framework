@@ -42,7 +42,7 @@
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body class="<?= browser::getBodyClass(); ?>">
+<body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
 
   <div id="container">
     <header id="main" class="clear">

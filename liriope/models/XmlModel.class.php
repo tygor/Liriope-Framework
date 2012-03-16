@@ -12,8 +12,8 @@
 class XmlModel {
   var $xmlUrl;
   var $setFlag = false;
-  var $xmlString;
   var $loadFlag = false;
+  var $xmlString;
   var $_xml; // the XML object
   
   function __construct( $file=false, $feed=false )
@@ -28,6 +28,8 @@ class XmlModel {
   // setFile
   // 
   // Select the file to be read and written to
+  // @param (string) file   the path to the XML file
+  // @param (bool)   feed   TRUE if the file is a feed, FALSE if it is local
   public function setFile( $file=false, $feed=false )
   {
     try {

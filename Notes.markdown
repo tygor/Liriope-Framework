@@ -22,6 +22,10 @@ Changes and TODO
 
 > I'd like to add in navigation helpers. Maybe working towards reading folder structure to auto-generate it.
 
+* Figure out Controller paradigm and Content File CMS paradigm
+
+> They don't seem to play together at the moment, and I wnat the ability for my content pages to call on the power of the MVC.
+
 Config variables
 ----------------
 

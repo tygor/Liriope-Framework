@@ -15,20 +15,39 @@ class c
 
   static function get( $key=NULL, $default=NULL )
   {
+    // return everything if nothing specific is asked for
     if( empty( $key )) return self::$config;
-    return isset( self::$config[$key] ) ? self::$config[$key] : $default;
+    // is that key set?
+    if( isset( self::$config[$key] )) {
+echo( $key . " : " . self::$config[$key] . "\n");
+      return self::$config[$key];
+    }
+    return $default;
   }
 
-  static function set( $key, $value=NULL )
-  {
-    if( is_array( $key ))
-    {
-      self::$config = array_merge( self::$config, $key );
+  //
+  // set
+  // 
+  // string $key
+  // string $value
+  // bool   $overwrite
+  static function set( $key, $value=NULL, $overwrite=true ) {
+    // if param 1 is not an array, then store the variable and we're done
+    if( !is_array( $key )) {
+      // if overwrite is on, just do it
+      // OR if overwrite is off, but the variable isn't set
+      if( $overwrite || !isset( self::$config[$key] )) {
+        self::$config[$key] = $value;
+        return true;
+      }
+      return false;
     }
-    else
-    {
-      self::$config[$key] = $value;
+    // if it IS an array, then set all of them
+    foreach( $key as $val ) {
+      list( $k, $v, $o ) = $val + array( NULL, NULL, NULL );
+      self::set( $k, $v, $o );
     }
+    return true;
   }
 }
 

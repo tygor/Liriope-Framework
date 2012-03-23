@@ -4,30 +4,28 @@
  * --------------------------------------------------
  */
 
-
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class router {
 
-  /* --------------------------------------------------
-   * getParts
-   * --------------------------------------------------
-   * Following the routing rules, returns the parts of the route
-   *
-   * http://site.com/var1/var2/var3/var4/var5/var6/...
-   * RULES:
-   * H) var1 is empty, assign var1=home, use Rule #2 
-   * 1) var1 is a controller
-   *      a) var2 is blank, use default
-   *      b) var2 is an action in that controller
-   * 2) var 1 is a folder in /web/content,
-   *    use the default controller, filepage action
-   *    which implements the FolderfileModel
-   *      a) var2 is blank, use default
-   *      b) var2 is a file within that folder
-   *      c) var2 is a folder, proceed to (2a) to check var3
-   */
+  //
+  // getParts
+  // --------------------------------------------------
+  // Following the routing rules, returns the parts of the route
+  //
+  // http://site.com/var1/var2/var3/var4/var5/var6/...
+  // RULES:
+  // H) var1 is empty, assign var1=home, use Rule #2 
+  // 1) var1 is a controller
+  //      a) var2 is blank, use default
+  //      b) var2 is an action in that controller
+  // 2) var 1 is a folder in /web/content,
+  //    use the default controller, filepage action
+  //    which implements the FolderfileModel
+  //      a) var2 is blank, use default
+  //      b) var2 is a file within that folder
+  //      c) var2 is a folder, proceed to (2a) to check var3
   static function getParts() {
     $parts = uri::getURIArray();
     

@@ -52,12 +52,12 @@ spl_autoload_register( function ( $className ) {
   return true; 
 }); 
 
-/* --------------------------------------------------
- * callLiriope
- * --------------------------------------------------
- * main call function
- * Begins the framework inner-workings
- */
+//
+// callLiriope
+// --------------------------------------------------
+// main call function
+// Begins the framework inner-workings
+//
 function callLiriope() {
   @extract( router::getParts() );
   router::callHook( $controller, $action, $getVars );

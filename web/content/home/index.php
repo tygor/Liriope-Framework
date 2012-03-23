@@ -1,6 +1,6 @@
 <?php
 /**
- * Home.php
+ * Home > index.php
  * --------------------------------------------------
  * homepage
  */
@@ -9,41 +9,13 @@
 // ------------------
 
 page::set( 'page.title', 'Homepage');
-$tumblrStream = 'http://jmcopeconstruction.tumblr.com/api/read';
-$tumblr = new TumblrModel( $tumblrStream );
-$tumblr->set( 'start', 0 )->set( 'num', 5 );
 
 ?>
 
 <?php snippet( 'cope-slider.php' ); ?>
 
-<div class="fourcolumns">
-  <div class="column span-3">
-    <article>
-      <header>
-        <h1>Homepage</h1>
-      </header>
+<section id="welcome">
+  <h1>Welcome to Liriope Framework</h1>
+  <p>I started this project to learn more about PHP while building my own framework. Along the way, I started using it for various websites. This is helping me develop various features that I'd like. Please feel free to contribute, just sent me an email.</p>
+</section>
 
-      <p>Lorem ipsum delor sit amet conseceteur.</p>
-
-      <footer>
-      </footer>
-    </article>
-  </div>
-
-  <div class="column last">
-    <aside>
-      <header>
-        <h1>Tumblr</h1>
-      </header>
-      <ul class="tumblr-list">
-        <?php foreach( $tumblr->get() as $post ): ?>
-        <li><?= $post ?></li>
-        <?php endforeach; ?>
-      </ul>
-      <footer>
-        <p><a href="<?= $tumblr->href; ?>" target="_blank">Visit my <?= $tumblr->title; ?> Tumblr page</a></p>
-      </footer>
-    </aside>
-  </div>
-</div>

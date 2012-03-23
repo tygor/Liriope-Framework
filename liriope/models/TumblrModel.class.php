@@ -3,6 +3,10 @@
  * TumblrModel.class.php
  */
 
+// --------------------------------------------------------------------------------
+// TumblrModel
+// extends XmlModel
+// --------------------------------------------------------------------------------
 class TumblrModel extends XmlModel {
   protected $feed;
   protected $params = array();
@@ -97,6 +101,7 @@ class TumblrModel extends XmlModel {
 
   private function addPosts( $post=NULL ) {
     if( $post === NULL ) return false;
+    // loops through the posts and creates objects based on type
     foreach( $post->post as $v ) {
       $type = $v['type'];
       $obj = "Tumblr" . ucfirst( $type );
@@ -107,6 +112,9 @@ class TumblrModel extends XmlModel {
   }
 }
 
+// --------------------------------------------------------------------------------
+// TumblrItem
+// --------------------------------------------------------------------------------
 class TumblrItem {
   var $id;
   var $url;
@@ -134,6 +142,9 @@ class TumblrItem {
   }
 }
 
+// --------------------------------------------------------------------------------
+// TumblrLink
+// --------------------------------------------------------------------------------
 class TumblrLink extends TumblrItem {
   var $linkText;
   var $linkUrl;
@@ -159,12 +170,16 @@ class TumblrLink extends TumblrItem {
   }
 }
 
+// --------------------------------------------------------------------------------
+// TumblrPhoto
+// --------------------------------------------------------------------------------
 class TumblrPhoto extends TumblrItem {
   var $width;
   var $height;
-  var $photoCaption;
-  var $photoLinkUrl;
-  var $photoUrl = array();
+  var $caption;
+  var $linkUrl;
+  var $sourceUrl = array();
+  var $photos = array();
   protected $maxWidth;
 
   public function __construct( $params=NULL ) {
@@ -172,23 +187,24 @@ class TumblrPhoto extends TumblrItem {
     parent::setAttributes( $params );
     $this->width = $params['width'];
     $this->height = $params['height'];
-    $this->photoCaption = $params->{'photo-caption'};
-    $this->photoLinkUrl = $params->{'photo-link-url'};
-    $this->photoUrl = $params->{'photo-url'};
+    $this->caption = $params->{'photo-caption'};
+    $this->linkUrl = $params->{'photo-link-url'};
+    $this->sourceUrl = $params->{'photo-url'};
+    // TODO: create a class to catch photosets, a sub-variety of the photo type
   }
 
   public function __toString() {
     $output = '';
     $photoString = '<p><img src="%s" width="%d" height="%d" alt="Tumblr photo">%s</p>';
     $linkString = '<a href="%s" target="_blank">%s</a>';
-    if( empty( $this->photoLinkUrl )) return false; 
     $output .= sprintf( $photoString,
                         $this->getPhoto( $this->getMaxWidth()),
                         $this->determineWidth(),
                         $this->determineHeight(),
-                        $this->photoCaption
+                        $this->caption
                       );
-    if( !empty( $this->photoLinkUrl )) $output = sprintf( $linkString, $this->photoLinkUrl, $output );
+    if( !empty( $this->linkUrl )) $output = sprintf( $linkString, $this->linkUrl, $output );
+    else $output = sprintf( $linkString, $this->sourceUrl, $output );
     return $output;
   }
 
@@ -219,22 +235,22 @@ class TumblrPhoto extends TumblrItem {
     // Tumblr seems to set standard photo sizes of Original, 500, 400, 250, 100, and 75
     switch( $maxWidth ) {
       case ( $maxWidth <= 75 ):
-        return $this->photoUrl[5];
+        return $this->sourceUrl[5];
         break;
       case ( $maxWidth <= 100 ):
-        return $this->photoUrl[4];
+        return $this->sourceUrl[4];
         break;
       case ( $maxWidth <= 250) :
-        return $this->photoUrl[3];
+        return $this->sourceUrl[3];
         break;
       case ( $maxWidth <= 400) :
-        return $this->photoUrl[2];
+        return $this->sourceUrl[2];
         break;
       case ( $maxWidth <= 500 ):
-        return $this->photoUrl[1];
+        return $this->sourceUrl[1];
         break;
       default:
-        return $this->photoUrl[0];
+        return $this->sourceUrl[0];
         break;
     }
     return false;

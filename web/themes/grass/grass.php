@@ -69,6 +69,7 @@
     <footer id="main">
       <div class="fourcolumns">
         <div class="column span-2">
+          <p>View the <a href="https://github.com/tygor/Liriope-Framework" target="_blank">Liriope Framework</a> project on Github</p>
           <p>&copy;2012 Liriope Framework
         </div>
         <div class="column">

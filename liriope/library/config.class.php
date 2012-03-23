@@ -13,13 +13,20 @@ class c
 {
   private static $config = array();
 
+  //
+  // get
+  //
+  // returns the variable value or the complete array of config variables
+  // if $key is empty
+  // 
+  // string $key     the variable name to retrieve
+  // string $default the default value if that variable is not set
   static function get( $key=NULL, $default=NULL )
   {
     // return everything if nothing specific is asked for
     if( empty( $key )) return self::$config;
     // is that key set?
     if( isset( self::$config[$key] )) {
-echo( $key . " : " . self::$config[$key] . "\n");
       return self::$config[$key];
     }
     return $default;

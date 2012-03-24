@@ -5,7 +5,12 @@
 # 
 
 # What theme do you want to use for the site
-# default: grass
 c::set( 'theme', 'grass' );
+
+# Set some other system defaults
+c::set( 'default.controller', 'default' );
+c::set( 'default.action',     'show' );
+c::set( 'default.404.folder', 'error' );
+c::set( 'default.404.file',   '404.php' );
 
 ?>

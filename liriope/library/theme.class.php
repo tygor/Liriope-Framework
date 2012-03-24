@@ -33,7 +33,7 @@ class theme extends page {
   }
 
   static function render( $file=NULL, $vars=array(), $dump=FALSE ) {
-    $file = c::get( 'root.theme' ) . '/' . self::$name . '/' . self::$name . '.php';
+    $file = c::get( 'root.theme' ) . '/' . self::$name . '/' . 'index.php';
     self::set( $vars );
     self::set( '_content', self::$_content );
     return self::renderFile( $file, $vars, $dump );

@@ -90,7 +90,7 @@ class router {
   static function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
 
     // Expect the naming conventions:
-    // Controller are uppercase on words (ex: Shovel)
+    // Controllers are uppercase on words (ex: Shovel)
     //   with "Controller" appended
     // Models are the plural of the controller (ex: Shovels)
     //   (yes, grammer can be horrible here)
@@ -141,7 +141,6 @@ class router {
 
       } else {
 
-        // TODO: route to the default controller error action
         /* Error Generation Code Here */
         self::go( '/', 404 );
 
@@ -149,12 +148,11 @@ class router {
     }
   }
 
-  /* --------------------------------------------------
-   * go
-   * --------------------------------------------------
-   * the redirection function
-   *
-   */
+  // --------------------------------------------------
+  // go
+  // --------------------------------------------------
+  // the redirection function
+  //
   static function go ( $url=FALSE, $code=FALSE ) {
 
     if( empty( $url )) $url = c::get( 'root.URL', '/' );

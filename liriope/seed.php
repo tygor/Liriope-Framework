@@ -26,15 +26,14 @@ load::models();
 load::helpers();
 load::tools();
 
+// Load Defaults
 include( 'defaults.php' );
 
-// ----------------------------------------------------------------------------------------------------
-
-# --------------------------------------------------
-# Setup Exception Handler
-# This will be where we define what to do with
-# uncaught exceptions.
-# --------------------------------------------------
+// --------------------------------------------------
+// Setup Exception Handler
+// This will be where we define what to do with
+// uncaught exceptions.
+// --------------------------------------------------
 function LiriopeException( $exception )
 {
   //error message

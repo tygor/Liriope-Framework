@@ -20,16 +20,6 @@ c::set( 'path', array(
   ));
 
 /* --------------------------------------------------
- * Load Defaults
- * --------------------------------------------------
- */
-c::set( 'default.controller', 'default' );
-c::set( 'default.action',     'show' );
-c::set( 'default.theme',      'Grass' );
-c::set( 'default.404.folder', 'error' );
-c::set( 'default.404.file',   '404.php' );
-
-/* --------------------------------------------------
  * Setup an Autoloader
  * --------------------------------------------------
  */

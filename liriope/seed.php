@@ -135,4 +135,6 @@ unregisterGlobals();
 // Begin
 callLiriope();
 
+// TODO find a way to report the collected errors
+
 ?>

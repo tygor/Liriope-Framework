@@ -29,7 +29,17 @@ class c
     if( isset( self::$config[$key] )) {
       return self::$config[$key];
     }
-    return $default;
+    // return the default if there is one
+    if( $default !== NULL ) {
+      return $default;
+    }
+    // or, tattle about the missing config and move on
+    error::report( array(
+      "file" => __FILE__,
+      "class" => __CLASS__,
+      "method" => __METHOD__,
+      "message" => "Someone was looking for a configuration variable called " . $key . " but it doesn't exist at this point, and no default was suggested."
+    ));
   }
 
   //

@@ -20,6 +20,7 @@ class load
     require_once( $root . '/library/LiriopePage.class.php' );
     require_once( $root . '/library/theme.class.php' );
     require_once( $root . '/library/browser.class.php' );
+    require_once( $root . '/library/error.class.php' );
     require_once( $root . '/controllers/LiriopeController.class.php' );
   }
 

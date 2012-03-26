@@ -16,14 +16,18 @@
 @linkColorAlt    : lighten( @AccentColor1, 10%);
 @baseFontSize    : 16px;
 @BaseCopyColor   : @black;
-@fontFamilyStack : serif;
-@fontFamilyAlt   : Trebuchet, sans-serif;
+@fontHeading     : Kreon, serif;
+@fontCopy        : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
 
 // Mixins
 // --------------------------------------------------
 @import '../LESS-goodies/goodies';
 @import '../LESS-goodies/punchcard-menu';
 @import '../LESS-goodies/elements/elements';
+
+// Google Web Fonts
+// --------------------------------------------------
+@import url(http://fonts.googleapis.com/css?family=Kreon);
 
 // Helpers
 // --------------------------------------------------
@@ -58,7 +62,7 @@ body
   width: 960px;
   background: url('/images/wallpaper.png') repeat;
   font-size: @baseFontSize;
-  font-family: @fontFamilyStack;
+  font-family: @fontCopy;
   color: @BaseCopyColor;
   line-height: 1.68;
   padding-bottom: @baseFontSize;
@@ -69,52 +73,57 @@ ins
   background-color: hsl( hue(@AccentColor2), 100%, 75% );
 }
 
+a {
+  color: @BaseColor;
+
+  transition: color 0.25s ease-in;
+  -o-transition: color 0.25s ease-in;
+  -moz-transition: color 0.25s ease-in;
+  -webkit-transition: color 0.25s ease-in;
+
+  &:hover {
+    color: lighten( @BaseColor, 25 );
+  }
+}
+
 // Headings
 // --------------------------------------------------
 h1, h2, h3, h4, h5, h6
 {
-  font-family: @fontFamilyAlt;
-  margin: 0.5em 0;
+  font-family: @fontHeading;
+  margin: 0.75em 0 0;
+  line-height: 1.125;
 }
 
 h1
 {
-  font-size: 2.25em;
+  font-size: @baseFontSize * 2.25;
   color: @BaseColor;
 }
 h2
 {
-  font-size: 2.00em;
+  font-size: @baseFontSize * 2.00;
   color: @AccentColor1;
 }
 h3
 {
-  font-size: 1.75em;
+  font-size: @baseFontSize * 1.75;
   color: darken( @AccentColor1, 10% );
 }
 h4
 {
-  font-size: 1.50em;
+  font-size: @baseFontSize * 1.50;
   color: darken( @AccentColor1, 20% );
 }
 h5
 {
-  font-size: 1.25em;
+  font-size: @baseFontSize * 1.25;
   color: darken( @AccentColor1, 20% );
 }
 h6
 {
-  font-size: 1.00em;
+  font-size: @baseFontSize * 1.00;
   color: darken( @AccentColor1, 20% );
-}
-
-// Stop nested elemnts from shrinking further
-h1, h2, h3, h4, h5, h6
-{
-  *
-  {
-    font-size: 1em;
-  }
 }
 
 // place this after the h# tags
@@ -130,10 +139,7 @@ p,
 dl,
 li
 {
-  font-size: 0.875em;
-
-  // Stop nested elements from shrinking further
-  * { font-size: 1em; }
+  font-size: @baseFontSize * 0.875;
 }
 
 li
@@ -141,13 +147,7 @@ li
   *
   {
     // 2nd level elements are smaller
-    font-size: 0.875em;
-
-    *
-    {
-      // then stop shrinking
-      font-size: 1em;
-    }
+    font-size: @baseFontSize 0.75;
   }
 }
 
@@ -165,7 +165,7 @@ article
 {
   footer
   {
-    font-size: 0.875em;
+    font-size: @baseFontSize * 0.75;
     color: lighten( @BaseCopyColor, 30);
   }
 }
@@ -175,6 +175,10 @@ footer#main
   border-top: 1px solid;
   margin-top: 2em;
   padding-top: 2em;
+
+  p {
+    font-size: @baseFontSize  * .75;
+  }
 }
 
 // Styles by ID tags
@@ -222,8 +226,8 @@ footer nav.menu
     {
       display: block;
       padding: .125em 0;
-      font-size: 0.875em;
-      font-family: @fontFamilyAlt;
+      font-size: @baseFontSize * 0.75;
+      font-family: @fontCopy;
       line-height: inherit;
       border-right: 0 none;
 

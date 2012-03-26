@@ -8,14 +8,13 @@
 // page configuration
 // ------------------
 
-page::set( 'page.title', 'Homepage');
+page::set( 'page.title', 'Liriope | Monkey Grass');
 
 ?>
 
-<?php snippet( 'cope-slider.php' ); ?>
-
 <section id="welcome">
-  <h1>Welcome to Liriope Framework</h1>
-  <p>I started this project to learn more about PHP while building my own framework. Along the way, I started using it for various websites. This is helping me develop various features that I'd like. Please feel free to contribute, just sent me an email.</p>
+  <h1>Welcome</h1>
+  <p>I started the Liriope Framework to learn more about PHP and at the same time build my own framework. Along the way, I realized that this was becoming something useful for various websites I was thinking about or working on. I love it when your interests match up with your workload!</p>
+  <p>This project is on GitHub, and I would love to include others in this learnining project. Please feel free to contribute. Find me on <a href="https://github.com/tygor/Liriope-Framework" target="_blank">GitHub</a>! </p>
 </section>
 

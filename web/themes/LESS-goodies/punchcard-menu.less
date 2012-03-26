@@ -47,12 +47,10 @@ nav.punchcard p {
 
 nav.punchcard a {
     text-decoration: none;
-    color: #222;
 }
 
 nav.punchcard a:hover {
     text-decoration: underline;
-    color: #666;
 }
 
 /* Parent specific tags */
@@ -67,14 +65,16 @@ nav.punchcard > ul > li {
     padding: .5em 1em;
     position: relative;
     overflow: hidden;
-   
-    transition: bottom .5s;
-    -o-transition: bottom .5s;
-    -moz-transition: bottom .5s;
-    -webkit-transition: bottom .5s;
 }
 
-nav.punchcard > ul > li:hover {
+nav.punchcard > ul > li.deeper {
+    transition: bottom .5s ease-in;
+    -o-transition: bottom .5s ease-in;
+    -moz-transition: bottom .5s ease-in;
+    -webkit-transition: bottom .5s ease-in;
+}
+
+nav.punchcard > ul > li.deeper:hover {
     bottom: 0;
 }
 

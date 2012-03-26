@@ -20,7 +20,7 @@
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+  <link rel="shortcut icon" href="<?= theme::folder(); ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
   <?php foreach( page::getStylesheets() as $css ): ?>
@@ -51,7 +51,7 @@
 
       <hgroup id="identity">
         <a href="/">
-          <img src="/<?= theme::folder(); ?>/images/Grass-icon.png" alt="Logo" height="100" width="100">
+          <img src="/<?= theme::folder(); ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
         </a>
       </hgroup>
 

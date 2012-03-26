@@ -9,13 +9,11 @@
 ?>
 
 <ul>
-  <li><?= getLink( 'Work', '/work' . '' ); ?></li>
-  <li><?= getLink( 'People', '/people' . '' ); ?></li>
-  <li><?= getLink( 'About Us', '/about-us' . '' ); ?>
+  <li><?= getLink( 'Projects', '/projects' . '' ); ?></li>
+  <li class="deeper"><?= getLink( 'About Us', '/about-us' . '' ); ?>
     <ul>
-      <li><?= getLink( 'Vision', '/about-us/vision' . '' ); ?>
-      <li><?= getLink( 'Glasses', '/about-us/vision/glasses' . '' ); ?>
+      <li><?= getlink( 'vision', '/about-us/vision' . '' ); ?>
     </ul>
   </li>
-  <li class="last"><?= getLink( 'Contact Us', '/contact-us' . '' ); ?></li>
+  <li class="last"><?= getLink( 'Features', '/features' . '' ); ?></li>
 </ul>

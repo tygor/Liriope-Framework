@@ -4,8 +4,10 @@
  * updated: 2012/02/23
  */
 
-div#main {
+div#orbit-master {
   background: url('images/cope-slider-wallpaper.jpg') no-repeat 50% 0%;
+  width: 964px;
+  height: 489px;
 }
 
 div.orbit-wrapper > div.slider-nav > span {

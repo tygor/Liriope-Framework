@@ -18,6 +18,14 @@ page::set( 'page.title', 'Features | Liriope');
 
 <article>
   <header>
+    <h1>Slider</h1>
+  </header>
+  <?php snippet( 'cope-slider.php' ); ?>
+  <footer>
+    <p>The ZURB Orbit slider can be found <a href="http://www.zurb.com/playground/orbit-jquery-image-slider">here</a> although it has been since included in the Foundation framework</p>
+  </footer>
+<article>
+  <header>
     <h1>Tumblr</h1>
   </header>
   <p>For one project, they wanted to be able to include their Tumblr feed. Simple enough. I went to find the Tumblr API and started grabbing the resulting XML. Sure, I haven't coded the complete API interface, and I have work to do on the Tumblr Model, but it's working. Here it is in action:</p>

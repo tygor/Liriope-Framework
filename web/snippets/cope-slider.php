@@ -14,6 +14,7 @@ page::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
 
 ?>
 
+<div id="orbit-master">
 <div id="featured"> 
   <div class="content" style="background-color: #ccc;">
     <h1>Div Tag Content!</h1>
@@ -25,3 +26,4 @@ page::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
 </div>
 <!-- Captions for Orbit -->
 <span class="orbit-caption" id="htmlCaption">I'm a <a href="http://en.wikipedia.org/wiki/HTML" target="_blank">HTML</a> caption</span>
+</div>

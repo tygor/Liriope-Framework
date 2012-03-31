@@ -58,7 +58,7 @@ class LiriopeView {
     } else {
       page::start();
       $content = page::render( $this->renderFile, $this->variables, TRUE );
-      // TODO: add in a filtering chain here that combs through the $content and changes stuff
+      $content = filter::doFilters( $content );
       theme::start( $this->getTheme() );
       theme::addContent( $content );
       theme::render();

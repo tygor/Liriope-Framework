@@ -132,6 +132,27 @@ setReporting();
 removeMagicQuotes();
 unregisterGlobals();
 
+//
+// fancyFramework
+// --------------------------------------------------
+// wrap any instance of "Liriope Framework" with
+// a span class of fancy-framework
+function fancyFramework( $c ) {
+  $pattern = '/(Liriope Framework)/';
+  $replacement = '<span class="fancy-framework">$1</span>';
+  return preg_replace( $pattern, $replacement, $c );
+}
+filter::addFilter( 'fancyFramework', 'fancyFramework' );
+
+//
+// minifyContent
+// --------------------------------------------------
+// just for grins... strip out all whitespace
+function minifyContent( $c ) {
+  return preg_replace( "/\s\s+/", "", $c );
+}
+filter::addFilter( 'minifyContent', 'minifyContent' );
+
 // Begin
 callLiriope();
 

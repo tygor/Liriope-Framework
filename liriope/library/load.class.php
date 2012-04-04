@@ -78,6 +78,8 @@ class load
     
     $paths = c::get( 'path' );
 
+    // TODO: this custom path option isn't working
+    // it simply does nothing at the moment
     if( !empty( $searchPath ))
     {
       if( is_array( $searchPath )) $path = array_unshift( $path, $searchPath );

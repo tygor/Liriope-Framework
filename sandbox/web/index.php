@@ -16,7 +16,7 @@ $rootWeb = dirname(__FILE__);
  * code lives.
  *
  */
-$root = realpath( $rootWeb . '/..' );
+$root = $rootWeb . '/..';
 
 /* --------------------------------------------------
  * Liriope framework folder
@@ -27,7 +27,7 @@ $root = realpath( $rootWeb . '/..' );
  * so that multiple sites can be run from one installation.
  *
  */
-$rootLiriope = $root . '/liriope';
+$rootLiriope = $root . '/../liriope';
 
 /* --------------------------------------------------
  * Site application folder
@@ -49,10 +49,10 @@ $rootApplication = $root . '/application';
 $dev = TRUE;
 
 // Load Liriope: Monkey Grass
-if( !file_exists( $rootLiriope . '/seed.php' )) {
+if( !file_exists( realpath( $rootLiriope ) . '/seed.php' )) {
   die( 'The Liriope framework could not be loaded.' );
 }
 
-require_once( $rootLiriope . '/seed.php' );
+require_once( realpath( $rootLiriope ) . '/seed.php' );
 
 ?>

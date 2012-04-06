@@ -37,7 +37,7 @@ $rootLiriope = $root . '/../liriope';
  * and /views folders.
  *
  */
-$rootApplication = $root . '/application';
+$rootApplication = $root;
 
 /* --------------------------------------------------
  * Production or Development

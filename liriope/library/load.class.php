@@ -82,8 +82,13 @@ class load
     // it simply does nothing at the moment
     if( !empty( $searchPath ))
     {
-      if( is_array( $searchPath )) $path = array_unshift( $path, $searchPath );
-      else $path[] = $arrayPath;
+      if( is_array( $searchPath )) {
+        foreach( $searchPath as $newPath ) {
+          $path = array_unshift( $paths, $newPath );
+        }
+      } else {
+        $path = array_unshift( $paths, $searchPath );
+      }
     }
 
     foreach( $paths as $path ) { 

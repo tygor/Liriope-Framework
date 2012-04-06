@@ -1,13 +1,10 @@
 <?php
 
 #
-# Set your site default configuration in this file
+# Liriope's default configuration
 # 
 
-# What theme do you want to use for the site
-c::set( 'theme', 'grass' );
-
-# Set some other system defaults
+# Set some system defaults
 c::set( 'default.controller', 'default' );
 c::set( 'default.action',     'show' );
 c::set( 'default.theme',      'grass' );

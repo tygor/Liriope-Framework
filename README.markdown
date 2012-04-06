@@ -4,8 +4,43 @@
 A PHP framework. For no reason other than to exercise and learn more of PHP and
 things web.
 
-@version 1.0
+@version 0.1
 @author Tyler Gordon
+
+Structure:
+--------------------------------------------------------------------------------
+Each site within the root folder is autonomous. And because of the use of the web
+layer and root layer (directories) any default Liriope theme or stylesheet or anything
+used by the web needs to be located within each site's web folder.
+
+root
+- liriope
+- - controllers
+- - models
+- - views
+- - library
+- site
+- - controllers
+- - models
+- - views
+- - web
+- - - js
+- - - css
+- - - images
+- - - content
+- - - themes
+- - - snippets
+- sandbox (sub-site)
+- - controllers
+- - models
+- - views
+- - web
+- - - js
+- - - css
+- - - images
+- - - content
+- - - themes
+- - - snippets
 
 Resources:
 --------------------------------------------------------------------------------

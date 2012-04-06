@@ -33,10 +33,22 @@ class theme extends page {
   }
 
   static function render( $file=NULL, $vars=array(), $dump=FALSE ) {
-    $file = c::get( 'root.theme' ) . '/' . self::$name . '/' . 'index.php';
+    if( $file===NULL ) $file = 'index.php';
+    // try the site theme folder
+    $load = load::exists( $file, c::get( 'root.theme' ) . '/' . self::$name );
+    // or, throw an error
+    if( !$load ) {
+      error::report( array(
+        'line' => __LINE__,
+        'function' => __METHOD__,
+        'class' => __CLASS__,
+        'message' => 'Couldn\'t find that theme file.'
+      ));
+      return;
+    }
     self::set( $vars );
     self::set( '_content', self::$_content );
-    return self::renderFile( $file, $vars, $dump );
+    return self::renderFile( $load, $vars, $dump );
   }
 
 }

@@ -1,0 +1,59 @@
+// MENU
+// <nav class="menu"><ul><li><a></a></li></ul></nav>
+// --------------------------------------------------
+nav.menu
+{
+  a,
+  a:link,
+  a:active,
+  a:visited
+  {
+    text-decoration: none;
+  }
+
+  ul
+  {
+    height: 48px;
+
+    li
+    {
+      display: inline;
+      padding: .25em 1.25em;
+      font-size: 1em;
+      font-family: @fontFamilyAlt;
+      line-height: 48px;
+      border-right: 2px solid @AccentColor1;
+
+      a
+      {
+        color: @AccentColor1;
+      }
+
+      &.last
+      {
+        border-right: 0 none;
+      }
+
+      &:hover
+      {
+        a
+        {
+          color: darken( @AccentColor1, 20% );
+        }
+
+        ul
+        {
+          display: block;
+        }
+      }
+    }
+
+    ul
+    {
+      display: none;
+      position: absolute;
+    }
+  }
+}
+
+

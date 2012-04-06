@@ -26,6 +26,10 @@ Changes and TODO
 
 > Refractoring the config class, and error testing this change, helped me realize that the page class holds it's own variables and that they overlap. So, who gets what?! Why have two classes do the same thing?!
 
+> There is a ton of disorganization! Just look in liriope > lib/controllers/models and such. Fix this!
+
+> Is it possible to bring themes, snippets, and plugins into the root? This way, each "site" can use the same theme
+
 Config variables
 ----------------
 

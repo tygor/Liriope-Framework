@@ -21,7 +21,7 @@ class theme extends page {
     {
       self::addStylesheet( self::folder() . '/style.css' );
       self::addStylesheet( self::folder() . '/style.less', 'stylesheet/less' );
-      self::addScript( 'js/libs/less-1.1.5.min.js' );
+      self::addScript( 'js/libs/less-1.3.0.min.js' );
       self::addScriptBlock( 'less.watch();' );
     } else {
       self::addStylesheet( self::folder() . '/style.css' );

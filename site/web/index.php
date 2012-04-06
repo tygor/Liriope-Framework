@@ -16,7 +16,7 @@ $rootWeb = dirname(__FILE__);
  * code lives.
  *
  */
-$root = realpath( $rootWeb . '/..' );
+$root = realpath( $rootWeb . '/../..' );
 
 /* --------------------------------------------------
  * Liriope framework folder
@@ -37,7 +37,7 @@ $rootLiriope = $root . '/liriope';
  * and /views folders.
  *
  */
-$rootApplication = $root . '/application';
+$rootApplication = $root . '/site';
 
 /* --------------------------------------------------
  * Production or Development
@@ -50,7 +50,7 @@ $dev = TRUE;
 
 // Load Liriope: Monkey Grass
 if( !file_exists( $rootLiriope . '/seed.php' )) {
-  die( 'The Liriope framework could not be loaded.' );
+  die( 'The Liriope framework could not be found.' );
 }
 
 require_once( $rootLiriope . '/seed.php' );

@@ -60,8 +60,9 @@ load::models();
 load::helpers();
 load::tools();
 
-// Load Defaults
-include( 'defaults.php' );
+// Load Defaults first the liriope set, then the site set
+include( c::get( 'root.liriope' ) . '/defaults.php' );
+include( c::get( 'root.application' ) . '/defaults.php' );
 
 // Make it safe
 setReporting();

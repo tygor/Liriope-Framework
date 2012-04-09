@@ -1,3 +1,11 @@
+HTACCESS, distributed server configuration.
+
+This document holds the original htaccess file as it was straight from the tutorials that I followed. Server configuration should be managed, but not necessarily by this framework. The one remaining piece is URL rewriting.
+
+When you do launch your project, please consider your server configuration specific to your host. Below are some links to look into during your research.
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
 # Apache configuration file
 # httpd.apache.org/docs/2.2/mod/quickreference.html
 

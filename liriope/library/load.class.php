@@ -12,6 +12,24 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 class load 
 {
 
+  static function autoload( $className ) {
+    // Apply the naming convention
+    $className = ucfirst( $className ) . '.class.php';
+
+    // find out if the file exists
+    try {
+      if( !self::seek( $className )) throw new Exception( 'Unable to find the ' . $className . ' object with the autoloader.' );
+    } catch( Exception $e ) {
+        header("HTTP/1.0 500 Internal Server Error");
+        echo $e->getMessage();
+        echo "<hr><pre>";
+        echo $e->getTraceAsString();
+        echo "</pre><hr>";
+        exit;
+    }
+    return true; 
+  }
+
   static function lib()
   {
     $root = c::get( 'root.liriope' );

@@ -68,6 +68,10 @@ include( c::get( 'root.application' ) . '/defaults.php' );
 removeMagicQuotes();
 unregisterGlobals();
 
+// Set some default router rules
+router::setRule( '/', 'Liriope:filepage' );
+router::setRule( 'features', 'Liriope:filepage', array( 'projects' ));
+
 // Begin
 callLiriope();
 

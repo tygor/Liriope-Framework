@@ -8,9 +8,41 @@
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class router {
+  static $rules = array();
 
   //
-  // getParts
+  // Router Rules
+  // --------------------------------------------------
+  // getRule( $id )
+  // returns the requested rule or false if there is none
+  //
+  // setRule( $id, $translation )
+  // accepts an ID and it's translation so that you can direct
+  // blog/(:any) to the Liriope/Folderfile action
+  //
+  // Rules are read in the order that they were stored
+  // so the rules that are set last can/will override previous
+  // rules.
+  // 
+  static function getRule( $id=NULL ) {
+    if( $id === NULL ) return self::$rules;
+    if( isset( self::$rules[$id] )) return self::$rules[$id];
+    return false;
+  }
+
+  static function setRule( $id=NULL, $trans=NULL ) {
+    if( $id === NULL || $trans===NULL ) return false;
+    if( !is_array( $id )) {
+      self::$rules[$id] = $trans;
+      return true;
+    }
+    foreach( $id as $k => $i ) {
+      self::setRule( $k, $i );
+    }
+  }
+
+  //
+  // getParts()
   // --------------------------------------------------
   // Following the routing rules, returns the parts of the route
   //
@@ -55,18 +87,15 @@ class router {
     );
   }
 
-  /* --------------------------------------------------
-   * pairGetVars
-   * --------------------------------------------------
-   * turns an array of values into a key=>value pair
-   *
-   */
+  //
+  // pairGetVars()
+  // --------------------------------------------------
+  // turns an array of values into a key=>value pair
+  //
   static function pairGetVars( $vars=array() ) {
     $array = array();
-    while( !empty( $vars ) ) 
-    {
-      if( count( $vars ) >= 2 )
-      {
+    while( !empty( $vars ) ) {
+      if( count( $vars ) >= 2 ) {
         $key = array_shift( $vars );
         $value = array_shift( $vars );
         $array[ $key ] = $value;
@@ -78,15 +107,15 @@ class router {
     return (array) $array;
   }
 
-  /**
-   * callHook()
-   * 
-   * Calls the user function
-   *
-   * $controller @string The name of the class controller to use
-   * $action     @string The function to call inside of the controller
-   * $getVars    @array  Any name/value pairs for the action to use
-   */
+  //
+  // callHook()
+  // --------------------------------------------------
+  // Calls the user function
+  //
+  // $controller @string The name of the class controller to use
+  // $action     @string The function to call inside of the controller
+  // $getVars    @array  Any name/value pairs for the action to use
+  //
   static function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
 
     // Expect the naming conventions:
@@ -148,7 +177,7 @@ class router {
     }
   }
 
-  // --------------------------------------------------
+  //
   // go
   // --------------------------------------------------
   // the redirection function

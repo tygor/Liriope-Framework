@@ -1,27 +1,27 @@
 <?php
 //
-// seed.php
+// liriope.php
 //
-// Called directly from index.php in the web folder.
-// Seed is the begining of the greater plant.
-//
-// TODO: Is seed.php necessary? Why not put all of this
-// in liriope.php?
 
 // direct access protection
 if( !isset( $root )) die( 'Direct access is not allowed ~Liriope.' );
 // for all other direct access protection, define a constant
 define( 'LIRIOPE', true );
 
-// fix index.php variables
+// convert index.php set paths to system paths
 $root = realpath( $root );
 $rootLiriope = realpath( $rootLiriope );
 $rootApplication = realpath( $rootApplication );
 
 // Include Liriope
+require_once( $rootLiriope . '/library/functions.php' );
 require_once( $rootLiriope . '/library/config.class.php' );
 require_once( $rootLiriope . '/library/load.class.php' );
-require_once( $rootLiriope . '/library/liriope.php' );
+
+// --------------------------------------------------
+// Setup an Autoloader
+// --------------------------------------------------
+spl_autoload_register( 'load::autoload', TRUE );
 
 //
 // --------------------------------------------------
@@ -65,7 +65,6 @@ include( c::get( 'root.liriope' ) . '/defaults.php' );
 include( c::get( 'root.application' ) . '/defaults.php' );
 
 // Make it safe
-setReporting();
 removeMagicQuotes();
 unregisterGlobals();
 

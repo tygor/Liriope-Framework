@@ -5,7 +5,7 @@
 # 
 
 # Set some system defaults
-c::set( 'default.controller', 'default' );
+c::set( 'default.controller', 'liriope' );
 c::set( 'default.action',     'show' );
 c::set( 'default.theme',      'grass' );
 c::set( 'default.404.folder', 'error' );

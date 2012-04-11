@@ -32,7 +32,7 @@ page::set( 'page.title', 'Features | Liriope');
   <?php
   // --------------------------------------------------
     $tumblrStream = 'http://jmcopeconstruction.tumblr.com/api/read';
-    $tumblr = new TumblrModel( $tumblrStream );
+    $tumblr = new Tumblr( $tumblrStream );
     $tumblr->set( 'start', 0 )->set( 'num', 5 );
   // --------------------------------------------------
   ?>

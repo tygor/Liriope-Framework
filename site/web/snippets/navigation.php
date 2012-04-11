@@ -15,5 +15,6 @@
       <li><?= getlink( 'vision', '/about-us/vision' . '' ); ?>
     </ul>
   </li>
-  <li class="last"><?= getLink( 'Features', '/features' . '' ); ?></li>
+  <li><?= getLink( 'Features', '/features' . '' ); ?></li>
+  <li class="last"><?= getLink( 'Blog', '/blog' . '' ); ?></li>
 </ul>

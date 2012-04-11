@@ -1,6 +1,6 @@
 <?php
 /**
- * XmlModel.class.php
+ * Xml.class.php
  */
 
 // $xmlUrl = "feed.xml"; // XML feed file/URL
@@ -9,7 +9,7 @@
 // $arrXml = objectsIntoArray($xmlObj);
 // print_r($arrXml);
 
-class XmlModel {
+class Xml {
   var $xmlUrl;
   var $setFlag = false;
   var $loadFlag = false;

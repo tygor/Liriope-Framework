@@ -49,10 +49,10 @@ $rootApplication = $root . '/site';
 $dev = TRUE;
 
 // Load Liriope: Monkey Grass
-if( !file_exists( $rootLiriope . '/seed.php' )) {
+if( !file_exists( $rootLiriope . '/liriope.php' )) {
   die( 'The Liriope framework could not be found.' );
 }
 
-require_once( $rootLiriope . '/seed.php' );
+require_once( $rootLiriope . '/liriope.php' );
 
 ?>

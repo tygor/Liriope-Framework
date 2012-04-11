@@ -1,14 +1,14 @@
 <?php
-/* --------------------------------------------------
- * LiriopeView.class.php
- * --------------------------------------------------
- * handles throwing to HTML
- */
+// --------------------------------------------------
+// View.class.php
+// --------------------------------------------------
+// handles throwing to HTML
+//
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class LiriopeView {
+class View {
 
 	protected $_controller;
 	protected $_action;
@@ -53,11 +53,11 @@ class LiriopeView {
    */
   public function render( $dump=FALSE ) {
     if( $dump ) {
-      page::start();
-      page::render( $this->renderFile, $this->variables, $dump );
+      Page::start();
+      Page::render( $this->renderFile, $this->variables, $dump );
     } else {
-      page::start();
-      $content = page::render( $this->renderFile, $this->variables, TRUE );
+      Page::start();
+      $content = Page::render( $this->renderFile, $this->variables, TRUE );
       $content = filter::doFilters( $content );
       theme::start( $this->getTheme() );
       theme::addContent( $content );

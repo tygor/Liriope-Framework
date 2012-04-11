@@ -1,13 +1,9 @@
 <?php
-/**
- * TumblrModel.class.php
- */
+//
+// Tumblr.class.php
+//
 
-// --------------------------------------------------------------------------------
-// TumblrModel
-// extends XmlModel
-// --------------------------------------------------------------------------------
-class TumblrModel extends XmlModel {
+class Tumblr extends Xml {
   protected $feed;
   protected $params = array();
   protected $isRead = false;

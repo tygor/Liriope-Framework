@@ -1,16 +1,26 @@
 <?php
 //
-// liriope.php
+// setupLiriope.php
 //
-// The brains of the Liriope Framework
-
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 // --------------------------------------------------
-// Setup an Autoloader
+// PHP Display Errors
+// Check if environment is development and display errors
+// this should come first so that system erros are displayed
+// for the developers to work on.
 // --------------------------------------------------
-spl_autoload_register( 'load::autoload', TRUE );
+function setReporting( $dev=false ) {
+  if ( $dev ) {
+    error_reporting(E_ALL);
+    ini_set('display_errors','On');
+  } else {
+    error_reporting(E_ALL);
+    ini_set('display_errors','Off');
+    ini_set('log_errors', 'On');
+    ini_set('error_log', SERVER_ROOT . DS . 'tmp' . DS . 'logs' . DS . 'error.log');
+  }
+}
+setReporting( $dev );
 
 // --------------------------------------------------
 // Setup Exception Handler
@@ -29,24 +39,6 @@ function LiriopeException( $exception )
   exit;
 }
 set_exception_handler( 'LiriopeException' );
-
-// --------------------------------------------------
-// Check if environment is development and display errors
-// --------------------------------------------------
-function setReporting() {
-  if ( c::get( 'development' ) )
-  {
-    error_reporting(E_ALL);
-    ini_set('display_errors','On');
-  }
-  else
-  {
-    error_reporting(E_ALL);
-    ini_set('display_errors','Off');
-    ini_set('log_errors', 'On');
-    ini_set('error_log', SERVER_ROOT . DS . 'tmp' . DS . 'logs' . DS . 'error.log');
-  }
-}
 
 // --------------------------------------------------
 // Check for Magic Quotes and remove them
@@ -84,6 +76,17 @@ function unregisterGlobals() {
 }
 
 // --------------------------------------------------
+// callLiriope
+// --------------------------------------------------
+// main call function
+// Begins the framework inner-workings
+//
+function callLiriope() {
+  @extract( router::getParts() );
+  router::callHook( $controller, $action, $getVars );
+}
+
+// --------------------------------------------------
 // useHelper
 //
 // Look for a helper with the passed $name
@@ -109,17 +112,6 @@ function useHelper( $name=NULL )
       echo "</pre>";
       exit;
   }
-}
-
-// --------------------------------------------------
-// callLiriope
-// --------------------------------------------------
-// main call function
-// Begins the framework inner-workings
-//
-function callLiriope() {
-  @extract( router::getParts() );
-  router::callHook( $controller, $action, $getVars );
 }
 
 ?>

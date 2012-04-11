@@ -22,7 +22,7 @@ class LiriopeController {
     
     $this->$model =& $model;
 
-    $page = new LiriopeView($controller,$action);
+    $page = new View($controller,$action);
     $this->_page =& $page;
 
     // return this object for chaining functions
@@ -31,6 +31,20 @@ class LiriopeController {
 
   function set($name,$value) {
     $this->_page->set($name,$value);
+  }
+
+  public function show( $getVars=NULL ) {
+  }
+
+  public function filepage( $getVars=NULL ) {
+    if( empty( $getVars )) { // call folder=home file=index
+      $path = '/home/index';
+    } else {
+      $path = '/' . implode( '/', $getVars );
+    }
+    $content = new Folderfile( $path, c::get( 'root.content' ));
+
+    $this->set( 'content', $content->get() );
   }
 
   function __destruct() {

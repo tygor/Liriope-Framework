@@ -35,7 +35,6 @@ class load
     $root = c::get( 'root.liriope' );
     require_once( $root . '/library/uri.class.php' );
     require_once( $root . '/library/router.class.php' );
-    require_once( $root . '/library/LiriopePage.class.php' );
     require_once( $root . '/library/theme.class.php' );
     require_once( $root . '/library/browser.class.php' );
     require_once( $root . '/library/error.class.php' );
@@ -46,11 +45,10 @@ class load
   static function models()
   {
     $root = c::get( 'root.liriope' );
+    require_once( $root . '/models/Page.class.php' );
     require_once( $root . '/models/SQLQuery.class.php' );
-    require_once( $root . '/models/LiriopeModel.class.php' );
-    require_once( $root . '/models/LiriopeView.class.php' );
-    require_once( $root . '/models/LiriopeRequest.class.php' );
-    require_once( $root . '/models/XmlModel.class.php' );
+    require_once( $root . '/models/View.class.php' );
+    require_once( $root . '/models/Xml.class.php' );
   }
 
   static function themes()

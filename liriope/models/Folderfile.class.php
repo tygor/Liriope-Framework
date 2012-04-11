@@ -1,6 +1,6 @@
 <?php
 /* --------------------------------------------------
- * FolderfileModel.class.php
+ * Folderfile.class.php
  * --------------------------------------------------
  *
  */
@@ -8,7 +8,7 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class FolderfileModel
+class Folderfile
 {
   protected $root;
   protected $file;

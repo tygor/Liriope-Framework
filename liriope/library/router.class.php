@@ -22,7 +22,7 @@ class router {
   //      b) var2 is an action in that controller
   // 2) var 1 is a folder in /web/content,
   //    use the default controller, filepage action
-  //    which implements the FolderfileModel
+  //    which implements the Folderfile model
   //      a) var2 is blank, use default
   //      b) var2 is a file within that folder
   //      c) var2 is a folder, proceed to (2a) to check var3

@@ -49,6 +49,7 @@ class load
     require_once( $root . '/models/SQLQuery.class.php' );
     require_once( $root . '/models/View.class.php' );
     require_once( $root . '/models/Xml.class.php' );
+    require_once( $root . '/models/Files.class.php' );
   }
 
   static function themes()

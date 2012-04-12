@@ -69,8 +69,11 @@ removeMagicQuotes();
 unregisterGlobals();
 
 // Set some default router rules
-router::setRule( '/', 'Liriope:filepage' );
-router::setRule( 'features', 'Liriope:filepage', array( 'projects' ));
+router::setRule( 'blog/show', 'blog/show' );
+router::setRule( 'blog/*',    'Liriope/filepage/blog/$1' );
+router::setRule( 'features',  'Liriope/filepage/projects' );
+router::setRule( '*/*',       'Liriope/filepage' );
+router::setRule( '*',         'Liriope/filepage' );
 
 // Begin
 callLiriope();

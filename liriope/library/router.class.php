@@ -9,6 +9,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class router {
   static $rules = array();
+  static $extraVars = array();
 
   //
   // Router Rules
@@ -30,14 +31,41 @@ class router {
     return false;
   }
 
-  static function setRule( $id=NULL, $trans=NULL ) {
-    if( $id === NULL || $trans===NULL ) return false;
+  static function setRule( $id=NULL, $trans=NULL, $extraVars=NULL ) {
+    if( $id === NULL ) return false;
     if( !is_array( $id )) {
       self::$rules[$id] = $trans;
       return true;
     }
-    foreach( $id as $k => $i ) {
-      self::setRule( $k, $i );
+    foreach( $id as $i ) {
+      self::setRule( $i[0], $i[1] );
+    }
+  }
+
+  static function matchRule( $parts ) {
+    foreach( self::getRule() as $rule => $trans ) {
+      $rules = explode( "/", $rule );
+      // compare each part to each rule part
+      // continue through array if true, move on if false
+      for( $i=0; $i < count( $rules ); $i++ ) {
+        // if the parts don't match and a wildcard isn't present, move along
+        if( $rules[$i] !== $parts[$i] && $rules[$i] !== "*" ) break;
+        // if we're on a wildcard, store the corresponding value
+        if( $rules[$i] == "*" ) $store[] = $parts[$i];
+        // if this is the end of the rules part, return the translation
+        if( $i == ( count( $rules ) - 1 )) {
+          if( is_array( $store ) ) {
+            // replace any $n variable with what is in $store
+            echo "$trans";
+            $store = $store + array( NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL ); 
+            list( ${1}, ${2}, ${3}, ${4}, ${5}, ${6}, ${7}, ${8} ) = $store;
+            eval( "\$trans = \"$trans\";" );
+            echo " --> $trans<br>";
+          }
+          $trans = explode( "/", $trans );
+          return $trans + $parts;
+        }
+      }
     }
   }
 
@@ -46,20 +74,15 @@ class router {
   // --------------------------------------------------
   // Following the routing rules, returns the parts of the route
   //
-  // http://site.com/var1/var2/var3/var4/var5/var6/...
-  // RULES:
-  // H) var1 is empty, assign var1=home, use Rule #2 
-  // 1) var1 is a controller
-  //      a) var2 is blank, use default
-  //      b) var2 is an action in that controller
-  // 2) var 1 is a folder in /web/content,
-  //    use the default controller, filepage action
-  //    which implements the Folderfile model
-  //      a) var2 is blank, use default
-  //      b) var2 is a file within that folder
-  //      c) var2 is a folder, proceed to (2a) to check var3
   static function getParts() {
     $parts = uri::getURIArray();
+    
+$test = self::matchRule( $parts );
+
+echo("<pre>");
+var_dump($test);
+echo("</pre>");
+exit;
     
     // is the first part a controller?
     $controller = strtolower( $parts[0] );

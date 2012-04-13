@@ -36,12 +36,14 @@ class LiriopeController {
   public function show( $getVars=NULL ) {
   }
 
-  public function filepage( $getVars=NULL ) {
-    if( empty( $getVars )) { // call folder=home file=index
-      $path = '/home/index';
-    } else {
-      $path = '/' . implode( '/', $getVars );
+  public function filepage( $params=NULL ) {
+    // clean the file extension off of the $params
+    foreach( $params as $k => $param ) {
+      $params[$k] = preg_replace( '/\.[^.]+/', '', $param );
     }
+
+    // check for home page
+    $path = empty( $params[0] ) ? '/home/index' : '/' . implode( '/', $params );
     $content = new Folderfile( $path, c::get( 'root.content' ));
 
     $this->set( 'content', $content->get() );

@@ -9,7 +9,25 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class router {
   static $rules = array();
-  static $extraVars = array();
+  static $controller;
+  static $action;
+  static $params = array();
+
+  //
+  // getDispatch()
+  // reads the router rules, compares to the URI parts
+  // and returns the $controller, $action, and $params
+  //
+  static function getDispatch() {
+    $uri = uri::getURIArray();
+    if( !self::matchRule( uri::getURIArray() )) die( 'Fatal Liriope Error: No router rule was matched.');
+
+    return array(
+      'controller' => self::$controller,
+      'action'     => self::$action,
+      'params'     => self::$params
+    );
+  }
 
   //
   // Router Rules
@@ -31,10 +49,10 @@ class router {
     return false;
   }
 
-  static function setRule( $id=NULL, $trans=NULL, $extraVars=NULL ) {
+  static function setRule( $id=NULL, $result=NULL ) {
     if( $id === NULL ) return false;
     if( !is_array( $id )) {
-      self::$rules[$id] = $trans;
+      self::$rules[$id] = $result;
       return true;
     }
     foreach( $id as $i ) {
@@ -42,31 +60,65 @@ class router {
     }
   }
 
-  static function matchRule( $parts ) {
-    foreach( self::getRule() as $rule => $trans ) {
+  // 
+  // matchRule( $request )
+  // compares the $request to the router rules
+  // and determines where to dispatch
+  //
+  // array $request
+  //
+  static function matchRule( $request ) {
+
+    foreach( self::getRule() as $rule => $result ) {
+      // turn the rules into an array
       $rules = explode( "/", $rule );
+
       // compare each part to each rule part
-      // continue through array if true, move on if false
+      // seeking a FALSE to move to the next rule
       for( $i=0; $i < count( $rules ); $i++ ) {
-        // if the parts don't match and a wildcard isn't present, move along
-        if( $rules[$i] !== $parts[$i] && $rules[$i] !== "*" ) break;
-        // if we're on a wildcard, store the corresponding value
-        if( $rules[$i] == "*" ) $store[] = $parts[$i];
-        // if this is the end of the rules part, return the translation
+        
+        // are we at the end of the $request?
+        // then we match, and we fill in the request with the rule
+        if( !isset( $request[$i] )) $request[$i] = $rules[$i];
+
+        // if the parts don't match
+        // and thre is no wildcard fallback, move on to the next
+        if( $rules[$i] !== $request[$i] && $rules[$i] !== "*" ) break;
+
+        // store the $part value if we're on a wildcard
+        $store = array();
+        if( $rules[$i] == "*" && isset( $request[$i] )) $store[] = $request[$i];
+
         if( $i == ( count( $rules ) - 1 )) {
-          if( is_array( $store ) ) {
-            // replace any $n variable with what is in $store
-            echo "$trans";
-            $store = $store + array( NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL ); 
-            list( ${1}, ${2}, ${3}, ${4}, ${5}, ${6}, ${7}, ${8} ) = $store;
-            eval( "\$trans = \"$trans\";" );
-            echo " --> $trans<br>";
-          }
-          $trans = explode( "/", $trans );
-          return $trans + $parts;
+          // RULE MATCHED
+          $result = self::ruleReplace( $result, $store );
+
+          // return it's translation
+          $result = explode( "/", $result );
+          self::$controller = array_shift( $result );
+          self::$action     = array_shift( $result );
+          self::$params     = $result + $request;
+          return true;
         }
       }
     }
+
+    // no rule matched
+    return false;
+  }
+
+  static function ruleReplace( $subject, $source ) {
+    // find all of the placeholders: \$\d+ (ex. $1)
+    $pattern = '/\$\d+/';
+    $count = preg_match_all( $pattern, $subject, $matches );
+
+    // then replace them
+    foreach( $matches[0] as $k => $match ) {
+      $subject = str_replace( $match, $source[$k], $subject );
+    }
+
+    // return result
+    return $subject;
   }
 
   //
@@ -76,13 +128,6 @@ class router {
   //
   static function getParts() {
     $parts = uri::getURIArray();
-    
-$test = self::matchRule( $parts );
-
-echo("<pre>");
-var_dump($test);
-echo("</pre>");
-exit;
     
     // is the first part a controller?
     $controller = strtolower( $parts[0] );

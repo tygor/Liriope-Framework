@@ -23,13 +23,13 @@ class uri {
 
   static function getURIArray( $cleanRewrite=TRUE) {
     $route = self::getURI();
-    $array = explode( '/', $route);
+    $route = explode( '/', $route);
 
-    if( $cleanRewrite && strtolower( $routeArray[0] ) == 'index.php' ) {
-      array_shift( $routeArray );
+    if( $cleanRewrite && strtolower( $route[0] ) == 'index.php' ) {
+      array_shift( $route );
     }
 
-    return (array) $array;
+    return (array) $route;
   }
 
 } ?>

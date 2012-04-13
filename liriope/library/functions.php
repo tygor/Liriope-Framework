@@ -82,8 +82,8 @@ function unregisterGlobals() {
 // Begins the framework inner-workings
 //
 function callLiriope() {
-  @extract( router::getParts() );
-  router::callHook( $controller, $action, $getVars );
+  extract( router::getDispatch() );
+  router::callHook( $controller, $action, $params );
 }
 
 // --------------------------------------------------

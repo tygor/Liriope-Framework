@@ -2,6 +2,9 @@
 
 ?>
 
+<p>Intro of this article</p>
+<hr class="readmore">
+
 <article>
   <header>
     <h1>The blog controller is now working</h1>

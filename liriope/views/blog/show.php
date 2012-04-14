@@ -8,7 +8,7 @@
 
 <?php foreach( page::get( 'blogs' ) as $entry ): ?>
 <article>
-  <?= $entry; ?>
+  <?= $entry->getIntro(); ?>
   <footer>
     <a href="<?= $entry->getLink(); ?>" class="readmore">Read full article&hellip;</a><br>
     <time><?= $entry->getModified(); ?>

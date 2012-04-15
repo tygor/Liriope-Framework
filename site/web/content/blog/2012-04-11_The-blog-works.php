@@ -1,8 +1,4 @@
-<?php
-
-?>
-
-<p>Intro of this article</p>
+<h1>The blog controller is born.</h1>
 <hr class="readmore">
 
 <article>

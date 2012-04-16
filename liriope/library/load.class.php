@@ -71,6 +71,14 @@ class load
     require_once( $root . '/library/LiriopeHelpers.php' );
   }
 
+  //
+  // file( $file, $require )
+  // includes the passed full path to a file
+  //
+  // (string) $file    the full path to a file to be included
+  // (bool)   $require TURE requires the file, FALSE inlucdes it
+  // returns  (bool) TRUE on success, or FALSE
+  //
   static function file( $file=NULL, $require=FALSE )
   {
     if( !file_exists( $file )) return false;
@@ -79,6 +87,15 @@ class load
     return true;
   }
 
+  //
+  // seek( $file )
+  // looks for the passed file using the exists() function
+  // which returns the full path plus file name, and then
+  // includes it using the file() function
+  //
+  // (string) $file the file to be sought
+  // returns  (bool) TRUE on success, or FALSE
+  //
   static function seek( $file=NULL )
   {
     if( $file===NULL ) return false;
@@ -89,27 +106,51 @@ class load
     return false;
   }
 
+  //
+  // exists( $file, $searchPath )
+  // looks for the given $file using the configuration path
+  // plus any additional $searchPath locations, parsing through
+  // the additional paths first
+  //
+  // (string) $file       the file to be sought
+  // (array)  $searchPath additional locations to seek
+  // returns  (string) discovered path/filename on SUCCESS, or FALSE
+  // 
   static function exists( $file=NULL, $searchPath=NULL )
   {
     if( empty( $file )) return false;
     
+    // grab the default configuration paths
     $paths = c::get( 'path' );
 
-    // TODO: this custom path option isn't working
-    // it simply does nothing at the moment
-    if( !empty( $searchPath ))
-    {
+    // get as much info from the passed $file as possible
+    $info = pathinfo( $file );
+    //$file = $info['basename'];
+    
+    if( !empty( $searchPath )) {
       if( is_array( $searchPath )) {
         foreach( $searchPath as $newPath ) {
-          $path = array_unshift( $paths, $newPath );
+          array_unshift( $paths, $newPath );
+          if( $info['dirname'] && $info['dirname'] !== '.' ) {
+            array_unshift( $paths, $newPath . '/' . $info['dirname'] );
+          }
         }
       } else {
-        $path = array_unshift( $paths, $searchPath );
+        array_unshift( $paths, $searchPath );
+        if( $info['dirname'] && $info['dirname'] !== '.' ) {
+          array_unshift( $paths, $searchPath . '/' . $info['dirname'] );
+        }
       }
     }
 
     foreach( $paths as $path ) { 
-      if( file_exists( "$path/$file" )) return "$path/$file"; 
+      // but what if the file passed has no extension?
+      if( !isset( $info['extension'] )) {
+        foreach( c::get( 'content.filetypes', array( 'php', 'html', 'htm', 'txt' )) as $ext ) {
+          if( file_exists( "$path/$file.$ext" ) && !is_dir( "$path/$file.$ext" )) return "$path/$file.$ext"; 
+        }
+      }
+      if( file_exists( "$path/$file" ) && !is_dir( "$path/$file" )) return "$path/$file"; 
     } 
 
     return false;

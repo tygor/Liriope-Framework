@@ -24,13 +24,10 @@ class Folderfile
   // get
   //
   public function get( $dump=TRUE ) {
-    $path = $this->root;
-    if( !empty( $this->folder )) $path .= '/' . $this->folder;
-    $path .= '/' . $this->file;
-
-    if( !file_exists( $path )) return false;
+    if( !file_exists( $this->file )) return false;
     ob_start();
-    require( $path );
+    // TODO: files that throw a WARNING when trying to be included seem to get past my error checking
+    include( $this->file );
 
     if( $dump ) {
       $content = ob_get_contents();
@@ -41,33 +38,34 @@ class Folderfile
 
   }
 
-  // parsePath
+  //
+  // parsePath( $path )
+  // breaks down the passed path from the controller via __construct() 
+  // and stores the resulting folder and file for the future get() call
+  //
+  // (string) $path the partial path and file sans extension withing the web content root
   //
   public function parsePath( $path=NULL ) {
-    if( empty( $path )) throw new Exception( __CLASS__ . ':' . __METHOD__ . ' requires a path in the arguments.' );
-    // expect folder/file or simply folder/
+    if( $path===NULL ) throw new Exception( __CLASS__ . ':' . __METHOD__ . ' requires a path in the arguments.' );
+    // expect /folder/file or simply /folder
     $path = ltrim( $path, '/' );
-    $pathArray = explode( '/', $path );
+    $aryPath = explode( '/', $path );
 
-    // if there is a file, it will be a the end of the array
-    if( $this->fileExists( $path . '.php' )) {
-      $file = end( $pathArray ) . '.php';
-      array_pop( $pathArray );
-      $path = implode( '/', $pathArray );
-      $this->setFolder( $path );
-      $this->setFile( $file );
-      return true;
-    }
-    
-    // so the file part isn't in the folder path, so look for an index.php
-    if( $this->folderExists( $path ) && $this->fileExists( $path . '/index.php' )) {
-      $this->setFolder( $path );
-      $this->setFile( 'index.php' );
-      return true;
-    }
+    $file = end( $aryPath );
+    array_pop( $aryPath );
 
+    // assume the path is only a file (no folder) and check
+    if( !$aryPath && $this->setFile( $file )) return true;
+
+    // assume the path has a file and check
+    if( $aryPath && $this->setFolder( implode( '/', $aryPath )) && $this->setFile( $file )) return true;
+
+    // nope, so what about index?
+    if( $this->setFolder( $path ) && $this->setFile( 'index.php' )) return true;
+
+    // neither, so dump to 404
     // hijack the "content" and replace with 404 content
-    $this->setFolder( '/' . c::get( 'default.404.folder' ));
+    $this->setFolder( c::get( 'default.404.folder' ));
     $this->setFile( c::get( 'default.404.file' ));
     return true;
   }
@@ -76,14 +74,19 @@ class Folderfile
   //
   public function setFolder( $folder=NULL ) {
     if( empty( $folder )) throw new Exception( __CLASS__ . ':' . __METHOD__ . ' requires a folder name in the arguments.' );
-    if( $this->folderExists( $folder )) $this->folder = $folder;
+    if( !$this->folderExists( $folder )) return false;
+    $this->folder = $folder;
+    return true;
   }
 
   // setFile
   //
   public function setFile( $file=NULL ) {
     if( empty( $file )) throw new Exception( __CLASS__ . ':' . __METHOD__ . ' requires a file name in the arguments.' );
-    if( $this->fileExists( $file )) $this->file = $file;
+    $file = $this->fileExists( $file );
+    if( $file === FALSE ) return false;
+    $this->file = $file;
+    return true;
   }
 
   // folderExists
@@ -95,15 +98,24 @@ class Folderfile
     return false;
   }
 
-  // fileExists
   //
+  // fileExists( $file )
   // checks for the reuqested file
+  //
   private function fileExists( $file ) {
     $path = $this->root;
     if( !empty( $this->folder )) $path .= '/' . $this->folder;
-    $path .= '/' . $file;
-    if( file_exists( $path ) && is_file( $path )) return true;
+
+    // this will return the full path to the file, so in get() the folder is not needed
+    if( $found = load::exists( $file, $path )) {
+      return $found;
+    }
     return false;
+
+    // TODO: if the above works well, remove below
+    // $path .= '/' . $file;
+    // if( file_exists( $path ) && is_file( $path )) return true;
+    // return false;
   }
 }
 ?>

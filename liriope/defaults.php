@@ -1,5 +1,4 @@
 <?php
-
 #
 # Liriope's default configuration
 # 

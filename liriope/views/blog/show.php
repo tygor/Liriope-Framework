@@ -16,3 +16,11 @@
 </article>
 <hr>
 <?php endforeach; ?>
+
+<?php
+
+// set the page title after adding in the blog list
+// since they will set the title as well and overwrite it
+page::set( 'page.title', 'Blog' );
+
+?>

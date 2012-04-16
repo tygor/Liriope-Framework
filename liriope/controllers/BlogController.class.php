@@ -27,6 +27,11 @@ class BlogController Extends LiriopeController {
     $this->set( 'blogs', $blogs );
   }
 
+  public function post( $params=NULL ) {
+    $post = new Blogposts( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
+    $this->set( 'content', $post );
+  }
+
 }
 
 ?>

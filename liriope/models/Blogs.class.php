@@ -65,7 +65,7 @@ class Blogs {
 
       // filter out files from the ignore list
       if( !in_array( $file, $this->ignore )) {
-        $this->files[] = new BlogFiles( $this->path, $file );
+        $this->files[] = new Blogposts( $this->path, $file );
       }
     }
     return $this;
@@ -83,30 +83,3 @@ class Blogs {
   }
 }
 
-class BlogFiles extends Files {
-
-  public function getLink() {
-    $info = pathinfo( $this->file );
-    return 'blog/' . $info['filename'];
-  }
-
-  public function getIntro() {
-    // parse the file and grab everything up to the tag holding
-    // the c::get( 'readmore.class' ) class
-    ob_start();
-    include($this->fullpath);
-    $entry = ob_get_contents();
-
-    // now, find the offset of where that class is
-    $pattern = '/<[^>]*' . c::get( 'readmore.class', 'readmore' ) . '[^>]*>/';
-    $count = preg_match( $pattern, $entry, $matches, PREG_OFFSET_CAPTURE );
-    
-    // when there is a match, grab all up to that matched point.
-    // or skip on ahead if there is no match
-    if( $count === 1) $entry = substr( $entry, 0, $matches[0][1] );
-
-    ob_end_clean();
-    return $entry;
-  }
-
-}

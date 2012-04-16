@@ -13,7 +13,7 @@ class Files {
     if( $path === NULL || $file === NULL ) return false;
     $this->path = $path;
     $this->file = $file;
-    $this->fullpath = $path . DIRECTORY_SEPARATOR . $file;
+    $this->fullpath = load::exists( $file, $path );
   }
 
   public function __toString() {

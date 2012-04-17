@@ -1,26 +1,19 @@
 <?php
 //
-// setupLiriope.php
+// Liriope: a PHP site framework
+//
+// @version 0.0
+// @author Tyler Gordon <tyler@tygorden.com>
+// @copyright Copyright 2012 Tyler Gordon
+// @license http://www.opensource.org/license/mit-license.php MIT License
+// @package Liriope
 //
 
-// --------------------------------------------------
-// PHP Display Errors
-// Check if environment is development and display errors
-// this should come first so that system erros are displayed
-// for the developers to work on.
-// --------------------------------------------------
-function setReporting( $dev=false ) {
-  if ( $dev ) {
-    error_reporting(E_ALL);
-    ini_set('display_errors','On');
-  } else {
-    error_reporting(E_ALL);
-    ini_set('display_errors','Off');
-    ini_set('log_errors', 'On');
-    ini_set('error_log', SERVER_ROOT . DS . 'tmp' . DS . 'logs' . DS . 'error.log');
-  }
-}
-setReporting( $dev );
+// load the configuration class
+require_once( 'config.class.php' );
+c::set( 'version', 0.0 );
+c::set( 'language', 'en' );
+c::set( 'charset', 'utf-8' );
 
 // --------------------------------------------------
 // Setup Exception Handler
@@ -40,16 +33,16 @@ function LiriopeException( $exception )
 }
 set_exception_handler( 'LiriopeException' );
 
-// --------------------------------------------------
-// Check for Magic Quotes and remove them
-// This detects if magic quotes is enabled, and if so, cleans
-// them from the REQUEST variables.
-// --------------------------------------------------
 function stripSlashesDeep( $value ) {
 	$value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
 	return $value;
 }
 
+// --------------------------------------------------
+// Check for Magic Quotes and remove them
+// This detects if magic quotes is enabled, and if so, cleans
+// them from the REQUEST variables.
+// --------------------------------------------------
 function removeMagicQuotes() {
   if ( get_magic_quotes_gpc() ) {
     $_GET    = stripSlashesDeep($_GET   );
@@ -57,6 +50,7 @@ function removeMagicQuotes() {
     $_COOKIE = stripSlashesDeep($_COOKIE);
   }
 }
+removeMagicQuotes();
 
 // --------------------------------------------------
 // Check register globals and remove them
@@ -74,6 +68,7 @@ function unregisterGlobals() {
         }
     }
 }
+unregisterGlobals();
 
 // --------------------------------------------------
 // callLiriope

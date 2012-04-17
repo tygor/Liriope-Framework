@@ -14,6 +14,7 @@ class uri {
   static function getURI() {
     if( empty( self::$route )) {
       $route = $_SERVER['REQUEST_URI'];
+      $route = server::get( 'REQUEST_URI' );
       // clean up leading and trailing slashes
       $route = trim( $route, '/' );
       self::$route = $route;

@@ -3,11 +3,11 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-/*
- * --------------------------------------------------
- * Loading class
- * --------------------------------------------------
- */
+//
+// --------------------------------------------------
+// Loading class
+// --------------------------------------------------
+//
 
 class load 
 {
@@ -35,19 +35,24 @@ class load
     $root = c::get( 'root.liriope' );
     require_once( $root . '/library/uri.class.php' );
     require_once( $root . '/library/router.class.php' );
-    require_once( $root . '/library/theme.class.php' );
     require_once( $root . '/library/browser.class.php' );
     require_once( $root . '/library/error.class.php' );
     require_once( $root . '/library/filter.class.php' );
+    require_once( $root . '/library/content.class.php' );
+    require_once( $root . '/library/server.class.php' );
+    require_once( $root . '/library/array.class.php' );
     require_once( $root . '/controllers/LiriopeController.class.php' );
+    include( $root . '/defaults.php' );
+    include( c::get( 'root.application' ) . '/defaults.php' );
   }
 
   static function models()
   {
     $root = c::get( 'root.liriope' );
-    require_once( $root . '/models/Page.class.php' );
-    require_once( $root . '/models/SQLQuery.class.php' );
     require_once( $root . '/models/View.class.php' );
+    require_once( $root . '/models/Page.class.php' );
+    require_once( $root . '/library/theme.class.php' );
+    require_once( $root . '/models/SQLQuery.class.php' );
     require_once( $root . '/models/Xml.class.php' );
     require_once( $root . '/models/Files.class.php' );
   }

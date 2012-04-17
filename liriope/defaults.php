@@ -3,6 +3,11 @@
 // Liriope's default configuration
 // 
 
+// Set some default router rules
+router::setRule( 'blog/show', 'blog/show' );
+router::setRule( 'blog/*',    'blog/post/$1' );
+router::setRule( '*',         'Liriope/filepage' );
+
 //
 // Set some system defaults
 // --------------------------------------------------

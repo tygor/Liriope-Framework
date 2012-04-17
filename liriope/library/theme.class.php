@@ -8,7 +8,7 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class theme extends page {
+class theme extends Page {
 
   static public $_content; 
   static protected $name;

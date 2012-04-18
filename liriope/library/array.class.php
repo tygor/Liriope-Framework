@@ -79,6 +79,17 @@ class a {
     return empty( $search ) ? FALSE : TRUE;
   }
 
+  //
+  // first()
+  // Shift an element off of the beginning of an array
+  //
+  // @param  array  $array The array to mutliate
+  // @return mixed  The first element of an array
+  //
+  static function first( $array ) {
+    return array_shift( $array );
+  }
+
 }
 
 ?>

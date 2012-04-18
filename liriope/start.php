@@ -24,21 +24,27 @@ c::set( 'root.theme',        $rootWeb . '/themes' );
 c::set( 'root.snippets',     $rootWeb . '/snippets' );
 c::set( 'root.content.file', 'index' );
 
+// clean up unsed variables
+unset( $root );
+unset( $rootWeb );
+unset( $rootLiriope );
+unset( $rootApplication );
+
 // setup the Liriope path
 c::set( 'path', array(
-  $rootLiriope . '/library',
-  $rootLiriope . '/controllers',
-  $rootLiriope . '/models',
-  $rootLiriope . '/views',
-  $rootApplication . '/controllers',
-  $rootApplication . '/models',
-  $rootApplication . '/views',
-  $root . '/library',
-  $root . '/library/helpers'
+  c::get( 'root.liriope' ) . '/library',
+  c::get( 'root.liriope' ) . '/controllers',
+  c::get( 'root.liriope' ) . '/models',
+  c::get( 'root.liriope' ) . '/views',
+  c::get( 'root.application' ) . '/controllers',
+  c::get( 'root.application' ) . '/models',
+  c::get( 'root.application' ) . '/views',
+  c::get( 'root' ) . '/library',
+  c::get( 'root' ) . '/library/helpers'
 ));
 
 // load the rest of the system
-require_once( $rootLiriope . '/library/load.class.php' );
+require_once( c::get( 'root.liriope' ) . '/library/load.class.php' );
 load::lib();
 load::models();
 load::helpers();

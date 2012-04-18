@@ -66,16 +66,11 @@ class Blogs {
       // skip if this is a directory
       $fullpath = c::get( 'root.web' ) . '/' .  $this->path . "/$file";
       if( is_dir( $fullpath )) continue;
-// what if it's a directory?!
-echo "<pre>";
-echo "$file\n";
 
       // filter out files from the ignore list
       if( !a::contains( $this->ignore, $file )) {
-echo "$file\n";
         $this->files[] = new Blogposts( $this->path, $file );
       }
-echo "</pre>";
     }
     return $this;
   }

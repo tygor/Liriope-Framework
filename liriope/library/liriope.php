@@ -33,6 +33,59 @@ function LiriopeException( $exception )
 }
 set_exception_handler( 'LiriopeException' );
 
+//
+// Setup Error Handeling
+//
+function LiriopeErrorHandler( $code, $msg, $file, $line ) {
+  if( !( error_reporting() & $code )) {
+    // Error code not included in error_reporting
+    return;
+  }
+
+  switch( $code ) {
+    case 256:
+    case E_USER_ERROR:
+      echo "<b>Liriope Error</b><br>\n";
+      echo "<h1>FATAL ERROR [$code] $msg</h1>\n";
+      echo "<ul>\n";
+      echo "<li>Line: $line</li>\n";
+      echo "<li>File: $file</li>\n";
+      echo "<li>PHP version: " . PHP_VERSION . "</li>\n";
+      echo "<li>Operating system: " . PHP_OS . "</li>\n";
+      echo "</ul>\n";
+      echo "  <hr><h2>BACKTRACE</h2>\n";
+      $stack = debug_backtrace();
+      array_shift( $stack );
+      foreach( $stack as $k => $v ) {
+        echo "<b>--- Step #$k:</b><br>\n";
+        a::show( $v );
+      }
+      echo "  <hr>\n";
+      echo "  Aborting&hellip;<br>\n";
+      exit(1);
+      break;
+    case 2:
+    case E_USER_WARNING:
+      echo "Liriope Error <b>WARNING</b> [$code] $msg<br>\n";
+      echo "file: $file<br>\n";
+      echo "line: $line<br>\n";
+      break;
+    case 8:
+    case E_USER_NOTICE:
+      echo "Liriope Error <b>NOTICE</b> [$code] $msg<br>\n";
+      echo "file: $file<br>\n";
+      echo "line: $line<br>\n";
+      break;
+    default:
+      echo "Unknown error type: [$code] $msg<br>\n";
+      break;
+  }
+
+  // don't execute PHP internal error handler
+  return true;
+}
+set_error_handler( 'LiriopeErrorHandler' );
+
 function stripSlashesDeep( $value ) {
 	$value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
 	return $value;

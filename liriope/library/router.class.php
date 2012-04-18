@@ -19,8 +19,18 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch() {
+    // first, check for an image
     $uri = uri::getURIArray();
-    if( !self::matchRule( uri::getURIArray() )) die( 'Fatal Liriope Error: No router rule was matched.');
+
+    $file = array_pop( $uri );
+    $info = pathinfo( $file );
+    if( strtolower( a::get( $info, 'extension' )) == "gif" ) {
+      header( 'Content-type: image/gif; charset=utf-8' );
+      include( c::get( 'root.content' ) . '/' . implode( '/', $uri ) . '/' . $file );
+      exit;
+    }
+
+    if( !self::matchRule( $uri )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
 
     return array(
       'controller' => self::$controller,
@@ -30,27 +40,30 @@ class router {
   }
 
   //
-  // Router Rules
-  // --------------------------------------------------
   // getRule()
-  // returns the requested rule or false if there is none
+  // returns a rule by $id, or the whole set if empty
   //
-  // setRule()
-  // accepts an ID and it's translation so that you can direct
-  // blog/* to the Liriope/Folderfile action
-  //
-  // Rules are read in the order that they were stored
-  // so the rules that are set last can/will override previous
-  // rules.
+  // @param  string  $id The id to return
+  // @return string  The resulting value of that id
   // 
   static function getRule( $id=NULL ) {
     if( $id === NULL ) return self::$rules;
-    if( isset( self::$rules[$id] )) return self::$rules[$id];
-    return false;
+    return a::get( self::$rules, $id, FALSE );
   }
 
+  //
+  // setRule()
+  // stores a rule to use during dispatch
+  //
+  // @param  mixed  $id The URI part to translate, and also the unique ID
+  // @param  mixed  $result The translation into controller/action?params
+  // @return bool   TRUE on sucess, FALSE on error
+  //
   static function setRule( $id=NULL, $result=NULL ) {
-    if( $id === NULL ) return false;
+    if( empty( $id )) {
+      trigger_error( 'setRule was passed an empty parameter', E_USER_NOTICE );
+      return false;
+    }
     if( !is_array( $id )) {
       self::$rules[$id] = $result;
       return true;
@@ -61,11 +74,16 @@ class router {
   }
 
   // 
-  // matchRule( $request )
+  // matchRule()
   // compares the $request to the router rules
   // and determines where to dispatch
   //
-  // array $request
+  // Rules are read in the order that they were stored
+  // so the rules that are set last can/will override previous
+  // rules.
+  //
+  // @param  array  $request The URI array
+  // @return bool   TRUE on succes, FALSE on error
   //
   static function matchRule( $request ) {
 
@@ -73,16 +91,15 @@ class router {
       // turn the rules into an array
       $rules = explode( "/", $rule );
 
-      // compare each part to each rule part
-      // seeking a FALSE to move to the next rule
+      // loop through the $rules parts to find a match
       for( $i=0; $i < count( $rules ); $i++ ) {
         
         // are we at the end of the $request?
         // then we match, and we fill in the request with the rule
         if( !isset( $request[$i] )) $request[$i] = $rules[$i];
 
-        // if the parts don't match
-        // and thre is no wildcard fallback, move on to the next
+        // if the parts don't match and thre is no wildcard fallback,
+        // break the for loop to move on to the next rule
         if( $rules[$i] !== $request[$i] && $rules[$i] !== "*" ) break;
 
         // store the $part value if we're on a wildcard

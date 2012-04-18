@@ -16,7 +16,7 @@ class theme extends Page {
     self::$name = $theme; 
 
     // toggle for Development
-    if( c::get( 'development' ))
+    if( c::get( 'debug' ))
     {
       self::addStylesheet( self::folder() . '/style.css' );
       self::addStylesheet( self::folder() . '/style.less', 'stylesheet/less' );

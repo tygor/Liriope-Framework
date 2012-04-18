@@ -12,6 +12,9 @@
 # Rewrite "www.example.com -> example.com" 
 
 <IfModule mod_rewrite.c>
+
+  RewriteBase /
+
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
@@ -26,7 +29,9 @@
   RewriteRule ^content/.*$ - [PT]
   RewriteRule ^snippets/.*$ - [PT]
   RewriteRule ^favicon.ico*$ - [PT]
-  RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+
+  RewriteCond %{REQUEST_URI} !=/index.php
+  RewriteRule ^(.*)$ index.php?url=$1 [L]
 </IfModule>
 
 Options -MultiViews 

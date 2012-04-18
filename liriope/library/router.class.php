@@ -32,12 +32,12 @@ class router {
   //
   // Router Rules
   // --------------------------------------------------
-  // getRule( $id )
+  // getRule()
   // returns the requested rule or false if there is none
   //
-  // setRule( $id, $translation )
+  // setRule()
   // accepts an ID and it's translation so that you can direct
-  // blog/(:any) to the Liriope/Folderfile action
+  // blog/* to the Liriope/Folderfile action
   //
   // Rules are read in the order that they were stored
   // so the rules that are set last can/will override previous

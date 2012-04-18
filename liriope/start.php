@@ -43,6 +43,7 @@ load::lib();
 load::models();
 load::helpers();
 load::tools();
+load::config();
 spl_autoload_register( 'load::autoload', TRUE );
 
 c::set( 'debug', TRUE );

@@ -33,6 +33,7 @@ class load
   static function lib()
   {
     $root = c::get( 'root.liriope' );
+    require_once( $root . '/library/obj.class.php' );
     require_once( $root . '/library/uri.class.php' );
     require_once( $root . '/library/router.class.php' );
     require_once( $root . '/library/browser.class.php' );
@@ -42,7 +43,10 @@ class load
     require_once( $root . '/library/server.class.php' );
     require_once( $root . '/library/array.class.php' );
     require_once( $root . '/controllers/LiriopeController.class.php' );
-    include( $root . '/defaults.php' );
+  }
+
+  static function config() {
+    include( c::get( 'root.liriope' ) . '/defaults.php' );
     include( c::get( 'root.application' ) . '/defaults.php' );
   }
 

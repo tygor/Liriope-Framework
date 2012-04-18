@@ -8,7 +8,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // collects and displays issues and errors
 //
 
-class error {
+class error extends obj {
   static $errors = array();
 
   public static function report( $params=array() ) {

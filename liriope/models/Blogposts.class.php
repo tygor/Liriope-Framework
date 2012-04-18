@@ -10,9 +10,7 @@ class Blogposts extends Files {
     $intro = c::get( 'blog.intro.show', FALSE );
 
     // start output buffering and grab the full post file
-    ob_start();
-    include($this->fullpath);
-    $post = ob_get_contents();
+    $post = content::get( $this->fullpath );
 
     // chop off the intro text portion
     if( !$intro && $matchOffset = $this->findReadmore( $post )) {
@@ -20,8 +18,6 @@ class Blogposts extends Files {
       $post = substr( $post, strpos( $post, '>' )+1 );
     }
     $post = trim( $post );
-
-    ob_end_clean();
     return $post;
   }
 
@@ -31,12 +27,10 @@ class Blogposts extends Files {
   }
 
   public function getIntro() {
+    if( empty( $this->fullpath )) trigger_error( 'No valid file to read (file: ' . $this->file . ', path: ' . $this->path. ')', E_USER_ERROR );
     // parse the file and grab everything up to the tag holding
     // the c::get( 'readmore.class' ) class
-    ob_start();
-    include($this->fullpath);
-    $post = ob_get_contents();
-    ob_end_clean();
+    $post = content::get( $this->fullpath );
 
     // chop all but the intro text
     if( $matchOffset = $this->findReadmore( $post )) $post = substr( $post, 0, $matchOffset );

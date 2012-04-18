@@ -42,7 +42,7 @@ class content {
   // @param  string  $file The path to the file
   // @param  boolean TRUE returns the content as a string, FALSE echos it
   // @return mixed
-  static function load( $file, $return=TRUE ) {
+  static function get( $file, $return=TRUE ) {
     self::start();
     require_once( $file );
     $content = self::end( TRUE );

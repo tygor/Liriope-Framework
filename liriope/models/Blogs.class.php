@@ -61,12 +61,21 @@ class Blogs {
     while( false !== ( $file = readdir( $this->_handle ))) {
       // limit to .php, .html, and .txt
       $info = pathinfo( $file );
-      if( $info['extension'] && !in_array( $info['extension'], $this->filter )) continue;
+      if( a::get( $info, 'extension', FALSE ) && !a::contains( $this->filter, a::get( $info, 'extension' ) )) continue;
+
+      // skip if this is a directory
+      $fullpath = c::get( 'root.web' ) . '/' .  $this->path . "/$file";
+      if( is_dir( $fullpath )) continue;
+// what if it's a directory?!
+echo "<pre>";
+echo "$file\n";
 
       // filter out files from the ignore list
-      if( !in_array( $file, $this->ignore )) {
+      if( !a::contains( $this->ignore, $file )) {
+echo "$file\n";
         $this->files[] = new Blogposts( $this->path, $file );
       }
+echo "</pre>";
     }
     return $this;
   }

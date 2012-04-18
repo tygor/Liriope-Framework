@@ -78,6 +78,10 @@ unregisterGlobals();
 //
 function callLiriope() {
   extract( router::getDispatch() );
+/* DEBUG
+a::show( array( 'controller' => $controller, 'action' => $action, 'params' => $params ));
+exit('--- FIN ---');
+*/
   router::callHook( $controller, $action, $params );
 }
 

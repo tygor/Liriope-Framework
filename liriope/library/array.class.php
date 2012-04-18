@@ -53,6 +53,32 @@ class a {
     if( $print === TRUE ) echo $r;
     return $r;
   }
+
+  //
+  // search()
+  // search for values in an array by regular expression
+  //
+  // @param  array  $array The array to look in
+  // @param  string $search The regular expression
+  // @return array  The array of results
+  //
+  static function search( $array, $search ) {
+    return preg_grep( "#" . preg_quote( $search ) . "#i", $array );
+  }
+
+  //
+  // contains()
+  // Yes/No if an array has a value
+  //
+  // @param  array  $array The array to look in
+  // @param  string $search The needle to look for
+  // @return bool   TRUE if found, FALSE otherwise
+  //
+  static function contains( $array, $search ) {
+    $search = self::search( $array, $search );
+    return empty( $search ) ? FALSE : TRUE;
+  }
+
 }
 
 ?>

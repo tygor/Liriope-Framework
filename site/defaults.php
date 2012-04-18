@@ -1,10 +1,16 @@
 <?php
 
-#
-# Set your site default configuration in this file
-# 
+//
+// Set your site default configuration in this file
+// 
 
-# What theme do you want to use for the site
+//
+// Theme
+// --------------------------------------------------
 c::set( 'theme', 'grass' );
 
+//
+// Debugging
+// --------------------------------------------------
+c::set( 'debug', TRUE );
 ?>

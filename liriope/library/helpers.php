@@ -1,15 +1,21 @@
 <?php
-/**
- * LiriopeHelpers.php
- * Base helpers for the Liriope templates
- */
+//
+// helpers.php
+// Base helpers for the Liriope templates
+//
 
-/* --------------------------------------------------
- * getLink
- * --------------------------------------------------
- * takes the arguments and spits out an anchor tag link
- *
- */
+//
+// url
+// an easy url builder
+//
+function url( $uri=FALSE ) {
+  return c::get( 'url' ) . '/' . $uri;
+}
+
+//
+// getLink
+// takes the arguments and spits out an anchor tag link
+//
 function getLink( $label=NULL, $url=NULL, $args=array() ) {
   // clean input
   $label = tools::cleanInput( $label, 'whiteAlphaNum' );
@@ -27,12 +33,10 @@ function getLink( $label=NULL, $url=NULL, $args=array() ) {
   return sprintf( $format, $url, $argString, $label );
 }
 
-/* --------------------------------------------------
- * Snippet
- * --------------------------------------------------
- * grabs a piece of page
- *
- */
+//
+// snippet
+// grabs a piece of page
+//
 function snippet( $file=NULL ) {
   if( $file===NULL ) return NULL;
   $path = c::get( 'root.snippets' );
@@ -40,12 +44,9 @@ function snippet( $file=NULL ) {
   if( !$success ) throw new Exception( 'Woops! Can\'t find the snippet ' . $file );
 }
 
-/* --------------------------------------------------
- * Slugify
- * --------------------------------------------------
- * replaces spaces with dashes and converts to all lowercase
- *
- */
+// Slugify
+// replaces spaces with dashes and converts to all lowercase
+//
 function slugify( $input=NULL ) {
   if( empty( $input )) return false;
   $input = strtolower( tools::replaceSpaces( $input ));

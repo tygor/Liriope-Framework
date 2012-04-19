@@ -45,13 +45,6 @@ class content {
   static function get( $file, $return=TRUE ) {
     if( empty( $file )) trigger_error( 'The file passed is empty', E_USER_ERROR );
 
-// if the file is an image, then try to router::go( $file );
-$info = pathinfo( $file );
-echo $file;
-a::show( $info );
-die( a::get( $info, 'extension', "I don't know" ));
-if( strtolower( a::get( $info, 'extension' )) == 'gif' ) die( 'It is a GIF' );
-
     self::start();
     require_once( $file );
     $content = self::end( TRUE );

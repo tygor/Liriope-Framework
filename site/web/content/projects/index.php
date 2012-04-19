@@ -12,6 +12,7 @@ page::set( 'page.title', 'Projects | Liriope');
 ?>
 
 <article>
+  <img src="content/projects/Projects.png" align="right">
   <h1>Projects using Liriope</h1>
   <p>Right now, this list is very short, but as it grows, I hope to showcase the projects here. First on my list of uses is a company website for a local Construction Management company. If you dig deep enough in the commit on GitHub, you'll see them. Woops. I'll get to removing old implementation later.</p>
   <h2>Email Newsletter</h2>

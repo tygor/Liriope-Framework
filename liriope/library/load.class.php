@@ -77,7 +77,7 @@ class load
   static function helpers()
   {
     $root = c::get( 'root.liriope' );
-    require_once( $root . '/library/LiriopeHelpers.php' );
+    require_once( $root . '/library/helpers.php' );
   }
 
   //

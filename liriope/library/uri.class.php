@@ -1,22 +1,49 @@
 <?php
-//
-// uri.class.php
-//
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class uri {
-
   static protected $route;
+  static $path;
+  static $file;
+  static $filename;
+  static $extension;
+  static $query;
+  static $url;
+
+  static function param( $name=NULL ) {
+    if( $name === NULL ) return false;
+    if( self::${$name} ) return self::${$name};
+  }
+
+  static function store( $route ) {
+    // stores the pieces of the uri
+    self::$route = $route;
+    $uriArray = self::getURIArray();
+
+    // check for a file extension
+    if( $pos = strpos( $last = a::last( $uriArray ), '.' )) {
+      self::$file = $last;
+      self::$extension = substr( $last, ++$pos );
+      self::$filename = substr( $last, 0, --$pos );
+      array_pop( $uriArray );
+    }
+
+    self::$path = implode( '/', $uriArray );
+    self::$url = $route;
+  }
+
+  static function get() {
+    return self::getURI();
+  }
 
   static function getURI() {
     if( empty( self::$route )) {
-      $route = $_SERVER['REQUEST_URI'];
       $route = server::get( 'REQUEST_URI' );
-      // clean up leading and trailing slashes
       $route = trim( $route, '/' );
-      self::$route = $route;
+      if( $route === "" ) $route = c::get( 'home', 'home' );
+      self::store( $route );
     }
     return self::$route;
   }

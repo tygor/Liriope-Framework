@@ -1,8 +1,7 @@
 <?php
-/* --------------------------------------------------
- * router.class.php
- * --------------------------------------------------
- */
+// --------------------------------------------------
+// router.class.php
+// --------------------------------------------------
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
@@ -22,13 +21,16 @@ class router {
     // first, check for an image
     $uri = uri::getURIArray();
 
-    $file = array_pop( $uri );
-    $info = pathinfo( $file );
-    if( strtolower( a::get( $info, 'extension' )) == "gif" ) {
-      header( 'Content-type: image/gif; charset=utf-8' );
-      include( c::get( 'root.content' ) . '/' . implode( '/', $uri ) . '/' . $file );
-      exit;
+    // redirects file URLs like: image.jpg or styles.css
+    // TODO: My goal is to relay to direct files but capture the controller/action for content files. Sadly, content images are stored under the content folder (perhaps a problem) so what I'm truly doing is checking for specific extensions and allowing them by extension.
+    if( uri::param( 'file' )) {
+      // TODO: check extension against accepted pass-through extensions then go() to them
+      $url = c::get( 'url' ) . '/content/' . implode( '/', $uri ) ;
+      router::go( $url );
     }
+
+    $ext = self::getType( $uri );
+    if( $ext !== 'php' ) die("It's not PHP");
 
     if( !self::matchRule( $uri )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
 
@@ -37,6 +39,24 @@ class router {
       'action'     => self::$action,
       'params'     => self::$params
     );
+  }
+
+  //
+  // getType()
+  // attemptes to detect the type of file being requested
+  //
+  // @param  array  $uri The URI array
+  // @return string A string describing the type of file
+  //
+  static function getType( $uri ) {
+    $file = array_pop( $uri );
+    $info = pathinfo( $file );
+    return a::get( $info, 'extension', 'php' );
+    if( strtolower( a::get( $info, 'extension' )) == "gif" ) {
+      header( 'Content-type: image/gif; charset=utf-8' );
+      content::get( c::get( 'root.content' ) . '/' . implode( '/', $uri ) . '/' . $file, FALSE );
+      exit;
+    }
   }
 
   //
@@ -263,10 +283,12 @@ class router {
   }
 
   //
-  // go
-  // --------------------------------------------------
-  // the redirection function
+  // go()
+  // redirects to a new location
   //
+  // @param  string  $url The URL to redirect to
+  // @param  int     $code The HTTP status code
+  // 
   static function go ( $url=FALSE, $code=FALSE ) {
 
     if( empty( $url )) $url = c::get( 'root.URL', '/' );

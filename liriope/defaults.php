@@ -12,6 +12,8 @@ router::setRule( '*',         'Liriope/filepage' );
 // Set some system defaults
 // --------------------------------------------------
 
+c::set( 'home', 'home' );
+c::set( 'url', 'http://liriope.local' );
 c::set( 'default.controller', 'liriope' );
 c::set( 'default.action',     'show' );
 c::set( 'default.theme',      'grass' );

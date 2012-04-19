@@ -90,6 +90,17 @@ class a {
     return array_shift( $array );
   }
 
+  //
+  // last()
+  // Pop an element off of the ending of an array
+  //
+  // @param  array  $array The array to mutliate
+  // @return mixed  The last element of an array
+  //
+  static function last( $array ) {
+    return array_pop( $array );
+  }
+
 }
 
 ?>

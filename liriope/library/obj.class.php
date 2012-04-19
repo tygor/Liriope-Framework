@@ -10,46 +10,46 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class obj implements Iterator {
 
-  public $iterate = array();
+  public $_ = array();
 
   function __construct( $array=array() ) {
-    $this->iterate = $array;
+    $this->_ = $array;
   }
 
   function __set( $k, $v ) {
-    $this->iterate[$k] = $v;
+    $this->_[$k] = $v;
   }
 
   function __get( $k ) {
-    return a::get( $this->iterate, $k );
+    return a::get( $this->_, $k );
   }
 
   function __call( $k, $args ) {
-    return a::get( $this->iterate, $k );
+    return a::get( $this->_, $k );
   }
 
   function rewind() {
-    reset( $this->iterate );
+    reset( $this->_ );
   }
 
   function current() {
-    return current( $this->iterate );
+    return current( $this->_ );
   }
 
   function key() {
-    return key( $this->interate );
+    return key( $this->_ );
   }
 
   function next() {
-    return next( $this->iterate );
+    return next( $this->_ );
   }
 
   function prev() {
-    return prev( $this->iterate );
+    return prev( $this->_ );
   }
 
   function valid() {
-    $key = key( $this->iterate );
+    $key = key( $this->_ );
     $v = ($key !== NULL && $key !== FALSE );
     return $v;
   }

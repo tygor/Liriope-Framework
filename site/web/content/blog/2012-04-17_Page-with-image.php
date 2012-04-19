@@ -11,7 +11,7 @@ page::addStylesheet( 'content/blog/2012-04-17/styles.css' );
 <hr class="readmore">
 
 <h1>A page with an image</h1>
-<img src="content/blog/2012-04-17/placeholder.gif" width="240" height="120" class="testImg">
+<img src="/blog/2012-04-17/placeholder.gif" class="testImg">
 <p>Now that we have a content router, how do we link to images?</p>
 <p>The router controlls all requests to the site starting from the web root. So an image
 request will be thrown throgh the routing rules. This means that the rules need to be

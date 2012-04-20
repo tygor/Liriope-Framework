@@ -50,9 +50,9 @@ Resources:
 - http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-two
 - http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-three
 
-Coding Conventions:
+MVC Coding Conventions:
 --------------------------------------------------------------------------------
-1. Models will always be plural and first letter capital e.g. Items, Cars
-2. Controllers will always have "Controller" appended to them. e.g. ItemController, CarController
+1. Models will be singular and lowercase e.g. item, car, page, file
+2. Controllers will always have "Controller" appended. e.g. itemController, carController, pageController, fileController
 3. Views will have plural name followed by action name as the file. e.g. items/view.php, cars/buy.php
 

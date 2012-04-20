@@ -8,12 +8,15 @@ router::setRule( 'blog/show', 'blog/show' );
 router::setRule( 'blog/*',    'blog/post/$1' );
 router::setRule( '*',         'Liriope/filepage' );
 
+// turn on debugging
+c::set( 'debug', TRUE );
+
 //
 // Set some system defaults
 // --------------------------------------------------
 
 c::set( 'home', 'home' );
-c::set( 'url', 'http://liriope.local' );
+c::set( 'url', 'http://liriope.ubuntu' );
 c::set( 'default.controller', 'liriope' );
 c::set( 'default.action',     'show' );
 c::set( 'default.theme',      'grass' );

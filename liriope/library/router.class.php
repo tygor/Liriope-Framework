@@ -18,20 +18,17 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch() {
-    // first, check for an image
-    $uri = uri::getURIArray();
-
     // redirects file URLs like: image.jpg or styles.css
     // TODO: My goal is to relay to direct files but capture the controller/action for content files. Sadly, content images are stored under the content folder (perhaps a problem) so what I'm truly doing is checking for specific extensions and allowing them by extension.
     // TODO: wierd how this seems to work as is, but all I'm testing for is a URI that does have an extension on the very end.
-    if( uri::param( 'file' )) {
+    if( $file = uri::param( 'file' )) {
       // TODO: check extension against accepted pass-through extensions then go() to them
       $url = c::get( 'url' ) . '/content/' . implode( '/', $uri ) ;
       router::go( $url );
     }
 
     // check for a matched rule and direct into the MVC structure
-    if( !self::matchRule( $uri )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
+    if( !self::matchRule( uri::getURIArray() )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
 
     return array(
       'controller' => self::$controller,
@@ -213,6 +210,7 @@ class router {
     $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
     $model = rtrim( $controller, 's' );
     $controller .= 'Controller';
+
 
     // $getVars nees to be an array
     if( empty( $getVars )) $getVars = array();

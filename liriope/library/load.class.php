@@ -32,61 +32,64 @@ class load
 
   static function lib()
   {
+    // load controllers, model, helpers, or just anything that
+    // is integral to the Liriope Framework
     $root = c::get( 'root.liriope' );
-    require_once( $root . '/library/obj.class.php' );
-    require_once( $root . '/library/uri.class.php' );
-    require_once( $root . '/library/router.class.php' );
-    require_once( $root . '/library/browser.class.php' );
-    require_once( $root . '/library/error.class.php' );
-    require_once( $root . '/library/filter.class.php' );
-    require_once( $root . '/library/content.class.php' );
-    require_once( $root . '/library/server.class.php' );
-    require_once( $root . '/library/array.class.php' );
-    require_once( $root . '/controllers/LiriopeController.class.php' );
+    load::file( $root . '/library/obj.class.php', TRUE );
+    load::file( $root . '/library/uri.class.php', TRUE );
+    load::file( $root . '/library/router.class.php', TRUE );
+    load::file( $root . '/library/browser.class.php', TRUE );
+    load::file( $root . '/library/error.class.php', TRUE );
+    load::file( $root . '/library/filter.class.php', TRUE );
+    load::file( $root . '/library/content.class.php', TRUE );
+    load::file( $root . '/library/dir.class.php', TRUE );
+    load::file( $root . '/library/server.class.php', TRUE );
+    load::file( $root . '/library/array.class.php', TRUE );
+    load::file( $root . '/controllers/LiriopeController.class.php', TRUE );
   }
 
   static function config() {
-    include( c::get( 'root.liriope' ) . '/defaults.php' );
-    include( c::get( 'root.application' ) . '/defaults.php' );
+    // load configuration and default variables
+    load::file( c::get( 'root.liriope' ) . '/defaults.php' );
+    load::file( c::get( 'root.application' ) . '/defaults.php' );
   }
 
   static function models()
   {
+    // load models related to the MVC
     $root = c::get( 'root.liriope' );
-    require_once( $root . '/models/View.class.php' );
-    require_once( $root . '/models/Page.class.php' );
-    require_once( $root . '/library/theme.class.php' );
-    require_once( $root . '/models/SQLQuery.class.php' );
-    require_once( $root . '/models/Xml.class.php' );
-    require_once( $root . '/models/Files.class.php' );
+    load::file( $root . '/models/View.class.php', TRUE );
+    load::file( $root . '/models/Page.class.php', TRUE );
+    load::file( $root . '/library/theme.class.php', TRUE );
+    load::file( $root . '/models/SQLQuery.class.php', TRUE );
+    load::file( $root . '/models/Xml.class.php', TRUE );
+    load::file( $root . '/models/Files.class.php', TRUE );
   }
 
   static function themes()
   {
+    // load built-in themes
+    // TODO: uh... why do I load themes here? Shouldn't this be outside of the load class, like in the view creation process? At the very least, these would be auto_loaded like any controller
     $root = c::get( 'root.liriope' );
-    require_once( $root . '/models/LiriopeTheme.class.php' );
-    require_once( $root . '/models/GrassTheme.class.php' );
-  }
-
-  static function tools()
-  {
-    $root = c::get( 'root.liriope' );
-    require_once( $root . '/library/tools.class.php' );
+    load::file( $root . '/models/LiriopeTheme.class.php' );
+    load::file( $root . '/models/GrassTheme.class.php' );
   }
 
   static function helpers()
   {
+    // load helpers and tools
     $root = c::get( 'root.liriope' );
-    require_once( $root . '/library/helpers.php' );
+    load::file( $root . '/library/tools.class.php', TRUE );
+    load::file( $root . '/library/helpers.php', TRUE );
   }
 
   //
-  // file( $file, $require )
+  // file()
   // includes the passed full path to a file
   //
-  // (string) $file    the full path to a file to be included
-  // (bool)   $require TURE requires the file, FALSE inlucdes it
-  // returns  (bool) TRUE on success, or FALSE
+  // @param  string  $file The full path to a file to be included
+  // @param  bool    $require TURE requires the file, FALSE inlucdes it
+  // @return bool    TRUE on success, or FALSE
   //
   static function file( $file=NULL, $require=FALSE )
   {

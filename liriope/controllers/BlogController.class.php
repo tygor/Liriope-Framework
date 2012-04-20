@@ -3,6 +3,9 @@
  * BlogController.class.php
  */
 
+// Direct access protection
+if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+
 // sample URLs:
 // --------------------
 //
@@ -22,8 +25,7 @@ class BlogController Extends LiriopeController {
 
   public function show( $vars=NULL ) {
     $blog = new Blogs();
-    $blogs = $blog->setLimit(10)->get();
-
+    $blogs = $blog->setLimit(5)->get();
     $this->set( 'blogs', $blogs );
   }
 

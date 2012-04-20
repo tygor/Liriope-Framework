@@ -45,8 +45,8 @@ function LiriopeErrorHandler( $code, $msg, $file, $line ) {
   switch( $code ) {
     case 256:
     case E_USER_ERROR:
-      echo "<b>Liriope Error</b><br>\n";
-      echo "<h1>FATAL ERROR [$code] $msg</h1>\n";
+      echo "<b>Liriope Error</b> [$code]<br>\n";
+      echo "<h1>FATAL ERROR: $msg</h1>\n";
       echo "<ul>\n";
       echo "<li>Line: $line</li>\n";
       echo "<li>File: $file</li>\n";
@@ -131,10 +131,6 @@ unregisterGlobals();
 //
 function callLiriope() {
   extract( router::getDispatch() );
-/* DEBUG
-a::show( array( 'controller' => $controller, 'action' => $action, 'params' => $params ));
-exit('--- FIN ---');
-*/
   router::callHook( $controller, $action, $params );
 }
 

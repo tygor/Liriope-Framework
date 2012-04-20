@@ -1,12 +1,12 @@
 <?php
+//
+// Content object
+// content.class.php
+// handles output buffering
+//
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
-
-//
-// Content class
-// handles output buffering
-//
 
 class content {
 

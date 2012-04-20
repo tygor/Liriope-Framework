@@ -35,14 +35,6 @@ $rootLiriope = $root . '/liriope';
 //
 $rootApplication = $root . '/site';
 
-// --------------------------------------------------
-// Production or Development
-// --------------------------------------------------
-// for a production environment: $dev = FALSE
-// during development:           $dev = TRUE
-//
-$dev = TRUE;
-
 // Load Liriope: Monkey Grass
 if( !file_exists( $rootLiriope . '/start.php' )) {
   die( 'The Liriope framework could not be found.' );

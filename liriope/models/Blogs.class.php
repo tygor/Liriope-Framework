@@ -3,6 +3,9 @@
 // Blogs.class.php
 //
 
+// Direct access protection
+if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+
 class Blogs {
   var $_handle;
   var $limit;
@@ -29,15 +32,21 @@ class Blogs {
   }
 
   public function get( $limit=NULL ) {
-    if( $limit !== NULL ) $this->setLimit = $limit;
-    $this->readFiles()->sortFiles();
-    closedir( $this->_handle );
-    return $this->files;
+    $this->setLimit = $limit;
+    $this->files = dir::read( $this->path );
+    $this->filterFiles()->sortFiles()->limitFiles();
+    $entries = array();
+    foreach( $this->files as $f ) $entries[] = new Blogposts( $this->path, $f );
+    return $entries;
   }
 
   public function setLimit( $num=5 ) {
     $this->limit = $num;
     return $this;
+  }
+
+  public function getLimit() {
+    return $this->limit;
   }
 
   public function setFolder( $folder ) {
@@ -46,45 +55,41 @@ class Blogs {
     return $this;
   }
 
-  private function startReading() {
-    if( $handle = opendir( $this->path )) {
-      $this->_handle = $handle;
-    } else {
-      $errormessage = "Uh oh! We couldn't read that folder."; 
-      $this->entry = array( $errormessage );
-      exit;
-    }
-  }
-
-  private function readFiles() {
-    if( $this->_handle === NULL ) $this->startReading();
-    while( false !== ( $file = readdir( $this->_handle ))) {
-      // limit to .php, .html, and .txt
-      $info = pathinfo( $file );
-      if( a::get( $info, 'extension', FALSE ) && !a::contains( $this->filter, a::get( $info, 'extension' ) )) continue;
-
-      // skip if this is a directory
-      $fullpath = c::get( 'root.web' ) . '/' .  $this->path . "/$file";
-      if( is_dir( $fullpath )) continue;
-
-      // filter out files from the ignore list
-      if( !a::contains( $this->ignore, $file )) {
-        $this->files[] = new Blogposts( $this->path, $file );
+  private function filterFiles() {
+    // ignore certain files
+    $this->files = array_diff( $this->files, $this->ignore );
+    foreach( $this->files as $k => $f ) {
+      if( is_dir( $this->path . '/' . $f )) {
+        unset( $this->files[$k] );
       }
+      // limit blog files to certain extensions
+      if( !array_search( Files::extension( $f ), $this->filter )) continue;
     }
     return $this;
   }
 
+  private function sortFiles() {
+    // for now, this will sort by modifiy date from most recent to latest
+    $check = array();
+    // TODO: this is hairy, but works:
+    foreach( $this->files as $k => $f ) $check[$k] = $this->path . '/' . $f;
+    uasort( $check, "self::compareModifiedDate" );
+    $sorted = array();
+    foreach( $check as $k => $f ) $sorted[$k] = $this->files[$k];
+    $this->files = $sorted;
+    return $this;
+  }
+
   private static function compareModifiedDate( $a, $b ) {
-    $am = $a->getModified();
-    $bm = $b->getModified();
+    $am = filemtime( $a );
+    $bm = filemtime( $b );
     if( $am == $bm ) return 0;
     return( $am < $bm ) ? +1 : -1;
   }
 
-  private function sortFiles() {
-    // for now, this will sort by modifiy date from most recent to latest
-    usort( $this->files, "self::compareModifiedDate" );
+  private function limitFiles() {
+    $l = $this->getLimit();
+    $this->files = array_slice( $this->files, 0, $l );
     return $this;
   }
 }

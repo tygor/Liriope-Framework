@@ -85,17 +85,7 @@ class Page {
 
   static function renderFile( $file, $vars=array(), $dump=FALSE ) {
     if( !file_exists( $file )) return false;
-
-    ob_start();
-    require( $file );
-
-    if( $dump ) {
-      $content = ob_get_contents();
-      ob_end_clean();
-      return $content;
-    }
-
-    ob_end_flush();
+    return content::get( $file, $dump );
   }
 }
 

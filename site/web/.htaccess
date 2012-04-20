@@ -18,15 +18,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 #
 RewriteBase /
 
-#RewriteRule ^images/.*$ - [PT]
-#RewriteRule ^css/.*$ - [PT]
-#RewriteRule ^js/.*$ - [PT]
-#RewriteRule ^plugins/.*$ - [PT]
-#RewriteRule ^themes/.*$ - [PT]
-#RewriteRule ^content/.*$ - [PT]
-#RewriteRule ^snippets/.*$ - [PT]
-#RewriteRule ^favicon.ico*$ - [PT]
-
 # everything else is directed to index.php
 RewriteRule ^(.*)$ index.php [L]
 

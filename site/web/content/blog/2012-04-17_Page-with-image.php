@@ -13,6 +13,7 @@ page::addStylesheet( 'content/blog/2012-04-17/styles.css' );
 <h1>A page with an image</h1>
 <img src="/blog/2012-04-17/placeholder.gif" class="testImg">
 <p>Now that we have a content router, how do we link to images?</p>
+<img src="/blog/2012-04-17/grass.png">
 <p>The router controlls all requests to the site starting from the web root. So an image
 request will be thrown throgh the routing rules. This means that the rules need to be
 able to test the extension and if it is not an approved "content" extension (PHP, HTML, 

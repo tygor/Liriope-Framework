@@ -23,15 +23,14 @@ class router {
 
     // redirects file URLs like: image.jpg or styles.css
     // TODO: My goal is to relay to direct files but capture the controller/action for content files. Sadly, content images are stored under the content folder (perhaps a problem) so what I'm truly doing is checking for specific extensions and allowing them by extension.
+    // TODO: wierd how this seems to work as is, but all I'm testing for is a URI that does have an extension on the very end.
     if( uri::param( 'file' )) {
       // TODO: check extension against accepted pass-through extensions then go() to them
       $url = c::get( 'url' ) . '/content/' . implode( '/', $uri ) ;
       router::go( $url );
     }
 
-    $ext = self::getType( $uri );
-    if( $ext !== 'php' ) die("It's not PHP");
-
+    // check for a matched rule and direct into the MVC structure
     if( !self::matchRule( $uri )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
 
     return array(
@@ -39,24 +38,6 @@ class router {
       'action'     => self::$action,
       'params'     => self::$params
     );
-  }
-
-  //
-  // getType()
-  // attemptes to detect the type of file being requested
-  //
-  // @param  array  $uri The URI array
-  // @return string A string describing the type of file
-  //
-  static function getType( $uri ) {
-    $file = array_pop( $uri );
-    $info = pathinfo( $file );
-    return a::get( $info, 'extension', 'php' );
-    if( strtolower( a::get( $info, 'extension' )) == "gif" ) {
-      header( 'Content-type: image/gif; charset=utf-8' );
-      content::get( c::get( 'root.content' ) . '/' . implode( '/', $uri ) . '/' . $file, FALSE );
-      exit;
-    }
   }
 
   //

@@ -75,14 +75,16 @@ class Blogs {
     return $this;
   }
 
+  private static function compareModifiedDate( $a, $b ) {
+    $am = $a->getModified();
+    $bm = $b->getModified();
+    if( $am == $bm ) return 0;
+    return( $am < $bm ) ? +1 : -1;
+  }
+
   private function sortFiles() {
     // for now, this will sort by modifiy date from most recent to latest
-    $filesSorted = array();
-    foreach( $this->files as $file ) {
-      $filesSorted[$file->getModified()] = $file;
-    }
-    arsort( $filesSorted );
-    $this->files = $filesSorted;
+    usort( $this->files, "self::compareModifiedDate" );
     return $this;
   }
 }

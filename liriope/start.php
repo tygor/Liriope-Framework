@@ -61,6 +61,9 @@ if( c::get( 'debug' )) {
 // Begin
 callLiriope();
 
-// TODO find a way to report the collected errors
+// render captured errors and debugging content
+if( c::get( 'debug' )) {
+  error::render();
+}
 
 ?>

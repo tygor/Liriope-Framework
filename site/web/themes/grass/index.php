@@ -20,7 +20,7 @@
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link rel="shortcut icon" href="<?= theme::folder(); ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="/<?= theme::folder(); ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
   <?php foreach( page::getStylesheets() as $css ): ?>

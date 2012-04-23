@@ -176,17 +176,6 @@ article
   }
 }
 
-footer#main
-{
-  border-top: 1px solid;
-  margin-top: 2em;
-  padding-top: 2em;
-
-  p {
-    font-size: @baseFontSize  * .75;
-  }
-}
-
 // Styles by ID tags
 // --------------------------------------------------
 header#main
@@ -205,10 +194,50 @@ header#main
   }
 }
 
+div#main {
+  overflow: hidden;
+}
+
 nav#main
 {
   float: left;
   margin: 0 0 0 1em;
+}
+
+footer#main
+{
+  border-top: 1px solid;
+  margin-top: 2em;
+  padding-top: 2em;
+
+  p {
+    font-size: @baseFontSize  * .75;
+  }
+}
+
+// Image with captions
+// --------------------------------------------------
+div.image {
+  background: @white;
+  float: right;
+  padding: 10px;
+  margin: 0 0 20px 20px;
+  font-size: 12px;
+  .rounded( 10px, 10px, 4px, 4px);
+  .shadow();
+
+  &.alignleft { float: left; margin: 0 20px 20px 0; }
+
+  img {
+    display: block;
+    margin-bottom: 10px;
+    .rounded();
+  }
+  p.caption {
+    font-size: inherit;
+    padding: 0;
+    margin: 10px 0 5px;
+  }
 }
 
 // MENU

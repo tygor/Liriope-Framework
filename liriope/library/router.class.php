@@ -20,8 +20,8 @@ class router {
   static function getDispatch() {
     // redirects file URLs like: image.jpg or styles.css
     // TODO: My goal is to relay to direct files but capture the controller/action for content files. Sadly, content images are stored under the content folder (perhaps a problem) so what I'm truly doing is checking for specific extensions and allowing them by extension.
-    // TODO: wierd how this seems to work as is, but all I'm testing for is a URI that does have an extension on the very end.
-    if( $file = uri::param( 'file' )) {
+    $file = uri::param( 'file' );
+    if( $file ) {
       // TODO: check extension against accepted pass-through extensions then go() to them
       $url = c::get( 'url' ) . '/content/' . implode( '/', $uri ) ;
       router::go( $url );

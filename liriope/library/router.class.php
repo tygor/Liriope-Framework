@@ -22,13 +22,17 @@ class router {
     // TODO: My goal is to relay to direct files but capture the controller/action for content files. Sadly, content images are stored under the content folder (perhaps a problem) so what I'm truly doing is checking for specific extensions and allowing them by extension.
     $file = uri::param( 'file' );
     if( $file ) {
+      trigger_error( "The URI file is (" . var_export( $file, TRUE ) . ")", E_USER_NOTICE );
+
       // TODO: check extension against accepted pass-through extensions then go() to them
-      $url = c::get( 'url' ) . '/content/' . implode( '/', $uri ) ;
+      $url = c::get( 'url' ) . '/' . c::get( 'root.content', 'content' ) . '/' . implode( '/', $uri ) ;
       router::go( $url );
     }
 
     // check for a matched rule and direct into the MVC structure
     if( !self::matchRule( uri::getURIArray() )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
+
+    trigger_error( "<b>Routing rule matched.</b> Dispatching to <b>" . self::$controller . "</b>, <b>" . self::$action . "</b>() with the params: " . print_r( self::$params, TRUE ), E_USER_NOTICE );
 
     return array(
       'controller' => self::$controller,

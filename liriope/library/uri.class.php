@@ -17,8 +17,10 @@ class uri {
   static protected $route;
   static $path;
   static $file;
+  static $extension;
   static $query;
   static $url;
+  static $request_time;
 
   //
   // param()
@@ -38,16 +40,20 @@ class uri {
   // stores the tidbits of the uri into semantic variables
   //
   static function store( $route ) {
+    self::$request_time = server::get( 'REQUEST_TIME' );
     self::$route = $route;
     $uriArray = self::getURIArray();
 
-    // check for a file extension
-    if( $pos = strpos( $last = a::last( $uriArray ), '.' )) {
-      self::$file = new Files( $route );
-    }
-
+    // http://site.com/controller/action/param/param/file.ext
+    //                 |->             route              <-|
+    //          host   |->         path          <-| file ext
+    self::$file = a::last( $uriArray );
+    self::$extension = Files::extension( self::$file );
     self::$path = implode( '/', $uriArray );
     self::$url = $route;
+    self::$query = server::get( 'QUERY_STRING' );
+
+    trigger_error( 'The URI is storing route: ' . self::$route . ', file: ' . self::$file . ', extension: ' . self::$extension . ', path: ' . self::$path, E_USER_NOTICE );
   }
 
   static function get() {

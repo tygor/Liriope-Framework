@@ -8,6 +8,8 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class Blogposts extends Files {
 
+  var $pubDate;
+
   public function __toString() {
     // show the intro text in the full post?
     $intro = c::get( 'blog.intro.show', FALSE );
@@ -29,11 +31,25 @@ class Blogposts extends Files {
     return 'blog/' . $info['filename'];
   }
 
+  public function setPubDate( $date=NULL ) {
+    if( $date === NULL ) return false;
+    // expect a string for the date but turn it into a timestamp
+    $this->pubDate = strtotime( $date );
+  }
+  public function getPubDate() {
+    if( isset( $this->pubDate )) return $this->pubDate;
+  }
+
   public function getIntro() {
     if( empty( $this->fullpath )) trigger_error( 'No valid file to read (file: ' . $this->file . ', path: ' . $this->path. ')', E_USER_ERROR );
     // parse the file and grab everything up to the tag holding
     // the c::get( 'readmore.class' ) class
     $post = content::get( $this->fullpath );
+
+// TODO: Ew! this is horrible. Each blog page sets a pubdate, but it sets the "page" class with the date. So, when grabbing the intro text... how should I grab the pubDate? Maybe I need to do some text parsing rather than setting a PHP class object. a la Kirby.
+    // now that we've read the page, there should be a page::set( 'blog.pubDate' ) variable
+    // find it and set this blog's pub date, then unset the page variable.
+    $this->setPubDate( page::get( 'blog.pubDate', NULL ));
 
     // chop all but the intro text
     if( $matchOffset = $this->findReadmore( $post )) $post = substr( $post, 0, $matchOffset );

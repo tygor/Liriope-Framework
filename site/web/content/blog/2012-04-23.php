@@ -6,12 +6,17 @@ page::set( 'blog.pubDate', 2012-04-23 );
 ?>
 
 <h1>Routing fun</h1>
-<p>Still learning&hellip;</p>
+<div class="image thumb alignleft">
+  <img src="/content/blog/2012-04-23/router-flowchart-thumb.png">
+</div>
+<p>Still learning&hellip; but things are coming together anyway.</p>
+
 <hr class="readmore">
 
 <div class="image alignright">
-  <img src="/content/blog/2012-04-23/router-flowchart.jpg">
-  <p class="caption">Router flow chart&hellip; rough.</p>
+  <img src="/content/blog/2012-04-23/router-flowchart.png">
+  <p class="caption">Router flow chart&hellip; rough.<br>Chart is thanks to the
+  wonderful web app <a href="http://www.diagram.ly/" target="_blank">Diagram.ly</a></p>
 </div>
 <h1>Routing fun</h1>
 <p>Ok, last post, I discovered a fatal mistake: the router was also trying to route

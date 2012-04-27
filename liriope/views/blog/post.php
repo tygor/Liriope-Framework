@@ -6,4 +6,6 @@
  */
 ?>
 
-<?= page::get( 'content' ) ?>
+<section id="blog-post">
+  <?= page::get( 'content' ) ?>
+</section><!-- #blog-post -->

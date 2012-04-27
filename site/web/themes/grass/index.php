@@ -45,6 +45,7 @@
 </head>
 
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
+  <img id="background" src="<?= theme::folder(); ?>/images/grass-wallpaper.jpg">
 
   <div id="container">
     <header id="main" class="clear">

@@ -67,13 +67,23 @@ body
   position: relative;
   margin: 0 auto;
   width: 960px;
-  background: url('/images/wallpaper.png') repeat;
   font-size: @baseFontSize;
   font-family: @fontCopy;
   color: @BaseCopyColor;
   line-height: 1.68;
   padding-bottom: @baseFontSize;
 }
+
+img#background {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+body > #container { position: relative; }
 
 ins
 {

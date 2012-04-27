@@ -1,12 +1,12 @@
 <?php
-/* --------------------------------------------------
- * Page.class.php
- * --------------------------------------------------
- *
- */
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+
+//
+// Page.class.php
+// all methods are STATIC
+//
 
 class Page {
 
@@ -19,6 +19,7 @@ class Page {
 
   static function start() {
     // set default values
+    // TODO: I would prefer that these are kept using the c (config) class and not duplicate set/get methods
     self::set( 'page.title', self::get( 'page.title', 'Liriope : Monkey Grass' ));
     self::set( 'page.DOCTYPE', self::get( 'page.DOCTYPE', '<!DOCTYPE html>' ));
 

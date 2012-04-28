@@ -31,7 +31,7 @@ class error {
   }
 
   static function render() {
-    content::get( c::get( 'root.liriope' ) . '/views/errors/debugging.php', FALSE );
+    content::get( c::get( 'root.liriope' ) . '/views/errors/debugging.php', NULL, FALSE );
   }
 
   static function handler( $code, $msg, $file, $line ) {

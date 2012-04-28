@@ -40,16 +40,20 @@ class content {
   // loads the content from the passed file
   //
   // @param  string  $file The path to the file
+  // @param  mixed   $content Content to inject by echoing within the "got" page
   // @param  boolean TRUE returns the content as a string, FALSE echos it
   // @return mixed
-  static function get( $file, $return=TRUE ) {
+  static function get( $file, $content=NULL, $return=TRUE ) {
     if( empty( $file )) trigger_error( 'The file passed is empty', E_USER_ERROR );
+
+    // extract given content into variables if it is an array
+    if( is_array( $content )) extract( $content );
 
     self::start();
     require_once( $file );
-    $content = self::end( TRUE );
-    if( $return ) return $content;
-    echo $content;
+    $buffer = self::end( TRUE );
+    if( $return ) return $buffer;
+    echo $buffer;
   }
 
 }

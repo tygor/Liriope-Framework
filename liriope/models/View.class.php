@@ -85,6 +85,12 @@ class View {
       theme::addContent( $content );
       // and finally, render the theme and page content
       theme::render();
+/*------ TESTING -----
+      // store content in an array so other variables can be stored alongside
+      $vars['content'] = $content;
+      $vars['themeFolder'] = 'themes/grass';
+      content::get( c::get( 'root.theme', 'themes' ) . '/' . self::getTheme() . '/index.php', $vars, FALSE );
+END TESTING ----------*/
     }
   }
 

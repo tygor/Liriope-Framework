@@ -86,7 +86,7 @@ class Page {
 
   static function renderFile( $file, $vars=array(), $dump=FALSE ) {
     if( !file_exists( $file )) return false;
-    return content::get( $file, $dump );
+    return content::get( $file, NULL, $dump );
   }
 }
 

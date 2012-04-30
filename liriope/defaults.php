@@ -25,6 +25,12 @@ c::set( 'default.404.file',   '404.php' );
 c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt' ));
 
 //
+// Set some page defaluts
+// --------------------------------------------------
+c::set( 'page.title', 'Liriope : Monkey Grass' );
+c::set( 'page.DOCTYPE', '<!DOCTYPE html>' );
+
+//
 // Set some blog defaults
 // --------------------------------------------------
 

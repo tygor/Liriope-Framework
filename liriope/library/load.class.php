@@ -60,7 +60,7 @@ class load
     $root = c::get( 'root.liriope' );
     load::file( $root . '/models/View.class.php', TRUE );
     load::file( $root . '/models/Page.class.php', TRUE );
-    load::file( $root . '/library/theme.class.php', TRUE );
+    //load::file( $root . '/library/theme.class.php', TRUE );
     load::file( $root . '/models/SQLQuery.class.php', TRUE );
     load::file( $root . '/models/Xml.class.php', TRUE );
     load::file( $root . '/models/Files.class.php', TRUE );
@@ -118,8 +118,7 @@ class load
     return false;
   }
 
-  //
-  // exists( $file, $searchPath )
+  // exists()
   // looks for the given $file using the configuration path
   // plus any additional $searchPath locations, parsing through
   // the additional paths first

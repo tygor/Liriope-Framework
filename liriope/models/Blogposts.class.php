@@ -15,7 +15,9 @@ class Blogposts extends Files {
     $intro = c::get( 'blog.intro.show', FALSE );
 
     // start output buffering and grab the full post file
-    $post = content::get( $this->fullpath );
+    content::start();
+    include( $this->fullpath );
+    $post = content::end( TRUE );
 
     // chop off the intro text portion
     if( !$intro && $matchOffset = $this->findReadmore( $post )) {

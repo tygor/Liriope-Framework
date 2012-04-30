@@ -12,25 +12,22 @@ class LiriopeController {
   protected $_controller;
   protected $_action;
   protected $_theme;
-  protected $_view;
 
   function __construct($model, $controller, $action) {
 
-    $this->_controller = $controller;
-    $this->_action = $action;
-    $this->_model = $model;
-    
-    $this->$model =& $model;
+    $this->_controller = strtolower( $controller );
+    $this->_action = strtolower( $action );
+    $this->_model =& $model;
 
-    $view = new View($controller,$action);
-    $this->_view =& $view;
+    View::start( $this->_controller, $this->_action );
 
     // return this object for chaining functions
     return $this;
   }
 
-  function set($name,$value) {
-    $this->_view->set($name,$value);
+  // Alias for View::set()
+  function set( $name, $value ) {
+    View::set( $name, $value );
   }
 
   public function show( $getVars=NULL ) {
@@ -47,11 +44,11 @@ class LiriopeController {
     $path = empty( $params[0] ) ? '/home/index' : '/' . implode( '/', $params );
     $content = new Folderfile( $path, c::get( 'root.content' ));
 
-    $this->set( 'content', $content->get() );
+    $this->set( 'content', $content->render() );
   }
 
   function __destruct() {
-    $this->_view->render();
+    View::render();
   }
 
 }

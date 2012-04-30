@@ -1,1 +1,1 @@
-<?= page::get( 'content'); ?>
+<?= $content; ?>

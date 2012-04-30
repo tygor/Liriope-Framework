@@ -16,23 +16,19 @@ class Page {
   static public $scripts = array();
   static public $scriptBlocks = array();
 
-  static function start() {
-    // set default values
-    // TODO: I would prefer that these are kept using the c (config) class and not duplicate set/get methods
-    self::set( 'page.title', self::get( 'page.title', 'Liriope : Monkey Grass' ));
-    self::set( 'page.DOCTYPE', self::get( 'page.DOCTYPE', '<!DOCTYPE html>' ));
-
+  public function __construct() {
     // add the default stylesheets and scripts
-    self::addStylesheet( 'css/style.css' );
-    self::addScript( 'js/script.js' );
+    View::addStylesheet( 'css/style.css' );
+    View::addScript( 'js/script.js' );
   }
 
-  static function set( $key, $value=FALSE ) {
+  function set( $key, $value=FALSE ) {
     if( is_array( $key )) {
       self::$vars = array_merge( self::$vars, $key );
     } else {
       self::$vars[$key] = $value;
     }
+    return $value;
   }
 
   static function get( $key=NULL, $default=NULL ) {
@@ -76,11 +72,20 @@ class Page {
     return self::$_content;
   }
 
-  static function render( $file, $vars = array(), $dump=FALSE ) {
-    // receives the view file and variables
-    // and outputs the result in a buffer or directly
-    self::set( $vars );
-    return content::get( $file, $vars, $dump );
+  public function render( $file=NULL, $content=array(), $return=TRUE ) {
+    // if no $file is set, look for a stored value
+    if( $file === NULL && isset( $this->file )) $file = $this->file;
+
+    // doesn't use content::get() because then the page would be on the content context
+    // rather than the Page context.
+    content::start();
+    if( is_array( $content )) extract( $content );
+    $page =& $this;
+    include( $file );
+    $render = content::end( $return );
+    if( $return ) return $render;
+    echo $render;
+    //return content::get( $file, $content, $return );
   }
 }
 

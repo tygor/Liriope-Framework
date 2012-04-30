@@ -8,7 +8,7 @@
 // page configuration
 // ------------------
 
-page::set( 'page.title', 'Liriope | Monkey Grass');
+$page->set( 'page.title', 'Liriope | Monkey Grass' );
 
 ?>
 

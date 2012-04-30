@@ -3,34 +3,34 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-// --------------------------------------------------
+//
 // View.class.php
-// --------------------------------------------------
 // handles throwing to HTML
+// all methods are be static
 //
 
 class View {
 
-	protected $_controller;
-	protected $_action;
-  protected $_theme;
-	protected $variables = array();
-  private $_view;
+	static protected $_controller;
+	static protected $_action;
+  static protected $_theme;
+	static protected $variables = array();
+  static private $_view;
   static $homeFlag;
+  static $css = array();
+  static $scripts = array();
+  static $scriptBlocks = array();
 
-	public function __construct( $controller, $action ) {
-		$this->_controller = strtolower( $controller );
-		$this->_action = strtolower( $action );
-    $this->setTheme( c::get( 'theme', c::get( 'default.theme' )));
+  static function start( $controller, $action ) {
+		self::$_controller = $controller;
+		self::$_action = $action;
+    self::setTheme( c::get( 'theme', c::get( 'default.theme' )));
 
-    // The view template file
-    $file = load::exists( '/' . $this->_controller . '/' . $this->_action . '.php' );
-    if( !$file ) {
-      throw new Exception( __CLASS__ . " can't find that view ($file)." );
-      return false;
-    }
+    $file = load::exists( '/' . $controller . '/' . $action . '.php' );
+    if( !$file ) trigger_error( "We can't find that view file: $file", E_USER_ERROR );
 
-    $this->_view = $file;
+    // this is the controller/action pair as folder/file
+    self::$_view = $file;
 	}
 
   // set()
@@ -39,9 +39,18 @@ class View {
   // @param  mixed  $name The name for the value
   // @param  mixed  $value The value to set
   // 
-	public function set($name,$value) {
-		$this->variables[$name] = $value;
+	static function set( $name, $value ) {
+		self::$variables[$name] = $value;
+    return self::$variables[$name];
 	}
+  static function get( $name=NULL, $default=FALSE  ) {
+    // even though self::$variables is extracted into the symbol table
+    // sometimes, you may want to get a configuration value as a default
+    // so get will return the self::$variable[$name] or the c::get( $name )
+    if( !empty( self::$variables[$name] )) return self::$variables[$name];
+    if( c::get( $name )) return c::get( $name );
+    return $default;
+  }
 
   // isHomepage()
   // Stores if this is the homepage view
@@ -60,9 +69,9 @@ class View {
   //
   // @param  string  $name The theme name which is also the theme folder
   // 
-  public function setTheme( $name=NULL ) {
+  static function setTheme( $name=NULL ) {
     if( $name === NULL ) return false;
-    $this->_theme = strtolower( $name );
+    self::$_theme = strtolower( $name );
   }
 
   // getTheme()
@@ -70,10 +79,61 @@ class View {
   //
   // @return string Returns the theme name as a string or FALSE on error
   // 
-  public function getTheme() {
-    if( isset( $this->_theme )) return $this->_theme;
+  static function getTheme() {
+    if( isset( self::$_theme )) return self::$_theme;
     return FALSE;
   }
+
+  // addStylesheet()
+  // Queues the passed file to be loaded as a stylesheet as the page renders
+  // 
+  // @param  $file  The stylesheet to be used
+  // @param  $rel   The value for the link rel param
+  // @return bool   TRUE on success, FALSE on error
+  //
+  static function addStylesheet( $file=NULL, $rel='stylesheet' ) {
+    if( $file===NULL ) return false;
+    self::$css[] = array( 'file' => $file, 'rel' => $rel );
+    return true;
+  }
+
+  static function getStylesheets() {
+    return (array) self::$css;
+  }
+
+  // addScript()
+  // Queues the passed file to be loaded as a script as the page renders
+  // 
+  // @param  $file  The script file to be used
+  // @param  $type  The value for the script type param
+  // @return bool   TRUE on success, FALSE on error
+  //
+  static function addScript( $file=NULL, $type='text/javascript' ) {
+    if( $file===NULL ) return false;
+    self::$scripts[] = array( 'file' => $file, 'type' => $type );
+    return true;
+  }
+
+  static function getScripts() {
+    return (array) self::$scripts;
+  }
+
+  // addScriptBlock()
+  // Queues the passed string into a script tag as the page renders
+  // 
+  // @param  $file  The script block
+  // @return bool   TRUE on success, FALSE on error
+  //
+  static function addScriptBlock( $script=NULL ) {
+    if( $script===NULL ) return false;
+    self::$scriptBlocks[] = $script;
+    return true;
+  }
+
+  static function getScriptBlocks() {
+    return (array) self::$scriptBlocks;
+  }
+
 
   // render()
   // Render the output directly to the page or optionally return the
@@ -82,25 +142,35 @@ class View {
   // @param  $return  Set to any non-TURE value to have the
   // @return string   The result of the output buffer
   //
-  public function render( $return=FALSE ) {
+  static function render( $return=FALSE ) {
+    $vars = self::$variables;
+
     if( $return ) {
-      Page::start();
-      Page::render( $this->_view, $this->variables, $dump );
+      // return the buffer as a string
+      $page = new Page();
+      return $page->render( self::$_view, self::$variables, $return );
     } else {
+
       // start the page and get it's contents as a variable
-      Page::start();
-      $content = Page::render( $this->_view, $this->variables, TRUE );
+      $page = new Page();
+      $content = $page->render( self::$_view, self::$variables, TRUE );
+
       // apply the page filters to the page content alone
       $content = filter::doFilters( $content );
+
       // then pass this page content to the theme
       // store content in an array so other variables can be stored alongside
+      // these get extracted into the variable table for the view files
+      // (ex: $vars['content'] will become $content)
       $vars['content'] = $content;
       $vars['themeFolder'] = 'themes/grass';
-      Page::addStylesheet( $vars['themeFolder'] . '/style.css' );
-      Page::addStylesheet( $vars['themeFolder'] . '/style.less', 'stylesheet/less' );
-      Page::addScript( 'js/libs/less-1.3.0.min.js' );
-      Page::addScriptBlock( 'less.watch();' );
+      // temporary devleopment add-ins TODO: remove these
+      self::addStylesheet( $vars['themeFolder'] . '/style.css' );
+      self::addStylesheet( $vars['themeFolder'] . '/style.less', 'stylesheet/less' );
+      self::addScript( 'js/libs/less-1.3.0.min.js' );
+      self::addScriptBlock( 'less.watch();' );
 
+      // get content and dump!
       content::get( c::get( 'root.theme', 'themes' ) . '/' . self::getTheme() . '/index.php', $vars, FALSE );
     }
   }

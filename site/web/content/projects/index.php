@@ -7,7 +7,7 @@
 // page configuration
 // ------------------
 
-page::set( 'page.title', 'Projects | Liriope');
+View::set( 'page.title', 'Projects | Liriope');
 
 ?>
 

@@ -8,7 +8,7 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class Folderfile
+class Folderfile extends Page
 {
   protected $root;
   protected $file;
@@ -19,23 +19,6 @@ class Folderfile
   public function __construct( $path, $root=NULL ) {
     $this->root = $root;
     $this->parsePath( $path );
-  }
-
-  // get
-  //
-  public function get( $dump=TRUE ) {
-    if( !file_exists( $this->file )) return false;
-    ob_start();
-    // TODO: files that throw a WARNING when trying to be included seem to get past my error checking
-    include( $this->file );
-
-    if( $dump ) {
-      $content = ob_get_contents();
-      ob_end_clean();
-      return $content;
-    }
-    ob_end_flush();
-
   }
 
   //
@@ -111,11 +94,6 @@ class Folderfile
       return $found;
     }
     return false;
-
-    // TODO: if the above works well, remove below
-    // $path .= '/' . $file;
-    // if( file_exists( $path ) && is_file( $path )) return true;
-    // return false;
   }
 }
 ?>

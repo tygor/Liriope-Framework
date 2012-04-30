@@ -6,9 +6,11 @@
  */
 ?>
 
+<pre>class: <?= get_class(); ?></pre>
+
 <section id="blog">
 
-<?php foreach( page::get( 'blogs' ) as $entry ): ?>
+<?php foreach( View::get( 'blogs' ) as $entry ): ?>
 <article>
   <?= $entry->getIntro(); ?>
   <footer>
@@ -23,7 +25,7 @@
 
 // set the page title after adding in the blog list
 // since they will set the title as well and overwrite it
-page::set( 'page.title', 'Blog' );
+View::set( 'page.title', 'Blog | Liriope' );
 
 ?>
 

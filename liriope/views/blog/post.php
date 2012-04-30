@@ -6,6 +6,8 @@
  */
 ?>
 
+<pre>class: <?= get_class(); ?></pre>
+
 <section id="blog-post">
-  <?= page::get( 'content' ) ?>
+  <?= $content; ?>
 </section><!-- #blog-post -->

@@ -3,7 +3,7 @@
  * grass.php
  * Grass theme
  */
-  echo page::get( 'page.DOCTYPE' );
+  echo View::get( 'page.DOCTYPE' );
 ?>
 <html class="no-js" lang="en">
 <head>
@@ -13,9 +13,9 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?= page::get( 'page.title' ); ?></title>
-  <meta name="description" content="<?= page::get( 'page.description', 'Liriope Framework default theme titled Grass.' ) ?>">
-  <meta name="author" content="<?= page::get( 'page.author', 'Tyler Gordon' ) ?>">
+  <title><?= View::get( 'page.title' ); ?></title>
+  <meta name="description" content="<?= View::get( 'page.description', 'Liriope Framework default theme titled Grass.' ) ?>">
+  <meta name="author" content="<?= View::get( 'page.author', 'Tyler Gordon' ) ?>">
 
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -23,13 +23,13 @@
   <link rel="shortcut icon" href="/<?= $themeFolder; ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
-  <?php foreach( page::getStylesheets() as $css ): ?>
+  <?php foreach( View::getStylesheets() as $css ): ?>
   <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
-  <?php foreach( page::getScripts() as $script): ?>
+  <?php foreach( View::getScripts() as $script): ?>
   <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
   <?php endforeach; ?>
-  <?php foreach( page::getScriptBlocks() as $block): ?>
+  <?php foreach( View::getScriptBlocks() as $block): ?>
   <script type="text/javascript" charset="UTF-8">
     <?= $block; ?>
   </script>
@@ -45,7 +45,7 @@
 </head>
 
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
-  <img id="background" src="<?= $themeFolder; ?>/images/grass-wallpaper.jpg">
+  <img id="background" src="/<?= $themeFolder; ?>/images/grass-wallpaper.jpg">
 
   <div id="container">
     <header id="main" class="clear">

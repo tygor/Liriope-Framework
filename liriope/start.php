@@ -3,6 +3,12 @@
 // start.php
 //
 
+// TODO: remove this:
+//
+  error_reporting( E_ALL );
+  ini_set( 'display_errors', 1 );
+//
+
 // direct access protection
 if( !isset( $root )) die( 'Direct access is not allowed' );
 

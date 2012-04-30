@@ -1,7 +1,7 @@
 <?php
 
 // TODO: create a .css version of the LESSCSS error styles
-page::addStylesheet( 'css/error.less', 'stylesheet/less' );
+View::addStylesheet( 'css/error.less', 'stylesheet/less' );
 
 ?>
 

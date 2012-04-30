@@ -20,7 +20,7 @@
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link rel="shortcut icon" href="/<?= theme::folder(); ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="/<?= $themeFolder; ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
   <?php foreach( page::getStylesheets() as $css ): ?>
@@ -45,14 +45,14 @@
 </head>
 
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
-  <img id="background" src="<?= theme::folder(); ?>/images/grass-wallpaper.jpg">
+  <img id="background" src="<?= $themeFolder; ?>/images/grass-wallpaper.jpg">
 
   <div id="container">
     <header id="main" class="clear">
 
       <hgroup id="identity">
         <a href="/">
-          <img src="/<?= theme::folder(); ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
+          <img src="/<?= $themeFolder; ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
         </a>
       </hgroup>
 
@@ -64,7 +64,7 @@
 
     <div id="main" role="main">
 
-<?= page::getContent(); ?>
+<?= $content; ?>
 
     </div>
     <footer id="main">

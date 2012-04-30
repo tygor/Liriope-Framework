@@ -13,6 +13,7 @@ class theme extends Page {
   static protected $name;
 
   static function start( $theme='grass' ) {
+    die("DEPRECATED");
     self::$name = $theme; 
 
     // toggle for Development
@@ -28,10 +29,12 @@ class theme extends Page {
   }
 
   static function folder() {
+    die("DEPRECATED");
     return 'themes/' . self::$name;
   }
 
   static function render( $file=NULL, $vars=array(), $dump=FALSE ) {
+    die("DEPRECATED");
     if( $file===NULL ) $file = 'index.php';
     // try the site theme folder
     $load = load::exists( $file, c::get( 'root.theme' ) . '/' . self::$name );

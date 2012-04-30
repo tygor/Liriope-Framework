@@ -5,7 +5,6 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 //
 // Page.class.php
-// all methods are STATIC
 //
 
 class Page {
@@ -81,12 +80,7 @@ class Page {
     // receives the view file and variables
     // and outputs the result in a buffer or directly
     self::set( $vars );
-    return self::renderFile( $file, $vars, $dump );
-  }
-
-  static function renderFile( $file, $vars=array(), $dump=FALSE ) {
-    if( !file_exists( $file )) return false;
-    return content::get( $file, NULL, $dump );
+    return content::get( $file, $vars, $dump );
   }
 }
 

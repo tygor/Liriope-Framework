@@ -154,7 +154,10 @@ class router {
     if( !load::seek( $controllerFile )) {
       if( empty( $parts[0] )) {
         $parts = NULL;
-        page::set( 'homepage', TRUE );
+        // tell the View that this is the homepage
+        View::isHomepage( TRUE );
+        // TODO: determine if this conditional is necessary. How else is the homepage flag set or used?
+        die("I don't think the code ever gets to this point");
       }
       // use Rule #2
       $controller = c::get( 'default.controller' );

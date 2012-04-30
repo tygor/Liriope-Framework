@@ -12,7 +12,7 @@ class LiriopeController {
   protected $_controller;
   protected $_action;
   protected $_theme;
-  protected $_page;
+  protected $_view;
 
   function __construct($model, $controller, $action) {
 
@@ -22,20 +22,21 @@ class LiriopeController {
     
     $this->$model =& $model;
 
-    $page = new View($controller,$action);
-    $this->_page =& $page;
+    $view = new View($controller,$action);
+    $this->_view =& $view;
 
     // return this object for chaining functions
     return $this;
   }
 
   function set($name,$value) {
-    $this->_page->set($name,$value);
+    $this->_view->set($name,$value);
   }
 
   public function show( $getVars=NULL ) {
   }
 
+  // TODO: think of a new/better name for this function, related model, and view
   public function filepage( $params=NULL ) {
     // clean the file extension off of the $params
     foreach( $params as $k => $param ) {
@@ -50,7 +51,7 @@ class LiriopeController {
   }
 
   function __destruct() {
-    $this->_page->render();
+    $this->_view->render();
   }
 
 }

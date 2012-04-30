@@ -343,9 +343,31 @@ footer nav.menu
 
 // Debugging
 // --------------------------------------------------
-div#debugging {
+#debugging {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   display: block;
   width: 100%;
   background: rgb(0,0,0);
   background: rgba(0,0,0,.5);
+  padding: 2.5%;
+  
+  h1 {
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(255,255,255);
+  }
+  
+  #debug-content {
+    display: none;
+    width: 90%;
+    background: rgb( 0,0,0 );
+    color: rgb(255,255,255);
+    padding: 1em 1em 1em 2em;
+
+    li {
+      font-size: 10px;
+    }
+  }
 }

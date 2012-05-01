@@ -7,7 +7,7 @@
 // page configuration
 // ------------------
 
-View::set( 'page.title', 'About Us');
+self::set( 'page.title', 'About Us');
 
 ?>
 

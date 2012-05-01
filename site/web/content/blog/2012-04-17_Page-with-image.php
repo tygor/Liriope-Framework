@@ -1,8 +1,8 @@
 <?php
 
-page::set( 'page.title', 'A page with an image' );
-page::set( 'blog.pubDate', '2012-04-17' );
-page::addStylesheet( 'content/blog/2012-04-17/styles.css' );
+self::set( 'page.title', 'A page with an image' );
+self::set( 'blog.pubDate', '2012-04-17' );
+self::addStylesheet( 'content/blog/2012-04-17/styles.css' );
 
 ?>
 

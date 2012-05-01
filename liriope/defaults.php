@@ -4,6 +4,7 @@
 // 
 
 // Set some default router rules
+router::setRule( 'test',    'test/show' );
 router::setRule( 'blog/show', 'blog/show' );
 router::setRule( 'blog/*',    'blog/post/$1' );
 router::setRule( '*',         'Liriope/filepage' );

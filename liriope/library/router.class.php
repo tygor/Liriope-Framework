@@ -18,14 +18,15 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch() {
-    // redirects file URLs like: image.jpg or styles.css
-    // TODO: My goal is to relay to direct files but capture the controller/action for content files. Sadly, content images are stored under the content folder (perhaps a problem) so what I'm truly doing is checking for specific extensions and allowing them by extension.
+    // pass-through file URLs like: image.jpg or styles.css
     $file = uri::param( 'file' );
     if( $file ) {
       trigger_error( "The URI file is (" . var_export( $file, TRUE ) . ")", E_USER_NOTICE );
 
       // TODO: check extension against accepted pass-through extensions then go() to them
-      $url = c::get( 'url' ) . '/' . c::get( 'root.content', 'content' ) . '/' . implode( '/', $uri ) ;
+      $url = c::get( 'url' ) . '/' .
+        c::get( 'root.content', 'content' ) . '/' .
+        implode( '/', uri::get());
       router::go( $url );
     }
 
@@ -91,12 +92,18 @@ class router {
 
     foreach( self::getRule() as $rule => $result ) {
       // turn the rules into an array
+      $rule = trim( $rule, '/' );
       $rules = explode( "/", $rule );
 
       // loop through the $rules parts to find a match
       for( $i=0; $i < count( $rules ); $i++ ) {
         
-        // are we at the end of the $request?
+        // if we get to the end of the URI array first... we don't match!
+        // if we get to the end of the rule... we do match!
+        // otherwise, if the request[$i] and rule[$i] don't match... break;
+        // or continue;
+
+        // are we at the end of the URI array?
         // then we match, and we fill in the request with the rule
         if( !isset( $request[$i] )) $request[$i] = $rules[$i];
 

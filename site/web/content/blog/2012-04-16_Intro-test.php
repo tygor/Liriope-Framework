@@ -1,6 +1,6 @@
 <?php
 
-page::set( 'page.title', 'No more intro text' );
+self::set( 'page.title', 'No more intro text' );
 
 ?>
 

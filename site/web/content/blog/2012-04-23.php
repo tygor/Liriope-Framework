@@ -1,7 +1,7 @@
 <?php
 
-View::set( 'page.title',   'Routing fun' );
-View::set( 'blog.pubDate', 2012-04-23 );
+self::set( 'page.title',   'Routing fun' );
+self::set( 'blog.pubDate', 2012-04-23 );
 
 ?>
 

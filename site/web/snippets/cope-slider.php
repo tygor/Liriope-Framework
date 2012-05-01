@@ -8,9 +8,9 @@
 // page configuration
 // ------------------
 
-page::addStylesheet( 'plugins/orbit/orbit-1.3.0.css' );
-page::addStylesheet( 'themes/cope/slider.css' );
-page::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
+View::addStylesheet( 'plugins/orbit/orbit-1.3.0.css' );
+View::addStylesheet( 'themes/cope/slider.css' );
+View::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
 
 ?>
 

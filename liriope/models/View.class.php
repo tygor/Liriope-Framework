@@ -43,8 +43,13 @@ class View {
   // @param  mixed  $value The value to set
   // 
 	static function set( $name, $value=NULL ) {
+    // if $name is an array, then set multiple values
     if( is_array( $name )) {
-      foreach( $name as $k => $v ) self::$variables[$k][] = $v;
+      foreach( $name as $k => $v ) {
+        // if $v is still an array, simply add that array to the array of $k
+        if( is_array( $v )) self::$variables[$k][] = $v;
+        else self::$variables[$k] = $v;
+      }
     } else {
       self::$variables[$name] = $value;
     }

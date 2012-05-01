@@ -72,6 +72,13 @@ class Folderfile extends Page
     return true;
   }
 
+  // getFile
+  // returns the full path to the content file
+  //
+  public function getFile() {
+    return $this->file;
+  }
+
   // folderExists
   //
   // checks for the reuqested folder

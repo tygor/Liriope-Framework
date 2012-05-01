@@ -26,7 +26,7 @@ class LiriopeController {
   }
 
   // Alias for View::set()
-  function set( $name, $value ) {
+  function set( $name, $value=NULL ) {
     View::set( $name, $value );
   }
 
@@ -44,7 +44,8 @@ class LiriopeController {
     $path = empty( $params[0] ) ? '/home/index' : '/' . implode( '/', $params );
     $content = new Folderfile( $path, c::get( 'root.content' ));
 
-    $this->set( 'content', $content->render() );
+    $this->set( 'content', $content->render( $content->getFile() ) );
+    $this->set( $content->get() );
   }
 
   function __destruct() {

@@ -26,6 +26,9 @@ class View {
 		self::$_action = $action;
     self::setTheme( c::get( 'theme', c::get( 'default.theme' )));
 
+    // always add these as defaults
+    self::addStylesheet( self::get( 'themeFolder' ) . '/style.css' );
+
     $file = load::exists( '/' . $controller . '/' . $action . '.php' );
     if( !$file ) trigger_error( "We can't find that view file: $file", E_USER_ERROR );
 
@@ -39,11 +42,16 @@ class View {
   // @param  mixed  $name The name for the value
   // @param  mixed  $value The value to set
   // 
-	static function set( $name, $value ) {
-		self::$variables[$name] = $value;
-    return self::$variables[$name];
+	static function set( $name, $value=NULL ) {
+    if( is_array( $name )) {
+      foreach( $name as $k => $v ) self::$variables[$k][] = $v;
+    } else {
+      self::$variables[$name] = $value;
+    }
 	}
+
   static function get( $name=NULL, $default=FALSE  ) {
+    if( $name === NULL ) return self::$variables;
     // even though self::$variables is extracted into the symbol table
     // sometimes, you may want to get a configuration value as a default
     // so get will return the self::$variable[$name] or the c::get( $name )
@@ -72,6 +80,7 @@ class View {
   static function setTheme( $name=NULL ) {
     if( $name === NULL ) return false;
     self::$_theme = strtolower( $name );
+    self::set( 'themeFolder', c::get( 'theme.folder' ) . '/' . self::$_theme );
   }
 
   // getTheme()
@@ -93,12 +102,8 @@ class View {
   //
   static function addStylesheet( $file=NULL, $rel='stylesheet' ) {
     if( $file===NULL ) return false;
-    self::$css[] = array( 'file' => $file, 'rel' => $rel );
+    self::$variables['stylesheets'][] = array( 'file' => $file, 'rel' => $rel );
     return true;
-  }
-
-  static function getStylesheets() {
-    return (array) self::$css;
   }
 
   // addScript()
@@ -110,12 +115,8 @@ class View {
   //
   static function addScript( $file=NULL, $type='text/javascript' ) {
     if( $file===NULL ) return false;
-    self::$scripts[] = array( 'file' => $file, 'type' => $type );
+    self::$variables['scripts'][] = array( 'file' => $file, 'type' => $type );
     return true;
-  }
-
-  static function getScripts() {
-    return (array) self::$scripts;
   }
 
   // addScriptBlock()
@@ -126,14 +127,9 @@ class View {
   //
   static function addScriptBlock( $script=NULL ) {
     if( $script===NULL ) return false;
-    self::$scriptBlocks[] = $script;
+    self::$variables['scriptBlocks'][] = $script;
     return true;
   }
-
-  static function getScriptBlocks() {
-    return (array) self::$scriptBlocks;
-  }
-
 
   // render()
   // Render the output directly to the page or optionally return the
@@ -150,7 +146,6 @@ class View {
       $page = new Page();
       return $page->render( self::$_view, self::$variables, $return );
     } else {
-
       // start the page and get it's contents as a variable
       $page = new Page();
       $content = $page->render( self::$_view, self::$variables, TRUE );
@@ -162,16 +157,18 @@ class View {
       // store content in an array so other variables can be stored alongside
       // these get extracted into the variable table for the view files
       // (ex: $vars['content'] will become $content)
+      $vars = self::get();
       $vars['content'] = $content;
+
+      // TODO: automate getting the theme folder
       $vars['themeFolder'] = 'themes/grass';
-      // temporary devleopment add-ins TODO: remove these
-      self::addStylesheet( $vars['themeFolder'] . '/style.css' );
-      self::addStylesheet( $vars['themeFolder'] . '/style.less', 'stylesheet/less' );
-      self::addScript( 'js/libs/less-1.3.0.min.js' );
-      self::addScriptBlock( 'less.watch();' );
 
       // get content and dump!
-      content::get( c::get( 'root.theme', 'themes' ) . '/' . self::getTheme() . '/index.php', $vars, FALSE );
+      content::start();
+      if( is_array( $vars )) extract( $vars );
+      include( c::get( 'root.theme', 'themes' ) . '/' . self::getTheme() . '/index.php' );
+      $buffer = content::end();
+      echo $buffer;
     }
   }
 

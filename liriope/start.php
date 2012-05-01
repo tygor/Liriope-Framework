@@ -24,6 +24,7 @@ c::set( 'root.web',          $rootWeb );
 c::set( 'root.liriope',      realpath( $rootLiriope ));
 c::set( 'root.application',  realpath( $rootApplication ));
 c::set( 'root.content',      $rootWeb . '/content' );
+c::set( 'theme.folder',      'themes' );
 c::set( 'root.theme',        $rootWeb . '/themes' );
 c::set( 'root.snippets',     $rootWeb . '/snippets' );
 c::set( 'root.content.file', 'index' );

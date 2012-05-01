@@ -8,7 +8,8 @@
 // page configuration
 // ------------------
 
-$page->set( 'page.title', 'Liriope | Monkey Grass' );
+self::set( 'page.title', 'Liriope | Monkey Grass' );
+self::addStylesheet( 'themes/grass/css/aux.css' );
 
 ?>
 

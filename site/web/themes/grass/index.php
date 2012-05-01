@@ -3,6 +3,11 @@
  * grass.php
  * Grass theme
  */
+
+  self::addStylesheet( self::get( 'themeFolder' ) . '/style.less', 'stylesheet/less' );
+  self::addScript( 'js/libs/less-1.3.0.min.js' );
+  self::addScriptBlock( 'less.watch();' );
+
   echo View::get( 'page.DOCTYPE' );
 ?>
 <html class="no-js" lang="en">
@@ -23,13 +28,13 @@
   <link rel="shortcut icon" href="/<?= $themeFolder; ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
-  <?php foreach( View::getStylesheets() as $css ): ?>
+  <?php foreach( self::get( 'stylesheets' ) as $css ): ?>
   <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
-  <?php foreach( View::getScripts() as $script): ?>
+  <?php foreach( (array) self::get( 'scripts' ) as $script): ?>
   <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
   <?php endforeach; ?>
-  <?php foreach( View::getScriptBlocks() as $block): ?>
+  <?php foreach( (array) self::get( 'scriptBlocks' ) as $block): ?>
   <script type="text/javascript" charset="UTF-8">
     <?= $block; ?>
   </script>

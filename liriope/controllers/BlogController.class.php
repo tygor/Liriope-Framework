@@ -6,31 +6,22 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-// sample URLs:
-// --------------------
-//
-// These would use the controller/action method
-// http://site.com/blog == http://site.com/blog/page/1
-// http://site.com/blog/show/param/val
-// http://site.com/blog/page/1
-//
-// This would default to the filepage action
-// which calls the file based CMS content
-// http://site.com/blog/filename
-//
-// so basically, if there is no action associated with the
-// request structure, then use the Liriope/Folderfile action.
-
 class BlogController Extends LiriopeController {
 
+  // show()
+  // displays a list of the latest blog posts
+  //
   public function show( $vars=NULL ) {
     $blog = new Blogs();
-    $blogs = $blog->setLimit(5)->get();
+    $blogs = $blog->setLimit(5)->setContext('intro')->getList();
     $this->set( 'blogs', $blogs );
   }
 
+  // post()
+  // shows a single post by filename
+  //
   public function post( $params=NULL ) {
-    $post = new Blogposts( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
+    $post = new Blogs( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
     $this->set( 'content', $post );
   }
 

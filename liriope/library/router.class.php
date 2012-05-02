@@ -33,7 +33,11 @@ class router {
     // check for a matched rule and direct into the MVC structure
     if( !self::matchRule( uri::getURIArray() )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
 
-    trigger_error( "<b>Routing rule matched.</b> Dispatching to <b>" . self::$controller . "</b>, <b>" . self::$action . "</b>() with the params: " . print_r( self::$params, TRUE ), E_USER_NOTICE );
+    // DEBUGGING
+    trigger_error( "<b>Routing rule matched.</b><br> Dispatching to <b>" .
+      self::$controller . "</b>, <b>" . self::$action . "</b>()<br> " .
+      "with the params: " . print_r( self::$params, TRUE ),
+      E_USER_NOTICE );
 
     return array(
       'controller' => self::$controller,
@@ -42,38 +46,32 @@ class router {
     );
   }
 
-  //
-  // getRule()
-  // returns a rule by $id, or the whole set if empty
-  //
-  // @param  string  $id The id to return
-  // @return string  The resulting value of that id
-  // 
-  static function getRule( $id=NULL ) {
-    if( $id === NULL ) return self::$rules;
-    return a::get( self::$rules, $id, FALSE );
-  }
-
-  //
   // setRule()
   // stores a rule to use during dispatch
   //
-  // @param  mixed  $id The URI part to translate, and also the unique ID
-  // @param  mixed  $result The translation into controller/action?params
+  // @param  string $name The name for the routing rule
+  // @param  string $rule The rule to match to the request URI
+  // @param  string $route The translation into controller/action?params
   // @return bool   TRUE on sucess, FALSE on error
   //
-  static function setRule( $id=NULL, $result=NULL ) {
-    if( empty( $id )) {
+  static function setRule( $name=NULL, $rule=NULL, $route=NULL ) {
+    if( $name === NULL || $rule === NULL || $route === NULL ) {
       trigger_error( 'setRule was passed an empty parameter', E_USER_NOTICE );
       return false;
     }
-    if( !is_array( $id )) {
-      self::$rules[$id] = $result;
-      return true;
-    }
-    foreach( $id as $i ) {
-      self::setRule( $i[0], $i[1] );
-    }
+    self::$rules[$name] = array( 'rule'=>$rule, 'route'=>$route );
+    return true;
+  }
+
+  // getRule()
+  // returns a rule by $name, or the whole set if empty
+  //
+  // @param  string  $name The rule to return by name
+  // @return string  The resulting value of that name
+  // 
+  static function getRule( $name=NULL ) {
+    if( $name === NULL ) return self::$rules;
+    return a::get( self::$rules, $name, FALSE );
   }
 
   // 
@@ -89,42 +87,70 @@ class router {
   // @return bool   TRUE on succes, FALSE on error
   //
   static function matchRule( $request ) {
+    // if $request is empty... call the homepage
+    if( empty( $request[0] )) {
+      return self::useRoute( self::getRule( 'home' ));
+    }
 
-    foreach( self::getRule() as $rule => $result ) {
-      // turn the rules into an array
-      $rule = trim( $rule, '/' );
-      $rules = explode( "/", $rule );
+    foreach( self::getRule() as $name => $parts ) {
 
-      // loop through the $rules parts to find a match
-      for( $i=0; $i < count( $rules ); $i++ ) {
+      // turn the rule into an array
+      $rule = trim( $parts['rule'], '/' );
+      $rule = explode( '/', $rule );
+
+      $wildcards = array();
+      $match = $request;
+
+      // loop through the $rule parts to find a match
+      for( $i=0; $i < count( $rule ); $i++ ) {
         
-        // if we get to the end of the URI array first... we don't match!
-        // if we get to the end of the rule... we do match!
-        // otherwise, if the request[$i] and rule[$i] don't match... break;
-        // or continue;
+        // FOR EAXMPLE:
+        // request - /foo/bar/baz
+        //
+        // rule1   - /foo/bar
+        // result1 - /foo/bar
+        // return1 - controller=foo, action=bar, params={baz}
+        //
+        // rule2   - /foo
+        // result2 - /foo/bar
+        // return2 - controller=foo, action=bar, params={bar, baz}
 
-        // are we at the end of the URI array?
-        // then we match, and we fill in the request with the rule
-        if( !isset( $request[$i] )) $request[$i] = $rules[$i];
+        // NO MATCH LOGIC
+        // --------------------------------------------------
+        // if request[i] is empty, the rule is longer. NO MATCH!
+        if( !isset( $request[$i] )) {
+          break;
+        }
+        // if rule[i] and request[i] don't match. NO MATCH!
+        if( $rule[$i] !== '*' && $rule[$i] !== $request[$i] ) {
+          break;
+        }
+        // if this is the last rule part, is not a wildcard,
+        // and the request continues. NO MATCH!
+        if( $i == ( count( $rule ) - 1 )
+            && isset( $request[$i + 1] )
+            && $rule[$i] !== '*' ) {
+          break;
+        }
 
-        // if the parts don't match and thre is no wildcard fallback,
-        // break the for loop to move on to the next rule
-        if( $rules[$i] !== $request[$i] && $rules[$i] !== "*" ) break;
+        // WILDCARD HANDLING
+        // --------------------------------------------------
+        // if the wildcard is used, store it to replace with
+        if( $rule[$i] == '*' && isset( $request[$i] )) $wildcards[] = $request[$i];
 
-        // store the $part value if we're on a wildcard
-        $store = array();
-        if( $rules[$i] == "*" && isset( $request[$i] )) $store[] = $request[$i];
+        // PARAMS TRACKER
+        // --------------------------------------------------
+        // cut the match off of the request clone so that we have the remainder when we match
+        array_shift( $match );
 
-        if( $i == ( count( $rules ) - 1 )) {
+        // MATCH LOGIC
+        // --------------------------------------------------
+        // if we get to this point, then we pass all no match logic
+        // use this route and return to break the loops
+        if( $i == ( count( $rule ) - 1 )) {
           // RULE MATCHED
-          $result = self::ruleReplace( $result, $store );
-
-          // return it's translation
-          $result = explode( "/", $result );
-          self::$controller = array_shift( $result );
-          self::$action     = array_shift( $result );
-          self::$params     = $result + $request;
-          return true;
+          $params = array_merge( (array) $wildcards , (array) $match );
+          return self::useRoute( self::getRule( $name ), $params );
         }
       }
     }
@@ -133,18 +159,12 @@ class router {
     return false;
   }
 
-  static function ruleReplace( $subject, $source ) {
-    // find all of the placeholders: \$\d+ (ex. $1)
-    $pattern = '/\$\d+/';
-    $count = preg_match_all( $pattern, $subject, $matches );
-
-    // then replace them
-    foreach( $matches[0] as $k => $match ) {
-      $subject = str_replace( $match, $source[$k], $subject );
-    }
-
-    // return result
-    return $subject;
+  static function useRoute( $rule, $match=array() ) {
+    $parts = explode( '/', $rule['route'] );
+    self::$controller = array_shift( $parts );
+    self::$action     = array_shift( $parts );
+    self::$params     = $match;
+    return true;
   }
 
   //

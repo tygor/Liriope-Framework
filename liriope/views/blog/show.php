@@ -6,16 +6,14 @@
  */
 ?>
 
-<pre>class: <?= get_class(); ?></pre>
-
 <section id="blog">
 
-<?php foreach( View::get( 'blogs' ) as $entry ): ?>
+<?php foreach( $blogs as $entry ): ?>
 <article>
-  <?= $entry->getIntro(); ?>
+  <?= $entry ?>
   <footer>
-    <a href="<?= $entry->getLink(); ?>" class="readmore">Read full article&hellip;</a><br>
-    <time><?= $entry->getModified(); ?></time>  <?= date( 'Y-m-d H:i:s', $entry->getPubDate()); ?>
+    <a href="<?php echo $entry->getLink() ?>" class="readmore">Read full article&hellip;</a><br>
+    <time><?php echo date( 'M jS, Y', $entry->getPubDate()) ?></time>
   </footer>
 </article>
 <hr>

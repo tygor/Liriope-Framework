@@ -8,6 +8,7 @@
 // ------------------
 
 self::set( 'page.title', 'Projects | Liriope');
+//self::addStylesheet( 'test.css' );
 
 ?>
 

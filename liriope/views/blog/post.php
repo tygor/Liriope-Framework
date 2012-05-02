@@ -6,8 +6,6 @@
  */
 ?>
 
-<pre>class: <?= get_class(); ?></pre>
-
 <section id="blog-post">
   <?= $content; ?>
 </section><!-- #blog-post -->

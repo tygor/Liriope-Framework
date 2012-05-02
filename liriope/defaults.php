@@ -4,10 +4,11 @@
 // 
 
 // Set some default router rules
-router::setRule( 'test',    'test/show' );
-router::setRule( 'blog/show', 'blog/show' );
-router::setRule( 'blog/*',    'blog/post/$1' );
-router::setRule( '*',         'Liriope/filepage' );
+router::setRule( 'testhome', 'test',      'test/show' );
+router::setRule( 'test',     'test/*',    'test/page' );
+router::setRule( 'blog',     'blog',      'blog/show' );
+router::setRule( 'blogpost', 'blog/*',    'blog/post/$1' );
+router::setRule( 'home',     '*',         'Liriope/filepage' );
 
 // turn on debugging
 c::set( 'debug', TRUE );

@@ -11,9 +11,7 @@ class Page {
 
   static public $_content; 
 
-  static public $vars    = array();
-  static public $scripts = array();
-  static public $scriptBlocks = array();
+  static public $vars = array();
 
   public function __construct() {
     // add the default stylesheets and scripts
@@ -38,6 +36,7 @@ class Page {
   public function addStylesheet( $file=NULL, $rel='stylesheet' ) {
     if( $file===NULL ) return false;
     self::$vars['stylesheets'][] = array( 'file' => $file, 'rel' => $rel );
+    return $file;
   }
 
   static function addScript( $file=NULL, $type='text/javascript' ) {

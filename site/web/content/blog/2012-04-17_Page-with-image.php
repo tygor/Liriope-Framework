@@ -2,13 +2,21 @@
 
 self::set( 'page.title', 'A page with an image' );
 self::set( 'blog.pubDate', '2012-04-17' );
-self::addStylesheet( 'content/blog/2012-04-17/styles.css' );
+var_dump( self::addStylesheet( '/content/blog/2012-04-17/styles.css' ));
 
 ?>
 
 <h1>A page with an image</h1>
 <p>Now that we have a content router, how do we link to images?</p>
 <hr class="readmore">
+
+<?php
+
+self::set( 'page.title', 'A page with an image' );
+self::set( 'blog.pubDate', '2012-04-17' );
+self::addStylesheet( '/content/blog/2012-04-17/styles.css' );
+
+?>
 
 <h1>A page with an image</h1>
 <img src="/content/blog/2012-04-17/placeholder.gif" alt="image from blog root">

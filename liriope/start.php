@@ -3,12 +3,6 @@
 // start.php
 //
 
-// TODO: remove this:
-//
-  error_reporting( E_ALL );
-  ini_set( 'display_errors', 1 );
-//
-
 // direct access protection
 if( !isset( $root )) die( 'Direct access is not allowed' );
 
@@ -19,15 +13,15 @@ define( 'LIRIOPE', true );
 require_once( $rootLiriope . '/library/liriope.php' );
 
 // set the root locations
-c::set( 'root',              realpath( $root ));
-c::set( 'root.web',          $rootWeb );
-c::set( 'root.liriope',      realpath( $rootLiriope ));
-c::set( 'root.application',  realpath( $rootApplication ));
-c::set( 'root.content',      $rootWeb . '/content' );
-c::set( 'theme.folder',      'themes' );
-c::set( 'root.theme',        $rootWeb . '/themes' );
-c::set( 'root.snippets',     $rootWeb . '/snippets' );
-c::set( 'root.content.file', 'index' );
+c::set( 'root',                 realpath( $root ));
+c::set( 'root.web',             $rootWeb );
+c::set( 'root.liriope',         realpath( $rootLiriope ));
+c::set( 'root.application',     realpath( $rootApplication ));
+c::set( 'root.content',         $rootWeb . '/content' );
+c::set( 'theme.folder',         'themes' );
+c::set( 'root.theme',           $rootWeb . '/themes' );
+c::set( 'root.snippets',        $rootWeb . '/snippets' );
+c::set( 'root.content.file',    'index' );
 
 // clean up unsed variables
 unset( $root );

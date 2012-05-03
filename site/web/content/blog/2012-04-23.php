@@ -1,7 +1,7 @@
 <?php
 
-self::set( 'page.title',   'Routing fun' );
-self::set( 'blog.pubDate', 2012-04-23 );
+self::set( 'page.title', 'Routing fun' );
+self::set( 'blog.pubDate', '2012-04-23' );
 
 ?>
 
@@ -12,8 +12,6 @@ self::set( 'blog.pubDate', 2012-04-23 );
 <p>Still learning&hellip; but things are coming together anyway.</p>
 
 <hr class="readmore">
-
-<pre>class: <?= get_class(); ?></pre>
 
 <div class="image alignright">
   <img src="/content/blog/2012-04-23/router-flowchart.png">

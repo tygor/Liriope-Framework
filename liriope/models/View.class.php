@@ -28,6 +28,7 @@ class View {
 
     // always add these as defaults
     self::addStylesheet( self::get( 'themeFolder' ) . '/style.css' );
+    self::addScript( self::get( 'themeFolder' ) . '/script.js' );
 
     $file = load::exists( '/' . $controller . '/' . $action . '.php' );
     if( !$file ) trigger_error( "We can't find that view file: $file", E_USER_ERROR );
@@ -63,17 +64,6 @@ class View {
     if( !empty( self::$variables[$name] )) return self::$variables[$name];
     if( c::get( $name )) return c::get( $name );
     return $default;
-  }
-
-  // isHomepage()
-  // Stores if this is the homepage view
-  //
-  // @param  bool  $home TRUE if this is the home page
-  // @return bool  TRUE if it is, and FALSE if it's any other page
-  static function isHomepage( $home=FALSE ) {
-    if( $home === TRUE || empty( self::$homeFlag )) self::$homeFlag = TRUE;
-    if( empty( self::$homeFlag )) return FALSE;
-    return self::$homeFlag;
   }
 
   // setTheme()
@@ -164,9 +154,7 @@ class View {
       // (ex: $vars['content'] will become $content)
       $vars = self::get();
       $vars['content'] = $content;
-
-      // TODO: automate getting the theme folder
-      $vars['themeFolder'] = 'themes/grass';
+      $vars['themeFolder'] = c::get( 'theme.folder', 'themes' ) . '/' . c::get( 'theme', c::get( 'default.theme' ));
 
       // get content and dump!
       content::start();

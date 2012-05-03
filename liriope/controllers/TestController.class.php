@@ -2,8 +2,8 @@
 
 class TestController extends LiriopeController {
   function show( $params ) {
-    $this->set( 'params', $params );
-    $this->set( 'content', 'Testing' );
+    View::set( 'params', $params );
+    View::set( 'content', 'Testing' );
   }
 }
 ?>

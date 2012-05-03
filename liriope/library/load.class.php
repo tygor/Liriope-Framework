@@ -60,19 +60,9 @@ class load
     $root = c::get( 'root.liriope' );
     load::file( $root . '/models/View.class.php', TRUE );
     load::file( $root . '/models/Page.class.php', TRUE );
-    //load::file( $root . '/library/theme.class.php', TRUE );
     load::file( $root . '/models/SQLQuery.class.php', TRUE );
     load::file( $root . '/models/Xml.class.php', TRUE );
     load::file( $root . '/models/Files.class.php', TRUE );
-  }
-
-  static function themes()
-  {
-    // load built-in themes
-    // TODO: uh... why do I load themes here? Shouldn't this be outside of the load class, like in the view creation process? At the very least, these would be auto_loaded like any controller
-    $root = c::get( 'root.liriope' );
-    load::file( $root . '/models/LiriopeTheme.class.php' );
-    load::file( $root . '/models/GrassTheme.class.php' );
   }
 
   static function helpers()

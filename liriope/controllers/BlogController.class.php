@@ -14,7 +14,7 @@ class BlogController Extends LiriopeController {
   public function show( $vars=NULL ) {
     $blog = new Blogs();
     $blogs = $blog->setLimit(5)->setContext('intro')->getList();
-    $this->set( 'blogs', $blogs );
+    View::set( 'blogs', $blogs );
   }
 
   // post()
@@ -22,7 +22,14 @@ class BlogController Extends LiriopeController {
   //
   public function post( $params=NULL ) {
     $post = new Blogs( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
-    $this->set( 'content', $post );
+    View::set( 'content', $post->render() );
+    // now that the post has been rendered to a string, the contained PHP will have been run
+    $css = $post->get('stylesheets');
+    $post->set( 'stylesheets', NULL );
+    if( is_array( $css )) {
+      foreach( $css as $c ) View::addStylesheet( $c['file'], $c['rel'] );
+    }
+    View::set( $post->get() );
   }
 
 }

@@ -22,6 +22,7 @@ c::set( 'url', 'http://liriope.ubuntu' );
 c::set( 'default.controller', 'liriope' );
 c::set( 'default.action',     'show' );
 c::set( 'default.theme',      'grass' );
+c::set( 'theme.folder',       'themes' );
 c::set( 'default.404.folder', 'error' );
 c::set( 'default.404.file',   '404.php' );
 c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt' ));

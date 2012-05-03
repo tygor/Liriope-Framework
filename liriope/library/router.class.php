@@ -104,17 +104,6 @@ class router {
       // loop through the $rule parts to find a match
       for( $i=0; $i < count( $rule ); $i++ ) {
         
-        // FOR EAXMPLE:
-        // request - /foo/bar/baz
-        //
-        // rule1   - /foo/bar
-        // result1 - /foo/bar
-        // return1 - controller=foo, action=bar, params={baz}
-        //
-        // rule2   - /foo
-        // result2 - /foo/bar
-        // return2 - controller=foo, action=bar, params={bar, baz}
-
         // NO MATCH LOGIC
         // --------------------------------------------------
         // if request[i] is empty, the rule is longer. NO MATCH!
@@ -179,14 +168,6 @@ class router {
     $controller = strtolower( $parts[0] );
     $controllerFile = ucwords( tools::cleanInput( $controller, 'alphaOnly' )) . 'Controller.class.php';
     if( !load::seek( $controllerFile )) {
-      if( empty( $parts[0] )) {
-        $parts = NULL;
-        // tell the View that this is the homepage
-        View::isHomepage( TRUE );
-        // TODO: determine if this conditional is necessary. How else is the homepage flag set or used?
-        die("I don't think the code ever gets to this point");
-      }
-      // use Rule #2
       $controller = c::get( 'default.controller' );
       $action = 'filepage';
       $getVars = $parts;

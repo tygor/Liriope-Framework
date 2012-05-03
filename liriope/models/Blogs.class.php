@@ -40,25 +40,33 @@ class Blogs extends Page {
 
   public function __toString() {
     if( $this->context === 'list' ) {
-      $return = $this->getIntro();
-      return $return;
+      return $this->getIntro();
     } else {
-      // show the intro text in the full post?
-      $intro = c::get( 'blog.intro.show', FALSE );
-
-      // start output buffering and grab the full post file
-      content::start();
-      include( $this->fullpath );
-      $post = content::end( TRUE );
-
-      // chop off the intro text portion
-      if( !$intro && $matchOffset = $this->findReadmore( $post )) {
-        $post = substr( $post, $matchOffset );
-        $post = substr( $post, strpos( $post, '>' )+1 );
-      }
-      $post = trim( $post );
-      return $post;
+      return $this->render();
     }
+  }
+
+  // render()
+  // converts the Blogs path and file into a read string
+  //
+  // @return string The file of this blog, buffered, and returned as a string
+  //
+  public function render() {
+    // show the intro text in the full post?
+    $intro = c::get( 'blog.intro.show', FALSE );
+
+    // start output buffering and grab the full post file
+    content::start();
+    include( $this->fullpath );
+    $post = content::end( TRUE );
+
+    // chop off the intro text portion
+    if( !$intro && $matchOffset = $this->findReadmore( $post )) {
+      $post = substr( $post, $matchOffset );
+      $post = substr( $post, strpos( $post, '>' )+1 );
+    }
+    $post = trim( $post );
+    return $post;
   }
 
   // getList()
@@ -115,7 +123,6 @@ class Blogs extends Page {
   private function sortFiles() {
     // for now, this will sort by modifiy date from most recent to latest
     $check = array();
-    // TODO: this is hairy, but works:
     foreach( $this->files as $k => $f ) $check[$k] = $this->path . '/' . $f;
     uasort( $check, "self::compareModifiedDate" );
     $sorted = array();

@@ -1,10 +1,9 @@
-body {
-  background-image: none;
-  background-color: rgb( 220,220,220 );
-}
-
 img.testImg {
   width: 240px;
   height: 180px;
   background-color: gray;
+}
+
+h1 {
+  color: blue;
 }

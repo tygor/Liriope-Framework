@@ -8,20 +8,14 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 //
 
 class Page {
-
   static public $_content; 
-
   static public $vars = array();
-
-  public function __construct() {
-    // add the default stylesheets and scripts
-    View::addStylesheet( 'css/style.css' );
-    View::addScript( 'js/script.js' );
-  }
 
   public function set( $key, $value=FALSE ) {
     if( is_array( $key )) {
       self::$vars = array_merge( self::$vars, $key );
+    } elseif( $value === NULL ) {
+      unset( self::$vars[$key] );
     } else {
       self::$vars[$key] = $value;
     }

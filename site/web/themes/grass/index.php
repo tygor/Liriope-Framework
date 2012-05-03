@@ -28,7 +28,7 @@
   <link rel="shortcut icon" href="/<?= $themeFolder; ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
-  <?php foreach( self::get( 'stylesheets' ) as $css ): ?>
+  <?php foreach( (array) self::get( 'stylesheets' ) as $css ): ?>
   <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
   <?php foreach( (array) self::get( 'scripts' ) as $script): ?>

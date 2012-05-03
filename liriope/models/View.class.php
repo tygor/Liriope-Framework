@@ -56,11 +56,19 @@ class View {
     }
 	}
 
+  // add()
+  // Similar to set, but for arrays
+  //
+  // @param  $name
+  // @param  $value
+  // @return array  Always returns an array, even if empty
+  //
+  static function add( $name, $value=NULL ) {
+    self:$variables[$name][] = $value;
+  }
+
   static function get( $name=NULL, $default=FALSE  ) {
     if( $name === NULL ) return self::$variables;
-    // even though self::$variables is extracted into the symbol table
-    // sometimes, you may want to get a configuration value as a default
-    // so get will return the self::$variable[$name] or the c::get( $name )
     if( !empty( self::$variables[$name] )) return self::$variables[$name];
     if( c::get( $name )) return c::get( $name );
     return $default;

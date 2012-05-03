@@ -3,6 +3,8 @@
 self::set( 'page.title', 'Routing fun' );
 self::set( 'blog.pubDate', '2012-04-23' );
 
+$this->pubDate = '2012-04-23';
+
 ?>
 
 <h1>Routing fun</h1>

@@ -1,6 +1,7 @@
 <?php
 
 self::set( 'page.title', 'No more intro text' );
+self::set( 'blog.pubDate', '2012-04-16' );
 
 ?>
 

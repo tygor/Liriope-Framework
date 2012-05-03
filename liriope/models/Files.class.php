@@ -1,4 +1,8 @@
 <?php
+
+// Direct access protection
+if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+
 //
 // Files.class.php
 //
@@ -69,11 +73,9 @@ class Files {
   }
 
   public function __toString() {
-    ob_start();
+    content::start();
     include($this->fullpath);
-    $return = ob_get_contents();
-    ob_end_clean();
-    return $return;
+    return content::end( TRUE );
   }
 
   private function checkModified() {
@@ -81,6 +83,10 @@ class Files {
     if( $time === false ) return false;
     $this->modified = date( "F d Y H:i:s", filemtime( $this->fullpath ));
     return true;
+  }
+
+  static function modified( $file ) {
+    return filemtime( $file );
   }
 
   public function getModified() {

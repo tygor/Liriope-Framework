@@ -9,7 +9,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class Page {
   static public $_content; 
-  static public $vars = array();
+  public $vars = array();
 
   public function set( $key, $value=FALSE ) {
     if( is_array( $key )) {
@@ -17,19 +17,19 @@ class Page {
     } elseif( $value === NULL ) {
       unset( self::$vars[$key] );
     } else {
-      self::$vars[$key] = $value;
+      $this->vars[$key] = $value;
     }
   }
 
   public function get( $key=NULL, $default=NULL ) {
-    if( $key===NULL ) return (array)self::$vars;
-    if( !empty( self::$vars[$key] )) return self::$vars[$key];
+    if( $key===NULL ) return (array) $this->vars;
+    if( isset( $this->vars[$key] )) return $this->vars[$key];
     return $default;
   }
 
   public function addStylesheet( $file=NULL, $rel='stylesheet' ) {
     if( $file===NULL ) return false;
-    self::$vars['stylesheets'][] = array( 'file' => $file, 'rel' => $rel );
+    $this->vars['stylesheets'][] = array( 'file' => $file, 'rel' => $rel );
     return $file;
   }
 

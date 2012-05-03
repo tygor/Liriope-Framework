@@ -38,7 +38,7 @@ c::set( 'page.DOCTYPE', '<!DOCTYPE html>' );
 // --------------------------------------------------
 
 // set the location of the blog content relative to the web root
-c::set( 'default.blog.dir', 'content/blog' );
+c::set( 'blog.dir', 'content/blog' );
 
 // What will your readmore class be? This is used to divide a post
 // into intro and full article text

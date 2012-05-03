@@ -6,6 +6,11 @@
  */
 ?>
 
-<section id="blog-post">
-  <?= $content; ?>
-</section><!-- #blog-post -->
+<article id="blog-post">
+  <header>
+  </header>
+  <?= $post; ?>
+  <footer>
+    <time>published on: <?= date( 'Y-m-d', $post->getPubDate()); ?></time>
+  </footer>
+</article><!-- #blog-post -->

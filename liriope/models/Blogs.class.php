@@ -7,11 +7,11 @@
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class Blogs extends Page {
-  var $_handle;
   var $limit;
   var $path;
   var $entry = array();
   var $context;
+  var $content;
   var $file;
   var $files = array();
   var $ignore = array();
@@ -25,24 +25,30 @@ class Blogs extends Page {
   // all params are optional
   //
   public function __construct( $path=NULL, $file=NULL) {
-    $this->_handle = NULL;
-    if( $path === NULL ) {
-      $this->path = c::get( 'blog.dir', c::get( 'default.blog.dir' ));
-    } else {
-      $this->path = $path;
-    }
+    // on construct, this object can be either an actual post, or an object of multiple posts.
+    $this->path = ( $path === NULL ) ? c::get( 'blog.dir', c::get( 'default.blog.dir' )) : $path;
     $this->file = $file;
     $this->fullpath = load::exists( $file, $this->path );
     $this->context = 'show';
     $this->filter = array( 'php', 'html', 'txt');
     $this->ignore = array( '.', '..', 'index.php', 'index.html');
+    // for blog posts, we need to store the blog content now, during construct
+    // this way, the internal PHP logic is also accomplished before the controller
+    // does anything else. We determine that this instance of Blogs is an actual
+    // post by checking the filepath.
+    if( is_file( c::get( 'root.web' ) . '/' . $this->fullpath )) {
+      $this->content = $this->render();
+    }
   }
 
+  // __toString()
+  // return a portion of the full content based on the context
+  //
   public function __toString() {
     if( $this->context === 'list' ) {
       return $this->getIntro();
     } else {
-      return $this->render();
+      return $this->getArticle();
     }
   }
 
@@ -52,13 +58,41 @@ class Blogs extends Page {
   // @return string The file of this blog, buffered, and returned as a string
   //
   public function render() {
-    // show the intro text in the full post?
-    $intro = c::get( 'blog.intro.show', FALSE );
-
     // start output buffering and grab the full post file
     content::start();
     include( $this->fullpath );
     $post = content::end( TRUE );
+
+    return $post;
+  }
+
+  // getIntro()
+  // returns the post content up to the readmore link
+  //
+  public function getIntro() {
+    // chop all but the intro text
+    if( $matchOffset = $this->findReadmore()) $post = substr( $this->content, 0, $matchOffset );
+
+    // is the post empty because there is no readmore?
+    if( empty( $post )) $post = $this->content;
+
+    // wrap the <h1> tag in an anchor?
+    if( c::get( 'blog.link.title', TRUE )) {
+      $pattern = '/(<h1[^>]*>)([a-z0-9 ]*)(<\/h1>)/i';
+      $replacement = '$1<a href="' . $this->getLink() . '">$2</a>$3';
+      $post = preg_replace( $pattern, $replacement, $post );
+    }
+
+    return $post;
+  }
+
+  // getArticle()
+  // returns the post content after the readmore link
+  //
+  public function getArticle() {
+    // show the intro text in the full post?
+    $intro = c::get( 'blog.intro.show', FALSE );
+    $post = $this->content;
 
     // chop off the intro text portion
     if( !$intro && $matchOffset = $this->findReadmore( $post )) {
@@ -66,6 +100,7 @@ class Blogs extends Page {
       $post = substr( $post, strpos( $post, '>' )+1 );
     }
     $post = trim( $post );
+
     return $post;
   }
 
@@ -144,36 +179,10 @@ class Blogs extends Page {
     return $this;
   }
 
-  public function getIntro() {
-    if( !load::exists( $this->file, $this->path )) trigger_error( 'No valid file to read (file: ' . $this->file . ', path: ' . $this->path. ')', E_USER_ERROR );
-
-    // parse the file and grab everything up to the tag holding
-    // the c::get( 'readmore.class' ) class
-    content::start();
-    include( $this->path . '/' . $this->file );
-    $post = content::end( TRUE );
-
-    if( empty( $post )) trigger_error( 'Woops, no blog content in this file: ' . $this->file, E_USER_ERROR );
-
-    // chop all but the intro text
-    if( $matchOffset = $this->findReadmore( $post )) $post = substr( $post, 0, $matchOffset );
-
-    // wrap the <h1> tag in an anchor?
-    if( c::get( 'blog.link.title', TRUE )) {
-      $pattern = '/(<h1[^>]*>)([a-z0-9 ]*)(<\/h1>)/i';
-      $replacement = '$1<a href="' . $this->getLink() . '">$2</a>$3';
-      $post = preg_replace( $pattern, $replacement, $post );
-    }
-
-    return $post;
-  }
-
-  private function findReadmore( $content=NULL ) {
-    if( $content===NULL ) throw new Exception( "__CLASS__ => __METHOD__ (line __LINE__): No content was passed to search through." );
-
+  private function findReadmore() {
     // now, find the offset of where that class is
     $pattern = '/<[^>]*' . c::get( 'readmore.class', c::get( 'default.readmore.class', 'readmore' ) ) . '[^>]*>/';
-    $count = preg_match( $pattern, $content, $matches, PREG_OFFSET_CAPTURE );
+    $count = preg_match( $pattern, $this->content, $matches, PREG_OFFSET_CAPTURE );
 
     if( $count !== 1 ) return false;
     return $matches[0][1];

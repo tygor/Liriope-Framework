@@ -8,7 +8,7 @@ router::setRule( 'testhome', 'test',      'test/show' );
 router::setRule( 'test',     'test/*',    'test/page' );
 router::setRule( 'blog',     'blog',      'blog/show' );
 router::setRule( 'blogpost', 'blog/*',    'blog/post/$1' );
-router::setRule( 'home',     '*',         'Liriope/filepage' );
+router::setRule( 'home',     '*',         'Liriope/show' );
 
 // turn on debugging
 c::set( 'debug', TRUE );
@@ -30,8 +30,10 @@ c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt' ));
 //
 // Set some page defaluts
 // --------------------------------------------------
-c::set( 'page.title', 'Liriope : Monkey Grass' );
 c::set( 'page.DOCTYPE', '<!DOCTYPE html>' );
+c::set( 'page.title', 'Liriope : Monkey Grass' );
+c::set( 'page.description', 'A learning project called Liriope.' );
+c::set( 'page.author', 'Tyler Gordon' );
 
 //
 // Set some blog defaults

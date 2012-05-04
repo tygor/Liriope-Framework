@@ -62,11 +62,6 @@ if( c::get( 'debug' )) {
 }
 
 // Begin
-callLiriope();
-
-// render captured errors and debugging content
-if( c::get( 'debug' )) {
-  error::render();
-}
+Liriope();
 
 ?>

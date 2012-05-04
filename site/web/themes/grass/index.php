@@ -4,11 +4,13 @@
  * Grass theme
  */
 
-  self::addStylesheet( self::get( 'themeFolder' ) . '/style.less', 'stylesheet/less' );
+  /*
+  self::addStylesheet( theme::$folder . '/style.less', 'stylesheet/less' );
   self::addScript( 'js/libs/less-1.3.0.min.js' );
   self::addScriptBlock( 'less.watch();' );
+*/
 
-  echo View::get( 'page.DOCTYPE' );
+  echo $page->DOCTYPE();
 ?>
 <html class="no-js" lang="en">
 <head>
@@ -18,14 +20,14 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?= View::get( 'page.title' ); ?></title>
-  <meta name="description" content="<?= View::get( 'page.description', 'Liriope Framework default theme titled Grass.' ) ?>">
-  <meta name="author" content="<?= View::get( 'page.author', 'Tyler Gordon' ) ?>">
+  <title><?= $page->title(); ?></title>
+  <meta name="description" content="<?= $page->description(); ?>">
+  <meta name="author" content="<?= $page->author(); ?>">
 
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link rel="shortcut icon" href="/<?= $themeFolder; ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
   <?php foreach( (array) self::get( 'stylesheets' ) as $css ): ?>
@@ -50,14 +52,14 @@
 </head>
 
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
-  <img id="background" src="/<?= $themeFolder; ?>/images/grass-wallpaper.jpg">
+  <img id="background" src="/<?= theme::$folder; ?>/images/grass-wallpaper.jpg">
 
   <div id="container">
     <header id="main" class="clear">
 
       <hgroup id="identity">
         <a href="/">
-          <img src="/<?= $themeFolder; ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
+          <img src="/<?= theme::$folder; ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
         </a>
       </hgroup>
 
@@ -69,7 +71,7 @@
 
     <div id="main" role="main">
 
-<?= $content; ?>
+<?= $page->render(); ?>
 
     </div>
     <footer id="main">

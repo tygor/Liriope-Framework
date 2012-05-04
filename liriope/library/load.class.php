@@ -59,6 +59,7 @@ class load
     // load models related to the MVC
     $root = c::get( 'root.liriope' );
     load::file( $root . '/models/View.class.php', TRUE );
+    load::file( $root . '/models/Theme.class.php', TRUE );
     load::file( $root . '/models/Page.class.php', TRUE );
     load::file( $root . '/models/SQLQuery.class.php', TRUE );
     load::file( $root . '/models/Xml.class.php', TRUE );

@@ -83,7 +83,8 @@ class error {
         ));
         break;
       default:
-        echo "Unknown error type: [$code] $msg<br>\n";
+        echo "<b>Unknown error type</b>: [$code] $msg<br>\n";
+        echo "<em>($file) line: $line</em><br>\n";
         break;
     }
 

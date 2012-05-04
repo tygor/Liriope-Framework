@@ -234,46 +234,15 @@ class router {
 
     // HERE'S THE MAGIC
     // Grab that file
-    if( load::seek( $target )) {
+    if( !load::seek( $target )) router::go( '/', 404 ); 
 
-      // Does the object exist?
-      if( class_exists( $controller )) {
+    // check that the class was loaded and that it has the correct method
+    if( !class_exists( $controller )) trigger_error( "We can't find the class file <b>" . ucfirst($controller) . ".class.php</b>.", E_USER_ERROR );
+    if( !method_exists( $controller, $action )) trigger_error( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>.", E_USER_ERROR );
 
-        // Does the object have that function?
-        if( method_exists( $controller, $action )) {
-
-          // Ok, run that object's function!
-          $dispatch = new $controller( $model, $controllerName, $action );
-          call_user_func( array( $dispatch,$action ), $getVars );
-
-        } else {
-
-          throw new Exception( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>." );
-
-        }
-      } else {
-
-        throw new Exception( "We can't find the class file <b>" . ucfirst($controller) . ".class.php</b>." );
-
-      }
-    } else {
-
-      // OK, so the controller file doesn't exist, but don't freak out!
-      // Perhaps there is a view sitting in the default folder. If there is
-      // then just show that HTML.
-      if( load::exists( c::get( 'default.controller' ) . "/$controllerName.php" )) {
-
-        // Ok, run that hidden page!
-        $dispatch = new LiriopeController( 'Liriope', 'default', $controllerName );
-        call_user_func_array( array( $dispatch,'dummyPages' ), $getVars );
-
-      } else {
-
-        /* Error Generation Code Here */
-        self::go( '/', 404 );
-
-      }
-    }
+    // Ok, run that object's function!
+    $dispatch = new $controller( $model, $controllerName, $action );
+    call_user_func( array( $dispatch,$action ), $getVars );
   }
 
   //

@@ -16,6 +16,15 @@ c::set( 'language', 'en' );
 c::set( 'charset', 'utf-8' );
 
 // --------------------------------------------------
+// main call function
+// Begins the framework inner-workings
+// --------------------------------------------------
+function Liriope() {
+  extract( router::getDispatch() );
+  router::callHook( $controller, $action, $params );
+}
+
+// --------------------------------------------------
 // Setup Exception Handler
 // This will be where we define what to do with
 // uncaught exceptions.
@@ -73,17 +82,6 @@ function unregisterGlobals() {
     }
 }
 unregisterGlobals();
-
-// --------------------------------------------------
-// callLiriope
-// --------------------------------------------------
-// main call function
-// Begins the framework inner-workings
-//
-function callLiriope() {
-  extract( router::getDispatch() );
-  router::callHook( $controller, $action, $params );
-}
 
 // --------------------------------------------------
 // useHelper

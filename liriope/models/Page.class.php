@@ -7,9 +7,19 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // Page.class.php
 //
 
-class Page {
-  static public $_content; 
-  public $vars = array();
+class Page extends obj {
+  var $_view;
+  var $_content; 
+  var $vars = array();
+
+  function __construct( $file=NULL ) {
+    $this->_view = $file;
+    $this->title = c::get( 'page.title' );
+    $this->description = c::get( 'page.description' );
+    $this->author = c::get( 'page.author' );
+    $this->theme = c::get( 'theme', c::get( 'default.theme' ));
+    $this->DOCTYPE = c::get( 'page.DOCTYPE' );
+  }
 
   public function set( $key, $value=FALSE ) {
     if( is_array( $key )) {
@@ -27,7 +37,7 @@ class Page {
     return $default;
   }
 
-  public function addStylesheet( $file=NULL, $rel='stylesheet' ) {
+  public function css( $file=NULL, $rel='stylesheet' ) {
     if( $file===NULL ) return false;
     $this->vars['stylesheets'][] = array( 'file' => $file, 'rel' => $rel );
     return $file;
@@ -51,14 +61,16 @@ class Page {
     return self::$_content;
   }
 
-  public function render( $file=NULL, $content=array(), $return=TRUE ) {
+  public function render( $content=array(), $return=TRUE ) {
     content::start();
-    if( is_array( $content )) extract( $content );
+    //if( is_array( $content )) extract( $content );
     $page =& $this;
-    include( $file );
+    include( $this->_view );
     $render = content::end( $return );
     if( $return ) return $render;
     echo $render;
   }
 }
+
+?>
 

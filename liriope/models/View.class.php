@@ -37,6 +37,7 @@ class View extends obj {
     $this->_view = $file;
 
     $this->_site = new Site();
+    // TODO: NO! This IS page... View = Page. And some of page = Liriope model.
     $this->_page = new Page( $file );
 	}
 
@@ -104,6 +105,7 @@ class View extends obj {
 
     // tell the theme object about the site and the page
     theme::set( 'site', $site );
+    // TODO: page = the passed model content
     theme::set( 'page', $page );
 
     $html = theme::load( $page->template(), $html, TRUE );

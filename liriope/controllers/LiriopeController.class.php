@@ -53,6 +53,7 @@ class LiriopeController {
   }
 
   function __destruct() {
+    die( $this->_view->HTML );
     $this->_view->load();
   }
 

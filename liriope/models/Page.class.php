@@ -39,31 +39,39 @@ class Page extends obj {
 
   public function css( $file=NULL, $rel='stylesheet' ) {
     if( $file===NULL ) return false;
-    $this->vars['stylesheets'][] = array( 'file' => $file, 'rel' => $rel );
+    $this->vars['css'][] = array( 'file' => $file, 'rel' => $rel );
     return $file;
   }
 
-  static function addScript( $file=NULL, $type='text/javascript' ) {
+  public function js( $file=NULL, $type='text/javascript' ) {
     if( $file===NULL ) return false;
-    self::$vars['scripts'][] = array( 'file' => $file, 'type' => $type );
+    $this->vars['js'][] = array( 'file' => $file, 'type' => $type );
   }
 
-  static function addScriptBlock( $script=NULL ) {
+  public function script( $script=NULL ) {
     if( $script===NULL ) return false;
-    self::$vars['scriptblocks'][] = $script;
+    $this->vars['script'][] = $script;
   }
 
-  static function addContent( $html ) {
-    self::$_content .= $html;
+  public function DEPaddContent( $html ) {
+    $this->content .= $html;
+    return $this;
   }
 
-  public function getContent() {
-    return self::$_content;
+  public function DEPgetContent() {
+    return $this->content;
   }
 
-  public function render( $content=array(), $return=TRUE ) {
+  private function transferStored() {
+    // loop through the $this->get() variables and overload them
+    foreach( $this->get() as $k => $v ) {
+      $this->$k = $v;
+    }
+  }
+
+  public function render( $return=TRUE ) {
     content::start();
-    //if( is_array( $content )) extract( $content );
+    $this->transferStored();
     $page =& $this;
     include( $this->_view );
     $render = content::end( $return );

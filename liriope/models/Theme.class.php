@@ -4,7 +4,7 @@
 if(!defined('LIRIOPE')) die( 'Direct access is not allowed');
 
 //
-// theme.php
+// Theme.php
 // Handles the display of the theme
 //
 
@@ -28,9 +28,10 @@ class theme {
 
   static function load( $theme=NULL, $vars=array(), $return=FALSE ) {
     if( $theme===NULL ) $theme = c::get( 'default.theme' );
-    $folder = c::get( 'root.theme' ) . '/' . $theme;
+    $folder = c::get( 'theme.folder', 'themes' ) . '/' . $theme;
     self::$folder = $folder;
-    $file = $folder . '/' . 'index.php';
+    $realfolder = c::get( 'root.theme' ) . '/' . $theme;
+    $file = $realfolder . '/' . 'index.php';
     return self::loadFile( $file, $vars, $return );
   }
 

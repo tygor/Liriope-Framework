@@ -40,20 +40,26 @@ class LiriopeController {
 
     // check for home page
     $path = empty( $params[0] ) ? '/home/index' : '/' . implode( '/', $params );
-    $content = new Liriope( $path, c::get( 'root.web' ) . '/content' );
+    $liriope = new Liriope( $path, c::get( 'root.web' ) . '/content' );
 
-    // now give the view the setting from the rendered content
-    //$this->_view->set( $content->get() );
+    // get the parent page object and pass to the Liriope object
+    $page =& $this->getPage();
+    $liriope->setPage( $page );
 
-    $this->render( $content->render() );
+    // Add the object for the view file to use to the $page via the alias $this->set()
+    $this->set( 'liriope', $liriope );
   }
 
-  function render( $html ) {
-    $this->_view->HTML = $html;
+  // returns the view's page object for storing additonal values
+  function getPage() {
+    return $this->_view->_page;
+  }
+
+  function set( $name, $value ) {
+    $this->_view->_page->set( $name, $value );
   }
 
   function __destruct() {
-    die( $this->_view->HTML );
     $this->_view->load();
   }
 

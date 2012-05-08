@@ -9,7 +9,7 @@
 // ------------------
 
 $page->set( 'page.title', 'Liriope | Monkey Grass' );
-$page->css( 'themes/grass/css/aux.css' );
+$page->css( 'content/home/aux.css' );
 
 ?>
 

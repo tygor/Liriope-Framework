@@ -100,43 +100,22 @@ class View extends obj {
   //
   function load() {
     $site =& $this->_site;
+    // at this point, $page contains the $_view file
     $page =& $this->_page;
-    $html = $this->HTML;
 
     // tell the theme object about the site and the page
     theme::set( 'site', $site );
-    // TODO: page = the passed model content
     theme::set( 'page', $page );
 
-    $html = theme::load( $page->template(), $html, TRUE );
-    die($html);
-    exit;
-// -----------
+    $html = theme::load( $page->template(), $page->render(), TRUE );
 
-    // start the page and get it's contents as a variable
-    $content = $page->render( $this->_view, $this->variables, TRUE );
-
-    // apply the page filters to the page content alone
-    $content = filter::doFilters( $content );
-
-    // then pass this page content to the theme
-    // store content in an array so other variables can be stored alongside
-    // these get extracted into the variable table for the view files
-    // (ex: $vars['content'] will become $content)
-    $vars = $this->get();
-    $vars['content'] = $content;
-    $vars['themeFolder'] = $this->theme();
-
-    // get content and dump!
-    content::start();
-    if( is_array( $vars )) extract( $vars );
-    include( c::get( 'root.theme', 'themes' ) . '/' . $this->theme() . '/index.php' );
-    $html = content::end();
+    // OUTPUT TO BROWSER
+    echo $html;
 
     // TODO: Right now, errors get dumped to HTML after the </html> tag which is not valid... but it's debugging and not production.
     if( c::get( 'debug' )) error::render();
 
-    die( $html );
+    exit;
   }
 
 }

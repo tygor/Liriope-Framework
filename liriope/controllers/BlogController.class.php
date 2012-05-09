@@ -48,7 +48,7 @@ class BlogController Extends LiriopeController {
     uasort( $posts, array( "BlogController", "comparepubDate" ));
 
     // then limit to a specific number
-    $limitNum = 5;
+    $limitNum = 10;
     $posts = array_slice( $posts, 0, $limitNum);
 
     $this->set( 'blogs', $posts );

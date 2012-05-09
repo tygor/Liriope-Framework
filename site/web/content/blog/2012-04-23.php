@@ -6,9 +6,6 @@ $blog->date = '2012-04-23';
 ?>
 
 <h1>Routing fun</h1>
-<div class="image thumb alignleft">
-  <img src="/content/blog/2012-04-23/router-flowchart-thumb.png">
-</div>
 <p>Still learning&hellip; but things are coming together anyway.</p>
 
 <hr class="readmore">

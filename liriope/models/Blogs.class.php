@@ -84,7 +84,7 @@ class Blogs extends Page {
 
     // wrap the <h1> tag in an anchor?
     if( c::get( 'blog.link.title', TRUE )) {
-      $pattern = '/(<h1[^>]*>)([a-z0-9 ]*)(<\/h1>)/i';
+      $pattern = '/(<h1[^>]*>)([a-z0-9\'\".!? ]*)(<\/h1>)/i';
       $replacement = '$1<a href="' . $this->getLink() . '">$2</a>$3';
       $post = preg_replace( $pattern, $replacement, $post );
     }

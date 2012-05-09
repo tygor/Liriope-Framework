@@ -1,0 +1,57 @@
+/**
+ *
+ * Blog.css
+ * Styles for the blog controller
+ *
+ */
+
+section#blog article {
+  padding-left: 60px;
+  margin: .5em 0;
+  border-bottom: 1px solid;
+  position: relative;
+  overflow: hidden;
+}
+
+section#blog article footer {
+  float: left;
+  width: 60px;
+  margin: .25em 0 .125em -60px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.125;
+  color: #fff;
+  text-shadow: rgb(0,0,0) 0px 1px 3px;
+  text-shadow: rgba(0,0,0,.5) 0px 1px 3px;
+}
+
+section#blog article footer time.day {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+section#blog article h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: normal;
+  text-shadow: rgb(255,255,255) 0px 1px 3px;
+  text-shadow: rgba(255,255,255,.5) 0px 1px 3px;
+}
+
+section#blog article p {
+  font-size: 12px;
+  margin: 0 0 .5em 0;
+}
+
+section#blog article a {
+  text-decoration: none;
+  color: rgb(50,50,50);
+  transition-property: color;
+  transition-duration: .5s;
+  transition-delay: .5s;
+  transition-timing-function: ease-out;
+}
+
+section#blog article a:hover {
+  color: blue;
+}

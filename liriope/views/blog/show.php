@@ -6,6 +6,7 @@
  */
 
 $page->title = "Blog | Liriope";
+$page->css( 'content/blog/blog.css' );
 
 ?>
 
@@ -13,13 +14,16 @@ $page->title = "Blog | Liriope";
 
 <?php foreach( $page->blogs as $entry ): ?>
 <article>
-  <?= $entry ?>
   <footer>
-    <a href="<?php echo $entry->getLink() ?>" class="readmore">Read full article&hellip;</a><br>
-    <time><?php echo date( 'M jS, Y', $entry->getPubDate()) ?></time>
+    <p>
+      <time class="month"><?php echo date( 'M', $entry->getPubDate()) ?></time><br>
+      <time class="day"><?php echo date( 'd', $entry->getPubDate()) ?></time>
+    </p>
   </footer>
+  <div>
+    <?= $entry ?>
+  </div>
 </article>
-<hr>
 <?php endforeach; ?>
 
 </section><!-- /#blog-list -->

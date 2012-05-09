@@ -99,9 +99,10 @@ class View extends obj {
   // @return string   The result of the output buffer
   //
   function load() {
+    global $page;
+
     $site =& $this->_site;
-    // at this point, $page contains the $_view file
-    $page =& $this->_page;
+    $page = $this->_page;
 
     // tell the theme object about the site and the page
     theme::set( 'site', $site );

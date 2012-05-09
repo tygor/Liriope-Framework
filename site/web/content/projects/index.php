@@ -1,14 +1,8 @@
 <?php
 // Projects
 // index.php
-//
-// updated: 2012/03/26
 
-// page configuration
-// ------------------
-
-self::set( 'page.title', 'Projects | Liriope');
-//self::addStylesheet( 'test.css' );
+$page->title = 'Projects | Liriope';
 
 ?>
 

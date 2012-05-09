@@ -1,16 +1,13 @@
 <?php
-/**
- * Cope-Slider.php
- * --------------------------------------------------
- * homepage slider for J.M. Cope
- */
+// Cope-Slider.php
+// --------------------------------------------------
+// homepage slider for J.M. Cope
 
-// page configuration
-// ------------------
+global $page;
 
-View::addStylesheet( 'plugins/orbit/orbit-1.3.0.css' );
-View::addStylesheet( 'themes/cope/slider.css' );
-View::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
+$page->css( 'plugins/orbit/orbit-1.3.0.css' );
+$page->css( 'themes/cope/slider.css' );
+$page->js( 'plugins/orbit/jquery.orbit-1.3.0.js' );
 
 ?>
 

@@ -1,13 +1,10 @@
 <?php
-/**
- * About > index.php
- * --------------------------------------------------
- */
+//
+// About > index.php
+// --------------------------------------------------
+//
 
-// page configuration
-// ------------------
-
-self::set( 'page.title', 'About Us');
+$page->title = 'About Us';
 
 ?>
 

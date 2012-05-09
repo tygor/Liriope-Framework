@@ -324,6 +324,62 @@ footer nav.menu
   }
 }
 
+// Blog.css
+// Styles for the blog controller
+// --------------------------------------------------
+
+section#blog article {
+  padding-left: 60px;
+  margin: .5em 0;
+  border-bottom: 1px solid;
+  position: relative;
+  overflow: hidden;
+
+  footer {
+    float: left;
+    width: 60px;
+    margin: .25em 0 .125em -60px;
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.125;
+    color: rgb(50,50,50);
+    text-shadow: rgb(0,0,0) 0px 1px 3px;
+    text-shadow: rgba(0,0,0,.5) 0px 1px 3px;
+
+    time.day {
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: normal;
+    text-shadow: rgb(0,0,0) 0px 1px 3px;
+    text-shadow: rgba(0,0,0,.5) 0px 1px 3px, rgb(255,200,200) 0px -1px 0px;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 0 0 .5em 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: rgb(180,0,40);
+    transition-property: color;
+    transition-duration: .5s;
+    transition-delay: .5s;
+    transition-timing-function: ease-out;
+  }
+
+  a:hover {
+    color: rgb(250,50,50);
+  }
+}
+
+
 // Debugging
 // --------------------------------------------------
 #debugging {

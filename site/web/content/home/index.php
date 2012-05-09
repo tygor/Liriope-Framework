@@ -5,10 +5,7 @@
  * homepage
  */
 
-// page configuration
-// ------------------
-
-$page->set( 'page.title', 'Liriope | Monkey Grass' );
+$page->title = 'Liriope | Monkey Grass';
 
 ?>
 

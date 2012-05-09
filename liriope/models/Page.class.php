@@ -53,15 +53,6 @@ class Page extends obj {
     $this->vars['script'][] = $script;
   }
 
-  public function DEPaddContent( $html ) {
-    $this->content .= $html;
-    return $this;
-  }
-
-  public function DEPgetContent() {
-    return $this->content;
-  }
-
   private function transferStored() {
     // loop through the $this->get() variables and overload them
     foreach( $this->get() as $k => $v ) {
@@ -72,7 +63,7 @@ class Page extends obj {
   public function render( $return=TRUE ) {
     content::start();
     $this->transferStored();
-    $page =& $this;
+    $page = $this;
     include( $this->_view );
     $render = content::end( $return );
     $render = filter::doFilters( $render );

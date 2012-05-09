@@ -1,13 +1,8 @@
 <?php
-/**
- * Features > index.php
- * --------------------------------------------------
- */
+// Features > index.php
+// --------------------------------------------------
 
-// page configuration
-// ------------------
-
-self::set( 'page.title', 'Features | Liriope');
+$page->title = 'Features | Liriope';
 
 ?>
 

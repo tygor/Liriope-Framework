@@ -48,10 +48,17 @@ class BlogController Extends LiriopeController {
     uasort( $posts, array( "BlogController", "comparepubDate" ));
 
     // then limit to a specific number
-    $limitNum = 10;
-    $posts = array_slice( $posts, 0, $limitNum);
+    $limitNum = a::get( $vars, 'limit', 10 );
+    $pageNum = a::get( $vars, 'page', 1);
+    $startPoint = ($pageNum * $limitNum) - $limitNum;
+    $postCount = count( $posts );
+    $totalPages = ceil( $postCount / $limitNum );
+    $posts = array_slice( $posts, $startPoint, $limitNum);
 
     $this->set( 'blogs', $posts );
+    $this->set( 'limitNum', $limitNum );
+    $this->set( 'totalPages', $totalPages );
+    $this->set( 'pageNum', $pageNum );
   }
 
   private function comparePubDate( $a, $b ) {

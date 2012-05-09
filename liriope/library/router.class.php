@@ -39,11 +39,25 @@ class router {
       "with the params: " . print_r( self::$params, TRUE ),
       E_USER_NOTICE );
 
+    self::makeParams();
+
     return array(
       'controller' => self::$controller,
       'action'     => self::$action,
       'params'     => self::$params
     );
+  }
+
+  static function makeParams() {
+    $params = self::$params;
+
+    // convert params into key/value array
+    $p = array();
+    for( $i = 0; $i < count( $params); $i++ ) {
+      if( isset( $params[$i+1] )) $p[$params[$i]] = $params[++$i];
+      else $p[] = $params[$i];
+    }
+    self::$params = $p;
   }
 
   // setRule()

@@ -75,6 +75,7 @@ class Page extends obj {
     $page =& $this;
     include( $this->_view );
     $render = content::end( $return );
+    $render = filter::doFilters( $render );
     if( $return ) return $render;
     echo $render;
   }

@@ -106,14 +106,12 @@ class View extends obj {
     // tell the theme object about the site and the page
     theme::set( 'site', $site );
     theme::set( 'page', $page );
+    if( c::get( 'debug' )) theme::set( 'error', error::render( TRUE ));
 
     $html = theme::load( $page->template(), $page->render(), TRUE );
 
     // OUTPUT TO BROWSER
     echo $html;
-
-    // TODO: Right now, errors get dumped to HTML after the </html> tag which is not valid... but it's debugging and not production.
-    if( c::get( 'debug' )) error::render();
 
     exit;
   }

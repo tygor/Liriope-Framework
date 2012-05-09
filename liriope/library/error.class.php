@@ -30,8 +30,10 @@ class error {
     return self::$_[$id] ? self::$_[$id] : $default ;
   }
 
-  static function render() {
-    content::get( c::get( 'root.liriope' ) . '/views/errors/debugging.php', NULL, FALSE );
+  static function render( $return=FALSE ) {
+    $content = content::get( c::get( 'root.liriope' ) . '/views/errors/debugging.php', NULL, TRUE );
+    if( $return ) return $content;
+    echo $content;
   }
 
   static function handler( $code, $msg, $file, $line ) {

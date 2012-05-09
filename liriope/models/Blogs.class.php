@@ -37,6 +37,9 @@ class Blogs extends Page {
     // does anything else. We determine that this instance of Blogs is an actual
     // post by checking the filepath.
     if( is_file( c::get( 'root.web' ) . '/' . $this->fullpath )) {
+      // TODO: the rendereding calls into effect any variable within, and for the "show" action _
+      // this is undesirable since they aren't yet set and won't be to simply list. _
+      // instead, I need a different "render" for the list context.
       $this->content = $this->render();
     }
   }
@@ -60,6 +63,8 @@ class Blogs extends Page {
   public function render() {
     // start output buffering and grab the full post file
     content::start();
+    // I need a $page object so that the content included can act normally
+    if( $this->context = "list" ) $page = new Page();
     include( $this->fullpath );
     $post = content::end( TRUE );
 

@@ -1,7 +1,7 @@
 <?php
 
-$page->set( 'title', 'Let\'s think about this differently' );
-$page->set( 'date', '2012-05-04' );
+$page->title = "Let's think about this differently";
+$page->date = "2012-05-04";
 
 $page->css( 'fakecss.css' );
 

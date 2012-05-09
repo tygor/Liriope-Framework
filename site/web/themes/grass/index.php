@@ -91,6 +91,7 @@
     </footer>
   </div> <!--! end of #container -->
 
+  <?php if( $error ) echo $error; ?>
 
   <!-- JavaScript at the bottom for fast page loading -->
 

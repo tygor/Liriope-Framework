@@ -12,6 +12,9 @@ class BlogController Extends LiriopeController {
   // displays a list of the latest blog posts
   //
   public function show( $vars=NULL ) {
+    // get the parent page object and pass to the Liriope object
+    $page =& $this->getPage();
+
     // get the last $num of blog posts and use the Blogs model for each one
     $dir = c::get( 'root.web' ) . '/' . c::get( 'blog.dir' );
     $files = dir::read( $dir );
@@ -23,7 +26,9 @@ class BlogController Extends LiriopeController {
     // weed out directories and unwanted file extensions
     $filter = array( 'php', 'html', 'txt');
     foreach( $files as $k => $f ) {
-      if( is_dir( $dir . '/' . $f ) || !in_array( Files::extension( $f ), $filter )) unset( $files[$k] );
+      if( is_dir( $dir . '/' . $f ) || !in_array( Files::extension( $f ), $filter )) {
+        unset( $files[$k] );
+      }
     }
 
     // TODO: this part sucks because you have to read all the file to get to their PHP settings within so that they can be sorted by the pubdate rather than the file's modified date.
@@ -32,13 +37,12 @@ class BlogController Extends LiriopeController {
     foreach( $files as $f ) {
       $blog = new Blogs( c::get( 'blog.dir' ), $f );
       $blog->setContext('list');
-      $pubdate = $blog->get( 'blog.pubDate', FALSE );
-      if( $pubdate === FALSE ) {
-        $pubdate = date( 'Y-m-d', Files::modified( $blog->fullpath ));
-        $blog->set( 'blog.pubDate', $pubdate );
-      }
+      $pubdate = date( 'Y-m-d', $blog->getPubdate());
+      $blog->pubDate = $pubdate;
       $posts[$pubdate] = $blog;
     }
+tools::devPrint($posts);
+exit;
 
     // sort them by their pubdate
     krsort( $posts );

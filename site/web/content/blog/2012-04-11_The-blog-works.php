@@ -1,3 +1,9 @@
+<?php
+
+$blog->date = '2012-04-11';
+
+?>
+
 <h1>The blog controller is born.</h1>
 <hr class="readmore">
 

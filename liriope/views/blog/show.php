@@ -4,11 +4,14 @@
  * --------------------------------------------------
  * Show the blog files from your web/content/blog folder
  */
+
+$page->title = "Blog | Liriope";
+
 ?>
 
 <section id="blog">
 
-<?php foreach( $blogs as $entry ): ?>
+<?php foreach( $page->blogs as $entry ): ?>
 <article>
   <?= $entry ?>
   <footer>
@@ -18,13 +21,5 @@
 </article>
 <hr>
 <?php endforeach; ?>
-
-<?php
-
-// set the page title after adding in the blog list
-// since they will set the title as well and overwrite it
-View::set( 'page.title', 'Blog | Liriope' );
-
-?>
 
 </section><!-- /#blog-list -->

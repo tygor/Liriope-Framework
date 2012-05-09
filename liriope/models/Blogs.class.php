@@ -65,6 +65,7 @@ class Blogs extends Page {
     content::start();
     // I need a $page object so that the content included can act normally
     if( $this->context = "list" ) $page = new Page();
+    $blog =& $this;
     include( $this->fullpath );
     $post = content::end( TRUE );
 
@@ -200,7 +201,7 @@ class Blogs extends Page {
 
   private function checkModified() {
     $time = filemtime( $this->fullpath );
-    if( $time === FALSE ) return FALSE;
+    if( $time === FALSE ) trigger_error( 'Could not get the file\'s modified time', E_USER_ERROR );
     $this->modified = $time;
     return true;
   }
@@ -210,7 +211,7 @@ class Blogs extends Page {
   //
   public function getModified() {
     if( !isset( $this->modified )) {
-      $this->checkModified();
+      $this->checkModified(); 
     }
     return $this->modified;
   }
@@ -219,11 +220,9 @@ class Blogs extends Page {
   // returns the assigned pubDate is one was set
   //
   public function getPubDate() {
-    $pubdate = self::get( 'blog.pubDate', FALSE );
-    if( !$pubdate ) {
-      return strtotime( $pubdate );
-    }
-    return $this->getModified();
+    $pubdate = $this->date;
+    if( $pubdate===NULL ) return $this->getModified();
+    return strtotime( $pubdate );
   }
 
 }

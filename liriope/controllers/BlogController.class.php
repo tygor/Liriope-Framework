@@ -35,23 +35,30 @@ class BlogController Extends LiriopeController {
     // Get the list as Blogs objects
     $posts = array();
     foreach( $files as $f ) {
+      $pubdate = "";
       $blog = new Blogs( c::get( 'blog.dir' ), $f );
       $blog->setContext('list');
       $pubdate = date( 'Y-m-d', $blog->getPubdate());
       $blog->pubDate = $pubdate;
-      $posts[$pubdate] = $blog;
+      $posts[] = $blog;
     }
-tools::devPrint($posts);
-exit;
+
 
     // sort them by their pubdate
-    krsort( $posts );
+    uasort( $posts, array( "BlogController", "comparepubDate" ));
 
     // then limit to a specific number
     $limitNum = 5;
     $posts = array_slice( $posts, 0, $limitNum);
 
-    View::set( 'blogs', $posts );
+    $this->set( 'blogs', $posts );
+  }
+
+  private function comparePubDate( $a, $b ) {
+    $am = $a->getPubdate();
+    $bm = $b->getPubdate();
+    if( $am == $bm ) return 0;
+    return( $am < $bm ) ? +1 : -1;
   }
 
   // post()
@@ -59,12 +66,13 @@ exit;
   //
   public function post( $params=NULL ) {
     $post = new Blogs( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
-    View::set( 'post', $post );
+    $post->setContext( 'show' );
+    $this->set( 'post', $post );
+
     // now that the post has been rendered to a string, the contained PHP will have been run
     if( is_array( $post->get( 'stylesheets' ))) {
       foreach( $css as $c ) View::addStylesheet( $c['file'], $c['rel'] );
     }
-    View::set( $post->get() );
   }
 
 }

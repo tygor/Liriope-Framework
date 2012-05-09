@@ -1,9 +1,7 @@
 <?php
 
-self::set( 'page.title', 'Routing fun' );
-self::set( 'blog.pubDate', '2012-04-23' );
-
-$this->pubDate = '2012-04-23';
+$blog->title = 'Routing fun';
+$blog->date = '2012-04-23';
 
 ?>
 

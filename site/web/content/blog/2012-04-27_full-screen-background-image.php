@@ -1,7 +1,7 @@
 <?php
 
-self::set( 'page.title', 'Wallpaper website' );
-self::set( 'blog.pubDate', '2012-05-01' );
+$blog->title = 'Wallpaper website';
+$blog->date = '2012-05-01';
 
 ?>
 

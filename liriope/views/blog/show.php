@@ -25,12 +25,6 @@ $page->title = "Blog | Liriope";
 </article>
 <?php endforeach; ?>
 
-<?= getLink( 'first', '/blog/show/limit/'.$page->limitNum.'/page/1'); ?>
-<?= getLink( 'prev', '/blog/show/limit/'.$page->limitNum.'/page/'.( $page->pageNum - 1 )); ?>
-<?php for( $i=1; $i<=$page->totalPages; $i++ ): ?>
-  <?= getLink( $i, '/blog/show/limit/'.$page->limitNum.'/page/'.$i); ?>
-<?php endfor; ?>
-<?= getLink( 'next', '/blog/show/limit/'.$page->limitNum.'/page/'.( $page->pageNum + 1 )); ?>
-<?= getLink( 'last', '/blog/show/limit/'.$page->limitNum.'/page/'.$page->totalPages); ?>
+<?php snippet( 'pagination.php', $page ); ?>
 
 </section><!-- /#blog-list -->

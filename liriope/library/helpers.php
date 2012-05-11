@@ -21,13 +21,13 @@ function getLink( $label=NULL, $url=NULL, $args=array() ) {
   $label = tools::cleanInput( $label, 'whiteAlphaNum' );
 
   // take the variables and send back a HTML <a> tag
-  $format = '<a href="%s" %s>%s</a>';
+  $format = '<a href="%s" %s>%s</a>' . "\n";
 
   // take care of the arguments first
   $argString = "";
   foreach( $args as $key => $value )
   {
-    $argString .= tools::cleanInput( $key ) . '="' . tools::cleanInput( $value ) . '" ';
+    $argString .= tools::cleanInput( $key ) . '="' . tools::cleanInput( $value, 'whiteAlphaNum' ) . '" ';
   }
 
   return sprintf( $format, $url, $argString, $label );
@@ -36,6 +36,8 @@ function getLink( $label=NULL, $url=NULL, $args=array() ) {
 //
 // snippet
 // grabs a piece of page
+//
+// @param  string  $file The name of the file snippet
 //
 function snippet( $file=NULL ) {
   if( $file===NULL ) return NULL;

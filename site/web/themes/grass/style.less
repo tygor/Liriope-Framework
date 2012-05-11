@@ -90,7 +90,11 @@ ins
   background-color: hsl( hue(@AccentColor2), 100%, 75% );
 }
 
-a {
+a,
+a:link,
+a:active,
+a:visited
+{
   color: @BaseColor;
 
   transition: color 0.25s ease-in;
@@ -115,7 +119,10 @@ h1, h2, h3, h4, h5, h6
 h1
 {
   font-size: @baseFontSize * 2.25;
+  font-weight: normal;
   color: @BaseColor;
+  text-shadow: rgb(0,0,0) 0px 1px 3px;
+  text-shadow: rgba(0,0,0,.5) 0px 1px 3px, rgb(255,200,200) 0px -1px 0px;
 }
 h2
 {
@@ -355,9 +362,6 @@ section#blog article {
   h1 {
     margin: 0;
     font-size: 30px;
-    font-weight: normal;
-    text-shadow: rgb(0,0,0) 0px 1px 3px;
-    text-shadow: rgba(0,0,0,.5) 0px 1px 3px, rgb(255,200,200) 0px -1px 0px;
   }
 
   p {
@@ -380,6 +384,41 @@ section#blog article {
 }
 
 
+// Pagination
+// --------------------------------------------------
+.pagination {
+  a, span {
+    margin: 0em .5em;
+    padding: 0em .5em;
+    font-size: 12px;
+    float: left;
+    display: block;
+    text-decoration: none;
+    background-color: rgba(255,255,255,.5);
+    .rounded();
+    .shadow();
+  }
+  span {
+    color: lighten( @black, 30 );
+  }
+  a:hover {
+    background-color: rgba(255,255,255,1);
+  }
+  a.first,
+  a.last {
+    display: none;
+  }
+  a.prev {}
+  a.next {}
+  a.page {
+    width: 1.25em;
+    text-align: center;
+  }
+  a.current {
+    color: @black;
+  }
+}
+
 // Debugging
 // --------------------------------------------------
 #debugging {
@@ -394,8 +433,8 @@ section#blog article {
   
   h1 {
     font-size: 14px;
-    font-weight: normal;
     color: rgb(255,255,255);
+    text-shadow: none;
   }
   
   #debug-content {

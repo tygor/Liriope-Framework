@@ -1,1 +1,1 @@
-<?= $page->liriope(); ?>
+<?= $page->content(); ?>

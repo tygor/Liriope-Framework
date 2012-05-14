@@ -56,3 +56,12 @@ Config variables
 * default.controller
 * default.action
 * default.theme
+
+Thinking through the page
+-------------------------
+
+HTML = Page + Theme
+Theme = Theme
+Page = Controller + View
+
+HTML = Theme + Controller + View

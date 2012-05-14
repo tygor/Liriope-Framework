@@ -9,7 +9,6 @@
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class Liriope extends Page {
-  var $_page;
   protected $root;
   protected $file;
   protected $folder;
@@ -114,14 +113,15 @@ class Liriope extends Page {
     return false;
   }
 
-  public function setPage( $page ) {
-    $this->_page =& $page;
+  public function render() {
+    return $this->__toString();
   }
 
   public function __toString() {
+    global $page;
     content::start();
-    $page =& $this->_page;
     include( $this->file );
+
     $render = content::end( TRUE );
     return $render;
   }

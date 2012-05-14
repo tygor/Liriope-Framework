@@ -34,6 +34,10 @@ class LiriopeController {
   // The default Liriope action that reads content from the web/content folder
   //
   public function show( $params=NULL ) {
+    // get the page object so that we can set page variables in the view file
+    global $page;
+    $page = $this->getPage();
+
     // the $params passed are the URI bits and may contain extensions
     // so, clean the file extension off of the $params
     foreach( $params as $k => $param ) $params[$k] = tools::removeExtension( $param );
@@ -42,12 +46,10 @@ class LiriopeController {
     $path = empty( $params[0] ) ? '/home/index' : '/' . implode( '/', $params );
     $liriope = new Liriope( $path, c::get( 'root.web' ) . '/content' );
 
-    // get the parent page object and pass to the Liriope object
-    $page =& $this->getPage();
-    $liriope->setPage( $page );
+    $content = $liriope->render();
 
     // Add the object for the view file to use to the $page via the alias $this->set()
-    $this->set( 'liriope', $liriope );
+    $this->set( 'content', $content );
   }
 
   // returns the view's page object for storing additonal values

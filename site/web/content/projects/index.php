@@ -3,6 +3,7 @@
 // index.php
 
 $page->title = 'Projects | Liriope';
+$page->theme = 'paper';
 
 ?>
 

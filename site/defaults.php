@@ -8,6 +8,7 @@
 // Site 
 // --------------------------------------------------
 c::set( 'url', 'http://liriope.ubuntu' );
+c::set( 'site.title', 'Liriope' );
 
 //
 // Theme

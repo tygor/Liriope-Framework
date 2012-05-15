@@ -22,17 +22,22 @@ c::set( 'home', 'home' );
 c::set( 'url', 'http://liriope.ubuntu' );
 c::set( 'default.controller', 'liriope' );
 c::set( 'default.action',     'show' );
-c::set( 'default.theme',      'grass' );
+c::set( 'theme',              'grass' );
 c::set( 'theme.folder',       'themes' );
 c::set( 'default.404.folder', 'error' );
 c::set( 'default.404.file',   '404.php' );
 c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt' ));
 
 //
+// Set some site defaluts
+// --------------------------------------------------
+c::set( 'site.DOCTYPE', '<!DOCTYPE html>' );
+c::set( 'site.title', 'Liriope' );
+
+//
 // Set some page defaluts
 // --------------------------------------------------
-c::set( 'page.DOCTYPE', '<!DOCTYPE html>' );
-c::set( 'page.title', 'Liriope : Monkey Grass' );
+c::set( 'page.title', 'Monkey Grass' );
 c::set( 'page.description', 'A learning project called Liriope.' );
 c::set( 'page.author', 'Tyler Gordon' );
 

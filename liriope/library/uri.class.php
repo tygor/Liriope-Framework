@@ -15,6 +15,8 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class uri {
   static protected $route;
+  static $uri;
+  static $isHome = false;
   static $path;
   static $file;
   static $extension;
@@ -56,15 +58,30 @@ class uri {
     trigger_error( 'The URI is storing route: ' . self::$route . ', file: ' . self::$file . ', extension: ' . self::$extension . ', path: ' . self::$path, E_USER_NOTICE );
   }
 
+  static function isHome() {
+    if( empty( self::$route )) {
+      self::getURI();
+    }
+    return self::$isHome;
+  }
+
   static function get() {
     return self::getURI();
   }
 
+  static function getRawURI() {
+    if( empty( self::$uri )) self::$uri = server::get( 'REQUEST_URI' );
+    return self::$uri;
+  }
+
   static function getURI() {
     if( empty( self::$route )) {
-      $route = server::get( 'REQUEST_URI' );
+      $route = self::getRawURI();
       $route = trim( $route, '/' );
-      if( $route === "" ) $route = c::get( 'home', 'home' );
+      if( $route === "" ) {
+        self::$isHome = TRUE;
+        $route = c::get( 'home', 'home' );
+      }
       self::store( $route );
     }
     return self::$route;

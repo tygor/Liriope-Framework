@@ -3,7 +3,7 @@
 
   $page->css( theme::$folder . '/style.css' );
 
-  echo $page->DOCTYPE();
+  echo $site->DOCTYPE();
 ?>
 <html class="no-js" lang="en">
 

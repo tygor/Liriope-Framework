@@ -3,7 +3,7 @@
  * cope.php
  * J. M. Cope theme
  */
-  echo page::get( 'page.DOCTYPE' );
+  echo $page->DOCTYPE();
 ?>
 <html class="no-js" lang="en">
 <head>

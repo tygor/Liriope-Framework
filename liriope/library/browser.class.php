@@ -114,13 +114,7 @@ class browser {
   }
 
   static function areWeHome( $homeclass='home' ) {
-    $uri = $_SERVER['REQUEST_URI'];
-    
-    // if the $uri is simply a slash, then we are home
-    if( $uri === "/" ) return $homeclass;
-
-    // if the code gets here, just return nothing
-    return '';
+    return uri::isHome() ? $homeclass : '';
   }
 }
 

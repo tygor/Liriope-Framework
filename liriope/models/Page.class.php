@@ -9,7 +9,6 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class Page extends obj {
   var $_view;
-  var $_content; 
   var $vars = array();
 
   function __construct( $file=NULL ) {
@@ -17,8 +16,7 @@ class Page extends obj {
     $this->title = c::get( 'page.title' );
     $this->description = c::get( 'page.description' );
     $this->author = c::get( 'page.author' );
-    $this->theme = c::get( 'theme', c::get( 'default.theme' ));
-    $this->DOCTYPE = c::get( 'page.DOCTYPE' );
+    $this->theme = c::get( 'theme' );
   }
 
   public function set( $key, $value=FALSE ) {
@@ -58,6 +56,15 @@ class Page extends obj {
     foreach( $this->get() as $k => $v ) {
       $this->$k = $v;
     }
+  }
+
+  public function url() {
+    if( $this->isHomePage()) return url();
+    return url($this->uri);
+  }
+
+  public function isHomePage() {
+    return ( $this->uri === c::get( 'home' )) ? TRUE : FALSE;
   }
 
   public function render( $return=TRUE ) {

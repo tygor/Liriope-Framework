@@ -1,36 +1,26 @@
-# Apache configuration file
+# Liriope .htaccess
 
-# ----------------------------------------------------------------------
-# Start rewrite engine
-# ----------------------------------------------------------------------
-
-<IfModule mod_rewrite.c>
-  Options +FollowSymlinks
-  RewriteEngine On
-</IfModule>
-
-# Rewrite "www.example.com -> example.com" 
+# enable php as a directoyr index
+# fail-safe since this should be enabled
+DirectoryIndex index.php index.html index.htm
 
 <IfModule mod_rewrite.c>
-  RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 
-  RewriteRule %{REQUEST_FILENAME} !-f
-  RewriteRule %{REQUEST_FILENAME} !-d
-  RewriteRule ^images/.*$ - [PT]
-  RewriteRule ^css/.*$ - [PT]
-  RewriteRule ^js/.*$ - [PT]
-  RewriteRule ^plugins/.*$ - [PT]
-  RewriteRule ^themes/.*$ - [PT]
-  RewriteRule ^content/.*$ - [PT]
-  RewriteRule ^snippets/.*$ - [PT]
-  RewriteRule ^favicon.ico*$ - [PT]
-  RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+# CONFIG: if you are running the site in a subfolder
+# then you need to add the folder name to this
+# RewriteBase directive
+#
+# example: http://yoursite.com/subfolder
+# RewriteBase /subfolder
+#
+RewriteBase /
+
+# everything else is directed to index.php
+RewriteRule ^(.*)$ index.php [L]
+
 </IfModule>
 
 Options -MultiViews 
-
-<IfModule mod_rewrite.c>
-  RewriteRule "(^|/)\." - [F]
-</IfModule>

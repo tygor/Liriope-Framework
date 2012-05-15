@@ -10,7 +10,6 @@ if(!defined('LIRIOPE')) die( 'Direct access is not allowed');
 
 class theme {
   static public $folder;
-
   static public $vars = array();
 
   static function set( $name, $val=FALSE ) {

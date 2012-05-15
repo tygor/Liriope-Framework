@@ -12,8 +12,7 @@ class BlogController Extends LiriopeController {
   // displays a list of the latest blog posts
   //
   public function show( $vars=NULL ) {
-    // get the parent page object and pass to the Liriope object
-    $page =& $this->getPage();
+    global $page;
 
     // get the last $num of blog posts and use the Blogs model for each one
     $dir = c::get( 'root.web' ) . '/' . c::get( 'blog.dir' );
@@ -55,10 +54,10 @@ class BlogController Extends LiriopeController {
     $totalPages = ceil( $postCount / $limitNum );
     $posts = array_slice( $posts, $startPoint, $limitNum);
 
-    $this->set( 'blogs', $posts );
-    $this->set( 'limitNum', $limitNum );
-    $this->set( 'totalPages', $totalPages );
-    $this->set( 'pageNum', $pageNum );
+    $page->set( 'blogs', $posts );
+    $page->set( 'limitNum', $limitNum );
+    $page->set( 'totalPages', $totalPages );
+    $page->set( 'pageNum', $pageNum );
   }
 
   private function comparePubDate( $a, $b ) {
@@ -72,9 +71,11 @@ class BlogController Extends LiriopeController {
   // shows a single post by filename
   //
   public function post( $params=NULL ) {
+    global $page;
+
     $post = new Blogs( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
     $post->setContext( 'show' );
-    $this->set( 'post', $post );
+    $page->set( 'post', $post );
 
     // now that the post has been rendered to a string, the contained PHP will have been run
     if( is_array( $post->get( 'stylesheets' ))) {

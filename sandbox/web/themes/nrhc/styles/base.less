@@ -1,0 +1,1606 @@
+/* CSS Document */
+
+//
+// Base.css
+// ==================================================
+//
+
+// LESS variables
+// --------------------------------------------------
+	// Mixins
+	@import 'goodies';
+	@import 'columns';
+	@import 'nrhc-brand';
+
+	// Structure
+	@pageWidth       : 960px;
+  @templateDir     : '..';
+  @templateImages  : '@{templateDir}/images';
+  @webRoot         : '/';
+
+// HTML defaults 
+// --------------------------------------------------
+html { height: 100%; }
+body { position: relative; font-family: @fontStack; }
+input.button { cursor: pointer; }
+img { border: 0 none; margin: 0; padding: 0; }
+form { margin: 0; padding: 0; }
+hr.plain { font-size: inherit; background: none; border-bottom: 1px solid @nrhcDarkTan; display: block; height: 0px; margin: 3em 0px 2em; }
+header, footer, section, article, nav { display: block; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+hr { color: lighten( @nrhcTan, 10% ); margin: 1.5em 0; }
+
+:focus 
+{
+	outline-color: @nrhcBrightGreen;
+	outline-size: 3px;
+	outline-offset: 0;
+	-moz-outline-radius: 4px;
+}
+
+// default fieldset styling
+fieldset
+{
+  // rather than a surrounding box, let's go a thick upper line and thin lower with no sides
+  border-width: 2px 0 1px 0;
+  border-style: solid;
+  border-color: inherit;
+  border-color: rgba( 0, 0, 0, 0.5 );
+
+  legend
+  {
+  }
+}
+
+// JOOMLA STYLE OVERRIDES
+// these should be declared right after the HTML styles
+// --------------------------------------------------
+.contentpaneopen, .blog { width: 100%; }
+.componentheading { background-color: @nrhcGreen; color: white; height: 2em; margin: -1.5em 0px 1em -1.5em; padding: 0.5em 0px 0.5em 1.5em; line-height: 2em; }
+
+// Tooltips
+.tip-wrap {
+   float: left;
+   background: #ffc;
+   border: 1px solid #D4D5AA;
+   padding: 5px;
+   max-width: 200px;
+   font-size: @baseFontSize * 10/16;
+   line-height: 169%;
+   .shadow();
+
+  .tip-top
+  {
+  }
+  .tip
+  {
+    .tip-title
+    {
+      padding: 0;
+      margin: 0;
+      font-size: @baseFontSize * 12/16;
+      font-weight: bold;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .tip-text
+    {
+      font-size: 100%;
+      margin: 0;
+    }
+  }
+  .tip-bottom
+  {
+  }
+}
+
+.pagination {
+  .counter {
+    color: @nrhcDarkTan;
+    font-size: 0.75em;
+    border-top: 1px solid;
+    padding: 0.5em 2.25em;
+  }
+
+  ul {
+    list-style: none;
+    li {
+      display: inline;
+      margin: 0 .1375em;
+      .pagenav {
+        font-size: 0.75em;
+        padding: 0.75em 1em;
+        background-color: @nrhcGreen;
+        color: @white;
+        .rounded();
+        .shadow();
+        font-weight: bold;
+      }
+      a.pagenav {
+        color: lighten( @nrhcGreen, 25 );
+        font-weight: normal;
+      }
+      a.pagenav:hover {
+        background-color: lighten( @nrhcGreen, 10 );
+        color: lighten( @nrhcGreen, 35 );
+      }
+    }
+    li.pagination-start,
+    li.pagination-prev,
+    li.pagination-next,
+    li.pagination-end
+    {
+      .pagenav {
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+// content-header position styles for modules
+#content header {
+  clear: both;
+  overflow: hidden;
+
+  .moduletable {
+    width: 31%;
+    margin: 0 1%;
+    float: left;
+  }
+
+  div.menu {
+    border-top: 0 none;
+  }
+
+  div.teaser {
+    h3 {
+      color: @defaultColor;
+      font-size: 0.875em;
+      font-weight: bold;
+      margin-bottom: .5em;
+      clear: both;
+
+      a:after {
+        content: url("@{templateImages}/readmore-micro.png");
+        margin: 2px 0 2px 1em;
+      }
+    }
+
+    ul.menu {
+      width: 85%;
+      
+      a:hover {
+        color: @white;
+        text-decoration: none;
+      }
+    }
+
+    p, li {
+      font-size: 0.75em;
+    }
+
+    .alignleft  { margin: 0 .5em .5em 0; }
+    .alignright { margin: 0 0 .5em .5em; }
+  }
+}
+
+// OBJECT ORIENTED CSS (OOCSS) styles
+// --------------------------------------------------
+.globalwidth
+{
+  display: block;
+  width: @pageWidth;
+  margin: 0 auto 1em;
+
+	&:after
+	{
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden;
+	}
+}
+.dropHead { display:inline; font-size:75%; font-style:italic; font-weight:normal; }
+.highlight { padding: 1px 4px; background-color: @nrhcBrightGreen; .rounded(); } // used in search results (and elsewhere?)
+.small { font-size: .875em; }
+
+// MENUS
+// ----------------------------------------------------------------------------
+// General styles for menus. Since these are general, they should show before
+// the more specific styles such as global navigations or breadcrumbs.
+// 
+// <ul class="(menu|menu-horizontal)">
+//   <li>
+//     <a href="#">Link</a>
+//   </li>
+// </ul>
+
+// Menu styles for regular navigations and horizontal navigations alike.
+.menu,
+.menu-horizontal,
+nav ul,
+nav.horizontal ul
+{
+	margin: 0 0 1em 0;
+	list-style-type: none;
+	overflow: hidden;
+	
+	li
+	{
+		font-size: 0.6875em;
+		margin: 0;
+		
+		li
+		{
+			// Nested <li> tags need to remain constant. Otherwise
+			// they would continually get smaller and smaller.
+			font-size: 1em;
+		}
+	}
+}
+
+// Menu styles for vertical menus
+.menu,
+nav ul
+{
+	border-top: 1px dotted;
+	
+	li
+	{
+		margin: 0;
+		padding: 0.5em;
+		border-bottom: 1px dotted;
+
+		&:hover
+		{
+			background-color: rgba(0,0,0,0.25);
+		}
+		
+		ul
+		{
+			margin-top: 0.8375em;
+			margin-left: 0.5em;
+		}
+	}	
+	
+	a
+	{
+		color: rgb(30,30,30);
+		border: 0;
+	}
+}
+
+// Menu styles for horizontal menus
+.menu-horizontal li,
+nav.horizontal li
+{
+	// since they are most likely text elements rather than block, let's put them inline.
+	display: inline;
+	padding: 0 .125em 0 0;
+}
+
+// Footer menu
+#global-footer ul.menu {
+  border: 0 none;
+  margin: 2em 0;
+
+  li {
+    border: 0;
+    border-left: 1px solid;
+    display: inline;
+    padding: 0;
+    line-height: 4em;
+
+    a {
+      font-size: 1.5em;
+      margin: .5em 1em;
+      line-height: 1.5em;
+
+      img { display: none; }
+    }
+
+    &:hover { background: none; }
+  }
+
+  li:first-child {
+    border: 0 none;
+  }
+}
+
+// Overlays section
+section#overlays {
+  position: absolute;
+  top: 1em;
+  right: 0;
+  z-index: 999;
+
+  div.partner-login {
+    @partner-badge-width: 44px;
+    @partner-badge-hover: @partner-badge-width * -1;
+    width: @partner-badge-width;
+    overflow: hidden;
+
+    a {
+      width: 0px;
+      height: @partner-badge-width;
+      padding: 0 0 0 @partner-badge-width;
+      margin: 0;
+      display: block;
+      overflow: hidden;
+      background: url('@{templateImages}/partner-badge.png') 0% 0% no-repeat;
+
+      &:hover {
+        background-position: 0% @partner-badge-hover;
+      }
+    }
+  }
+}
+
+// GLOBAL NAV 
+// Header menu on each page.
+// ----------------------------------------------------------------------------
+// Global Nav variables
+@gn-up       : 0px;
+@gn-hover    : -40px;
+@gn-active   : -80px;
+@gn-current  : -120px;
+@gn-home     : 0px;
+@gn-discover : -40px;
+@gn-gather   : -175px;
+@gn-connect  : -310px;
+@gn-serve    : -445px;
+
+// mobile phone enabled expand icon - hide here and use in media queries
+a#global-nav-expand { display: none; }
+
+// JS disabled styles
+.no-js nav#global-nav li:hover ul { display: block; }
+.no-js nav#global-nav li:hover ul ul { display: block; }
+
+// basic CSS rules
+// for a JavaScript and CSS3 fallback
+nav#global-nav
+{
+  display: block;
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  a
+  {
+    display: block;
+    border: 0;
+    text-decoration: none;
+
+    &:hover
+    {
+      color: #ccc;
+    }
+
+    &:focus
+    {
+      outline: none;
+      text-decoration: underline;
+    }
+
+    img {
+      position: relative;
+      top: 3px;
+
+    }
+
+    span.image-title { display: none; } // hide image titles when the images are displayed
+  }
+
+  span
+  {
+    display: block;
+    color: #fff;
+  }
+
+  // Top menu
+  // and general rules for all ul tags within
+  ul {
+    padding: 0;
+    margin: 0;
+    border: 0 none;
+    overflow: visible;
+
+    // Clear after the nested UL with a handy invisible clear
+    &:after
+    {
+      content:".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+    }
+
+    a {
+      color: @nrhcWhiteTan;
+      border-right: 1px solid @nrhcDarkTan;
+      line-height: 40px; // to match height of global nav bar img.
+      padding: 0 1.5em;
+      font-size: 1.125em;
+
+      &:hover {
+        color: @white;
+        background-color: @nrhcTan;
+        background-color: fadeout( @nrhcTan, 50 );
+      }
+
+      &:active {
+        color: @white;
+        background-color: @nrhcWhiteTan;
+        background-color: fadeout( @nrhcWhiteTan, 50 );
+      }
+    }
+
+    a.active {
+      color: @nrhcGreen;
+      background-color: @nrhcGreen;
+      background-color: fadeout( @nrhcGreen, 90 );
+    }
+
+  }
+
+  // Nested ul tags: Lvl 2
+  ul ul
+  {
+    display: none;
+    width: 15em;
+    position: absolute;
+    left: 0;
+    top: 40px; // this needs to be overridden for IE
+    padding-bottom: 8px; // This is to make up for the rounded corners
+    background: rgb( 0, 0, 0 );
+    background: rgba( 0, 0, 0, 0.8 );
+
+    li, li.active {
+      float: none;
+
+      a, span {
+        color: @white !important;
+        background-color: transparent !important;
+        border: 0 none;
+        border-bottom: 1px dotted #000;
+        line-height: 1.5em;
+        padding: 1em 1.5em;
+        font-size: 0.875em;
+
+        &:hover { color: @nrhcBrightGreen !important; }
+      }
+    }
+    li.active {
+      a, span {
+        color: @nrhcBrightGreen !important;
+      }
+    }
+  }
+
+  // Nested ul tags: Lvl 3
+  ul ul ul {
+    left: 100%;
+    top: 0;
+    background-image: url('@{templateImages}/global-nav-lvl-3-bg.png');
+    background-repeat: repeat-y;
+    background-position: 0% 0%;
+    border-left: 2px solid #000;
+
+    .rounded( 0, 4px, 4px, 0 );
+  }
+
+  li {
+    position: relative;
+    float: left;
+    list-style-type: none;
+    border: 0;
+    padding: 0;
+    overflow: visible;
+    color: #fff;
+
+    &:hover { background: transparent; }
+  }
+
+  li.deeper:after {
+		// Menu item that has kids
+    // put a symbol on the anchor tags that have ULs as children
+		content: url('@{templateImages}/menu-expand.png');
+    position: absolute;
+    right: 6px;
+    bottom: 0px;
+  }
+
+  li.current { color: @nrhcBrightGreen; }
+
+}
+
+// CSS3 rules
+nav#global-nav
+{
+  ul ul
+  {
+    .rounded( 0, 0, 4px, 4px);
+  }
+}
+
+// HUGEBUTTONS
+// The ever-present buttons at the top of the template
+// ----------------------------------------------------------------------------
+// hugebutton spite variables
+@hb-height           : 55px;
+@hb-up               : 0px;
+@hb-over             : -61px;
+@hb-active           : -122px;
+@hb-new-to-nrhc      : 0px;
+@hb-times-directions : -106px;
+@hb-messages         : -212px;
+@hb-online-giving    : -318px;
+
+ul#hugebuttons
+{
+	height: @hb-height;
+	margin: 0;
+	padding: 0;
+	z-index: 1;
+	overflow: hidden;
+	border: 0 none;
+
+	li
+	{
+		display: inline;
+		margin: 0;
+		padding: 0 0 0 .25em;
+		border: 0 none;
+		
+		&:hover
+		{
+			background-color: transparent;
+		}
+	}
+	
+	a, a:hover
+	{
+		margin: 0 -7px;
+		text-decoration: none;
+		border: 0;
+
+    // TODO: Are these styles necessary any longer?
+		&.new-to-nrhc,
+		&.times-directions,
+		&.messages,
+		&.online-giving
+		{
+			background: transparent url("@{templateImages}/hugebutton-sprite.png") no-repeat scroll 0 0;
+			width: 0;
+			font-size: 48px;
+			line-height: @hb-height;
+			padding-left: 106px;
+			overflow: hidden;
+		}
+		&.new-to-nrhc		{
+			background-position: @hb-new-to-nrhc @hb-up;
+			&:hover { background-position: @hb-new-to-nrhc @hb-over; }
+			&:active { background-position: @hb-new-to-nrhc @hb-active; }
+		}
+		&.times-directions { 
+			background-position: @hb-times-directions @hb-up;
+			&:hover { background-position: @hb-times-directions @hb-over; }
+			&:active { background-position: @hb-times-directions @hb-active; }
+		}
+		&.messages {
+			background-position: @hb-messages @hb-up;
+			&:hover { background-position: @hb-messages @hb-over; }
+			&:active { background-position: @hb-messages @hb-active; }
+		}
+		&.online-giving	 {
+			background-position: @hb-online-giving @hb-up;
+			&:hover { background-position: @hb-online-giving @hb-over; }	
+			&:active { background-position: @hb-online-giving @hb-active; }	
+		}	
+	}
+}
+
+
+// LAYOUT
+// Structuring of the template.
+// ----------------------------------------------------------------------------
+body
+{
+	margin: 0 auto;
+	padding: 0 0 10px;
+	background: @nrhcLightTan url("@{templateImages}/NRHC-wallpaper-1.1.jpg") no-repeat 50% 0%;
+	font-size: @baseFontSize;
+	line-height:1.3em;
+}
+	
+#global-header
+{
+	margin-top: 20px;
+	padding: 0;
+	background: transparent url('@{templateImages}/global-header-bar.png') no-repeat 100% -8px;
+	position: relative;
+	z-index: 99;
+
+	#above-top
+	{
+		margin: 0 .5em;
+		text-align: right;
+		height: 55px;
+	}
+
+}
+
+#logo
+{
+	margin: 0;
+	float: left;
+	
+	a
+	{
+		width: 0;
+		height: 75px;
+		margin: -16px 0 0;
+		padding: 0 0 0 172px;
+		display: block;
+		overflow: hidden;
+		background: transparent url('@{templateImages}/logo-sprite.png') no-repeat 0% 0%;
+    position: relative;
+    left: -8px;
+		&:hover { background-position: 0px -75px; }
+		&:active { background-position: 0px -150px; }
+		span { display: none; } // the span holds the text for the logo
+	}
+}
+
+#global-nav
+{
+	float: left;
+}
+
+#global-search
+{
+  background: @nrhcWhiteTan url('@{templateImages}/magnifying-glass.png') 7px 50% no-repeat;
+	width: auto;
+	height:20px;
+	margin: 10px 22px 0 0;
+	overflow: hidden;
+	float: right;
+  
+  .rounded( 10px,10px,10px,10px);
+
+	// The search bar
+	// further .search styles are below which also apply to search results
+	.serach
+	{
+		position: relative;
+	}
+	.search input.inputbox 
+	{ 
+		background: transparent;
+		border: 0px;
+		height: 21px;
+		width: auto;
+		margin-left: 30px;
+		padding: 0px;
+		overflow: hidden;
+		vertical-align: 50%;
+	}
+	.search label 
+	{
+		display: none;
+	}
+}
+
+// .search #searchForm
+// This is part of the search results, but to avoid
+// styling the search bar, I don't reference the .search class
+#searchForm
+{
+	font-size: 0.875em;
+	border: 2px solid @nrhcGreen;
+	padding: 0.25em 1em;
+	.rounded();
+
+	.button
+	{
+		.buttonify( @white, darken( @nrhcGreen, 5% ) );
+		position: relative;
+		bottom: 0.4em;
+	}
+	fieldset
+	{
+		border-width: 1px 0 0;
+		border-style: solid none none;
+
+		&.word
+		{
+			border: 0 none;
+			padding: 1.5em 3em;
+			background-color: @nrhcGreen;
+			.rounded();
+
+			label
+			{
+				color: @white;
+				position: relative;
+				bottom: .25em;
+			}
+
+			#search-searchword
+			{
+				width: 70%;
+				height: 2em;
+				border: 0 none;
+				padding: 0 0.75em;
+				font-size: 1.5em;
+				line-height: 2em;
+				color: @nrhcGreen;
+				.rounded();
+			}
+		}
+		&.phrases,
+		&.only
+		{
+			padding: 0 3em;
+			border-color: @nrhcGreen;
+
+			legend
+			{
+				color: @nrhcGreen;
+				font-size: 1.25em;
+			}
+			input
+			{
+				margin: 0.75em 0;
+			}
+		}
+		&.only
+		{
+		}
+	}
+	.form-limit
+	{
+		clear: both;
+	}
+	.searchintro
+	{
+		font-size: 1.25em;
+		padding: 0 1em;
+	}
+}
+
+// .search #search-results
+// This is part of the search results, but to avoid
+// styling the search bar, I don't reference the .search class
+#search-results 
+{
+	clear: both;
+	padding-top: 1em;
+
+
+	.rank 
+	{
+		position: absolute;
+		top: 1.25em;
+		left: 1em;
+	}
+	.result
+	{
+		position: relative;
+		margin: 0 0 .5em;
+		padding: 1em 1em 1em 3em;
+		border-bottom: 1px solid;
+		border-bottom-color: #AAA;
+		border-bottom-color: rgba(0,0,0,.3);
+	}
+	.result-text
+	{
+		font-size: .875em;
+		line-height: 1.375em;
+	}
+	.result:hover
+	{
+		background-color: @nrhcGreen;
+		color: rgb(255,255,255);
+	}
+	.title
+	{
+		font-size: 1.125em;
+	}
+	.section
+	{
+		display: block;
+		font-size: .625em;
+		line-height: 1.5em;
+	}
+}
+
+#crown {
+  margin-bottom: 0;
+  position: relative;
+  z-index: 90;
+}
+
+nav#submenu {
+  h3 {
+    float: left;
+    color: @white;
+    font-size: 1.5em;
+    margin: .5em 0;
+    .text-shadow();
+  }
+  
+  #section-menu {
+    font-size: 1em;
+    margin: 0 1em 0 0;
+    text-align: right;
+    line-height: 1em;
+    padding: 1.0625em 0 .5em;
+    border: 0 none;
+
+    li {
+      font-size: 0.9375em;
+      margin: 0 0 0.25em 1em;
+      border: 0 none;
+      padding: 0;
+      display: inline;
+
+      &:hover { background-color: transparent; }
+
+      a {
+        font-size: 1em;
+        font-weight: normal;
+        line-height: 1.375em;
+        text-decoration: none;
+        color: #fff;
+      }
+
+      &.active a { color: @nrhcGreen; }
+      a:hover { text-decoration: underline; }
+    }
+  }
+}
+
+  // TODO: are these necessary any longer?
+	#crown .gather-menu,
+	#crown .discover-menu,
+	#crown .connect-menu,
+	#crown .serve-menu { background: no-repeat @baseFontSize 100%; }
+	#crown .gather-menu { background-image: url('@{templateImages}/Gather-sectiontitle.png'); }
+	#crown .discover-menu { background-image: url('@{templateImages}/Discover-sectiontitle.png'); }
+	#crown .connect-menu { background-image: url('@{templateImages}/Connect-sectiontitle.png'); }
+	#crown .serve-menu { background-image: url('@{templateImages}/Serve-sectiontitle.png'); }
+
+#left, 
+#content, 
+#right {
+  background-color: @nrhcWhiteTan;
+  background-color: fadeout(@nrhcWhiteTan,30%);
+  float: left;
+  width: 20%;
+  margin: 0 2%;
+  padding: 2% 2%;
+}
+#left { margin-left: 0; }
+#right { margin-right: 0; }
+
+#content
+{ 
+	position: relative;
+  width: 96%;
+  padding: 4% 2%;
+  margin: 0;
+
+	&.with-left-and-right {
+    width: 44%;
+  }
+	&.with-left,
+	&.with-right {
+    width: 70%;
+  }
+
+	ul.actions // these are the Joomla page icons (print, edit, pdf, etc.)
+	{
+		position: absolute;
+		right: 0px;
+		top: 0px;
+    color: @white;
+		list-style: none;
+		padding: .25em .25em .25em .5em;
+    margin: 0;
+    width: 22px;
+    z-index: 100;
+    background-color: fadeout( @white, 25 );
+
+		li
+		{
+			margin: 0;
+		}
+	}
+}
+
+// Blog layout rules
+// --------------------------------------------------
+
+.blog {
+
+  .category-desc {
+    margin: 1em 0 2em;
+    border-bottom: 1px solid;
+    padding: 0 0 1.5em 0;
+  }
+
+  .subheading-category {
+    font-size: 0.6667em;
+    font-weight: normal;
+    background-color: @nrhcGreen;
+    color: @white;
+    display: block;
+    line-height: 1.875em;
+    margin-left: -19px;
+    padding-left: 24px;
+    position: relative;
+    .text-shadow();
+    
+    &:before
+    {
+      content: url('@{templateImages}/componentheading-ribbon.png');
+      position: absolute;
+      left: -11px;
+    }
+  }
+
+  .items-leading {
+    clear: both;
+    overflow: hidden;
+    margin: 0 0 2em 0;
+  }
+
+  .cols-1 { display: block; float: none !important; margin: 0 !important; }
+  .cols-2 { 
+    .column-1 { float: left; width: 46%; }
+    .column-2 { float: right; margin: 0; width: 46%; }
+  }
+  .cols-3 {
+    .column-1 { float: left; margin-right: 4%; padding: 0 5px; width: 29%; }
+    .column-2 { float: left; margin-left: 0; padding: 0 5px; width: 29%; }
+    .column-3 { float: right; padding: 0 5px; width: 29%; }
+  }
+  .cols-4 {
+    .column-1 { float: left; margin: 0 4% 0 0; padding: 0; width: 22%; }
+    .column-2 { float: left; margin: 0 4% 0 0; padding: 0; width: 22%; }
+    .column-3 { float: left; margin: 0 4% 0 0; padding: 0; width: 22%; }
+    .column-4 { float: right; margin: 0 0 0 0; padding: 0; width: 22%; }
+  }
+  .leading-0, .leading-1, .leading-2, .leading-3, .leading-4, .leading-5
+  { position: relative; }
+  .items-row { margin-bottom: 10px !important; overflow: hidden; }
+  .item { position: relative; }
+  .column-1, .column-2, .column-3, .column-4 { padding: 10px 5px; }
+  .column-2 { margin-left: 40%; width: 55%; }
+  .column-3 { width: 30%; }
+  .blog-more { padding: 10px 5px; }
+
+}
+
+// Page Footer
+// --------------------------------------------------
+#page-footer {
+	color: @nrhcLightGreen;
+	background: @nrhcGreen url('@{templateImages}/Footer-Wallpaper.jpg') 50% 0% no-repeat;
+  margin-top: 1em;
+	margin-bottom: 1em;
+	padding: 1em 0;
+	font-size: 0.875em;
+
+	a { color: @nrhcBrightGreen; }
+	h2, h3 { 
+		color: @nrhcLightGreen;
+		font-weight: normal;
+		font-size: 1.25em;
+		border-bottom: 1px solid @nrhcLightGreen;
+		border-bottom: 1px solid fadeout(@nrhcLightGreen, 50%);
+	}
+	ul { 
+		list-style: none;
+		margin: .75em 1em;
+		li { 
+			font-size: 0.9375em;
+			margin: 0 0 0.25em;
+		}
+	}	
+}
+
+#breadcrumb {
+	border: 1px solid @nrhcLightGreen;
+	font-size: 0.75em;
+	margin: 2em;
+	text-align: left;
+  overflow: hidden;
+
+	a { 
+		color: @nrhcLightGreen;
+		text-decoration: none;
+
+		&:hover { text-decoration: underline; }
+	}
+	.active a {
+		color: @nrhcBrightGreen;
+	}
+	.breadcrumbs {
+		display: block;
+		padding: 0 1em;
+		border-bottom: 1px solid @nrhcLightGreen;
+		line-height: 3em;
+
+		a {
+			background-image: url("@{templateImages}/crumb-divider.png");
+			background-position: 100% 50%;
+			background-repeat: no-repeat;
+			margin-right: 1em;
+			padding: 0 1.75em 0 0;
+			float: left;
+			overflow: hidden;
+		}
+	}
+
+	.breadcrumbmenu
+  {
+    float: left;
+    width: 25%;
+    
+		h3
+    {
+			font-family: @fontStack;
+			color: @nrhcLightGreen;
+			border: 0 none;
+			font-weight: bold;
+			margin-left: 1.2em;
+		}
+		ul { list-style: none; margin-left: 2em; }
+		li { margin-bottom: 0; }
+	}
+	.breadcrumbmenu-last { float: right; clear: right; }
+}
+
+#global-footer {
+	border-top: 1px solid @nrhcDarkTan;
+	padding-top: 3em;
+	padding-bottom: 2em;
+  font-size: 0.625em;
+
+	&,
+  a
+  {
+    color: @nrhcDarkTan;
+    line-height: 1em;
+  }
+
+  div.social-icons {
+    float: right;
+  }
+}
+
+// Alerts Bar
+// For church alerts needing to be announced immediately (ex. inclement weather cancellations)
+div.custom_alerts
+{
+  .alerts {
+    background-color:@nrhcLightTan;
+    border:1px solid darken(@nrhcLightTan, 50%);
+    color:#333333;
+    margin:0 0 10px;
+    padding: 10px 10px 10px 45px;
+    text-align: left;
+    background-position:15px 14px;
+    background-repeat:no-repeat;
+
+    .rounded(7px,7px,7px,7px);
+  }
+
+  p {
+    margin:0;
+    padding:0;
+  }
+
+  .calm {
+    background-color:#a9b5bf;
+    border:1px solid #7f888f;
+    color:#2a2d30;
+    background-image:url('@{templateImages}/info_icon.png');
+  }
+
+  .warning {
+    background-color:#e8db6b;
+    border:1px solid #a2994b;
+    color:#3a371b;
+    background-image:url('@{templateImages}/warning_icon.png');
+  }
+
+  .urgent {
+    background-color:#bf0000;
+    border:1px solid #730000;
+    color:#efbfbf;
+    background-image:url('@{templateImages}/close_icon.png');
+  }
+}
+
+// READ MORE, READON
+//
+// <p class="readmore">
+//  <a></a>
+// </p>
+// --------------------------------------------------
+.readon a, .readmore a {
+	background-attachment: scroll;
+	background-image: url("@{templateImages}/readmore.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	display: block;
+	height: 30px;
+	overflow: hidden;
+	padding-left: 125px;
+	width: 0px;
+	margin: .5em 0 0;
+
+	&:hover { background-position: 0px -30px; }
+	&:active { background-position: 0px -60px; }
+
+}
+
+// VCards
+// <div class="vcard">
+//   <a class="url fn org" href=""></a>
+//   <div class="adr">
+//     <div class="street-address"></div>
+//     <span class="locality"></span>,
+//     <span class="region"></span>
+//     <span class="postal-code"></span>
+//   </div>
+//   <div class="tel"></div>
+//   <div>Email: <span class="email"></span></div>
+// </div>
+// --------------------------------------------------
+.vcard { margin-bottom: 1.25em; 
+  abbr { border: 0 none; } // this overrides the default system style of underlining abbreviations
+	.adr, .tel, .email, .facebook, .twitter, .website { background-attachment: scroll; background-position: top left; background-repeat: no-repeat; padding: .125em 0 .0625em 24px; line-height: 1.25em; clear: left; }
+	.adr      { background-image: url("@{webRoot}/images/M_images/con_address.png"); }
+	.tel      { background-image: url("@{webRoot}/images/M_images/con_tel.png"); }
+	.email    { background-image: url("@{webRoot}/images/M_images/emailButton.png"); }
+	.facebook { background-image: url("@{webRoot}/images/icons/facebook_16.png"); }
+	.twitter  { background-image: url("@{webRoot}/images/icons/twitter_16.png"); }
+	.website  { background-image: url("@{webRoot}/images/M_images/weblink.png"); }
+}
+
+.contact-bio
+{
+	clear: both;
+
+	.bio
+	{
+		dt
+		{
+			float: left;
+			font-size: .75em;
+			font-weight: normal;
+			width: 9.375em;
+		}
+		dd
+		{
+			margin-left: 10em;
+		}
+	}
+}
+
+.vcard .image-box,
+.contact-bio .photo
+{
+	float:left;
+	margin:0 1.25em .625em 0;
+}
+
+.photo img
+{
+	background:#FFFFFF url(/files/web-images/icons/gradient999by48.png) repeat-x scroll left bottom;
+	padding: .3125em;
+	width:auto;
+  .rounded();
+  .shadow();
+}
+
+.vcard h2,
+.vcard h3,
+.vcard h4,
+.contact-bio .contact h1,
+.contact-bio .contact h2,
+.contact-bio .contact h3
+{
+	margin: .375em 0;
+}
+
+.vcard h2,
+.contact-bio .contact h1
+{
+	color:#085841;
+	font-size:1.5em;
+}
+
+.vcard h3,
+.contact-bio .contact h2
+{
+	font-size:1em;
+}
+
+.vcard h4,
+.contact-bio .contact h3
+{
+	font-size:.75em;
+	font-style:italic;
+	font-weight:normal;
+}
+
+// Login Form styling
+// --------------------------------------------------
+// TODO: There is currently no login form, so this too is not necessary
+#login-form fieldset
+ {
+   border: 0 none;
+   margin: 0;
+ }
+
+#login-form p label
+{
+  display: block;
+  font-size: 10px;
+  line-height: 1em;
+}
+
+#login-form input.inputbox
+{
+  width: 100%;
+}
+
+// IE fixes
+// --------------------------------------------------
+.IE7 {
+	#global-search { background-position: 100% 0%; }
+	#global-search input { line-height: 20px; }
+	#global-header:after, #crown:after, #cms:after, #page-footer:after, { zoom: 1; }
+	.bannergroup_hero-sidebar { padding-bottom: 2em; }
+	#breadcrumb { clear: both; }
+	.menu-footer { list-style: none outside; }
+}
+.IE8 {
+}
+.IE7, .IE8 {
+  nav#global-nav
+  {
+    ul ul { background: transparent url('@{templateImages}/black60-trans.png') repeat; }
+	}
+	#left, #content, #right { background: transparent url('@{templateImages}/whitetan70-trans.png') repeat; }
+}
+
+// Nivo slider
+// --------------------------------------------------
+div#slider.nivoSlider {
+  .rounded();
+  overflow: hidden; // TODO: this hides the navigation in it's default position
+}
+	
+// Banners in the nrhc-crown position
+// next to the frontpage slider
+// --------------------------------------------------
+#crown .bannergroup { width: 240px; overflow: hidden; float: right;
+	.banneritem { width: 235px; height: 132px; overflow: hidden; float: right; margin: 0 0 5px 5px; 
+		img { width: 235px; height: 132px; .rounded(); .shadow(0,1px,3px,rgba(0,0,0,.3)); }
+	}
+}
+.ie #crown .bannergroup { width: inherit; float: none; text-align: right; }
+
+// Media Queries
+// --------------------------------------------------
+
+// Print
+// --------------------------------------------------
+@media print {
+	body { color: #000 !important; }
+	a, a:link, a:visited { color: #000 !important; text-decoration:none !important; }
+	#tabs, #global-header, #globalfooter, #directorynav, .noprint, .hide { display: none !important; }
+}
+
+// Landscape tablet and above
+// --------------------------------------------------
+@media only screen and (min-width : 1025px) {
+  #section-menu li.active a {
+    color: @nrhcLightGreen;
+  }
+}
+
+// Portrait tablet to landscape tablet
+// --------------------------------------------------
+@media only screen and (max-width : 1024px) {
+  body {
+    background-image: url("@{templateImages}/pattern-wallpaper.jpg");
+    background-repeat: repeat;
+  }
+}
+
+// Landscape phone to portrait tablet
+// --------------------------------------------------
+@media only screen and (max-width : 768px) {
+  body {
+    background-image: url("@{templateImages}/pattern-wallpaper.jpg");
+    background-repeat: repeat;
+  }
+  .globalwidth { width: 748px; }
+  #global-nav ul a { font-size: 1em; padding: 0 1em; }
+  // Slideshow styles (this will break any "themes" built in)
+  // TODO: make my own GK Photoshow theme with these rules
+  #gkIs-MainSlideshow .gkIsImage {
+    width: 748px !important;
+    height: 316px !important;
+
+    & > .gkIsSlide {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+// Portrait phone to landscape phone
+// --------------------------------------------------
+@media only screen and (max-width : 480px) {
+  // remove fancy wallpaper
+  body {
+    background-image: url("@{templateImages}/pattern-wallpaper.jpg");
+    background-repeat: repeat;
+  }
+  
+  // set a new globalwidth
+  .globalwidth { width: 460px; }
+
+  // remove the navigation bar
+  header#global-header {
+    background-image: none;
+    background-color: @defaultColor;
+    margin: 0 0 1em 0;
+    padding: .5em .5em;
+    overflow: hidden;
+    width: auto;
+
+    h1#logo {
+      padding: 4px 0;
+
+      a {
+        height: 36px;
+        margin: 0 0 0 0;
+        padding: 0 0 0 98px;
+        left: 0;
+        background-image: url('@{templateImages}/nrhc-logo-small.png');
+      }
+      // remove sprite
+      a:hover {
+        background-position: 0% 0%;
+      }
+    }
+  }
+
+  // main navigation becomes drawer
+  a#global-nav-expand {
+    display: block;
+    position: absolute;
+    top: 1.3125em;
+    right: 1.5em;
+    background: url('@{templateImages}/menu-expand-icon.png') no-repeat 0% 0%;
+    height: 24px;
+    width: 0;
+    padding-left: 36px;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  #global-search { display: none; }
+  nav#global-nav {
+    float: none;
+    background-color: lighten( @defaultColor, 20 ) ;
+    border: 1px solid darken( @defaultColor, 5 );
+    margin: 0 0.5em 0 110px;
+
+    ul#global-menu {
+      overflow: hidden;
+
+      li {
+        display: inherit;
+        float: inherit;
+        margin: 0;
+
+        a {
+          color: @white;
+          display: inherit;
+          line-height: 4em;
+          height: 4em;
+          border-width: 0 0 1px 0;
+          border-style: dotted;
+          border-color: @defaultColor;
+        }
+
+        &.active a {
+          color: @nrhcLightGreen;
+          background: transparent;
+        }
+
+        a:hover {
+          background-color: darken( @defaultColor, 10 );
+        }
+
+        &.deeper::after {
+          content: '';
+        }
+
+        // hide the home link
+        a.home { display: none; }
+      }
+
+      li > ul {
+        display: none !important;
+      }
+
+      li > ul > li > ul {
+        display: none !important;
+      }
+    }
+  }
+
+  // section menus become block under the section title
+  div.section-module {
+    h3 {
+      display: block;
+      float: none;
+    }
+    ul#section-menu {
+      text-align: left;
+      margin: 1em 0;
+      padding: .5em 0;
+
+      li {
+        margin-left: 0;
+        margin-right: 1em;
+        margin-bottom: 1em;
+      }
+    }
+  }
+
+  // remove the homepage columns
+  #content header .moduletable {
+    width: 100%;
+    margin: 0;
+    float: none;
+  }
+
+  // realign the header and search bar
+  header#global-header h1#logo { position: relative; clear: both; }
+  section#global-search  {
+    margin-right: 0;
+    height: 40px;
+    .rounded( 20px, 20px, 20px, 20px);
+
+    div.search input.inputbox {
+      width: 280px;
+      width: 430px;
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+  
+  // blog layouts
+  .blog {
+    .item { float: none !important; width: auto !important; }
+  }
+
+  // chip size on mobile screen
+  img.chip {
+    width: 150px;
+  }
+
+  // move the overlays section the the bottom of the page
+  section#overlays {
+    width: auto;
+    height: 54px;
+    padding: 5px;
+    background: black;
+    background: rgba(0,0,0,.75);
+    top: 100%;
+    .rounded( 4px, 0, 0, 0);
+  }
+
+  // block the Social Icons
+  footer#global-footer {
+    div.social-icons {
+      float: none;
+    }
+  }
+
+  // Slideshow styles (this will break any "themes" built in)
+  // TODO: make my own GK Photoshow theme with these rules
+  #gkIs-MainSlideshow .gkIsImage {
+    width: 460px !important;
+    height: 194px !important;
+
+    & > .gkIsSlide {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // clear columns so that each has it's own line
+  .twocolumns > .column,
+  .threecolumns > .column,
+  .fourcolumns > .column,
+  .cols-3 .column-1,
+  .cols-3 .column-2,
+  .cols-3 .column-3 {
+    clear: both;
+    width: 100%;
+    float: none;
+  }
+
+  // contain images inside the globalwidth
+  .globalwidth img {
+    max-width: 430px;
+  }
+}
+
+// Portrait phones and down
+// --------------------------------------------------
+@media only screen and (max-width: 320px) {
+  // remove fancy wallpaper
+  body {
+    background-image: url("@{templateImages}/pattern-wallpaper.jpg");
+    background-repeat: repeat;
+    font-size: 14px;
+  }
+  
+  // set a new globalwidth
+  .globalwidth { width: 310px; }
+
+  // resize search bar
+  section#global-search  {
+    div.search input.inputbox {
+      width: 280px;
+    }
+  }
+  
+
+  // Slideshow styles (this will break any "themes" built in)
+  // TODO: make my own GK Photoshow theme with these rules
+  #gkIs-MainSlideshow  {
+    .gkIsImage {
+      width: 310px !important;
+      height: 131px !important;
+
+      & > .gkIsSlide {
+        width: 100%;
+        height: 100%;
+        max-width: 310px;
+      }
+    }
+    .gkIsPrev {
+      bottom: 5px !important; left: 10px !important;
+    }
+    .gkIsNext {
+      bottom: 5px !important; left: 15px !important;
+    }
+  }
+
+  // contain images inside the globalwidth
+  .globalwidth img {
+    max-width: 290px;
+  }
+}
+
+// iPhone 4 ----------- */
+@media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) { }
+

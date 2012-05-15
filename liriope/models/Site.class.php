@@ -15,6 +15,9 @@ class Site extends obj {
   function __construct() {
     // check that a site url is stored
     if( !c::get( 'url' )) c::set( 'url', server::get( 'http_host' ));
+
+    $this->title = c::get( 'site.title' );
+    $this->DOCTYPE = c::get( 'site.DOCTYPE' );
   }
 
 }

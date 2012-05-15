@@ -1,0 +1,46 @@
+// LESS goodies
+
+.rounded ( @top: 4px, @right: 4px, @bottom: 4px, @left: 4px ) {
+	-moz-border-radius: @arguments;
+	-webkit-border-radius: @arguments;
+	border-radius: @arguments;
+}
+
+.shadow (@x: 0px, @y: 1px, @blur: 3px, @color: rgba(0,0,0,0.3) ) {
+	-moz-box-shadow: @arguments;
+	-webkit-box-shadow: @arguments;
+	box-shadow: @arguments;
+}
+
+.text-shadow ( @color: rgba(0,0,0,0.3), @x: 0px, @y: 1px, @blur: 3px ) {
+	-moz-text-shadow: @arguments;
+	-webkit-text-shadow: @arguments;
+	text-shadow: @arguments;
+}
+
+.buttonify ( @fg: #ffffff, @bg: rgb(171, 194, 74), @fs: 10px ) {
+	color: @fg;
+	background-color: @bg;
+	border: 0 none;
+	padding: 1em 1.5em;
+	font-size: @fs;
+	.rounded();
+	.text-shadow();
+	.shadow();
+
+	&:hover
+	{
+		background-color: lighten( @bg, 15% );
+	}
+}
+
+.gradient ( @from: #000000, @to: #666666 ) {
+  @hue : hue( @from ) - (( hue( @from ) - hue( @to )) /2 );
+  @sat : saturation( @from ) - (( saturation( @from ) - saturation( @to )) /2 );
+  @lit : lightness( @from ) - (( lightness( @from ) - lightness( @to )) /2 );
+
+  background: hsl( @hue, @sat, @lit ); /* for non-css3 browsers */
+
+  background: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to)); /* for webkit browsers */
+  background: -moz-linear-gradient(top,  @from,  @to); /* for firefox 3.6+ */ 
+}

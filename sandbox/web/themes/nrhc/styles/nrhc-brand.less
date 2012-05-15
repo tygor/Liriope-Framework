@@ -1,0 +1,318 @@
+/**
+ * North Rock Hill Church Brand Framework
+ * LESS CSS Mixin for all things NRHC branding
+ * 
+ * version: 1.1
+ * author: Tyler Gordon
+ * site: http://northrockhill.com/
+ * updated: 2011/12/14
+ */
+
+// LESS variables
+// --------------------------------------------------
+
+// Colors
+@nrhcGreen       : rgb(8,88,65);
+@nrhcTan         : rgb(196,180,121);
+@nrhcLightGreen  : rgb(165,185,124);
+@nrhcBrightGreen : rgb(171,194,78);
+@nrhcDarkTan     : rgb(128,114,64);
+@nrhcLightTan    : rgb(220,212,174);
+@nrhcWhiteTan    : rgb(240,236,211);
+@white           : rgb(255,255,255);
+@defaultColor    : rgb(51,51,51);
+@linkActive      : rgb(0,125,220);
+@linkHover       : rgb(90,150,60);
+
+// Typography
+@fontStack       : 'Lucida Grande', Helvetica, Verdana, Arial, sans-serif; // the default fonts
+//@fontStack-alt   : 'Palatino Linotype', Palatino, 'URW Palladio L', Baskerville, 'Bookman Old Style', Garamond, Georgia, serif;
+@fontStack-alt   : 'Lucida Grande', Helvetica, Verdana, Arial, sans-serif; // the default fonts
+@baseFontSize    : 16px;
+
+// Typography & Colors
+// --------------------------------------------------
+
+// These are mainly for reference, but can also be added to elements
+// for specific color change.
+.nrhcGreen     { color: rgb(0, 71, 46); }     // nrhcGreen
+.nrhcDarkGreen { color: rgb(4, 43, 32); }     // nrhcDarkGreen
+.nrhcTan       { color: rgb(191, 168, 100); } // nrhcTan
+.nrhcLightTan  { color: rgb(227, 219, 189); } // nrhcLightTan
+.nrhcWhiteTan  { color: rgb(255, 252, 242); } // nrhcWhiteTan
+.nrhcFrontier  { color: rgb(0, 101, 158); }   // nrhcFrontier
+.nrhcJourney   { color: rgb(162, 17, 19); }   // nrhcJourneyGroups
+.nrhcLeader    { color: rgb(254, 185, 30); }  // nrhcLeadership
+.nrhcLodge     { color: rgb(242, 142, 23); }  // nrhcLodge
+.nrhcMoss      { color: rgb(165, 185, 127); } // nrhcMoss
+.nrhcLime      { color: rgb(171, 194, 74); }  // nrhcLime
+
+body
+{
+font-size: @baseFontSize;
+font-family: @fontStack;
+color: @defaultColor;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+font-family: @fontStack-alt;
+}
+
+a, a:link, a:visited, a:active { color: @linkActive; }
+a:hover   { color: @linkHover; }
+a.more { color: @linkHover; background: url('/brand/images/morearrow.gif') no-repeat 100% 50%; padding-right: 10px; white-space: nowrap; zoom: 1; }
+a.more:hover { text-decoration: underline; }
+a.external { background: url('/brand/images/external-link-sprite.png') 100% 0% no-repeat; padding-right: 13px; }
+a.external:hover { background-position: 100% -100px; }
+a.pdf { background: url('/images/icons/acrobat-icon-16.png') no-repeat 0% 50%; padding-left: 24px; zoom: 1; display: block; min-height: 16px; }
+a.pdf-16 { background: url('/images/icons/acrobat-icon-16.png') no-repeat 0% 50%; padding-left: 24px; zoom: 1; display: block; min-height: 16px; }
+a.pdf-32 { background: url(http://images.northrockhill.com/icons/acrobat-icon-32.png) no-repeat 0% 50%; padding-left: 40px; zoom: 1; display: block; min-height: 32px; }
+a.pdf-64 { background: url(http://images.northrockhill.com/icons/acrobat-icon-64.png) no-repeat 0% 50%; padding-left: 72px; zoom: 1; display: block; min-height: 64px; }
+
+// Since em units are a relative measure, we are assuming a base size of 16px
+h1, .size-xxlarge       { font-size: 1.875em; line-height: 1.15em; }
+h2, .size-xlarge        { font-size: 1.5em;   line-height: 1.10em; }
+h3, .size-large         { font-size: 1.125em; line-height: 1.20em; }
+h4, .size-normal, p     { font-size: 0.875em; line-height: 1.60em; margin: 1em 0; }
+h5, .size-small,  small { font-size: 0.75em;  line-height: 1.40em; }
+h6, .size-xsmall        { font-size: 0.625em; line-height: 1.50em; }
+    .size-xxsmall       { font-size: 0.5em;   line-height: 1.60em; }
+    .size-xxxsmall      { font-size: 0.375em; line-height: 1.70em; }
+
+h1,
+h1 a,
+h1 a:hover,
+h1 a:visited
+{
+	color: rgb(0, 71, 46); // nrhcGreen
+	font-weight: bold;
+	margin: .625em 0 .5em;
+	padding: 0;
+	text-align:left;
+}
+
+h2,
+h2 a,
+h2 a:visited,
+h3,
+h3 a,
+h3 a:visited 
+{
+	color: #333333;
+	text-decoration: none;
+	margin: 15px 0 0;
+}
+
+hgroup
+{
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+
+  h1, h2, h3, h4, h5, h6, p
+  {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+blockquote { margin: 1em  2.5em; }
+
+fieldset { margin: 1em .25em; padding: .75em; border: 1px solid; }
+legend { padding: .125em; }
+
+hr { border-style: solid; border-width: 0 0 1px; }
+
+// --------------------------------------------------------------------------------
+// Lists
+//
+
+ul 
+{
+	list-style-position:inside;
+	list-style-type:disc;
+	margin: 1em 0 1em 1.6em;
+	padding:0;
+}
+
+ul li 
+{
+	margin:0 0 1em 1em;
+	padding:0;
+	overflow: hidden;
+}
+
+ol 
+{
+	margin: 0 0 1em 2em;
+	padding: 0;
+}
+
+ol li 
+{
+	margin: 0 0 1em;
+	padding: 0 0 5px;
+}
+
+dl {
+
+  dt {
+    font-weight: bold;
+    font-size: 1.125em;
+    margin-top: 1em;
+    margin-bottom: 0.75em;
+  }
+
+  dd {
+    font-size: 0.875em;
+    line-height: 1.60em;
+    margin: 0.25em 0 1.5em 1em;
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Images
+//
+
+p img {
+	padding: 0;
+	max-width: 100%;
+	}
+
+img.centered {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+img.float-right {
+	padding: 4px;
+	margin: 0 0 2px 7px;
+	display: inline;
+	}
+
+img.float-left {
+	padding: 4px;
+	margin: 0 7px 2px 0;
+	display: inline;
+	}
+
+.image-box {
+  border-radius:10px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  background:#FFFFFF url(/files/web-images/icons/gradient999by48.png) repeat-x scroll left bottom;
+  border:1px solid #999999;
+  padding:5px;
+  width:auto;
+  }
+
+
+// --------------------------------------------------------------------------------
+// Content Shorthand
+// Helpers
+//
+//   These are quick class modifiers to add bold or italic
+//   to change color, or size
+//
+
+strong, .strong, .b { font-weight: bold; }
+em, .emphasis, .i { font-style: italic; }
+.underline, .u { text-decoration: underline; }
+.alignleft { float: left; margin: 0 1em 1em 0; }
+.alignright { float: right; margin: 0 0 1em 1em; }
+.align-center, .align-c { text-align: center; }
+.align-left, .align-l { text-align: left; } // DEPRECATED - use .alignleft
+.align-right, .align-r { text-align: right; } // DEPRECATED - use .alignright
+.align-justify, .align-j { text-align: justify; }
+.float-right { float: right !important; } // DEPRECATED - use .alignright
+.float-left { float: left !important; } // DEPRECATED - use .alignleft
+.float-none { float: none !important; } // DEPRECATED - use .clearfloat
+.clearfloat { float: none !important; }
+
+.inside { padding: 1em; }
+.clear, .clr { clear: both; }
+.clearer { clear: both; display: block; margin: 0; padding: 0; height: 0; line-height: 1px; font-size: 1px; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.nowrap { white-space: nowrap; }
+
+.highlight { padding: 1px 4px; background-color: @nrhcBrightGreen; .rounded(); } // requires Goodies.less
+
+.rounded { -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
+.roundedtop { -webkit-border-radius: 4px 4px 0 0; -moz-border-radius: 4px 4px 0 0; border-radius: 4px 4px 0 0; }
+.roundedtopleft { -webkit-border-radius: 4px 0 0 0; -moz-border-radius: 4px 0 0 0; border-radius: 4px 0 0 0; }
+.roundedtopright { -webkit-border-radius: 0 4px 0 0; -moz-border-radius: 0 4px 0 0; border-radius: 0 4px 0 0; }
+.roundedbottom { -webkit-border-radius: 0 0 4px 4px; -moz-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px; }
+.roundedbottomright { -webkit-border-radius: 0 0 4px 0; -moz-border-radius: 0 0 4px 0; border-radius: 0 0 4px 0; }
+.roundedbottomleft { -webkit-border-radius: 0 0 0 4px; -moz-border-radius: 0 0 0 4px; border-radius: 0 0 0 4px; }
+
+.shadow { -webkit-box-shadow: rgba(0,0,0,.3) 0px 1px 3px; -moz-box-shadow: rgba(0,0,0,.3) 0px 1px 3px; box-shadow: rgba(0,0,0,.3) 0px 1px 3px; }
+.shadow-text { -moz-text-shadow: rgba(0,0,0,.3) 0px 1px 3px; -webkit-text-shadow: rgba(0,0,0,.3) 0px 1px 3px; text-shadow: rgba(0,0,0,.3) 0px 1px 3px; }
+
+.footnote { font-size: .85em; }
+
+// Watch Video
+//
+// <div class="watch-vide">
+//   <a href="#">
+//     <span class="play"><br></span>
+//     <img class="shadow rounded">
+//   </a>
+// </div>
+// --------------------------------------------------
+.watch-video
+{
+  // having a set width at the root element makes using 
+  // this class difficult for larger images. Small video
+  // thumb images need this to be 175px so that it displays
+  // inline.
+  width: 175px;
+  text-align: center;
+
+  a
+  {
+    position: relative;
+    display: block;
+    cursor: pointer;
+
+    span
+    {
+      text-align: center;
+      font-size: @baseFontSize;
+      line-height: @baseFontSize * 18/16;
+    }
+    span.play
+    {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -36px 0 0 -36px;
+      height: 72px;
+      width: 72px;
+      background-image: url('/brand/images/play-overlay.png');
+      background-repeat: no-repeat;
+    }
+  }
+  a:hover
+  {
+    span { text-decoration: underline; }
+    span.wrap { text-decoration: none; }
+    span.play { background-position: 0% 100%; }
+  }
+  img
+  {
+    padding: 5px;
+    width: 165px;
+    background-color: #fff;
+    margin-bottom: 2px;
+  }
+  img.noborder
+  {
+    padding: 0;
+  }
+  img.full
+  {
+    width: inherit;
+  }
+}
+

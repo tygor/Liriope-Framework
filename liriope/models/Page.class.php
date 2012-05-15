@@ -67,6 +67,12 @@ class Page extends obj {
     return ( $this->uri === c::get( 'home' )) ? TRUE : FALSE;
   }
 
+  public function isActive( $uri=NULL ) {
+    if( $uri === NULL ) return false;
+    if( $this->uri === $uri ) return true;
+    return false;
+  }
+
   public function render( $return=TRUE ) {
     content::start();
     $this->transferStored();

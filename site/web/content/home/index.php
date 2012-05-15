@@ -1,9 +1,5 @@
 <?php
-/**
- * Home > index.php
- * --------------------------------------------------
- * homepage
- */
+// Home
 
 $page->title = 'Liriope | Monkey Grass';
 

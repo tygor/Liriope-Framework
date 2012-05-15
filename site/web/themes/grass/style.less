@@ -83,7 +83,9 @@ img#background {
   min-width: 100%;
 }
 
-body > #container { position: relative; }
+body > #container {
+  position: relative;
+}
 
 ins
 {
@@ -114,6 +116,8 @@ h1, h2, h3, h4, h5, h6
   font-family: @fontHeading;
   margin: 0.75em 0 0;
   line-height: 1.125;
+  text-shadow: rgb(0,0,0) 0px 1px 3px;
+  text-shadow: rgba(0,0,0,.5) 0px 1px 3px, rgb(255,200,200) 0px -1px 0px;
 }
 
 h1
@@ -121,8 +125,6 @@ h1
   font-size: @baseFontSize * 2.25;
   font-weight: normal;
   color: @BaseColor;
-  text-shadow: rgb(0,0,0) 0px 1px 3px;
-  text-shadow: rgba(0,0,0,.5) 0px 1px 3px, rgb(255,200,200) 0px -1px 0px;
 }
 h2
 {
@@ -215,6 +217,10 @@ header#main
 div#main {
   overflow: hidden;
   margin-top: 2em;
+  padding: 1.25em 1.5em 3em;
+  background-color: rgba( 255,255,255, 0.3 );
+  .rounded();
+  .shadow();
 }
 
 nav#main

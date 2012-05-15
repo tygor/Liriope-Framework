@@ -9,12 +9,13 @@
 ?>
 
 <ul>
-  <li><?= getLink( 'Projects', '/projects' . '' ); ?></li>
-  <li class="deeper"><?= getLink( 'About Us', '/about-us' . '' ); ?>
+  <li><a href="<?php echo url('projects') ?>">Projects</a></li>
+  <li class="deeper"><a href="<?php echo url('about-us') ?>">About Us</a>
     <ul>
-      <li><?= getlink( 'vision', '/about-us/vision' . '' ); ?>
+      <li><a href="<?php echo url('about-us/vision') ?>">Vision</a>
     </ul>
   </li>
-  <li><?= getLink( 'Features', '/features' . '' ); ?></li>
-  <li class="last"><?= getLink( 'Blog', '/blog' . '' ); ?></li>
+  <li><a href="<?php echo url('features') ?>">Features</a></li>
+  <li><a href="<?php echo url('blog') ?>">Blog</a></li>
+  <li class="last"><a href="<?php echo url('docs') ?>">Docs</a></li>
 </ul>

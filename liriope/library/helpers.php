@@ -6,31 +6,12 @@
 
 //
 // url
-// an easy url builder
+// build a url based
 //
 function url( $uri=FALSE ) {
+  // strip leading and trailing slashes
+  $uri = trim( $uri, '/' );
   return c::get( 'url' ) . '/' . $uri;
-}
-
-//
-// getLink
-// takes the arguments and spits out an anchor tag link
-//
-function getLink( $label=NULL, $url=NULL, $args=array() ) {
-  // clean input
-  $label = tools::cleanInput( $label, 'whiteAlphaNum' );
-
-  // take the variables and send back a HTML <a> tag
-  $format = '<a href="%s" %s>%s</a>' . "\n";
-
-  // take care of the arguments first
-  $argString = "";
-  foreach( $args as $key => $value )
-  {
-    $argString .= tools::cleanInput( $key ) . '="' . tools::cleanInput( $value, 'whiteAlphaNum' ) . '" ';
-  }
-
-  return sprintf( $format, $url, $argString, $label );
 }
 
 //

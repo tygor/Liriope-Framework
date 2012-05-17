@@ -2,13 +2,13 @@
 // nrhcTemplateSpice.js
 
 jQuery.noConflict();
-jQuery(document).ready(function() {
+jQuery(document).ready( function() {
   (function($) {
 
   /**
    * Remove the no-js body class letting us know that javascript is enabled
    */
-  $('body').removeClass('no-js');
+  $('html').removeClass('no-js');
 
 	/**
 	* Search Box spice

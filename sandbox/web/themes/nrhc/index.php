@@ -27,14 +27,6 @@
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
   <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
-  <?php foreach( (array) $page->get( 'js' ) as $script): ?>
-  <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
-  <?php endforeach; ?>
-  <?php foreach( (array) $page->get( 'script' ) as $block): ?>
-  <script type="text/javascript" charset="UTF-8">
-    <?= $block; ?>
-  </script>
-  <?php endforeach; ?>
 
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
@@ -93,6 +85,14 @@
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>
   <script defer src="js/script.js"></script>
+  <?php foreach( (array) $page->get( 'js' ) as $script): ?>
+  <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+  <?php endforeach; ?>
+  <?php foreach( (array) $page->get( 'script' ) as $block): ?>
+  <script type="text/javascript" charset="UTF-8">
+    <?= $block; ?>
+  </script>
+  <?php endforeach; ?>
   <!-- end scripts-->
 
   <!-- Change UA-XXXXX-X to be your site's ID -->

@@ -58,6 +58,10 @@ class Page extends obj {
     }
   }
 
+  public function uri() {
+    return $this->uri;
+  }
+
   public function url() {
     if( $this->isHomePage()) return url();
     return url($this->uri);

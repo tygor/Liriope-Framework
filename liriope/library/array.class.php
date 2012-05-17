@@ -67,6 +67,23 @@ class a {
   }
 
   //
+  // searchKeys()
+  // search for keys in an array by regular expression
+  //
+  // @param  array  $array The array to look in
+  // @param  string $search The regular expression
+  // @return array  The array of results
+  //
+  static function searchKeys( $array, $search ) {
+    $keys = preg_grep( "#" . preg_quote( $search ) . "#i", array_keys( $array ));
+    $vals = array();
+    foreach( $keys as $key ) {
+      $vals[$key] = $array[$key];
+    }
+    return $vals;
+  }
+
+  //
   // contains()
   // Yes/No if an array has a value
   //

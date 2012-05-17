@@ -45,6 +45,7 @@ class load
     load::file( $root . '/library/dir.class.php', TRUE );
     load::file( $root . '/library/server.class.php', TRUE );
     load::file( $root . '/library/array.class.php', TRUE );
+    load::file( $root . '/library/menu.class.php', TRUE );
     load::file( $root . '/controllers/LiriopeController.class.php', TRUE );
   }
 

@@ -14,21 +14,16 @@
 <html class="no-js" lang="en">
 <head>
   <meta charset="utf-8">
-
-  <!-- Use the .htaccess and remove these lines to avoid edge case issues.
-       More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <title><?= $page->title(); ?></title>
+
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
-
-  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.png">
 
-  <!-- CSS: implied media=all -->
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
   <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
@@ -40,13 +35,7 @@
     <?= $block; ?>
   </script>
   <?php endforeach; ?>
-  <!-- end CSS-->
 
-  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
-
-  <!-- All JavaScript at the bottom, except for Modernizr / Respond.
-       Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
-       For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
@@ -60,8 +49,9 @@
       </a>
     </h1><!-- /logo -->
 
+    <a href="#" id="global-nav-expand">Expand Icon</a>
     <nav id="global-nav">
-      <?php snippet( 'navigation.php' ); ?>
+      <?php snippet( 'menu.php' ); ?>
     </nav><!-- /global-nav -->
 
   </header><!-- /global-header -->
@@ -88,9 +78,6 @@
       <br>
       </div>
       <div class="column last">
-        <nav id="footer" class="menu">
-          <?php snippet( 'navigation.php' ); ?>
-        </nav>
       </div>
     </div>
   </footer>

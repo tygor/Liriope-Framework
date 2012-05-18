@@ -10,21 +10,50 @@
 global $menu;
 $menu = new menu();
 $menu
-  ->addChild( 'Projects', 'projects' )
-  ->addChild( 'About Us', 'about-us' )
-  ->addChild( 'Features', 'features' )
-  ->addChild( 'Docs', 'docs' )
-  ->addChild( 'Blog', 'blog' );
+  ->addChild( 'About Us',  'about-us' )
+  ->addChild( 'New Here?', 'new-here' )
+  ->addChild( 'Connect',   'connect' )
+  ->addChild( 'Media',     'media' )
+  ->addChild( 'Give',      'give' )
+  ->addChild( 'Projects',  'projects' )
+  ->addChild( 'Features',  'features' )
+  ;
 $menu
   ->find( 'about-us' )
-  ->addChild( 'Dummy', 'about-us/dummy1' )
-  ->addChild( 'Dummy', 'about-us/dummy2' )
-  ->addChild( 'Dummy', 'about-us/dummy3' )
-  ->addChild( 'Vision', 'about-us/vision' );
+  ->addChild( 'Our Story',       'about-us/our-story' )
+  ->addChild( 'Beliefs',         'about-us/beliefs' )
+  ->addChild( 'Staff & Contact', 'about-us/contact' )
+  ->addChild( 'News',            'blog' )
+  ;
 $menu
-  ->find( 'about-us' )
-  ->find( 'about-us/vision' )
-  ->addChild( 'Glasses', 'about-us/vision/glasses' );
+  ->find( 'new-here' )
+  ->addChild( 'Times & Directions',       'new-here/times-directions' )
+  ->addChild( 'What to Expect',           'new-here/what-to-expect' )
+  ->addChild( 'Kids & Family Ministries', 'new-here/family-ministries' )
+  ->addChild( 'Current Series',           'new-here/current-series' )
+  ;
+$menu
+  ->find( 'connect' )
+  ->addChild( 'Discover & Partner', 'connect/discover-partner' )
+  ->addChild( 'Serve',              'connect/serve' )
+  ->addChild( 'Groups',             'connect/groups' )
+  ->addChild( 'Baptism',            'connect/baptism' )
+  ->addChild( 'NetWORK',            'connect/network' )
+  ;
+$menu
+  ->find( 'new-here' )
+  ->find( 'new-here/family-ministries' )
+  ->addChild( 'SafariLand', 'new-here/family-ministries/safariland' )
+  ->addChild( 'KidsCamp',   'new-here/family-ministries/kidscamp' )
+  ->addChild( 'Students',   'new-here/family-ministries/students' )
+  ;
+$menu
+  ->find( 'connect' )
+  ->find( 'connect/serve' )
+  ->addChild( 'Serve @ NRHC',      'connect/serve/at-nrhc' )
+  ->addChild( 'Serve our city',    'connect/serve/our-city' )
+  ->addChild( 'Serve the nations', 'connect/serve/the-nations' )
+  ;
 
 ?>
 

@@ -2,6 +2,7 @@
 
 $page->title = 'Can I build it?';
 $page->date = '2012-05-14';
+$page->css( 'http://nrhc-pages.northrockhill.com/beliefs/beliefs.css' );
 
 ?>
 
@@ -17,3 +18,13 @@ I want it to, and then the next question is if I can make Liriope do it instead.
 <p>So, I find myself continuing Liriope. And now I want to spend the time to find out... Can I build it?
 Can I build my organization website with the same ease that I'm finding Kirby go together? But with
 less snags?</p>
+
+<hr>
+<p>below is test content</p>
+
+<div id="beliefs">
+<dl>
+<dt>Title</dt>
+<dd>Definiton</dd>
+</dl>
+</div>

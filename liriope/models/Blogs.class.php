@@ -61,10 +61,10 @@ class Blogs extends Page {
   // @return string The file of this blog, buffered, and returned as a string
   //
   public function render() {
+    global $page;
+
     // start output buffering and grab the full post file
     content::start();
-    // I need a $page object so that the content included can act normally
-    if( $this->context = "list" ) $page = new Page();
     $blog =& $this;
     include( $this->fullpath );
     $post = content::end( TRUE );
@@ -85,7 +85,7 @@ class Blogs extends Page {
     // wrap the <h1> tag in an anchor?
     if( c::get( 'blog.link.title', TRUE )) {
       $pattern = '/(<h1[^>]*>)([a-z0-9\'\".!? ]*)(<\/h1>)/i';
-      $replacement = '$1<a href="' . $this->getLink() . '">$2</a>$3';
+      $replacement = '$1<a href="' . url( $this->getLink()) . '">$2</a>$3';
       $post = preg_replace( $pattern, $replacement, $post );
     }
 
@@ -224,6 +224,7 @@ class Blogs extends Page {
   // returns the assigned pubDate is one was set
   //
   public function getPubDate() {
+    if( $this->pubdate ) return $this->pubdate;
     $pubdate = $this->date;
     if( $pubdate===NULL ) return $this->getModified();
     return strtotime( $pubdate );

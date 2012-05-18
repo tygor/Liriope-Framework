@@ -30,7 +30,7 @@
 
   <!-- CSS: implied media=all -->
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
-  <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
+  <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
   <?php foreach( (array) $page->get( 'js' ) as $script): ?>
   <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>

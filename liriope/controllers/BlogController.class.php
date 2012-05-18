@@ -42,7 +42,6 @@ class BlogController Extends LiriopeController {
       $posts[] = $blog;
     }
 
-
     // sort them by their pubdate
     uasort( $posts, array( "BlogController", "comparepubDate" ));
 
@@ -75,6 +74,7 @@ class BlogController Extends LiriopeController {
 
     $post = new Blogs( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
     $post->setContext( 'show' );
+
     $page->set( 'post', $post );
 
     // now that the post has been rendered to a string, the contained PHP will have been run

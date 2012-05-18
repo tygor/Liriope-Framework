@@ -54,6 +54,18 @@ class obj implements Iterator {
     return $v;
   }
 
+  function count() {
+    return count( $this->_ );
+  }
+
+  function first() {
+    return a::first( $this->_ );
+  }
+
+  function last() {
+    return a::last( $this->_ );
+  }
+
 }
 
 ?>

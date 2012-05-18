@@ -17,11 +17,14 @@ $menu
   ->addChild( 'Blog', 'blog' );
 $menu
   ->find( 'about-us' )
-  ->addChild( 'Vision', 'vision' );
+  ->addChild( 'Dummy', 'about-us/dummy1' )
+  ->addChild( 'Dummy', 'about-us/dummy2' )
+  ->addChild( 'Dummy', 'about-us/dummy3' )
+  ->addChild( 'Vision', 'about-us/vision' );
 $menu
   ->find( 'about-us' )
-  ->find( 'vision' )
-  ->addChild( 'Glasses', 'glasses' );
+  ->find( 'about-us/vision' )
+  ->addChild( 'Glasses', 'about-us/vision/glasses' );
 
 ?>
 
@@ -34,17 +37,17 @@ $menu
   </li>
   <?php foreach( $menu->getChildren() as $m ): ?>
   <li<?php echo $m->hasChildren() ? ' class="deeper"' : '' ?>>
-    <a href="<?php echo url( $m->url ) ?>" <?php echo ($page->isActive( $m->url )) ? ' class="active"' : '' ?>><?php echo $m->label ?></a>
+    <a href="<?php echo url( $m->url ) ?>" <?php echo ($m->isActive()) ? ' class="active"' : '' ?>><?php echo $m->label ?></a>
     <?php if( $m->hasChildren() ): ?>
     <ul style="display: none;">
       <?php foreach( $m->getChildren() as $n ): ?>
       <li<?php echo $n->hasChildren() ? ' class="deeper"' : '' ?>>
-        <a href="<?php echo url( $m->url . '/' . $n->url ) ?>" <?php echo ($page->isActive( $n->url )) ? ' class="active"' : '' ?>><?php echo $n->label ?></a>
+        <a href="<?php echo url( $n->url ) ?>" <?php echo ($n->isActive()) ? ' class="active"' : '' ?>><?php echo $n->label ?></a>
         <?php if( $n->hasChildren() ): ?>
         <ul style="display: none;">
           <?php foreach( $n->getChildren() as $o ): ?>
           <li<?php echo $o->hasChildren() ? ' class="deeper"' : '' ?>>
-            <a href="<?php echo url( $m->url . '/' . $n->url . '/' . $o->url ) ?>" <?php echo ($page->isActive( $o->url )) ? ' class="active"' : '' ?>><?php echo $o->label ?></a>
+            <a href="<?php echo url( $o->url ) ?>" <?php echo ($o->isActive()) ? ' class="active"' : '' ?>><?php echo $o->label ?></a>
           </li>
           <?php endforeach ?>
          </ul>

@@ -11,49 +11,49 @@ class menu extends obj {
   var $label;
   var $url;
   var $parent;
-  var $isActive = FALSE;
+  var $active = FALSE;
 
-  public function __construct( $label=NULL, $url=NULL ) {
-    if( $label === NULL ) $label = ucfirst( c::get( 'home' ));
-    if( $url === NULL ) $url = c::get( 'home' );
+  function __construct( $label=NULL, $url=NULL ) {
     $this->label = $label;
     $this->url = $url;
-    $this->parent = FALSE;
-    $this->uri = uri::get();
     return $this;
   }
 
-  public function addChild( $label, $url ) {
-    $menu = new menu( $label, $url );
-    $menu->parent =& $this;
-    $this->_[ $url ] = $menu;
-    return $this;
-  }
-
-  public function hasChildren() {
-    if( count( $this->_ ) >= 1 ) return true;
-    return false;
-  }
-
-  public function getChildren() {
-    return $this->_;
-  }
-
-  public function getParent() {
-    if( $this->parent ) return $this->parent;
+  function isActive( $inherit=FALSE ) {
+    if( $this->active ) return $this->active;
+    if( $inherit || $this->url == uri::get() ) {
+      if( $this->hasParent() ) $this->getParent()->isActive( TRUE );
+      $this->active = TRUE;
+      return TRUE;
+    }
     return FALSE;
   }
 
-  public function getRoot() {
-    if( $this->parent && $this->parent->url !== c::get( 'home' )) return $this->parent->getParent();
+  function findActive() {
+    foreach( $this->getChildren() as $child ) {
+      if( $child->isActive()) return $child;
+    }
+    return FALSE;
+  }
+
+  function addChild( $label, $url ) {
+    $menu = new menu( $label, $url );
+    $menu->parent = $this;
+    $menu->isActive();
+    $this->$url = $menu;
     return $this;
   }
 
-  public function find( $k ) {
-    return a::get( $this->_, $k );
+  function hasChildren() { return ( count( $this->_ ) > 0 ) ? TRUE : FALSE; }
+  function getChildren() { return $this->_; }
+  function hasParent() { return ( isset( $this->parent )) ? TRUE : FALSE; }
+  function getParent() { return ( is_object( $this->parent )) ? $this->parent : NULL; }
+
+  function find( $k ) {
+    return ( $this->$k ) ? $this->$k : FALSE;
   }
 
-  public function findDeep( $k ) {
+  function findDeep( $k ) {
     // check children
     $menu = $this->find( $k );
     if( $menu ) return $menu;

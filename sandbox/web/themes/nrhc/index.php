@@ -16,7 +16,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?= $page->title(); ?></title>
+  <title><?php echo $page->title() ?> | <?php echo $site->title() ?></title>
 
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">

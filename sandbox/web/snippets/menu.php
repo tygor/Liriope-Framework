@@ -60,23 +60,23 @@ $menu
 <ul id="global-menu" class="menu">
   <li>
     <a href="<?php echo url() ?>" class="home<?php echo ($page->isActive( 'home' )) ? ' active' : '' ?>">
-      <img src="<?php echo theme::$folder . '/images/home.png' ?>" alt="Home">
+      <img src="/<?php echo theme::$folder . '/images/home.png' ?>" alt="Home">
       <span class="image-title">Home</span>
     </a>
   </li>
   <?php foreach( $menu->getChildren() as $m ): ?>
   <li<?php echo $m->hasChildren() ? ' class="deeper"' : '' ?>>
-    <a href="<?php echo url( $m->url ) ?>" <?php echo ($m->isActive()) ? ' class="active"' : '' ?>><?php echo $m->label ?></a>
+    <a href="<?php echo url( $m->url ) ?>" <?php echo ($m->isActive()) ? ' class="active"' : '' ?>><?php echo html( $m->label ) ?></a>
     <?php if( $m->hasChildren() ): ?>
     <ul style="display: none;">
       <?php foreach( $m->getChildren() as $n ): ?>
       <li<?php echo $n->hasChildren() ? ' class="deeper"' : '' ?>>
-        <a href="<?php echo url( $n->url ) ?>" <?php echo ($n->isActive()) ? ' class="active"' : '' ?>><?php echo $n->label ?></a>
+        <a href="<?php echo url( $n->url ) ?>" <?php echo ($n->isActive()) ? ' class="active"' : '' ?>><?php echo html($n->label) ?></a>
         <?php if( $n->hasChildren() ): ?>
         <ul style="display: none;">
           <?php foreach( $n->getChildren() as $o ): ?>
           <li<?php echo $o->hasChildren() ? ' class="deeper"' : '' ?>>
-            <a href="<?php echo url( $o->url ) ?>" <?php echo ($o->isActive()) ? ' class="active"' : '' ?>><?php echo $o->label ?></a>
+            <a href="<?php echo url( $o->url ) ?>" <?php echo ($o->isActive()) ? ' class="active"' : '' ?>><?php echo html( $o->label ) ?></a>
           </li>
           <?php endforeach ?>
          </ul>

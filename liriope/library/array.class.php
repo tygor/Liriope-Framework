@@ -118,6 +118,19 @@ class a {
     return array_pop( $array );
   }
 
+  //
+  // glue()
+  // glues together an array into a string
+  //
+  // @param  array  $array The array to glue
+  // @param  string $glue The glue between each array item
+  // @return string The glued array
+  //
+  static function glue( $array, $string=NULL ) {
+    if( $string === NULL ) return implode( $array );
+    return implode( $string, $array );
+  }
+
 }
 
 ?>

@@ -37,11 +37,16 @@ class LiriopeController {
     global $page;
 
     // the $params passed are the URI bits and may contain extensions
-    // so, clean the file extension off of the $params
-    foreach( $params as $k => $param ) $params[$k] = tools::removeExtension( $param );
+    // so, clean the file extension off of the $params,
+    // and stretch the keys and values into an array of values
+    $path = array();
+    foreach( $params as $k => $v ) {
+      if( $k ) $path[] = tools::removeExtension( $k );
+      if( $v ) $path[] = tools::removeExtension( $v );
+    }
 
     // check for home page
-    $path = empty( $params[0] ) ? '/home/index' : '/' . implode( '/', $params );
+    $path = '/' . a::glue( $path, '/' );
     $liriope = new Liriope( $path, c::get( 'root.web' ) . '/content' );
 
     $content = $liriope->render();

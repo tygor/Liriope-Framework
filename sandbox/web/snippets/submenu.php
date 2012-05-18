@@ -8,14 +8,15 @@ if( !$page->isHomePage() ):
   global $menu;
   $sub = $menu->findActive();
 
-  if( $sub ) :
+  // show submenu if it has children
+  if( $sub && $sub->hasChildren() ) :
 ?>
 <nav id="submenu">
-  <h3><?php echo $sub->label ?></h3>
+  <h3><?php echo html( $sub->label ) ?></h3>
   <ul id="section-menu" class="menu">
   <?php foreach( $sub->getChildren() as $m ): ?>
-    <li<?php echo $m->hasChildren() ? ' class="deeper"' : '' ?>>
-      <a href="<?php echo url( $m->url ) ?>" <?php echo ($page->isActive( $m->url )) ? ' class="active"' : '' ?>><?php echo $m->label ?></a>
+    <li class="<?php echo $m->hasChildren() ? 'deeper' : '' ?><?php echo ($m->isActive()) ? ' active' : '' ?>">
+      <a href="<?php echo url( $m->url ) ?>"><?php echo html( $m->label ) ?></a>
     </li>
   <?php endforeach ?>
   </ul>

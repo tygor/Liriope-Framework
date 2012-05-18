@@ -11,6 +11,11 @@ c::set( 'url', 'http://sandbox.ubuntu' );
 c::set( 'site.title', 'NRHC' );
 
 //
+// Page
+// --------------------------------------------------
+c::set( 'page.title', 'North Rock Hill Church' );
+
+//
 // Theme
 // --------------------------------------------------
 c::set( 'theme', 'nrhc' );

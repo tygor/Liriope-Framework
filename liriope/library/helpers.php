@@ -36,3 +36,8 @@ function slugify( $input=NULL ) {
   return tools::cleanInput( $input );
 }
 
+// HTML
+// creates safe html
+function html( $string ) {
+  return str::html( $string, false );
+}

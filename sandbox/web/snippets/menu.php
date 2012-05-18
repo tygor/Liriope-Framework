@@ -10,13 +10,11 @@
 global $menu;
 $menu = new menu();
 $menu
-  ->addChild( 'About Us',  'about-us' )
+  ->addChild( 'About NRHC',  'about-us' )
   ->addChild( 'New Here?', 'new-here' )
   ->addChild( 'Connect',   'connect' )
   ->addChild( 'Media',     'media' )
   ->addChild( 'Give',      'give' )
-  ->addChild( 'Projects',  'projects' )
-  ->addChild( 'Features',  'features' )
   ;
 $menu
   ->find( 'about-us' )

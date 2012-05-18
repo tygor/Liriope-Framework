@@ -37,6 +37,8 @@ class Page extends obj {
 
   public function css( $file=NULL, $rel='stylesheet' ) {
     if( $file===NULL ) return false;
+    $file = trim( $file, '/' );
+    if( substr( $file, 0, 4 ) != 'http' ) $file = '/' . $file;
     $this->vars['css'][] = array( 'file' => $file, 'rel' => $rel );
     return $file;
   }

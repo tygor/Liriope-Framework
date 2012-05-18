@@ -194,6 +194,10 @@ class Blogs extends Page {
     return $matches[0][1];
   }
 
+  public function url() {
+    return $this->getLink();
+  }
+
   public function getLink() {
     $info = pathinfo( $this->file );
     return 'blog/' . $info['filename'];

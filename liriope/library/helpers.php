@@ -39,5 +39,5 @@ function slugify( $input=NULL ) {
 // HTML
 // creates safe html
 function html( $string ) {
-  return str::html( $string, false );
+  return str::html( $string, true );
 }

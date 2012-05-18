@@ -25,7 +25,7 @@
   <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.png">
 
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
-  <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
+  <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
 
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>

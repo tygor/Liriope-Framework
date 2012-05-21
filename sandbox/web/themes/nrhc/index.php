@@ -7,6 +7,7 @@
   $page->js( 'js/libs/less-1.3.0.min.js' );
   $page->js( theme::$folder . '/js/jquery.hoverIntent.minified.js' );
   $page->js( theme::$folder . '/js/nrhcTemplateSpice.js' );
+  $page->js( theme::$folder . '/js/plugins.js' );
   $page->script( 'less.watch();' );
 
   echo $site->DOCTYPE();

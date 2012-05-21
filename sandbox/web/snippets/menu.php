@@ -21,7 +21,7 @@ $menu
   ->addChild( 'Our Story',       'about-us/our-story' )
   ->addChild( 'Beliefs',         'about-us/beliefs' )
   ->addChild( 'Staff & Contact', 'about-us/contact' )
-  ->addChild( 'News',            'blog' )
+  ->addChild( 'News',            'news' )
   ;
 $menu
   ->find( 'new-here' )

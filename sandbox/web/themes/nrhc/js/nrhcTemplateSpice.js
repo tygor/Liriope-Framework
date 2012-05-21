@@ -55,7 +55,7 @@ jQuery(document).ready( function() {
 		out: slideClosed
 	};
 
-  $( "#global-menu li" ).hoverIntent( hoverMenu );
+  $( "#global-nav #global-menu li" ).hoverIntent( hoverMenu );
   function slideOpen() { $( this ).find("> ul").slideDown( 375, 'swing' ); };
   function slideClosed() { $( this ).find( "> ul" ).slideUp( 375, 'swing'); };
 

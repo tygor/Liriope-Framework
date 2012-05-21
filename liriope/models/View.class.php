@@ -9,11 +9,15 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 //
 
 class View extends obj {
+  var $_controller;
+  var $_action;
 
    function __construct( $controller, $action ) {
     global $site;
     $site = new Site();
 
+    $this->_controller = $controller;
+    $this->_action = $action;
     $file = load::exists( $controller . '/' . $action . '.php' );
     if( !$file ) trigger_error( "We can't find that view file: $file", E_USER_ERROR );
 
@@ -22,6 +26,20 @@ class View extends obj {
     $page->uri = uri::get();
     $page->theme = c::get('theme');
 	}
+
+  // view()
+  // changes the view file to use
+  //
+  // @param  string  $file The file to use instead of the predetermined one
+  // @return bool    TRUE on success, FALSE on error
+  function view( $file=NULL ) {
+    if( $file===NULL ) return FALSE;
+    $check = $this->_controller . '/' . $this->_action . '_' . $file . '.php';
+    $file = load::exists( $check );
+    if( !$file ) return FALSE;
+    global $page;
+    $page->_view = $file;
+  }
 
   // load()
   // Render the output directly to the page or optionally return the

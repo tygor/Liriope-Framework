@@ -55,6 +55,10 @@ class LiriopeController {
     $page->set( 'content', $content );
   }
 
+  function useView( $file=NULL ) {
+    return $this->_view->view( $file );
+  }
+
   function __destruct() {
     $this->_view->load();
   }

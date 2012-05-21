@@ -9,6 +9,8 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 class Blogs extends Page {
   var $limit;
   var $path;
+  var $relPath;
+  var $absPath;
   var $entry = array();
   var $context;
   var $content;
@@ -26,9 +28,11 @@ class Blogs extends Page {
   //
   public function __construct( $path=NULL, $file=NULL) {
     // on construct, this object can be either an actual post, or an object of multiple posts.
-    $this->path = ( $path === NULL ) ? c::get( 'blog.dir', c::get( 'default.blog.dir' )) : $path;
+    $this->path = $path;
+    $this->absPath = c::get('root.content') . '/' . $path;
+    $this->relPath = trim( str_replace( c::get('root.web'), '', c::get('root.content')), '/' ) . '/' . $path;
     $this->file = $file;
-    $this->fullpath = load::exists( $file, $this->path );
+    $this->fullpath = load::exists( $file, $this->relPath );
     $this->context = 'show';
     $this->filter = array( 'php', 'html', 'txt');
     $this->ignore = array( '.', '..', 'index.php', 'index.html');
@@ -115,7 +119,7 @@ class Blogs extends Page {
   //
   public function getList( $limit=NULL ) {
     $this->setLimit = $limit;
-    $this->files = dir::read( $this->path );
+    $this->files = dir::read( c::get( 'root.content' ) . '/' . $this->path );
     $this->filterFiles()->sortFiles()->limitFiles();
     $entries = array();
     foreach( $this->files as $k => $f ) {
@@ -195,12 +199,12 @@ class Blogs extends Page {
   }
 
   public function url() {
-    return $this->getLink();
+    $info = pathinfo( $this->file );
+    return $this->path . '/' . $info['filename'];
   }
 
   public function getLink() {
-    $info = pathinfo( $this->file );
-    return 'blog/' . $info['filename'];
+    return $this->url();
   }
 
   private function checkModified() {

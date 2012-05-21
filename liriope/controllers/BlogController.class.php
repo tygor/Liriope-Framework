@@ -14,49 +14,58 @@ class BlogController Extends LiriopeController {
   public function show( $vars=NULL ) {
     global $page;
 
-    // get the last $num of blog posts and use the Blogs model for each one
-    $dir = c::get( 'root.web' ) . '/' . c::get( 'blog.dir' );
+    // if the "dir" is vars is set, use the sub-view instead
+    $custom = isset( $vars['dir'] ) ? $vars['dir'] : FALSE;
+    if( $custom ) $this->useView( $custom );
+
+    $baseDir = $custom ? $custom : c::get( 'blog.dir' );
+    $dir = c::get( 'root.content' ) . '/' . $baseDir;
     $files = dir::read( $dir );
+    if( !$files ) trigger_error( 'The designated blog directory is empty', E_USER_WARNING );
 
-    // ignore certain files
-    $ignore = array( '.', '..', 'index.php', 'index.html');
-    $files = array_diff( $files, $ignore );
+    if( $files ) {
+      // ignore certain files
+      $ignore = array( '.', '..', 'index.php', 'index.html');
+      $files = array_diff( (array) $files, $ignore );
 
-    // weed out directories and unwanted file extensions
-    $filter = array( 'php', 'html', 'txt');
-    foreach( $files as $k => $f ) {
-      if( is_dir( $dir . '/' . $f ) || !in_array( Files::extension( $f ), $filter )) {
-        unset( $files[$k] );
+      // weed out directories and unwanted file extensions
+      $filter = array( 'php', 'html', 'txt');
+      foreach( $files as $k => $f ) {
+        if( is_dir( $dir . '/' . $f ) || !in_array( Files::extension( $f ), $filter )) {
+          unset( $files[$k] );
+        }
       }
+
+      // TODO: this part sucks because you have to read all the file to get to their PHP settings within so that they can be sorted by the pubdate rather than the file's modified date.
+      // Get the list as Blogs objects
+      $posts = array();
+      foreach( $files as $f ) {
+        $pubdate = "";
+        $blog = new Blogs( $baseDir, $f );
+        $blog->setContext('list');
+        $pubdate = date( 'Y-m-d', $blog->getPubdate());
+        $blog->pubDate = $pubdate;
+        $posts[] = $blog;
+      }
+
+      // sort them by their pubdate
+      uasort( $posts, array( "BlogController", "comparepubDate" ));
+
+      // then limit to a specific number
+      $limitNum = a::get( $vars, 'limit', 10 );
+      $pageNum = a::get( $vars, 'page', 1);
+      $startPoint = ($pageNum * $limitNum) - $limitNum;
+      $postCount = count( $posts );
+      $totalPages = ceil( $postCount / $limitNum );
+      $posts = array_slice( $posts, $startPoint, $limitNum);
+
+      $page->set( 'blogs', $posts );
+      $page->set( 'limitNum', $limitNum );
+      $page->set( 'totalPages', $totalPages );
+      $page->set( 'pageNum', $pageNum );
+    } else {
+      $page->set( 'error', TRUE );
     }
-
-    // TODO: this part sucks because you have to read all the file to get to their PHP settings within so that they can be sorted by the pubdate rather than the file's modified date.
-    // Get the list as Blogs objects
-    $posts = array();
-    foreach( $files as $f ) {
-      $pubdate = "";
-      $blog = new Blogs( c::get( 'blog.dir' ), $f );
-      $blog->setContext('list');
-      $pubdate = date( 'Y-m-d', $blog->getPubdate());
-      $blog->pubDate = $pubdate;
-      $posts[] = $blog;
-    }
-
-    // sort them by their pubdate
-    uasort( $posts, array( "BlogController", "comparepubDate" ));
-
-    // then limit to a specific number
-    $limitNum = a::get( $vars, 'limit', 10 );
-    $pageNum = a::get( $vars, 'page', 1);
-    $startPoint = ($pageNum * $limitNum) - $limitNum;
-    $postCount = count( $posts );
-    $totalPages = ceil( $postCount / $limitNum );
-    $posts = array_slice( $posts, $startPoint, $limitNum);
-
-    $page->set( 'blogs', $posts );
-    $page->set( 'limitNum', $limitNum );
-    $page->set( 'totalPages', $totalPages );
-    $page->set( 'pageNum', $pageNum );
   }
 
   private function comparePubDate( $a, $b ) {
@@ -72,7 +81,12 @@ class BlogController Extends LiriopeController {
   public function post( $params=NULL ) {
     global $page;
 
-    $post = new Blogs( c::get( 'blog.dir', c::get( 'default.blog.dir' )), $params[0] );
+    // if the "dir" is vars is set, use the sub-view instead
+    $custom = isset( $params['dir'] ) ? $params['dir'] : FALSE;
+    if( $custom ) $this->useView( $custom );
+    $baseDir = $custom ? $custom : c::get( 'blog.dir' );
+
+    $post = new Blogs( $baseDir, $params[0] );
     $post->setContext( 'show' );
 
     $page->set( 'post', $post );

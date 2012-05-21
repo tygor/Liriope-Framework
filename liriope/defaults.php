@@ -4,12 +4,12 @@
 // 
 
 // Set some default router rules
-router::setRule( 'testhome',  'test',      'test/show' );
-router::setRule( 'test',      'test/*',    'test/page' );
-router::setRule( 'blog',      'blog',      'blog/show' );
-router::setRule( 'blog2',     'blog/show/*', 'blog/show' );
-router::setRule( 'blogpost',  'blog/*',    'blog/post/$1' );
 router::setRule( 'home',      '*',         'Liriope/show' );
+router::setRule( 'blogpost',  'blog/*',    'blog/post/$1' );
+router::setRule( 'blog2',     'blog/show/*', 'blog/show' );
+router::setRule( 'blog',      'blog',      'blog/show' );
+router::setRule( 'test',      'test/*',    'test/page' );
+router::setRule( 'testhome',  'test',      'test/show' );
 
 // turn on debugging
 c::set( 'debug', TRUE );
@@ -46,7 +46,7 @@ c::set( 'page.author', 'Tyler Gordon' );
 // --------------------------------------------------
 
 // set the location of the blog content relative to the web root
-c::set( 'blog.dir', 'content/blog' );
+c::set( 'blog.dir', 'blog' );
 
 // What will your readmore class be? This is used to divide a post
 // into intro and full article text

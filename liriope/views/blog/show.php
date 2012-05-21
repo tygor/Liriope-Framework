@@ -11,6 +11,9 @@ $page->title = "Blog | Liriope";
 
 <section id="blog">
 
+<?php if( $page->error ) : ?>
+  <h1>There were no blog posts </h1>
+<?php else: ?>
 <?php foreach( $page->blogs as $entry ): ?>
 <article>
   <footer>
@@ -24,6 +27,7 @@ $page->title = "Blog | Liriope";
   </div>
 </article>
 <?php endforeach; ?>
+<?php endif ?>
 
 <?php snippet( 'pagination.php', $page ); ?>
 

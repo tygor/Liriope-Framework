@@ -864,15 +864,21 @@ nav#submenu {
   }
 }
 
-  // TODO: are these necessary any longer?
-	#crown .gather-menu,
-	#crown .discover-menu,
-	#crown .connect-menu,
-	#crown .serve-menu { background: no-repeat @baseFontSize 100%; }
-	#crown .gather-menu { background-image: url('@{templateImages}/Gather-sectiontitle.png'); }
-	#crown .discover-menu { background-image: url('@{templateImages}/Discover-sectiontitle.png'); }
-	#crown .connect-menu { background-image: url('@{templateImages}/Connect-sectiontitle.png'); }
-	#crown .serve-menu { background-image: url('@{templateImages}/Serve-sectiontitle.png'); }
+.orbit-wrapper {
+  margin-bottom: 25px;
+
+  .orbit-bullets {
+    bottom: -50px;
+    
+    li {
+      background-image: url('@{templateImages}/bullets.png');
+    }
+  }
+}
+
+#slider {
+  margin-bottom: 50px;
+}
 
 #left, 
 #content, 

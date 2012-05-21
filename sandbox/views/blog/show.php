@@ -7,12 +7,17 @@
 
 $page->title = "News";
 
-$blogs = $page->blogs;
-$featured = array_pop( $blogs );
-
 ?>
 
 <section id="blog">
+
+<?php
+
+if( !$page->error ) :
+  $blogs = $page->blogs;
+  $featured = array_pop( $blogs );
+
+?>
 
 <article class="featured">
   <div>
@@ -31,5 +36,9 @@ $featured = array_pop( $blogs );
 <?php endforeach; ?>
 
 <?php snippet( 'pagination.php', $page ); ?>
+
+<?php else: ?>
+  <p>No posts were found</p>
+<?php endif ?>
 
 </section><!-- /#blog-list -->

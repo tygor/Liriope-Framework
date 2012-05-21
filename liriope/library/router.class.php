@@ -8,6 +8,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class router {
   static $rules = array();
+  static $name;
   static $controller;
   static $action;
   static $params = array();
@@ -34,7 +35,7 @@ class router {
     if( !self::matchRule( uri::getURIArray() )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
 
     // DEBUGGING
-    trigger_error( "<b>Routing rule matched.</b><br> Dispatching to <b>" .
+    trigger_error( "<b>Routing rule '".self::$name."'  matched.</b><br> Dispatching to <b>" .
       self::$controller . "</b>, <b>" . self::$action . "</b>()<br> " .
       "with the params: " . print_r( self::$params, TRUE ),
       E_USER_NOTICE );
@@ -51,11 +52,15 @@ class router {
   static function makeParams() {
     $params = self::$params;
 
+    // allow for dirty routes by cleaning up null params
+    foreach( $params as $k => $p ) if( empty( $p )) unset( $params[$k] );
+
+    $params = array_chunk( $params, 2 );
     // convert params into key/value array
-    $p = array();
-    for( $i = 0; $i < count( $params); $i++ ) {
-      if( isset( $params[$i+1] )) $p[$params[$i]] = $params[++$i];
-      else $p[] = $params[$i];
+    $p = array(); $k = 0;
+    foreach( $params as $pair ) {
+      if( isset( $pair[1] )) $p[$pair[0]] = $pair[1];
+      else $p[$k++] = $pair[0];
     }
     self::$params = $p;
   }
@@ -73,6 +78,7 @@ class router {
       trigger_error( 'setRule was passed an empty parameter', E_USER_NOTICE );
       return false;
     }
+    //array_unshift( self::$rules, array( 'rule'=>$rule, 'route'=>$route )); 
     self::$rules[$name] = array( 'rule'=>$rule, 'route'=>$route );
     return true;
   }
@@ -84,7 +90,7 @@ class router {
   // @return string  The resulting value of that name
   // 
   static function getRule( $name=NULL ) {
-    if( $name === NULL ) return self::$rules;
+    if( $name === NULL ) return array_reverse( self::$rules, TRUE );
     return a::get( self::$rules, $name, FALSE );
   }
 
@@ -153,7 +159,7 @@ class router {
         if( $i == ( count( $rule ) - 1 )) {
           // RULE MATCHED
           $params = array_merge( (array) $wildcards , (array) $match );
-          return self::useRoute( self::getRule( $name ), $params );
+          return self::useRoute( $name, self::getRule( $name ), $params );
         }
       }
     }
@@ -162,11 +168,13 @@ class router {
     return false;
   }
 
-  static function useRoute( $rule, $match=array() ) {
+  static function useRoute( $name, $rule, $match=array() ) {
     $parts = explode( '/', $rule['route'] );
+    self::$name       = $name;
     self::$controller = array_shift( $parts );
     self::$action     = array_shift( $parts );
-    self::$params     = $match;
+    $parts = preg_replace( '/\$\d+/', '', $parts );
+    self::$params     = array_merge( (array) $parts, (array) $match );
     return true;
   }
 

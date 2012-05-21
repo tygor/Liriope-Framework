@@ -3,6 +3,10 @@
  * NRHC theme
  */
 
+  // for the Orbit slider
+  $page->css( 'plugins/orbit/orbit-1.3.0.css' );
+  $page->js( 'plugins/orbit/jquery.orbit-1.3.0.js' );
+
   $page->css( theme::$folder . '/styles/base.less', 'stylesheet/less' );
   $page->js( 'js/libs/less-1.3.0.min.js' );
   $page->js( theme::$folder . '/js/jquery.hoverIntent.minified.js' );
@@ -51,6 +55,7 @@
 
   <section id="crown" class="globalwidth">
     <?php snippet('submenu.php', array( 'page'=>$page->url )) ?>
+    <?php snippet( 'slider.php' ) ?>
   </section>
 
   <div id="cms" role="main" class="globalwidth">
@@ -61,16 +66,23 @@
     </section>
   </div>
 
-  <footer id="main" class="globalwidth">
+  <footer id="global-footer" class="globalwidth">
     <div class="fourcolumns">
-      <div class="column span-2">
-        <p>View the <a href="https://github.com/tygor/Liriope-Framework" target="_blank">Liriope Framework</a> project on Github</p>
-        <p>&copy;2012 Liriope Framework
-      </div>
-      <div class="column">
-      <br>
+      <div class="column span-3">
+        <nav id="footer-menu">
+          <?php snippet( 'menu.php' ) ?>
+        </nav>
+        <p>&copy;<?php echo date( 'Y', time()) ?> North Rock Hill Church</p>
+        <p>P.O. Box 2477<br>
+        2562 Mt. Gallant Rd.<br>
+        Rock Hill, SC 29732<br>
+        p: 803-327-6753<br>
+        <a href="mailto:info@northrockhill.com">info@northrockhill.com</a></p>
       </div>
       <div class="column last">
+        <a href="http://twitter.com/nrhc" target="_blank"><img src="/<?php echo theme::$folder ?>/images/icons/twitter_32.png" alt="@nrhc on Twitter"></a>
+        <a href="http://www.facebook.com/northrockhillchurch" target="_blank"><img src="/<?php echo theme::$folder ?>/images/icons/facebook_32.png" alt="northrockhillchurch on Facebook"></a>
+        <a href="http://vimeo.com/nrhc" target="_blank"><img src="/<?php echo theme::$folder ?>/images/icons/vimeo_32.png" alt="NRHC on Vimeo"></a>
       </div>
     </div>
   </footer>
@@ -80,8 +92,8 @@
   <!-- JavaScript at the bottom for fast page loading -->
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/libs/jquery.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>

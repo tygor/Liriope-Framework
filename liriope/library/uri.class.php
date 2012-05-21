@@ -54,8 +54,6 @@ class uri {
     self::$path = implode( '/', $uriArray );
     self::$url = $route;
     self::$query = server::get( 'QUERY_STRING' );
-
-    trigger_error( 'The URI is storing route: ' . self::$route . ', file: ' . self::$file . ', extension: ' . self::$extension . ', path: ' . self::$path, E_USER_NOTICE );
   }
 
   static function isHome() {

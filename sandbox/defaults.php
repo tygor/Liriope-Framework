@@ -5,6 +5,16 @@
 // 
 
 //
+// Custom Routes
+// --------------------------------------------------
+router::setRule( 'mediapost', 'media/*',      'blog/post/dir/media/$1' );
+router::setRule( 'media2',    'media/show/*', 'blog/show/dir/media' );
+router::setRule( 'media',     'media',        'blog/show/dir/media' );
+router::setRule( 'newspost',  'news/*',       'blog/post/dir/news/$1' );
+router::setRule( 'news2',     'news/show/*',  'blog/show/dir/news' );
+router::setRule( 'news',      'news',         'blog/show/dir/news' );
+
+//
 // Site 
 // --------------------------------------------------
 c::set( 'url', 'http://sandbox.ubuntu' );

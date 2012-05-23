@@ -4,12 +4,16 @@
 // 
 
 // Set some default router rules
-router::setRule( 'home',      '*',         'Liriope/show' );
-router::setRule( 'blogpost',  'blog/*',    'blog/post/$1' );
+router::setRule( 'home',      '*',           'Liriope/show' );
+router::setRule( 'rss2',      'feed/*',      'feed/show/$1' );
+router::setRule( 'rss',       'feed',        'feed/show' );
+router::setRule( 'blogpost',  'blog/*',      'blog/post/$1' );
+router::setRule( 'blogrss2',  'blog/feed/*', 'blog/feed/$1' );
+router::setRule( 'blogrss',   'blog/feed',   'blog/feed' );
 router::setRule( 'blog2',     'blog/show/*', 'blog/show' );
-router::setRule( 'blog',      'blog',      'blog/show' );
-router::setRule( 'test',      'test/*',    'test/page' );
-router::setRule( 'testhome',  'test',      'test/show' );
+router::setRule( 'blog',      'blog',        'blog/show' );
+router::setRule( 'test',      'test/*',      'test/page' );
+router::setRule( 'testhome',  'test',        'test/show' );
 
 // turn on debugging
 c::set( 'debug', TRUE );
@@ -33,6 +37,7 @@ c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt' ));
 // --------------------------------------------------
 c::set( 'site.DOCTYPE', '<!DOCTYPE html>' );
 c::set( 'site.title', 'Liriope' );
+c::set( 'site.description', 'A learning PHP framework.' );
 
 //
 // Set some page defaluts

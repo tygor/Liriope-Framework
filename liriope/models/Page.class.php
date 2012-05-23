@@ -84,12 +84,10 @@ class Page extends obj {
     $this->transferStored();
     $page = $this;
     include( $this->_view );
-    $render = content::end( $return );
-    $render = filter::doFilters( $render );
+    $render = filter::doFilters( content::end( $return ));
     if( $return ) return $render;
     echo $render;
   }
 }
 
 ?>
-

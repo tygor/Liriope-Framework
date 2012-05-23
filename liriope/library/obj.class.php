@@ -3,11 +3,6 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-//
-// obj
-// Liriope's base object, implementing the Iterator
-//
-
 class obj implements Iterator {
 
   public $_ = array();

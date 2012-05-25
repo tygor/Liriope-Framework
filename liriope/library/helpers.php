@@ -41,3 +41,9 @@ function slugify( $input=NULL ) {
 function html( $string ) {
   return str::html( $string, true );
 }
+
+// go
+// redirection shortcut
+function go( $url ) {
+  router::go( $url );
+}

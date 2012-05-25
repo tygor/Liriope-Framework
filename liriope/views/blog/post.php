@@ -9,8 +9,8 @@
 <article id="blog-post">
   <header>
   </header>
-  <?= $page->post; ?>
+  <?php echo $page->post->article(); ?>
   <footer>
-    <time>published on: <?= date( 'Y-m-d', $page->post->getPubDate()); ?></time>
+    <time>published on: <?php echo date( 'Y-m-d', $page->post->time()); ?></time>
   </footer>
 </article><!-- #blog-post -->

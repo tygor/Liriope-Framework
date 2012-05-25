@@ -1,20 +1,62 @@
 <?php
-//
-// About > index.php
-// --------------------------------------------------
-//
 
-$page->title = 'About Us';
+$page->title = 'Welcome';
+$page->date = '2012-05-24';
+$page->css = 'http://nrhc-pages.northrockhill.com/web-welcome/web-welcome.css';
 
 ?>
 
-<article>
-  <hgroup>
-    <h1>About Us</h1>
-    <p><ins>Well, about me for now</ins></p>
-  </hgroup>
-  <p>I've been writing PHP and HTML since college. I can home for break and with nothing else to do, I decided to learn HTML. After break, I went to the computer science department at the college and asked what would be the best coding language to learn. At that point, I had only played in Quick Basic and Visual Basic. One proffesor suggested PHP. So, I started playing in PHP as well as javascript and Macromedia Flash actionscript.</p>
-  <p>After college, and so after the days of nested table structure, I delved into a PHP framework called Symfony. I built two different projects with Symfony 1.2&mdash;a CMS for the overseas mission sending company where I was working, and a Boy Scouts like group. They were both frontend/backend heavy and linked to databases. Symfony was world-changing, but getting more complex as they developed.</p>
-  <p>Then I found SVN and eventually GIT which helped me organize working folders. This, coupled with how I am managing the content for my current full-time job's website encouraged me to seek my own CMS, without abandoning the MVC structure that I'm familiar with. And so, I am building Liriope.</p>
-  <p>Rather than the database heavy site, I wanted this to be file driven CMS. There is a great file based CMS project out there and I have thought once or twice about abandoning Liriope and using KirbyMCS, but in the end, I want to learn, so kudos Kirby, but how else will I learn?</p>
-</article>
+<div id="welcome">
+
+<div class="logo-box">
+  <img src="http://brand.northrockhill.com/images/nrhcBadge-100wide.png" alt="North Rock Hill Church" class="logo">
+</div>
+
+<section class="intro">
+  <h1>Welcome to<br>North Rock Hill Church</h1>
+  <p>We are thrilled that you have taken time to check us out. NRHC is an upbeat casual church in Rock Hill, SC.  We started in 1998 as a group of Christ-followers on the journey together to engage God and others.  We truly believe that when God gets involved, the landscape of our friends, communities, and nations will be transformed.</p>
+</section><!-- /intro -->
+
+<hr class="plain" />
+
+<h3>Meet our staff</h3>
+<div class="photo">
+  <a href="<?php echo url( '/about-us/contact#JayHardwick' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/hardwick-jay.jpg" alt="Jay Hardwick" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#PhillipMcCart' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/mccart-phillip.jpg" alt="Phillip McCart" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#AngelaGenica' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/genica-angela.jpg" alt="Angela Genica" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#MeganSmith' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/smith-megan.jpg" alt="Megan Smith" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#TylerGordon' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/gordon-tyler.jpg" alt="Tyler Gordon" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#JoshuaHieber' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/hieber-joshua.jpg" alt="Joshua Hieber" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#TroyReeves' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/reeves-troy.jpg" alt="Troy Reeves" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#NealMcGlohon' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/mcglohon-neal.jpg" alt="Neal McGlohon" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#RyanAllred' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/allred-ryan.jpg" alt="Ryan Allred" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#DinoSenesi' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/senesi-dino.jpg" alt="Dino Senesi" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#CarlMorton' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/morton-carl.jpg" alt="Carl Morton" width="61" height="88" />
+  </a>
+  <a href="<?php echo url( '/about-us/contact#BonnaShook' ) ?>">
+    <img class="photo" src="http://nrhc-pages.northrockhill.com/contact-us/shook-bonna.jpg" alt="Bonna Shook" width="61" height="88" />
+  </a>
+</div>
+
+</div><!-- /welcome -->

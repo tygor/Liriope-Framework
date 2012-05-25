@@ -2,6 +2,7 @@
 
 $page->title = 'Baptism';
 $page->date = '2012-05-18';
+$page->css = 'http://northrockhill.com/images/pages/helpers/question-answer.css';
 
 ?>
 

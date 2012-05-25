@@ -143,20 +143,20 @@ $page->css('http://nrhc-pages.northrockhill.com/contact-us/contact-us.css');
       </div>
       <!-- /#TylerGordon -->
 
-      <div id="JoshuaHeiber" class="vcard">
-        <a name="JoshuaHeiber"></a>
+      <div id="JoshuaHieber" class="vcard">
+        <a name="JoshuaHieber"></a>
         <img class="portrait"
              src="http://nrhc-pages.northrockhill.com/contact-us/hieber-joshua.jpg"
-             alt="Joshua Heiber"
+             alt="Joshua Hieber"
              border="0"
              width="133"
              height="200"
              />
-        <h2 class="fn">Joshua Heiber</h2>
+        <h2 class="fn">Joshua Hieber</h2>
         <h3 class="title">Video Technician</h3>
         <div class="email">joshua@northrockhill.com</div>
       </div>
-      <!-- /#JoshuaHeiber -->
+      <!-- /#JoshuaHieber -->
 
     </section>
 

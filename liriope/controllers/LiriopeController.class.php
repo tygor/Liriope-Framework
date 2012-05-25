@@ -50,6 +50,9 @@ class LiriopeController {
     $liriope = new Liriope( $path, c::get( 'root.web' ) . '/content' );
 
     $content = $liriope->render();
+    foreach( (array) $page->css as $v ) $page->css( $v );
+    foreach( (array) $page->js as $v ) $page->js( $v );
+    foreach( (array) $page->script as $v ) $page->script( $v );
 
     // Add the object for the view file to use to the $page via the alias $this->set()
     $page->set( 'content', $content );

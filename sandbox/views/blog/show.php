@@ -21,7 +21,7 @@ if( !$page->error ) :
 
 <article class="featured">
   <div>
-    <?php echo html( $featured ) ?>
+    <?php echo html( $featured->intro() ) ?>
     <a href="<?php echo url( $featured->url()) ?>" class="readmore">Read More&hellip;</a>
   </div>
 </article>
@@ -29,7 +29,7 @@ if( !$page->error ) :
 <?php foreach( $blogs as $entry ): ?>
 <article class="entry">
   <div>
-    <?php echo html( $entry ) ?>
+    <?php echo html( $entry->intro() ) ?>
     <a href="<?php echo url( $entry->url()) ?>" class="readmore">Read More&hellip;</a>
   </div>
 </article>
@@ -42,3 +42,4 @@ if( !$page->error ) :
 <?php endif ?>
 
 </section><!-- /#blog-list -->
+<a href="<?php echo url( '/news/feed' ) ?>">Subscribe</a>

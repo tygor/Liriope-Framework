@@ -2,7 +2,7 @@
 
 $page->title = 'Can I build it?';
 $page->date = '2012-05-14';
-$page->css( 'http://nrhc-pages.northrockhill.com/beliefs/beliefs.css' );
+$page->css = 'http://nrhc-pages.northrockhill.com/beliefs/beliefs.css';
 
 ?>
 

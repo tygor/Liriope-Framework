@@ -14,97 +14,64 @@ class BlogController Extends LiriopeController {
   public function show( $vars=NULL ) {
     global $page;
 
-    // if the "dir" is vars is set, use the sub-view instead
-    $baseDir = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
-    if( isset( $vars['dir'] )) $this->useView( $custom );
+    $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
+    $dir = c::get( 'root.content' ) . '/' . $base;
+    if( isset( $vars['dir'] )) $this->useView( basename( $dir ));
 
-    $dir = c::get( 'root.content' ) . '/' . $baseDir;
-    $files = dir::read( $dir );
-    if( !$files ) trigger_error( 'The designated blog directory is empty', E_USER_WARNING );
+    $blogs = new Blogs( $dir );
+    $posts = $blogs->getList( a::get( $vars, 'limit', 10 ), a::get( $vars, 'page', 1 ));
 
-    if( empty( $files )) {
+    // catch an empty set
+    if( empty( $posts )) {
       $page->set( 'error', TRUE );
       return;
     }
 
-    // ignore certain files
-    $ignore = array( '.', '..', 'index.php', 'index.html');
-    $files = array_diff( (array) $files, $ignore );
-
-    // weed out directories and unwanted file extensions
-    $filter = array( 'php', 'html', 'txt');
-    foreach( $files as $k => $f ) {
-      if( is_dir( $dir . '/' . $f ) || !in_array( Files::extension( $f ), $filter )) {
-        unset( $files[$k] );
-      }
-    }
-
-    // TODO: this part sucks because you have to read all the file to get to their PHP settings within so that they can be sorted by the pubdate rather than the file's modified date.
-    // Get the list as Blogs objects
-    $posts = array();
-    foreach( $files as $f ) {
-      $pubdate = "";
-      $blog = new Blogs( $baseDir, $f );
-      $blog->setContext('list');
-      $pubdate = date( 'Y-m-d', $blog->getPubdate());
-      $blog->pubDate = $pubdate;
-      $posts[] = $blog;
-    }
-
-    // sort them by their pubdate
-    uasort( $posts, array( "BlogController", "comparepubDate" ));
-
-    // then limit to a specific number
-    $limitNum = a::get( $vars, 'limit', 10 );
-    $pageNum = a::get( $vars, 'page', 1);
-    $startPoint = ($pageNum * $limitNum) - $limitNum;
-    $postCount = count( $posts );
-    $totalPages = ceil( $postCount / $limitNum );
-    $posts = array_slice( $posts, $startPoint, $limitNum);
-
     $page->set( 'blogs', $posts );
-    $page->set( 'limitNum', $limitNum );
-    $page->set( 'totalPages', $totalPages );
-    $page->set( 'pageNum', $pageNum );
-  }
-
-  private function comparePubDate( $a, $b ) {
-    $am = $a->getPubdate();
-    $bm = $b->getPubdate();
-    if( $am == $bm ) return 0;
-    return( $am < $bm ) ? +1 : -1;
+    $page->set( 'limitNum', a::get( $vars, 'limit', 10 ));
+    $page->set( 'totalPages', ceil( $blogs->count() / a::get( $vars, 'limit', 10 )));
+    $page->set( 'pageNum', a::get( $vars, 'page', 1 ));
   }
 
   // post()
   // shows a single post by filename
   //
-  public function post( $params=NULL ) {
+  public function post( $vars=NULL ) {
     global $page;
 
-    // if the "dir" is vars is set, use the sub-view instead
-    $custom = isset( $params['dir'] ) ? $params['dir'] : FALSE;
-    if( $custom ) $this->useView( $custom );
-    $baseDir = $custom ? $custom : c::get( 'blog.dir' );
+    $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
+    $dir = c::get( 'root.content' ) . '/' . $base;
+    if( isset( $vars['dir'] )) $this->useView( basename( $dir ));
 
-    $post = new Blogs( $baseDir, $params[0] );
-    $post->setContext( 'show' );
+    $blogs = new Blogs( $dir );
+    $post = $blogs->getPost( $vars[0] );
 
     $page->set( 'post', $post );
 
-    // now that the post has been rendered to a string, the contained PHP will have been run
-    if( is_array( $post->get( 'stylesheets' ))) {
-      foreach( $css as $c ) View::addStylesheet( $c['file'], $c['rel'] );
-    }
+    // get the post css, js, and script blocks
+    foreach( (array) $post->css as $v ) $page->css($v);
+    foreach( (array) $post->js as $v ) $page->js($v);
+    foreach( (array) $post->script as $v ) $page->script($v);
   }
 
   // feed()
   //
-  public function feed( $params=NULL ) {
+  public function feed( $vars=NULL ) {
     global $page;
 
-    $page->theme = 'feed';
+    $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
+    $dir = c::get( 'root.content' ) . '/' . $base;
+    if( isset( $vars['dir'] )) $this->useView( basename( $dir ));
 
-    $page->set( 'items',  array(  ));
+    $blogs = new Blogs( $dir );
+    $posts = $blogs->getList( a::get( $vars, 'limit', 10 ), a::get( $vars, 'page', 1 ));
+
+    foreach( $posts as $post ) {
+      $post->description = $post->intro();
+    }
+
+    $page->theme = 'feed';
+    $page->set( 'items',  $posts);
   }
 
 }

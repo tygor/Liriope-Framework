@@ -18,12 +18,12 @@ $page->title = "Blog | Liriope";
 <article>
   <footer>
     <p>
-      <time class="month"><?php echo date( 'M', $entry->getPubDate()) ?></time><br>
-      <time class="day"><?php echo date( 'd', $entry->getPubDate()) ?></time>
+      <time class="month"><?php echo date( 'M', $entry->time()) ?></time><br>
+      <time class="day"><?php echo date( 'd', $entry->time()) ?></time>
     </p>
   </footer>
   <div>
-    <?= $entry ?>
+    <?php echo $entry->intro() ?>
   </div>
 </article>
 <?php endforeach; ?>

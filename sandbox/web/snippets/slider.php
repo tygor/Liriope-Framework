@@ -22,7 +22,7 @@ if( $page->isHomePage() ):
   <a href="<?php echo url( 'media' ) ?>">
     <img src="/images/slider/gospel.jpg" alt="The Gospel series" />
   </a>
-  <div class="content" style="background-color: #ccc;">
+  <div class="content" style="background-color: #000;">
     <h1>Div Tag Content!</h1>
     <p>Hi</p>
   </div>

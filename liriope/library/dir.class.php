@@ -40,6 +40,39 @@ class dir {
     }
     return $modified;
   }
+
+  //
+  // contents()
+  // Reads a directory and returns a list of the contents
+  //
+  // @param  string $dir The path to the directory
+  // @return array  An array of files or an empty array
+  static function contents( $dir ) {
+    if( !is_dir( $dir )) return array();
+
+    $files = dir::read( $dir );
+    $modified = filemtime( $dir );
+
+    $data = array(
+      'name'     => basename( $dir ),
+      'root'     => $dir,
+      'modified' => $modified,
+      'files'    => array(),
+      'children' => array()
+    );
+
+    foreach( $files as $file ) {
+      if( is_dir( $dir . '/' . $file )) {
+        $data['children'][] = $file;
+      } else {
+        $data['files'][] = $file;
+      }
+    }
+
+    return $data;
+
+  }
+
 }
 
 ?>

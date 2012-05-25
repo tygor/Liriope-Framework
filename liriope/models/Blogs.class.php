@@ -6,18 +6,12 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class Blogs extends Page {
-  var $limit;
-  var $path;
-  var $relPath;
-  var $absPath;
-  var $entry = array();
-  var $context;
-  var $content;
-  var $file;
+class Blogs extends obj {
+  var $name;
+  var $root;
+  var $modified;
   var $files = array();
-  var $ignore = array();
-  var $filter = array();
+  var $children = array();
 
   // __construct()
   // builds the Blog model object
@@ -27,36 +21,62 @@ class Blogs extends Page {
   // all params are optional
   //
   public function __construct( $path=NULL, $file=NULL) {
-    // on construct, this object can be either an actual post, or an object of multiple posts.
-    $this->path = $path;
-    $this->absPath = c::get('root.content') . '/' . $path;
-    $this->relPath = trim( str_replace( c::get('root.web'), '', c::get('root.content')), '/' ) . '/' . $path;
-    $this->file = $file;
-    $this->fullpath = load::exists( $file, $this->relPath );
-    $this->context = 'show';
-    $this->filter = array( 'php', 'html', 'txt');
-    $this->ignore = array( '.', '..', 'index.php', 'index.html');
-    // for blog posts, we need to store the blog content now, during construct
-    // this way, the internal PHP logic is also accomplished before the controller
-    // does anything else. We determine that this instance of Blogs is an actual
-    // post by checking the filepath.
-    if( is_file( c::get( 'root.web' ) . '/' . $this->fullpath )) {
-      // TODO: the rendereding calls into effect any variable within, and for the "show" action _
-      // this is undesirable since they aren't yet set and won't be to simply list. _
-      // instead, I need a different "render" for the list context.
-      $this->content = $this->render();
-    }
+    $data = dir::contents( $path );
+    foreach( $data as $k => $v ) $this->$k = $v;
   }
 
-  // __toString()
-  // return a portion of the full content based on the context
+  // objectify()
+  // Turns a list of file strings into objects so that we can read
+  // the overloaded variables from the blog content
   //
-  public function __toString() {
-    if( $this->context === 'list' ) {
-      return $this->getIntro();
-    } else {
-      return $this->getArticle();
+  // @param  string  $file Optional file to turn into an object
+  //
+  private function objectify() {
+    $files = array();
+    foreach( $this->files as $file ) {
+      $files[] = $this->init( $file );
     }
+    $this->files = $files;
+    return TRUE;
+  }
+
+  private function init( $file ) {
+    $page = new obj();
+
+    // grab the content with an output buffer
+    content::start();
+    include( $this->root . '/' . $file );
+    $page->content = content::end( TRUE );
+
+    // force a page title from the first <h1> tag if none exists
+    if( !$page->title() ) {
+      $pattern = '/(<h1[^>]*>)([a-z0-9\'\".!? ]*)(<\/h1>)/i';
+      if( preg_match( $pattern, $page->content(), $matches )) $page->title = $matches[0];
+    }
+
+    // and set some info about each post
+    $page->file = $file;
+    $info = pathinfo( $file );
+    $page->url = $this->name . '/' . $info['filename'];
+    if( !isset( $page->date )) {
+      $modified = filemtime( $this->root . '/' . $file );
+      $page->date = date( 'Y-m-d H:i:s', $modified );
+    }
+    $page->time = strtotime( $page->date );
+
+    // get post parts
+    $parts = $this->parse( $page );
+    $page->intro = $parts['intro'];
+    $page->article = $parts['article'];
+
+    return $page;
+  }
+
+  // count()
+  // Counts the number of blog files
+  //
+  function count() {
+    return count( $this->files );
   }
 
   // render()
@@ -76,135 +96,105 @@ class Blogs extends Page {
     return $post;
   }
 
-  // getIntro()
-  // returns the post content up to the readmore link
+  // linkH1()
+  // returns the content with the <h1> content wrapped in an anchor
   //
-  public function getIntro() {
-    // chop all but the intro text
-    if( $matchOffset = $this->findReadmore()) $post = substr( $this->content, 0, $matchOffset );
-
-    // is the post empty because there is no readmore?
-    if( empty( $post )) $post = $this->content;
-
+  static function linkH1( $content, $url ) {
     // wrap the <h1> tag in an anchor?
     if( c::get( 'blog.link.title', TRUE )) {
       $pattern = '/(<h1[^>]*>)([a-z0-9\'\".!? ]*)(<\/h1>)/i';
-      $replacement = '$1<a href="' . url( $this->getLink()) . '">$2</a>$3';
-      $post = preg_replace( $pattern, $replacement, $post );
+      $replacement = '$1<a href="' . url( $url ) . '">$2</a>$3';
+      $content = preg_replace( $pattern, $replacement, $content );
     }
-
-    return $post;
+    return $content;
   }
 
-  // getArticle()
-  // returns the post content after the readmore link
+  // parse()
+  // returns the two main blog parts, Intro and Article
   //
-  public function getArticle() {
-    // show the intro text in the full post?
-    $intro = c::get( 'blog.intro.show', FALSE );
-    $post = $this->content;
+  // @param  obj   $page The blog object to use
+  // @return array An array with the two parts as HTML
+  private function parse( $page ) {
+    $post = $page->content;
 
-    // chop off the intro text portion
-    if( !$intro && $matchOffset = $this->findReadmore( $post )) {
-      $post = substr( $post, $matchOffset );
-      $post = substr( $post, strpos( $post, '>' )+1 );
+    // if there is no readmore, then return the full content
+    if( !$offset = self::findReadmore( $post )) {
+      return array( 'intro' => $post, 'article' => $post );
     }
-    $post = trim( $post );
 
-    return $post;
+    // INTRO
+    $intro = substr( $post, 0, $offset );
+    $intro = trim( self::linkH1( $intro, $page->url() ));
+
+    // ARTICLE
+    $showIntro = c::get( 'blog.intro.show', FALSE );
+    if( !$showIntro ) {
+      $post = substr( $post, $offset );
+      $post = substr( $post, strpos( $post, '>' ) + 1 );
+    }
+    $article = trim( $post );
+
+    return array( 'intro' => $intro, 'article' => $article );
   }
 
   // getList()
-  // lists the last posts
+  // lists the latest posts
   //
-  public function getList( $limit=NULL ) {
-    $this->setLimit = $limit;
-    $this->files = dir::read( c::get( 'root.content' ) . '/' . $this->path );
-    $this->filterFiles()->sortFiles()->limitFiles();
-    $entries = array();
-    foreach( $this->files as $k => $f ) {
-      $entries[$k] = new Blogs( $this->path, $f );
-      $entries[$k]->setContext('list');
-    }
+  // @param  int   $limit The amount of blogs entries to return
+  // @param  int   $page  The starting multiplier of $limit
+  // @return array An array of entires
+  //
+  public function getList( $limit, $page ) {
+    $this->objectify();
+    $this->sortFiles();
+    $start = ( $page * $limit ) - $limit;
+    $entries = array_slice( $this->files, $start, $limit);
     return (array) $entries;
   }
 
-  public function setContext( $name=NULL ) {
-    if( $name === NULL ) return $this;
-    // this will help to determine what to use when
-    // the __toString function is called.
-    $this->context = $name;
-    return $this;
+  // getPost()
+  // returns the blog by filename
+  //
+  // @param  string  $file The file of the blog to get
+  // @return object  The blog object
+  public function getPost( $file ) {
+    $info = pathinfo( load::exists($file, $this->root));
+    $file = $info['basename'];
+    $post = $this->init( $file );
+    if( $post ) return $post;
+    return FALSE;
   }
 
-  public function setLimit( $num=5 ) {
-    $this->limit = $num;
-    return $this;
-  }
-
-  public function getLimit() {
-    return $this->limit;
-  }
-
-  public function setFolder( $folder ) {
-    if( $folder === NULL ) return false;
-    $this->path = $folder;
-    return $this;
-  }
-
-  private function filterFiles() {
-    // ignore certain files
-    $this->files = array_diff( $this->files, $this->ignore );
-    foreach( $this->files as $k => $f ) {
-      if( is_dir( $this->path . '/' . $f )) {
-        unset( $this->files[$k] );
-      }
-      // limit blog files to certain extensions
-      if( !array_search( Files::extension( $f ), $this->filter )) continue;
-    }
-    return $this;
-  }
-
+  // sortFiles
+  // sorts the blog files by their internal $date value
+  // or the fallback filemtime() value
+  //
   private function sortFiles() {
-    // for now, this will sort by modifiy date from most recent to latest
-    $check = array();
-    foreach( $this->files as $k => $f ) $check[$k] = $this->path . '/' . $f;
-    uasort( $check, "self::compareModifiedDate" );
-    $sorted = array();
-    foreach( $check as $k => $f ) $sorted[$k] = $this->files[$k];
-    $this->files = $sorted;
+    // if it doesn't have a $date set, add a filemtime to the object
+    foreach( $this->files as $file ) {
+      if( !isset( $file->date )) {
+        $modified = filemtime( $this->root . '/' . $file->file() );
+        $file->date = date( 'Y-m-d H:i:s', $modified );
+      }
+    }
+    uasort( $this->files, "self::compareModifiedDate" );
     return $this;
   }
 
   private static function compareModifiedDate( $a, $b ) {
-    $am = filemtime( $a );
-    $bm = filemtime( $b );
+    $am = $a->date();
+    $bm = $b->date();
     if( $am == $bm ) return 0;
     return( $am < $bm ) ? +1 : -1;
   }
 
-  private function limitFiles() {
-    $l = $this->getLimit();
-    $this->files = array_slice( $this->files, 0, $l );
-    return $this;
-  }
-
-  private function findReadmore() {
+  static function findReadmore( $content ) {
     // now, find the offset of where that class is
     $pattern = '/<[^>]*' . c::get( 'readmore.class', c::get( 'default.readmore.class', 'readmore' ) ) . '[^>]*>/';
-    $count = preg_match( $pattern, $this->content, $matches, PREG_OFFSET_CAPTURE );
+    $count = preg_match( $pattern, $content, $matches, PREG_OFFSET_CAPTURE );
 
     if( $count !== 1 ) return false;
     return $matches[0][1];
-  }
-
-  public function url() {
-    $info = pathinfo( $this->file );
-    return $this->path . '/' . $info['filename'];
-  }
-
-  public function getLink() {
-    return $this->url();
   }
 
   private function checkModified() {

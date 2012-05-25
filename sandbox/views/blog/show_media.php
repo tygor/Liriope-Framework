@@ -25,7 +25,7 @@ if( !$page->error ) :
   <div class="column<?php echo (($c+1)%3 == 0) ? ' last' : '' ?>">
     <article class="entry">
       <div>
-        <?php echo html( $blogs[$c] ) ?>
+        <?php echo html( $blogs[$c]->intro() ) ?>
         <a href="<?php echo url( $blogs[$c]->url()) ?>" class="readmore">Read More&hellip;</a>
       </div>
     </article>

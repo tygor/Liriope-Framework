@@ -19,7 +19,12 @@ class dir {
   static function read( $dir ) {
     if( !is_dir( $dir )) return false;
     $ignore = array( '.', '..', '.DS_Store' );
-    return array_diff( scandir( $dir ), $ignore );
+    $files = array_diff( scandir( $dir ), $ignore );
+    foreach( $files as $k => $file ) {
+      // ignore hidden files and folders
+      if( substr( $file, 0, 1 ) === '.' ) unset( $files[$k] );
+    }
+    return $files;
   }
 
   //

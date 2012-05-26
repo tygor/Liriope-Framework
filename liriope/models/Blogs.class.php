@@ -25,21 +25,10 @@ class Blogs extends obj {
     foreach( $data as $k => $v ) $this->$k = $v;
   }
 
-  // objectify()
-  // Turns a list of file strings into objects so that we can read
-  // the overloaded variables from the blog content
+  // init()
+  // Reads the blog file, grabs it's settings and contents and
+  // stores them to the new object
   //
-  // @param  string  $file Optional file to turn into an object
-  //
-  private function objectify() {
-    $files = array();
-    foreach( $this->files as $file ) {
-      $files[] = $this->init( $file );
-    }
-    $this->files = $files;
-    return TRUE;
-  }
-
   private function init( $file ) {
     $page = new obj();
 
@@ -50,15 +39,15 @@ class Blogs extends obj {
 
     // force a page title from the first <h1> tag if none exists
     if( !$page->title() ) {
-      $pattern = '/(<h1[^>]*>)([a-z0-9\'\".!? ]*)(<\/h1>)/i';
-      if( preg_match( $pattern, $page->content(), $matches )) $page->title = $matches[0];
+      $pattern = '/<h[1-6][^>]*>([a-z0-9\'\".!? ]*)<\/h[1-6]>/i';
+      if( preg_match( $pattern, $page->content(), $matches )) $page->title = $matches[1];
     }
 
     // and set some info about each post
     $page->file = $file;
     $info = pathinfo( $file );
     $page->url = $this->name . '/' . $info['filename'];
-    if( !isset( $page->date )) {
+    if( $page->date()===NULL ) {
       $modified = filemtime( $this->root . '/' . $file );
       $page->date = date( 'Y-m-d H:i:s', $modified );
     }
@@ -77,23 +66,6 @@ class Blogs extends obj {
   //
   function count() {
     return count( $this->files );
-  }
-
-  // render()
-  // converts the Blogs path and file into a read string
-  //
-  // @return string The file of this blog, buffered, and returned as a string
-  //
-  public function render() {
-    global $page;
-
-    // start output buffering and grab the full post file
-    content::start();
-    $blog =& $this;
-    include( $this->fullpath );
-    $post = content::end( TRUE );
-
-    return $post;
   }
 
   // linkH1()
@@ -145,7 +117,13 @@ class Blogs extends obj {
   // @return array An array of entires
   //
   public function getList( $limit, $page ) {
-    $this->objectify();
+    // convert each blog file into an object
+    $files = array();
+    foreach( $this->files as $file ) {
+      $files[] = $this->init( $file );
+    }
+    $this->files = $files;
+
     $this->sortFiles();
     $start = ( $page * $limit ) - $limit;
     $entries = array_slice( $this->files, $start, $limit);
@@ -172,7 +150,7 @@ class Blogs extends obj {
   private function sortFiles() {
     // if it doesn't have a $date set, add a filemtime to the object
     foreach( $this->files as $file ) {
-      if( !isset( $file->date )) {
+      if( $file->date()===NULL ) {
         $modified = filemtime( $this->root . '/' . $file->file() );
         $file->date = date( 'Y-m-d H:i:s', $modified );
       }
@@ -197,32 +175,5 @@ class Blogs extends obj {
     return $matches[0][1];
   }
 
-  private function checkModified() {
-    $time = filemtime( $this->fullpath );
-    if( $time === FALSE ) trigger_error( 'Could not get the file\'s modified time', E_USER_ERROR );
-    $this->modified = $time;
-    return true;
-  }
-
-  // getModified()
-  // returns the file's mtime or the assigned pubDate
-  //
-  public function getModified() {
-    if( !isset( $this->modified )) {
-      $this->checkModified(); 
-    }
-    return $this->modified;
-  }
-
-  // getPubDate()
-  // returns the assigned pubDate is one was set
-  //
-  public function getPubDate() {
-    if( $this->pubdate ) return $this->pubdate;
-    $pubdate = $this->date;
-    if( $pubdate===NULL ) return $this->getModified();
-    return strtotime( $pubdate );
-  }
-
 }
-
+?>

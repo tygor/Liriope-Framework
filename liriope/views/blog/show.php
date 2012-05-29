@@ -32,7 +32,7 @@ $page->META = '<link rel="alternate" type="application/rss+xml" title="'.$page->
 
   <footer>
     <?php snippet( 'pagination.php', $page ); ?>
-    <p style="clear: both;"><a href="<?php echo url( 'blog/feed' ) ?>"><img src="images/rss-14x14.png" alt="Subscribe"> Subscribe</a></p>
+    <p style="clear: both;"><a href="<?php echo url( 'blog/feed' ) ?>"><img src="/images/rss-14x14.png" alt="Subscribe"> Subscribe</a></p>
   </footer>
 
 </section><!-- /#blog-list -->

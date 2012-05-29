@@ -21,7 +21,13 @@ c::set( 'charset', 'utf-8' );
 // --------------------------------------------------
 function Liriope() {
   extract( router::getDispatch() );
-  router::callHook( $controller, $action, $params );
+  router::callController( $controller, $action, $params );
+}
+
+// secondary call function
+// uses the alternative controller, component
+function component( $controller, $action, $params=array() ) {
+  return router::callComponent( $controller, $action, $params );
 }
 
 // --------------------------------------------------

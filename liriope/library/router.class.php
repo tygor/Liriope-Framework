@@ -232,23 +232,13 @@ class router {
   // --------------------------------------------------
   // Calls the user function
   //
-  // $controller @string The name of the class controller to use
-  // $action     @string The function to call inside of the controller
-  // $getVars    @array  Any name/value pairs for the action to use
+  // $controller    @string The controller following the naming conventions
+  // $controllerRaw @string The name of the class controller to use
+  // $action        @string The function to call inside of the controller
+  // $model         @string The name of the associated model
+  // $getVars       @array  Any name/value pairs for the action to use
   //
-  static function callHook( $controller=NULL, $action=NULL, $getVars=NULL ) {
-
-    // Expect the naming conventions:
-    // Controllers are uppercase on words (ex: Shovel)
-    //   with "Controller" appended
-    // Models are the plural of the controller (ex: Shovels)
-    //   (yes, grammer can be horrible here)
-    $controllerName = $controller;
-    $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
-    $model = rtrim( $controller, 's' );
-    $controller .= 'Controller';
-
-
+  static function callHook( $controller, $controllerRaw, $action, $model, $getVars=array(), $return=FALSE ) {
     // $getVars nees to be an array
     if( empty( $getVars )) $getVars = array();
 
@@ -263,8 +253,48 @@ class router {
     if( !method_exists( $controller, $action )) trigger_error( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>.", E_USER_ERROR );
 
     // Ok, run that object's function!
-    $dispatch = new $controller( $model, $controllerName, $action );
-    call_user_func( array( $dispatch,$action ), $getVars );
+    $dispatch = new $controller( $model, $controllerRaw, $action );
+    $content = call_user_func( array( $dispatch,$action ), $getVars );
+    if( $return ) return $content;
+    return TRUE;
+  }
+
+  //
+  // callController()
+  // --------------------------------------------------
+  // Calls the user function
+  //
+  // $controller @string The name of the class controller to use
+  // $action     @string The function to call inside of the controller
+  // $getVars    @array  Any name/value pairs for the action to use
+  //
+  static function callController( $controller=NULL, $action=NULL, $getVars=NULL ) {
+    // Controllers are uppercase on words (ex: Shovel) with "Controller" appended
+    // Models are the plural of the controller (ex: Shovels)
+    $controllerRaw = $controller;
+    $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
+    $model = rtrim( $controller, 's' );
+    $controller .= 'Controller';
+    self::callHook( $controller, $controllerRaw, $action, $model, $getVars );
+  }
+
+  //
+  // callComponent()
+  // --------------------------------------------------
+  // Calls the user function
+  //
+  // $controller @string The name of the class controller to use
+  // $action     @string The function to call inside of the controller
+  // $getVars    @array  Any name/value pairs for the action to use
+  //
+  static function callComponent( $controller=NULL, $action=NULL, $getVars=NULL ) {
+    // Controllers are uppercase on words (ex: Shovel) with "Component" appended
+    // Models are the plural of the controller (ex: Shovels)
+    $controllerRaw = $controller;
+    $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
+    $model = rtrim( $controller, 's' );
+    $controller .= 'Component';
+    return self::callHook( $controller, $controllerRaw, $action, $model, $getVars, TRUE );
   }
 
   //

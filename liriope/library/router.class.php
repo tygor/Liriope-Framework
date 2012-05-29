@@ -279,7 +279,7 @@ class router {
   }
 
   //
-  // callComponent()
+  // callModule()
   // --------------------------------------------------
   // Calls the user function
   //
@@ -287,13 +287,13 @@ class router {
   // $action     @string The function to call inside of the controller
   // $getVars    @array  Any name/value pairs for the action to use
   //
-  static function callComponent( $controller=NULL, $action=NULL, $getVars=NULL ) {
-    // Controllers are uppercase on words (ex: Shovel) with "Component" appended
+  static function callModule( $controller=NULL, $action=NULL, $getVars=NULL ) {
+    // Controllers are uppercase on words (ex: Shovel) with "Module" appended
     // Models are the plural of the controller (ex: Shovels)
     $controllerRaw = $controller;
     $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
     $model = rtrim( $controller, 's' );
-    $controller .= 'Component';
+    $controller .= 'Module';
     return self::callHook( $controller, $controllerRaw, $action, $model, $getVars, TRUE );
   }
 

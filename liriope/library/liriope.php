@@ -26,8 +26,8 @@ function Liriope() {
 
 // secondary call function
 // uses the alternative controller, component
-function component( $controller, $action, $params=array() ) {
-  return router::callComponent( $controller, $action, $params );
+function module( $controller, $action, $params=array() ) {
+  return router::callModule( $controller, $action, $params );
 }
 
 // --------------------------------------------------

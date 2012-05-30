@@ -15,12 +15,7 @@ $page->title = 'Liriope | Monkey Grass';
   <div class="threecolumns">
     <div class="column">
       <h2>Blog Articles</h2>
-      <ul>
-      <?php foreach( component( 'blog', 'show', array( 'limit' => 4 )) as $blog ): ?>
-        <li><time><?php echo date( 'M, j', $blog->time()) ?></time> <a href="<?php echo $blog->url() ?>"><?php echo $blog->title() ?></a></li>
-      <?php endforeach ?>
-      </ul>
-      <a href="<?php echo url( '/blog' ) ?>">Read more articles</a>
+      <?php echo module( 'blog', 'show', array( 'limit' => 4 )) ?>
     </div>
     <div class="column">
       <h2>Column</h2>

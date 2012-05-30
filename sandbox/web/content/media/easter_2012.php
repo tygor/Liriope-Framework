@@ -1,6 +1,6 @@
 <?php
 
-$page->title = 'Easter';
+$page->title = 'Easter at North Rock Hill';
 $page->date = '2012-05-19';
 
 ?>

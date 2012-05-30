@@ -79,10 +79,16 @@ class Page extends obj {
     return false;
   }
 
-  public function render( $return=TRUE ) {
+  //
+  // render()
+  //
+  // @param  bool   $return if TRUE, return the buffer string, if FALSE print it
+  // @param  string $alias  the variable name to use in the _view file for $this
+  // @return mixed  Returns the output buffer string, or echos it
+  public function render( $return=TRUE, $alias='page' ) {
     content::start();
     $this->transferStored();
-    $page = $this;
+    $$alias = $this;
     include( $this->_view );
     $render = filter::doFilters( content::end( $return ));
     if( $return ) return $render;

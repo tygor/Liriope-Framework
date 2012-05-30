@@ -1,6 +1,6 @@
 <?php
 
-$page->title = 'Discover';
+$page->title = 'Discover Class, Jun 10';
 $page->date = '2012-04-30';
 $page->css( 'http://nrhc-pages.northrockhill.com/discover-class/discover-class.css' );
 

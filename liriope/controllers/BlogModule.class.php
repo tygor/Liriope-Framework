@@ -12,13 +12,15 @@ class BlogModule Extends LiriopeModule {
   // displays a list of the latest blog posts
   //
   public function show( $vars=NULL ) {
+    global $module;
+
     $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
     $dir = c::get( 'root.content' ) . '/' . $base;
 
     $blogs = new Blogs( $dir );
     $posts = $blogs->getList( a::get( $vars, 'limit', 5 ), a::get( $vars, 'page', 1 ));
 
-    return $posts;
+    $module->posts = $posts;
   }
 
 }

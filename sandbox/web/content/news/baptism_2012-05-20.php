@@ -1,6 +1,6 @@
 <?php
 
-$page->title = 'Baptism';
+$page->title = 'Baptism Cookout 2012';
 $page->date = '2012-05-18';
 $page->css = 'http://northrockhill.com/images/pages/helpers/question-answer.css';
 

@@ -1,6 +1,6 @@
 <?php
 
 // redirect to the current series
-go( '/media/sent_2012-05-20' );
+go( '/media/man-card_2012' );
 
 ?>

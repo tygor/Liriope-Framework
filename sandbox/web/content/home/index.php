@@ -11,12 +11,7 @@ $page->title = 'Home';
 
     <div class="column teaser">
       <h3>News</h3>
-      <ul class="menu teaser">
-      <?php foreach( module( 'blog', 'show', array( 'dir' => 'news' )) as $news ) : ?>
-        <li><a href="<?php echo $news->url() ?>"><?php echo $news->title() ?></a></li>
-      <?php endforeach ?>
-      </ul>
-      <p><a href="<?php echo url( '/news' ) ?>">More News&hellip;</a></p>
+      <?php module( 'blog', 'show', array( 'dir' => 'news' )) ?>
     </div>
 
     <div class="column teaser">
@@ -32,11 +27,12 @@ $page->title = 'Home';
 
     <div class="column teaser last">
       <article>
-        <h3><a href="<?php echo url( '/media/sent_2012-05-20' ) ?>">Current Series</a></h3>
-        <a href="<?php echo url( '/media/sent_2012-05-20' ) ?>">
-          <img src="http://nrhc-pages.northrockhill.com/messages/2012/sent/Sent-Web-Chip.png" alt="Sent series" width="100" height="100" class="chip alignleft">
+        <h3><a href="<?php echo url( '/media/man-card_2012' ) ?>">Current Series</a></h3>
+        <a href="<?php echo url( '/media/man-card_2012' ) ?>">
+          <img src="http://nrhc-pages.northrockhill.com/messages/2012/man-card/Man-Card-Chip.png" alt="Sent series" width="100" height="100" class="chip alignleft">
         </a>
-        <p>The Gospel. Is it religious advice to follow? A prayer to pray? The diving board we launch from or the ocean we swim in?</p>
+        <p>Have you ever lost your Man Card? Being less than a man requires surrender of your Man
+        Card. It also violates your God-given purpose&hellip;</p>
       </article>
     </div>
 

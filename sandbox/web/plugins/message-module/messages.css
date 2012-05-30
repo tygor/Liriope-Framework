@@ -1,0 +1,200 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/************************************************
+ * Message Series Module
+ */
+#message-series
+{
+background: #444 url('./message-module-bg-gradient.png') scroll bottom left repeat-x;
+background-color: #444;
+color: #CCC;
+padding: 10px;
+margin: 0 0 1em 0;
+overflow: hidden;
+
+/* CSS 3*/
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+}
+
+#message-series .title-image {
+  width: 100%;
+}
+
+#message-series .title-image img {
+width: 100%;
+display: block;
+margin: 0; padding: 0;
+}
+
+
+#message-series .bumper,
+.bumper-standalone {
+  position: relative; 
+  display: block; 
+  text-decoration: none;
+}
+
+a.bumper-standalone:hover {
+    text-decoration:none;
+}
+
+#message-series .media-table {
+  width: 100%;
+}
+
+#message-series .title-text {
+  text-align: center;
+  margin: 1.5em 0;
+}
+
+#message-series .title-text h2 {
+    margin: 0;
+    color: #fff;
+}
+
+#message-series .title-text h3 {
+    margin: 0;
+    color: #999;
+    text-align: center;
+}
+
+
+#message-series .media-table table {
+margin: 1em 0;
+padding: 0;
+border-collapse: collapse;
+width: 100%;
+}
+
+#message-series .media-table table th
+{
+    color: #999;
+    font-size: 9px;
+    font-weight: normal;
+    padding-left: 22px;
+    text-align: left;
+    text-transform: uppercase;
+    border-width: 1px 0;
+    border-style: solid none;
+    border-color: #666;
+}
+
+#message-series .media-table table td
+{
+background-color: #1f1f1f;
+background-color: rgba(51,51,51,.5);
+font-size: 12px;
+height: 40px;
+line-height: 1em;
+padding-left: 22px;
+vertical-align: middle;
+white-space: normal;
+}
+
+#message-series .media-table table tr td {
+    border-bottom: 1px solid #666;
+}
+
+#message-series table td.info {
+  line-height: 1.68;
+}
+
+#message-series time {
+  font-size: 10px;
+  color: #666;
+  padding: 0 6px;
+}
+
+#message-series span.title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#message-series table td.media {
+    vertical-align: middle;
+}
+
+#message-series ul.media-tools {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#message-series ul.media-tools li {
+  background: transparent none;
+  margin: 0 7px;
+  padding: 0;
+  display: inline;
+  float: left;
+}
+
+#message-series ul.media-tools .watch a,
+#message-series ul.media-tools .watch-more a,
+#message-series ul.media-tools .listen a,
+#message-series ul.media-tools .download a,
+#message-series ul.media-tools .youtube a,
+#watch-icon,
+#listen-icon,
+#download-icon,
+#youtube-icon
+{
+display: block;
+width: 32px;
+height: 32px;
+overflow: hidden;
+margin: 0;
+padding: 0;
+text-indent: -9999px;
+background-image: url("./message-media-icons.png");
+background-attachment: scroll;
+background-position: top left;
+background-repeat: no-repeat;
+}
+
+#message-series ul.media-tools .listen a { background-position: 0 0; }
+#message-series ul.media-tools .listen a:hover,
+#listen-icon
+{ background-position: 0 -35px; }
+
+#message-series ul.media-tools .watch a { background-position: -35px 0; }
+#message-series ul.media-tools .watch a:hover,
+#watch-icon
+{ background-position: -35px -35px; }
+
+#message-series ul.media-tools .watch-more a { background-position: -140px 0; }
+#message-series ul.media-tools .watch-more a:hover { background-position: -140px -35px; }
+
+#message-series ul.media-tools .download a { background-position: -70px 0; }
+#message-series ul.media-tools .download a:hover,
+#download-icon
+{ background-position: -70px -35px; }
+
+#message-series ul.media-tools .youtube a { background-position: -105px 0; }
+#message-series ul.media-tools .youtube a:hover,
+#youtube-icon
+{ background-position: -105px -35px; }
+
+#message-series a.title {
+display: block;
+position: relative;
+text-decoration: none;
+}
+
+#message-series a.title .play
+{
+    background: url("./play-overlay.png") no-repeat;
+    height: 72px;
+    width: 72px;
+    margin: -36px 0 0 -36px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#message-series a.title:hover .play
+{
+    background-position: 0 100%;
+}

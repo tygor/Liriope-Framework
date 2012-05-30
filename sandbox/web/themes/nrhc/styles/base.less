@@ -53,6 +53,17 @@ fieldset
   }
 }
 
+aside {
+  width: 45%;
+  float: right;
+  margin: 0 0 16px 16px;
+  
+  &.left {
+    float: left;
+    margin: 0 16px 16px 0;
+  }
+}
+
 // JOOMLA STYLE OVERRIDES
 // these should be declared right after the HTML styles
 // --------------------------------------------------
@@ -142,12 +153,6 @@ fieldset
 #content header {
   clear: both;
   overflow: hidden;
-
-  .moduletable {
-    width: 31%;
-    margin: 0 1%;
-    float: left;
-  }
 
   div.menu {
     border-top: 0 none;
@@ -1133,7 +1138,7 @@ div.custom_alerts
 //  <a></a>
 // </p>
 // --------------------------------------------------
-.readon a, .readmore a {
+.readon a, .readmore a, a.readmore {
 	background-attachment: scroll;
 	background-image: url("@{templateImages}/readmore.png");
 	background-position: 0px 0px;

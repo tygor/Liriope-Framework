@@ -13,7 +13,8 @@ class cache {
   // file()
   //
   static function file( $file ) {
-    return c::get( 'root.cache' ) . "/$file";
+    $root = c::get( 'root.cache' );
+    return "$root/$file";
   }
 
   // set()

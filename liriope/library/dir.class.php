@@ -15,10 +15,10 @@ class dir {
   // @param   string  $dir The path for the new directory
   // @return  bool    FALSE on failure
   // 
-  static function make( $dir ) {
+  static function make( $dir, $mode=0755 ) {
     if( is_dir( $dir )) return TRUE;
-    if( !@mkdir( $dir, 0755 )) return FALSE;
-    @chmod( $dir, 0755 );
+    if( !@mkdir( $dir, $mode )) return FALSE;
+    @chmod( $dir, $mode );
     return TRUE;
   }
 

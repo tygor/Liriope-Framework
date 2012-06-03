@@ -10,6 +10,19 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class dir {
   //
+  // Creates a new directory
+  // 
+  // @param   string  $dir The path for the new directory
+  // @return  bool    FALSE on failure
+  // 
+  static function make( $dir ) {
+    if( is_dir( $dir )) return TRUE;
+    if( !@mkdir( $dir, 0755 )) return FALSE;
+    @chmod( $dir, 0755 );
+    return TRUE;
+  }
+
+  //
   // read()
   // reads the files within a directory
   //
@@ -17,7 +30,7 @@ class dir {
   // @retrun array   Returns an array of the contents
   //
   static function read( $dir ) {
-    if( !is_dir( $dir )) return false;
+    if( !is_dir( $dir )) return FALSE;
     $ignore = array( '.', '..', '.DS_Store' );
     $files = array_diff( scandir( $dir ), $ignore );
     foreach( $files as $k => $file ) {
@@ -35,8 +48,7 @@ class dir {
   // @param  int     $modified holds the last modified value
   static function modified( $dir, $modified = 0 ) {
     $files = self::read( $dir );
-    foreach( $files as $f ) {
-      // skip files
+    foreach( (array) $files as $file ) {
       if( !is_dir( "$dir/$file" )) continue;
       $filectime = filemtime( "$dir/$file" );
       $modified = $filectime > $modified ? $filectime : $modified;
@@ -76,6 +88,45 @@ class dir {
 
     return $data;
 
+  }
+
+  // 
+  // Deletes a directory
+  // 
+  // @param   string   $dir The path to the directory
+  // @param   bool     $keep If set to TRUE the dir will be emptied, but kept
+  // @return  bool     FALSE on failure
+  //   
+  static function remove($dir, $keep=FALSE) {
+    if( !is_dir( $dir )) return FALSE;
+
+    $handle = @opendir( $dir );
+    $skip  = array('.', '..');
+
+    if( !$handle ) return FALSE;
+
+    while( $item = @readdir( $handle )) {
+    if( is_dir( $dir . '/' . $item ) && !in_array( $item, $skip )) {
+      self::remove( $dir . '/' . $item );
+    } else if( !in_array( $item, $skip )) {
+      @unlink( $dir . '/' . $item );
+    }
+  }
+
+  @closedir($handle);
+  if(!$keep) return @rmdir($dir);
+  return true;
+
+  }
+
+  // 
+  // Flushes a directory
+  // 
+  // @param   string   $dir The path of the directory
+  // @return  bool     FALSE on failure
+  //   
+  static function clean( $dir ) {
+    return self::remove( $dir, TRUE );
   }
 
 }

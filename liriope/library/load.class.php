@@ -42,7 +42,9 @@ class load
     load::file( $root . '/library/error.class.php', TRUE );
     load::file( $root . '/library/filter.class.php', TRUE );
     load::file( $root . '/library/content.class.php', TRUE );
+    load::file( $root . '/library/cache.class.php', TRUE );
     load::file( $root . '/library/dir.class.php', TRUE );
+    load::file( $root . '/library/file.class.php', TRUE );
     load::file( $root . '/library/server.class.php', TRUE );
     load::file( $root . '/library/array.class.php', TRUE );
     load::file( $root . '/library/string.class.php', TRUE );

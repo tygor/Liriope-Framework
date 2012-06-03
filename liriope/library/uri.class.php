@@ -96,4 +96,11 @@ class uri {
     return (array) $route;
   }
 
+  // md5URI()
+  // This is the un-rewritten URI, passed through the url() function, then the md5() function
+  //
+  static function md5URI() {
+    return md5( url( self::$path ));
+  }
+
 } ?>

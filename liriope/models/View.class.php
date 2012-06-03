@@ -53,8 +53,25 @@ class View extends obj {
     theme::set( 'site', $site );
     theme::set( 'page', $page );
     if( c::get( 'debug' )) theme::set( 'error', error::render( TRUE ));
+    
+    // CACHE
+    // ----------
+    $cache = NULL;
+    $cacheModified = time();
+    $cacheID = uri::md5URI();
 
-    $html = theme::load( $page->theme(), $page->render(), TRUE );
+    if( c::get( 'cache' )) {
+      $cacheModified = cache::modified( $cacheID );
+      if( $cacheModified >= dir::modified( c::get( 'root.content' )))
+        $cacheData = cache::get( $cacheID, TRUE );
+    }
+
+    if( empty( $cacheData )) {
+      $html = theme::load( $page->theme(), $page->render(), TRUE );
+      if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
+    } else {
+      $html = $cacheData;
+    }
 
     // OUTPUT TO BROWSER
     echo trim( $html );
@@ -63,5 +80,4 @@ class View extends obj {
   }
 
 }
-
 ?>

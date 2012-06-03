@@ -30,6 +30,7 @@ c::set( 'default.404.folder', 'error' );
 c::set( 'default.404.file',   '404.php' );
 c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt' ));
 c::set( 'context', 'render' );
+c::set( 'cache', TRUE );
 
 //
 // Set some site defaluts

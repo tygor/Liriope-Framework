@@ -10,10 +10,17 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class cache {
 
+  // regrow()
+  //
+  static function regrow( $dir ) {
+    if( !is_dir( $dir )) dir::make( $dir, 0775 );
+  }
+ 
   // file()
   //
   static function file( $file ) {
     $root = c::get( 'root.cache' );
+    self::regrow( $root );
     return "$root/$file";
   }
 

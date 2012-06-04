@@ -46,6 +46,7 @@ class LiriopeController {
     }
 
     // check for home page
+    if( empty( $path )) $path = array( 'home' );
     $path = '/' . a::glue( $path, '/' );
     $liriope = new Liriope( $path, c::get( 'root.web' ) . '/content' );
 
@@ -56,6 +57,10 @@ class LiriopeController {
 
     // Add the object for the view file to use to the $page via the alias $this->set()
     $page->set( 'content', $content );
+  }
+
+  public function flush( $params=NULL ) {
+    cache::flush();
   }
 
   function useView( $file=NULL ) {

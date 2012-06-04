@@ -4,12 +4,12 @@
 // 
 
 // Set some default router rules
-router::setRule( 'home',      '*',           'Liriope/show' );
-router::setRule( 'blogpost',  'blog/*',      'blog/post/$1' );
-router::setRule( 'blogrss2',  'blog/feed/*', 'blog/feed/$1' );
-router::setRule( 'blogrss',   'blog/feed',   'blog/feed' );
-router::setRule( 'blog2',     'blog/show/*', 'blog/show' );
-router::setRule( 'blog',      'blog',        'blog/show' );
+router::setRule( 'home',      '*',         'liriope/show' ); // catchall rule
+router::setRule( 'flush',     'flush',     'liriope/flush' );
+router::setRule( 'blog',      'blog',      'blog/show' );
+router::setRule( 'blogpost',  'blog/!id',  'blog/post/id/$id' );
+router::setRule( 'bloglist',  'blog/show', 'blog/show' );
+router::setRule( 'blogfeed',  'blog/feed', 'blog/feed' );
 
 // turn on debugging
 c::set( 'debug', TRUE );

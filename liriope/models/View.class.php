@@ -71,6 +71,7 @@ class View extends obj {
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
     } else {
       $html = $cacheData;
+      $html = $html . "<CACHE>";
     }
 
     // OUTPUT TO BROWSER

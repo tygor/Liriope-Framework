@@ -9,6 +9,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 class router {
   static $rules = array();
   static $name;
+  static $rule;
   static $controller;
   static $action;
   static $params = array();
@@ -19,16 +20,21 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch() {
-    if( !self::matchRule( uri::getArray() )) {
+    $request = uri::getArray();
+    if( $request[0] === 'home' ) {
+        self::$rule = self::getRule( 'home' );
+    } elseif( !self::matchRule( $request )) {
       trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     }
-    self::makeParams();
+    self::useRoute( self::$rule->translate( $request ));
 
     // DEBUGGING
+    if( c::get( 'debug' )) {
     trigger_error( "<b>Routing rule '".self::$name."'  matched.</b><br> Dispatching to <b>" .
       self::$controller . "</b>, <b>" . self::$action . "</b>()<br> " .
       "with the params: " . print_r( self::$params, TRUE ),
       E_USER_NOTICE );
+    }
 
     return array(
       'controller' => self::$controller,
@@ -37,7 +43,7 @@ class router {
     );
   }
 
-  static function makeParams() {
+  static function pairParams() {
     $params = self::$params;
 
     // allow for dirty routes by cleaning up null params
@@ -66,7 +72,7 @@ class router {
       trigger_error( 'setRule was passed an empty parameter', E_USER_NOTICE );
       return false;
     }
-    self::$rules[$name] = array( 'rule'=>$rule, 'route'=>$route );
+    self::$rules[$name] = new routerRule( $name, $rule, $route );
     return true;
   }
 
@@ -94,124 +100,30 @@ class router {
   // @return bool   TRUE on succes, FALSE on error
   //
   static function matchRule( $request ) {
-    // if $request is empty... call the homepage
-    if( empty( $request[0] )) {
-      return self::useRoute( self::getRule( 'home' ));
-    }
-
     foreach( self::getRule() as $name => $parts ) {
+      if( count( $request ) < $parts->countMinimum() ) continue;
+      if( !$parts->matchConstants( $request )) continue;
 
-      // turn the rule into an array
-      $rule = trim( $parts['rule'], '/' );
-      $rule = explode( '/', $rule );
-
-      $wildcards = array();
-      $match = $request;
-
-      // loop through the $rule parts to find a match
-      for( $i=0; $i < count( $rule ); $i++ ) {
-        
-        // NO MATCH LOGIC
-        // --------------------------------------------------
-        // if request[i] is empty, the rule is longer. NO MATCH!
-        if( !isset( $request[$i] )) {
-          break;
-        }
-        // if rule[i] and request[i] don't match. NO MATCH!
-        if( $rule[$i] !== '*' && $rule[$i] !== $request[$i] ) {
-          break;
-        }
-        // if this is the last rule part, is not a wildcard,
-        // and the request continues. NO MATCH!
-        if( $i == ( count( $rule ) - 1 )
-            && isset( $request[$i + 1] )
-            && $rule[$i] !== '*' ) {
-          break;
-        }
-
-        // WILDCARD HANDLING
-        // --------------------------------------------------
-        // if the wildcard is used, store it to replace with
-        if( $rule[$i] == '*' && isset( $request[$i] )) $wildcards[] = $request[$i];
-
-        // PARAMS TRACKER
-        // --------------------------------------------------
-        // cut the match off of the request clone so that we have the remainder when we match
-        array_shift( $match );
-
-        // MATCH LOGIC
-        // --------------------------------------------------
-        // if we get to this point, then we pass all no match logic
-        // use this route and return to break the loops
-        if( $i == ( count( $rule ) - 1 )) {
-          // RULE MATCHED
-          $params = array_merge( (array) $wildcards , (array) $match );
-          return self::useRoute( $name, self::getRule( $name ), $params );
-        }
-      }
+      // RULE MATCHED
+      self::$rule = $parts;
+      return TRUE;
     }
-
-    // no rule matched
-    return false;
+    return FALSE;
   }
 
-  static function useRoute( $name, $rule, $match=array() ) {
-    $parts = explode( '/', $rule['route'] );
-    self::$name       = $name;
+  // useRoute()
+  // records the parts of the matched rule into the router object
+  // this is the translation of the rule into usable dispatch
+  //
+  static function useRoute( $route ) {
+    $parts = explode( '/', $route );
+    self::$name       = self::$rule->name;
     self::$controller = array_shift( $parts );
     self::$action     = array_shift( $parts );
-    $parts = preg_replace( '/\$\d+/', '', $parts );
-    self::$params     = array_merge( (array) $parts, (array) $match );
+    //$parts = preg_replace( '/\$\d+/', '', $parts );
+    self::$params     = $parts;
+    self::pairParams();
     return true;
-  }
-
-  //
-  // getParts()
-  // --------------------------------------------------
-  // Following the routing rules, returns the parts of the route
-  //
-  static function getParts() {
-    $parts = uri::getArray();
-    
-    // is the first part a controller?
-    $controller = strtolower( $parts[0] );
-    $controllerFile = ucwords( tools::cleanInput( $controller, 'alphaOnly' )) . 'Controller.class.php';
-    if( !load::seek( $controllerFile )) {
-      $controller = c::get( 'default.controller' );
-      $action = 'filepage';
-      $getVars = $parts;
-    } else {
-      array_shift( $parts );
-      // we're following Rule #1
-      $action = !empty( $parts[0]) ? array_shift( $parts ) : c::get( 'default.action' );
-      $getVars = self::pairGetVars( $parts );
-    }
-
-    return array(
-      'controller' => $controller,
-      'action'     => $action,
-      'getVars'    => $getVars
-    );
-  }
-
-  //
-  // pairGetVars()
-  // --------------------------------------------------
-  // turns an array of values into a key=>value pair
-  //
-  static function pairGetVars( $vars=array() ) {
-    $array = array();
-    while( !empty( $vars ) ) {
-      if( count( $vars ) >= 2 ) {
-        $key = array_shift( $vars );
-        $value = array_shift( $vars );
-        $array[ $key ] = $value;
-        continue;
-      }
-      $value = array_shift( $vars );
-      $array[] = $value;
-    }
-    return (array) $array;
   }
 
   //
@@ -314,3 +226,104 @@ class router {
   }
 
 }
+
+class routerRule {
+  var $name;
+  var $rule;
+  var $route;
+  var $_rule = array();
+  var $_constant = array();
+  var $_mandatory = array();
+  var $_optional = array();
+
+  function __construct( $name, $rule, $route ) {
+    $this->name = $name;
+    $this->readRule( $rule );
+    $this->route = $route;
+  }
+
+  // readRule()
+  // Reads the rule, breaks it appart, and sets rule info
+  //
+  function readRule( $rule ) {
+    $this->rule = $rule;
+
+    $rule = trim( $rule, '/' );
+    $parts = explode( '/', $rule );
+    foreach( $parts as $k => $part )  {
+      $wildcard = substr( $part, 0, 1 );
+      switch( $wildcard ) {
+        case '!':
+          $this->_mandatory[$k] = ltrim( $part, '!' );
+          $this->_rule[$k] = ltrim( $part, '!' );
+          break;
+        case ':':
+          $this->_optional[$k] = ltrim( $part, ':' );
+          $this->_rule[$k] = ltrim( $part, ':' );
+          break;
+        case '*':
+          break;
+        default:
+          $this->_constant[$k] = $part;
+          $this->_rule[$k] = $part;
+          break;
+      }
+    }
+  }
+
+  function countMandatory() {
+    return count( $this->_mandatory );
+  }
+
+  function getMandatorys() {
+    return (array) $this->_mandatory;
+  }
+
+  function getOptionals() {
+    return (array) $this->_optional;
+  }
+
+  function countConstant() {
+    return count( $this->_constant );
+  }
+
+  function getConstants() {
+    return (array) $this->_constant;
+  }
+
+  function matchConstants( $request=array() ) {
+    if( $this->countConstant() == 0 ) return TRUE;
+    foreach( $this->getConstants() as $k => $c ) {
+      if( $request[$k] !== $c ) return FALSE;
+    }
+    return TRUE;
+  }
+
+  function countMinimum() {
+    return $this->countMandatory() + $this->countConstant();
+  }
+
+  // translate()
+  // takes the request and returns the resulting URI array
+  //
+  // @param  array  $request The URI Array
+  // @return array  The translated URI array
+  //
+  function translate( $request=array() ) {
+    $slice = array_slice( $request, 0, $this->countMinimum() );
+    $postRule = array_diff( $request, $slice );
+    foreach( $this->getMandatorys() as $k => $v ) {
+      if( isset( $request[$k] )) $$v = $request[$k];
+      else $$v = '';
+    }
+    foreach( $this->getOptionals() as $k => $v ) {
+      if( isset( $request[$k] )) $$v = $request[$k];
+      else $$v = '';
+    }
+    eval( "\$return = \"$this->route\";" );
+    $return = trim( $return, '/' ) . '/' . implode( '/', $postRule );
+    return trim( $return, '/' );
+  }
+
+}
+

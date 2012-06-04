@@ -19,16 +19,9 @@ if( $page->isHomePage() ):
 ?>
 
 <div id="slider"> 
-  <a href="<?php echo url( 'media' ) ?>">
-    <img src="/images/slider/gospel.jpg" alt="The Gospel series" />
-  </a>
-  <div class="content" style="background-color: #000;">
-    <h1>Div Tag Content!</h1>
-    <p>Hi</p>
-  </div>
-  <img src="/images/slider/network.jpg" alt="NetWORK" data-caption="#htmlCaption" />
-  <img src="/images/slider/jg-test-drive.jpg" alt="Journey Group Test Drive" />
-  <img src="/images/slider/honduras.jpg" alt="Honduras" />
+  <?php snippet( 'slider/discover.php' ) ?>
+  <?php snippet( 'slider/man-card.php' ) ?>
+  <?php snippet( 'slider/automate-important.php' ) ?>
 </div>
 
 <!-- Captions for Orbit -->

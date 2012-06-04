@@ -44,7 +44,7 @@ class BlogController Extends LiriopeController {
     if( isset( $vars['dir'] )) $this->useView( basename( $dir ));
 
     $blogs = new Blogs( $dir );
-    $post = $blogs->getPost( $vars[0] );
+    $post = $blogs->getPost( $vars['id'] );
 
     $page->set( 'post', $post );
 

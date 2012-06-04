@@ -19,28 +19,16 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch() {
-    // pass-through file URLs like: image.jpg or styles.css
-    $file = uri::param( 'file' );
-    if( $file ) {
-      trigger_error( "The URI file is (" . var_export( $file, TRUE ) . ")", E_USER_NOTICE );
-
-      // TODO: check extension against accepted pass-through extensions then go() to them
-      $url = c::get( 'url' ) . '/' .
-        c::get( 'root.content', 'content' ) . '/' .
-        implode( '/', uri::get());
-      router::go( $url );
+    if( !self::matchRule( uri::getArray() )) {
+      trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     }
-
-    // check for a matched rule and direct into the MVC structure
-    if( !self::matchRule( uri::getURIArray() )) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
+    self::makeParams();
 
     // DEBUGGING
     trigger_error( "<b>Routing rule '".self::$name."'  matched.</b><br> Dispatching to <b>" .
       self::$controller . "</b>, <b>" . self::$action . "</b>()<br> " .
       "with the params: " . print_r( self::$params, TRUE ),
       E_USER_NOTICE );
-
-    self::makeParams();
 
     return array(
       'controller' => self::$controller,
@@ -78,7 +66,6 @@ class router {
       trigger_error( 'setRule was passed an empty parameter', E_USER_NOTICE );
       return false;
     }
-    //array_unshift( self::$rules, array( 'rule'=>$rule, 'route'=>$route )); 
     self::$rules[$name] = array( 'rule'=>$rule, 'route'=>$route );
     return true;
   }
@@ -184,7 +171,7 @@ class router {
   // Following the routing rules, returns the parts of the route
   //
   static function getParts() {
-    $parts = uri::getURIArray();
+    $parts = uri::getArray();
     
     // is the first part a controller?
     $controller = strtolower( $parts[0] );
@@ -326,4 +313,4 @@ class router {
     exit();
   }
 
-} ?>
+}

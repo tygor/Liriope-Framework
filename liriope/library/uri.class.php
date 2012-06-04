@@ -44,7 +44,7 @@ class uri {
   static function store( $route ) {
     self::$request_time = server::get( 'REQUEST_TIME' );
     self::$route = $route;
-    $uriArray = self::getURIArray();
+    $uriArray = self::getArray();
 
     // http://site.com/controller/action/param/param/file.ext
     //                 |->             route              <-|
@@ -85,7 +85,7 @@ class uri {
     return self::$route;
   }
 
-  static function getURIArray( $cleanRewrite=TRUE) {
+  static function getArray( $cleanRewrite=TRUE) {
     $route = self::getURI();
     $route = explode( '/', $route);
 

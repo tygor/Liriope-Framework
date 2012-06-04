@@ -19,6 +19,14 @@ class str {
       return htmlentities( $string, ENT_COMPAT, 'utf-8' );
     }
   }
+
+  static function replace( $search, $replace, $source ) {
+    return str_replace( $search, $replace, $source);
+  }
+
+  static function minus( $source, $search ) {
+    return self::replace( $search, '', $source );
+  }
 }
 
 ?>

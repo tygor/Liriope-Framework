@@ -23,6 +23,8 @@ class View extends obj {
 
     global $page;
     $page = new Page( $file );
+    $page->controller = $controller;
+    $page->action = $action;
     $page->uri = uri::get();
     $page->theme = c::get('theme');
 	}
@@ -71,7 +73,6 @@ class View extends obj {
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
     } else {
       $html = $cacheData;
-      $html = $html . "<CACHE>";
     }
 
     // OUTPUT TO BROWSER

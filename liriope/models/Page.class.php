@@ -64,9 +64,16 @@ class Page extends obj {
     return $this->uri;
   }
 
-  public function url() {
+  public function url( $route=FALSE ) {
     if( $this->isHomePage()) return url();
+    if( $route && $this->controller && $this->action ) return $this->controller . '/' . $this->action;
     return url($this->uri);
+  }
+
+  public function root() {
+    // return the root URI item
+    $parts = explode( '/', trim( $this->uri, '/' ));
+    return $parts[0];
   }
 
   public function isHomePage() {

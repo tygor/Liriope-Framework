@@ -1,6 +1,7 @@
 <?php
 
 $page->title = "SafariLand";
+$page->date = '2012/06/05';
 
 ?>
 

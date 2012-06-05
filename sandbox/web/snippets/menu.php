@@ -8,6 +8,8 @@
 
 // configure the menu in an array
 global $menu;
+global $page;
+
 $menu = new menu();
 $menu
   ->addChild( 'About NRHC',  'about-us' )
@@ -52,6 +54,7 @@ $menu
   ->addChild( 'Serve our city',    'connect/serve/our-city' )
   ->addChild( 'Serve the nations', 'connect/serve/the-nations' )
   ;
+if( $page->root() !== 'home' && !$menu->findActive ) $menu->findDeep( $page->root() )->setActive();
 
 ?>
 

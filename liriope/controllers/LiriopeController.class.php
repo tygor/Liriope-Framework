@@ -61,9 +61,14 @@ class LiriopeController {
 
   public function flush( $params=NULL ) {
     cache::flush();
+    router::go( '/' );
   }
 
   function useView( $file=NULL ) {
+    global $page;
+    // a custom view tells me that the route controller has been customized
+    // update the $page object to match
+    $page->controller = $file;
     return $this->_view->view( $file );
   }
 

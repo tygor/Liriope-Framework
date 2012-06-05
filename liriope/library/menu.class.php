@@ -19,6 +19,10 @@ class menu extends obj {
     return $this;
   }
 
+  function setActive() {
+    if( !$this->isActive() ) $this->isActive( TRUE );
+  }
+
   function isActive( $inherit=FALSE ) {
     if( $this->active ) return $this->active;
     if( $inherit || $this->url == uri::get() ) {
@@ -62,7 +66,7 @@ class menu extends obj {
       $menu = $child->findDeep( $k );
       if( $menu ) return $menu;
     }
-    return FALSE;
+    return $this;
   }
 }
 

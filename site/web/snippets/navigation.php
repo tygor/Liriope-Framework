@@ -13,6 +13,7 @@
   <li class="deeper"><a href="<?php echo url('about-us') ?>">About Us</a>
     <ul>
       <li><a href="<?php echo url('about-us/vision') ?>">Vision</a>
+      <li><a href="<?php echo url('about-us/vision') ?>">Vision</a>
     </ul>
   </li>
   <li><a href="<?php echo url('features') ?>">Features</a></li>

@@ -1,6 +1,7 @@
 <?php
 // Pagination
 // show the below if the total pages is > 1
+$page = $module->page();
 if( $page->totalPages > 1 ):
 ?>
 
@@ -42,3 +43,4 @@ if( $page->totalPages > 1 ):
 </div>
 
 <?php endif; ?>
+

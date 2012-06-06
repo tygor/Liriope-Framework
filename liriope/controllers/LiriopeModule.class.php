@@ -32,6 +32,11 @@ class LiriopeModule {
     $module = new Page( $file );
   }
 
+  public function pagination( $page ) {
+    global $module;
+    $module->page = $page;
+  }
+
   function __destruct() {
     global $module;
 

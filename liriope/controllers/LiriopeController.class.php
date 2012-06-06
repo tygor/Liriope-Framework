@@ -61,7 +61,7 @@ class LiriopeController {
 
   public function flush( $params=NULL ) {
     cache::flush();
-    router::go( '/' );
+    router::go();
   }
 
   function useView( $file=NULL ) {

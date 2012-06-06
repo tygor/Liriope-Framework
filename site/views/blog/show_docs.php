@@ -6,6 +6,7 @@
  */
 
 $page->title = "Docs | Liriope";
+$page->theme = 'paper';
 
 ?>
 
@@ -28,13 +29,14 @@ works.</p>
   </footer>
   <div>
     <?php echo $entry->intro() ?>
+    <a href="<?php echo url( $entry->url() ) ?>" class="readmore">Read more&hellip;</a>
   </div>
 </article>
 <?php endforeach; ?>
 <?php endif ?>
 
   <footer>
-    <?php snippet( 'pagination.php', $page ); ?>
+    <?php echo module( 'liriope', 'pagination', $page ) ?>
   </footer>
 
 </section><!-- /#blog-list -->

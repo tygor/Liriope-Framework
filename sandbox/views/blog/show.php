@@ -45,7 +45,7 @@ if( !$page->error ) :
 
   <footer>
     <a href="<?php echo url( '/news/feed' ) ?>" class="rss">Subscribe</a>
-    <?php snippet( 'pagination.php', $page ); ?>
+    <?php echo module( 'liriope', 'pagination', $page ) ?>
   </footer>
 
 <?php else: ?>

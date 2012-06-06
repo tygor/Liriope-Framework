@@ -7,13 +7,14 @@
 // Custom Routes
 // --------------------------------------------------
 router::setRule( 'docs', 'docs/:page/:limit', 'blog/show/dir/docs/page/$page/limit/$limit' );
-router::setRule( 'doc',  'doc/!id',           'blog/post/dir/docs/id/$id' );
+router::setRule( 'doc',  'docs/!id',          'blog/post/dir/docs/id/$id' );
 
 //
 // Site 
 // --------------------------------------------------
 c::set( 'url', 'http://liriope.ubuntu' );
 c::set( 'site.title', 'Liriope' );
+c::set( 'cache', FALSE );
 
 //
 // Theme

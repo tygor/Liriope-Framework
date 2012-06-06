@@ -14,16 +14,16 @@
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
 
-  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="<?= theme::$folder; ?>/images/favicon.ico">
 
   <!-- CSS -->
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
-  <link href="/<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
+  <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
 
   <!-- JS -->
   <?php foreach( (array) $page->get( 'js' ) as $script): ?>
-  <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+  <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
   <?php endforeach; ?>
   
   <?php foreach( (array) $page->get( 'script' ) as $block): ?>
@@ -38,7 +38,7 @@
 
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
 
-  <header id="main" class="clear">
+  <header id="main">
 
     <hgroup id="identity">
       <a href="/">
@@ -46,17 +46,18 @@
       </a>
     </hgroup>
 
-  </header>
+    <nav id="main" class="menu punchcard">
+      <?php snippet( 'navigation.php' ) ?>
+    </nav>
 
-  <nav id="main" class="menu punchcard">
-    <?php snippet( 'navigation.php' ) ?>
-  </nav>
+  </header>
 
   <div id="main" role="main">
 
 <?= $page->render(); ?>
 
   </div>
+
   <footer id="main">
     <div class="fourcolumns">
       <div class="column span-2">

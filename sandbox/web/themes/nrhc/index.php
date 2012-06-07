@@ -99,7 +99,7 @@
   <script defer src="js/plugins.js"></script>
   <script defer src="js/script.js"></script>
   <?php foreach( (array) $page->get( 'js' ) as $script): ?>
-  <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+  <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
   <?php endforeach; ?>
   <?php foreach( (array) $page->get( 'script' ) as $block): ?>
   <script type="text/javascript" charset="UTF-8">

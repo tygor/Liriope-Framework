@@ -62,4 +62,16 @@ function fancyFramework( $c ) {
 }
 filter::addFilter( 'fancyFramework', 'fancyFramework' );
 
+//
+// email obfuscation
+// --------------------------------------------------
+// seek any emails in content and convert it to something
+// harder for spam bots to read
+function emailIncognito( $c ) {
+  $pattern = '#([A-Za-z0-9_%-]+)@([A-Za-z0-9_%-]+).([A-Za-z]{2,4})#';
+  $replacement = "<email>$1+$2+$3</email>";
+  return preg_replace( $pattern, $replacement, $c );
+}
+filter::addFilter( 'emailIncognito', 'emailIncognito' );
+
 ?>

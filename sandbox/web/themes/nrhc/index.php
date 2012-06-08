@@ -4,14 +4,14 @@
  */
 
   // for the Orbit slider
-  $page->css( 'plugins/orbit/orbit-1.3.0.css' );
-  $page->js( 'plugins/orbit/jquery.orbit-1.3.0.js' );
+  $page->css( '/plugins/orbit/orbit-1.3.0.css' );
+  $page->js( '/plugins/orbit/jquery.orbit-1.3.0.js' );
 
-  $page->css( theme::$folder . '/styles/base.less', 'stylesheet/less' );
-  $page->js( 'js/libs/less-1.3.0.min.js' );
-  $page->js( theme::$folder . '/js/jquery.hoverIntent.minified.js' );
-  $page->js( theme::$folder . '/js/nrhcTemplateSpice.js' );
-  $page->js( theme::$folder . '/js/plugins.js' );
+  $page->css( '/' . theme::$folder . '/styles/base.less', 'stylesheet/less' );
+  $page->js( '/js/libs/less-1.3.0.min.js' );
+  $page->js( '/' . theme::$folder . '/js/jquery.hoverIntent.minified.js' );
+  $page->js( '/' . theme::$folder . '/js/nrhcTemplateSpice.js' );
+  $page->js( '/' . theme::$folder . '/js/plugins.js' );
   $page->script( 'less.watch();' );
 
   echo $site->DOCTYPE();
@@ -96,8 +96,8 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
+  <script defer src="/js/plugins.js"></script>
+  <script defer src="/js/script.js"></script>
   <?php foreach( (array) $page->get( 'js' ) as $script): ?>
   <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
   <?php endforeach; ?>

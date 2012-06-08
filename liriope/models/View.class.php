@@ -73,6 +73,7 @@ class View extends obj {
       if( $page->theme() !== NULL ) {
         $html = theme::load( $page->theme(), $html, TRUE );
       }
+      $html = filter::doFilters( $html );
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
     } else {
       $html = $cacheData;

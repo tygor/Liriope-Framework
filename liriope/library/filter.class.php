@@ -73,7 +73,7 @@ function emailIncognito( $c ) {
   $firstpass = preg_replace( $pattern, $replacement, $c );
   // -----
   $pattern = "#([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})#e";
-  $replacement = "'$1+$2+$3'";
+  $replacement = "'<span style=\"unicode-bidi:bidi-override;direction:rtl;\">'.strrev('$1@$2.$3').'</span>'";
   return preg_replace( $pattern, $replacement, $firstpass );
 }
 filter::addFilter( 'emailIncognito', 'emailIncognito' );

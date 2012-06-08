@@ -22,7 +22,6 @@ router::setRule( 'newsfeed', 'news/feed', 'blog/feed/dir/news' );
 // --------------------------------------------------
 c::set( 'url', 'http://sandbox.ubuntu' );
 c::set( 'site.title', 'NRHC' );
-c::set( 'cache', FALSE );
 
 //
 // Page

@@ -18,3 +18,7 @@ $page->title = 'About Us';
   <p>Then I found SVN and eventually GIT which helped me organize working folders. This, coupled with how I am managing the content for my current full-time job's website encouraged me to seek my own CMS, without abandoning the MVC structure that I'm familiar with. And so, I am building Liriope.</p>
   <p>Rather than the database heavy site, I wanted this to be file driven CMS. There is a great file based CMS project out there and I have thought once or twice about abandoning Liriope and using KirbyMCS, but in the end, I want to learn, so kudos Kirby, but how else will I learn?</p>
 </article>
+
+<p>My emails are: test@somesite.com<br>
+so email me at <a href="mailto:test@somesite.com">test@somesite.com</a><br>
+or click <a href="mailto:test@somesite.com">here</a></p>

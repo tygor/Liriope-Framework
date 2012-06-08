@@ -6,7 +6,7 @@
 
   $page->css( theme::$folder . '/style.css' );
   $page->css( theme::$folder . '/style.less', 'stylesheet/less' );
-  $page->js( 'js/libs/less-1.3.0.min.js' );
+  $page->js( '/js/libs/less-1.3.0.min.js' );
   $page->script( 'less.watch();' );
 
   echo $site->DOCTYPE();
@@ -34,7 +34,7 @@
   <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
   <?php foreach( (array) $page->get( 'js' ) as $script): ?>
-  <script src="/<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+  <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
   <?php endforeach; ?>
   <?php foreach( (array) $page->get( 'script' ) as $block): ?>
   <script type="text/javascript" charset="UTF-8">

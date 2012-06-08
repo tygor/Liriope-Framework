@@ -69,8 +69,10 @@ class View extends obj {
     }
 
     if( empty( $cacheData )) {
-      $pageHTML = $page->render();
-      $html = theme::load( $page->theme(), $pageHTML, TRUE );
+      $html = $page->render();
+      if( $page->theme() !== NULL ) {
+        $html = theme::load( $page->theme(), $html, TRUE );
+      }
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
     } else {
       $html = $cacheData;

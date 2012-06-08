@@ -17,6 +17,7 @@ class Page extends obj {
     $this->description = c::get( 'page.description' );
     $this->author = c::get( 'page.author' );
     $this->theme = c::get( 'theme' );
+    $this->js('/js/script.js');
   }
 
   public function set( $key, $value=FALSE ) {

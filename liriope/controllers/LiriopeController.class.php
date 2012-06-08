@@ -64,6 +64,13 @@ class LiriopeController {
     router::go();
   }
 
+  public function mail( $encoded=NULL ) {
+    global $page;
+    list( $user, $host, $tld ) = explode( '+', str::rot( $encoded[0] ));
+    $email = sprintf( '%s@%s.%s', $user, $host, $tld );
+    $page->set( 'email', $email );
+  }
+
   function useView( $file=NULL ) {
     global $page;
     // a custom view tells me that the route controller has been customized

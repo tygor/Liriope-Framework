@@ -68,9 +68,13 @@ filter::addFilter( 'fancyFramework', 'fancyFramework' );
 // seek any emails in content and convert it to something
 // harder for spam bots to read
 function emailIncognito( $c ) {
-  $pattern = '#([A-Za-z0-9_%-]+)@([A-Za-z0-9_%-]+).([A-Za-z]{2,4})#';
-  $replacement = "<email>$1+$2+$3</email>";
-  return preg_replace( $pattern, $replacement, $c );
+  $pattern = '#<a.href=\"mailto:([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})\"([\s]*[\w=\'"]*)>(.*)</a>#e';
+  $replacement = "'<a class=\"obf\" href=\"mail/'.str::rot('$1').'+'.str::rot('$2').'+'.str::rot('$3').'\"$4>$5</a>'";
+  $firstpass = preg_replace( $pattern, $replacement, $c );
+  // -----
+  $pattern = "#([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})#e";
+  $replacement = "'$1+$2+$3'";
+  return preg_replace( $pattern, $replacement, $firstpass );
 }
 filter::addFilter( 'emailIncognito', 'emailIncognito' );
 

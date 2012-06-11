@@ -4,10 +4,11 @@
  * Grass theme
  */
 
+  $page->css( '/css/styles.css' );
   $page->css( theme::$folder . '/style.css' );
-  $page->css( theme::$folder . '/style.less', 'stylesheet/less' );
-  $page->js( '/js/libs/less-1.3.0.min.js' );
-  $page->script( 'less.watch();' );
+  //$page->css( theme::$folder . '/style.less', 'stylesheet/less' );
+  //$page->js( '/js/libs/less-1.3.0.min.js' );
+  //$page->script( 'less.watch();' );
 
   echo $site->DOCTYPE();
 ?>
@@ -34,8 +35,6 @@
   <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
   <!-- end CSS-->
-
-  <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
   <!-- All JavaScript at the bottom, except for Modernizr / Respond.
        Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries

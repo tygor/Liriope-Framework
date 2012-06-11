@@ -1,3 +1,8 @@
+<?php
+
+$eventDate = strtotime( 'Aug 5th, 2012' );
+
+?>
 <style>
   #discover-slider {
     height: 405px;
@@ -55,12 +60,12 @@
 
 <div id="discover-slider" class="content">
   <div class="sticker">
-    <p class="date">June 10</p>
+    <p class="date"><?php echo date( 'M jS', $eventDate ) ?></p>
     <p class="time">4:00&ndash;5:30 PM</p>
   </div>
   <div class="text">
     <p id="headline">Learn about NRHC!</p>
     <p id="footnote">Childcare provided.</p>
-    <p class="readmore"><a href="<?php echo url( '/news/discover_2012-04-30' ) ?>">Read more&hellip;</a></p>
+    <p class="readmore"><a href="<?php echo url( '/news/discover_2012-06-11' ) ?>">Read more&hellip;</a></p>
   </div>
 </div>

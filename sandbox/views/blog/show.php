@@ -16,7 +16,7 @@ $page->title = "News";
 if( !$page->error ) :
   $blogs = $page->blogs;
   if( $page->pageNum == 1) {
-    $featured = array_pop( $blogs );
+    $featured = array_shift( $blogs );
   }
 
 ?>

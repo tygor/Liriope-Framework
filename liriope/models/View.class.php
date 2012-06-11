@@ -77,6 +77,8 @@ class View extends obj {
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
     } else {
       $html = $cacheData;
+      $cclink = url( router::rule( 'flush' ));
+      $html = preg_replace( '/<\/body>/i', '<div id="cacheBox" style="display:none;"><a href="'.$cclink.'">Clear Cache</a></div></body>', $html );
     }
 
     // OUTPUT TO BROWSER

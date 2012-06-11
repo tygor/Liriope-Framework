@@ -1,7 +1,6 @@
 <?php
 
-// TODO: create a .css version of the LESSCSS error styles
-$page->css( 'css/error.less', 'stylesheet/less' );
+$page->css( 'css/error.css' );
 
 ?>
 

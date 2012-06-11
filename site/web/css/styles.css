@@ -1,0 +1,18 @@
+/* Autoloaded CSS */
+
+#cacheBox {
+  display: block !important;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 16px 16px 8px;
+  font-size: 10px;
+  background-color: rgb( 120,120,120 );
+  background-color: rgba( 0,0,0, 0.5 );
+  border-radius: 0 5px 0 0;
+}
+
+#cacheBox a {
+  content: url('/images/clear-cache-icon.png');
+  width: 16px;
+}

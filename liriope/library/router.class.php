@@ -87,6 +87,17 @@ class router {
     return a::get( self::$rules, $name, FALSE );
   }
 
+  // rule()
+  // returns the named rule in a string to be used by the url() function
+  //
+  // @param  string  $name The named rule to use
+  // @return strgin  Returns the rule controller and action as a url string
+  static function rule( $name=NULL ) {
+    if( $name===NULL ) return '/'; 
+    $rule = self::getRule( $name );
+    return implode( '/', $rule->getConstants() );
+  }
+
   // 
   // matchRule()
   // compares the $request to the router rules

@@ -1,7 +1,7 @@
 <?php
 // Home
 
-$page->title = 'Home';
+$page->title = 'North Rock Hill Church';
 
 ?>
 
@@ -16,12 +16,12 @@ $page->title = 'Home';
 
     <div class="column teaser">
       <article>
-        <h3><a href="<?php echo url( 'news/discover_2012-04-30' ) ?>">Discover NRHC</a></h3>
-        <a href="<?php echo url( 'news/discover_2012-04-30' ) ?>">
+        <h3><a href="<?php echo url( 'news/discover_2012-06-11' ) ?>">Discover NRHC</a></h3>
+        <a href="<?php echo url( 'news/discover_2012-06-11' ) ?>">
           <img src="http://nrhc-pages.northrockhill.com/discover-class/Discover-Chip.png" alt="Discover class" width="100" height="100" class="alignleft chip">
         </a>
-        <p>Learn about NRHC! Dinner and childcare are provided.</p>
-        <p>The next Discover class is on<br><span class="b size-large">Jun 10<sup>th</sup></span></p>
+        <p>Learn about NRHC! Childcare is provided.</p>
+        <p>The next Discover class is on<br><span class="b size-large">Aug 5<sup>th</sup></span></p>
       </article>
     </div>
 

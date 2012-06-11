@@ -14,7 +14,6 @@ router::setRule( 'doc',  'docs/!id',          'blog/post/dir/docs/id/$id' );
 // --------------------------------------------------
 c::set( 'url', 'http://liriope.ubuntu' );
 c::set( 'site.title', 'Liriope' );
-c::set( 'cache', FALSE );
 
 //
 // Theme

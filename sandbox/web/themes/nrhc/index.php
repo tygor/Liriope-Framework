@@ -3,16 +3,20 @@
  * NRHC theme
  */
 
+  // system styles
+  $page->css( '/css/styles.css' );
+
   // for the Orbit slider
   $page->css( '/plugins/orbit/orbit-1.3.0.css' );
   $page->js( '/plugins/orbit/jquery.orbit-1.3.0.js' );
 
-  $page->css( '/' . theme::$folder . '/styles/base.less', 'stylesheet/less' );
-  $page->js( '/js/libs/less-1.3.0.min.js' );
+  //$page->css( '/' . theme::$folder . '/styles/base.less', 'stylesheet/less' );
+  //$page->js( '/js/libs/less-1.3.0.min.js' );
+  $page->css( '/' . theme::$folder . '/styles/base.css' );
   $page->js( '/' . theme::$folder . '/js/jquery.hoverIntent.minified.js' );
   $page->js( '/' . theme::$folder . '/js/nrhcTemplateSpice.js' );
   $page->js( '/' . theme::$folder . '/js/plugins.js' );
-  $page->script( 'less.watch();' );
+  //$page->script( 'less.watch();' );
 
   echo $site->DOCTYPE();
 ?>

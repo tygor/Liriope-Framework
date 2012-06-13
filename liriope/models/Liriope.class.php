@@ -8,7 +8,7 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class Liriope extends Page {
+class Liriope {
   protected $root;
   protected $file;
   protected $folder;
@@ -19,23 +19,6 @@ class Liriope extends Page {
   public function __construct( $path, $root=NULL ) {
     $this->root = $root;
     $this->parsePath( $path );
-  }
-
-  // TODO: I don't think that I need the set() or get() functions anymore for this model
-  public function set( $key, $value=FALSE ) {
-    if( is_array( $key )) {
-      self::$vars = array_merge( self::$vars, $key );
-    } elseif( $value === NULL ) {
-      unset( self::$vars[$key] );
-    } else {
-      $this->vars[$key] = $value;
-    }
-  }
-
-  public function get( $key=NULL, $default=NULL ) {
-    if( $key===NULL ) return (array) $this->vars;
-    if( isset( $this->vars[$key] )) return $this->vars[$key];
-    return $default;
   }
 
   //
@@ -113,10 +96,7 @@ class Liriope extends Page {
     return false;
   }
 
-  public function render() {
-    return $this->__toString();
-  }
-
+  public function render() { return $this->__toString(); }
   public function __toString() {
     global $page;
     content::start();

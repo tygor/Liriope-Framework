@@ -103,8 +103,7 @@ class Files {
   }
   
   static function extension( $f ) {
-    $ext = str_replace( '.', '', strtolower( strrchr( trim( $f ), '.' )));
-    // TODO: this could return the query string after the file if one exists
+    $ext = str_replace( '.', '', strtolower( strrchr( trim( parse_url( $f, PHP_URL_PATH ) ), '.' )));
     return $ext;
   }
 

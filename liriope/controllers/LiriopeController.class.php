@@ -50,13 +50,12 @@ class LiriopeController {
     $path = '/' . a::glue( $path, '/' );
     $liriope = new Liriope( $path, c::get( 'root.web' ) . '/content' );
 
-    $content = $liriope->render();
+    // render the Liriope model using it's __toString function
+    // this will store the new $page variables that are in the view and content files
+    $page->set( 'content', $liriope );
     foreach( (array) $page->css as $v ) if( !empty( $v )) $page->css( $v );
     foreach( (array) $page->js() as $v ) if( !empty( $v )) $page->js( $v );
     foreach( (array) $page->script as $v ) if( !empty( $v )) $page->script( $v );
-
-    // Add the object for the view file to use to the $page via the alias $this->set()
-    $page->set( 'content', $content );
   }
 
   public function flush( $params=NULL ) {

@@ -14,23 +14,23 @@ class filter {
   static $filters = array();
 
   static function addFilter( $slug, $function, $order=NULL ) {
-    self::$filters[$slug] = array(
+    filter::$filters[$slug] = array(
       'func'  => $function,
       'order' => $order
     );
   }
 
   static function removeFilter( $slug ) {
-    unset( self::$filters[$slug] );
+    unset( filter::$filters[$slug] );
   }
 
   static function doFilters( $content=NULL ) {
     if( $content === NULL ) return "";
 
-    self::orderFilters();
+    filter::orderFilters();
 
     // run the filters
-    foreach( self::$filters as $filter ) {
+    foreach( filter::$filters as $filter ) {
       $content = call_user_func( $filter['func'], $content );
     }
     return $content;
@@ -38,7 +38,7 @@ class filter {
 
   static function orderFilters() {
     // run the filters array and arrange them based on order value
-    uasort( self::$filters, 'self::compareOrder' );
+    uasort( filter::$filters, 'filter::compareOrder' );
   }
 
   static private function compareOrder( $a, $b ) {

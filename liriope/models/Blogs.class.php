@@ -155,7 +155,7 @@ class Blogs extends obj {
         $file->date = date( 'Y-m-d H:i:s', $modified );
       }
     }
-    uasort( $this->files, "self::compareModifiedDate" );
+    uasort( $this->files, "Blogs::compareModifiedDate" );
     return $this;
   }
 

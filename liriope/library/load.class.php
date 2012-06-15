@@ -71,12 +71,17 @@ class load
     load::file( $root . '/models/Files.class.php', TRUE );
   }
 
-  static function helpers()
-  {
+  static function helpers() {
     // load helpers and tools
     $root = c::get( 'root.liriope' );
     load::file( $root . '/library/tools.class.php', TRUE );
     load::file( $root . '/library/helpers.php', TRUE );
+  }
+
+  static function plugins() {
+    // load plugins
+    $root = c::get( 'root.liriope' );
+    load::file( $root . '/plugins/spyc.php', TRUE );
   }
 
   //

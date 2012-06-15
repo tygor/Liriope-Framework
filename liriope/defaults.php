@@ -5,6 +5,7 @@
 
 // Set some default router rules
 router::setRule( 'home',      '*',           'liriope/show' ); // catchall rule
+router::setRule( 'yaml',      'yaml',        'gallery/show' );
 router::setRule( 'flush',     'flush',       'liriope/flush' );
 router::setRule( 'mail',      'mail/:rot13', 'liriope/mail' );
 router::setRule( 'blog',      'blog',        'blog/show' );

@@ -50,6 +50,7 @@ require_once( c::get( 'root.liriope' ) . '/library/load.class.php' );
 load::lib();
 load::models();
 load::helpers();
+load::plugins();
 load::config();
 spl_autoload_register( 'load::autoload', TRUE );
 

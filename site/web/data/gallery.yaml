@@ -1,0 +1,36 @@
+---
+gallery:
+  name: My Images
+  images:
+    image-01:
+      name: Image 1
+      url: http://quietlunch.files.wordpress.com/2010/11/chalk-sidwalk-art-big-coke.jpg
+      caption: This is an image from google search for 'chalk'
+    image-02:
+      name: Image 2
+      url: https://encrypted-tbn0.google.com/images?q=tbn:ANd9GcQOQUOmE183IKwQwM24dMB3i8V5x7i0xdIxrcTwMCTSqI2Fjs4O
+      caption: This is an image from google search for 'chalk'
+    image-03:
+      name: Image 3
+      url: https://encrypted-tbn2.google.com/images?q=tbn:ANd9GcSwdv21r6FYAue-itZNWmPi7GYut7j5ajWJAEcRgUyVKjiu_Kneyw
+      caption: This is an image from google search for 'chalk'
+    image-04:
+      name: Image 4
+      url: https://encrypted-tbn1.google.com/images?q=tbn:ANd9GcRxpWHu3Vq1EJ9Qq977WcjyqZdHa7v0p9xIwRzmQibdFqhyaU7Edw
+      caption: This is an image from google search for 'chalk'
+    image-05:
+      name: Image 5
+      url: https://encrypted-tbn3.google.com/images?q=tbn:ANd9GcQh3Zi1O2PbBZMV4cyFWRLsiEmK36vUMaIc5swMDj_qXEuI0mZZhQ
+      caption: This is an image from google search for 'chalk'
+    image-06:
+      name: Image 5
+      url: http://www.coolopticalillusions.com/chalk-art/julian-beever-globe-chalk.jpg
+      caption: This is an image from google search for 'chalk'
+    image-07:
+      name: Image 5
+      url: http://www.coolopticalillusions.com/chalk-art/julian-beever-globe-chalk.jpg
+      caption: This is an image from google search for 'chalk'
+    image-08:
+      name: Image 5
+      url: http://www.coolopticalillusions.com/chalk-art/julian-beever-globe-chalk.jpg
+      caption: This is an image from google search for 'chalk'

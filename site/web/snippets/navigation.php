@@ -18,5 +18,6 @@
   </li>
   <li><a href="<?php echo url('features') ?>">Features</a></li>
   <li><a href="<?php echo url('blog') ?>">Blog</a></li>
+  <li><a href="<?php echo url('gallery') ?>">Gallery</a></li>
   <li class="last"><a href="<?php echo url('docs') ?>">Docs</a></li>
 </ul>

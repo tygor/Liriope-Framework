@@ -16,10 +16,24 @@ class GalleryController Extends LiriopeController {
 
     $yaml = new Yaml( f::read( 'data/gallery.yaml' ));
     $gallery = $yaml->get();
-    $images = $gallery['gallery']['images'];
+    $images = $gallery['images'];
 
     $page->set( 'gallery', $gallery );
     $page->set( 'images', $images );
+  }
+
+  // image()
+  //
+  public function image( $vars=NULL ) {
+    global $page;
+
+    $id = $vars[0];
+    $yaml = new Yaml( f::read( 'data/gallery.yaml' ));
+    $gallery = $yaml->get();
+
+    $image = $gallery['images'][$id];
+
+    $page->set( 'image', $image );
   }
 
 }

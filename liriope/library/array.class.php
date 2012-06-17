@@ -131,6 +131,22 @@ class a {
     return implode( $string, $array );
   }
 
+  //
+  // toObject()
+  //
+  static function toObject( $array ) {
+    if( !is_array( $array )) return $array;
+    $object = new stdClass();
+    if( is_array( $array ) && count( $array ) > 0 ) {
+      foreach( $array as $k => $v ) {
+        $k = strtolower( trim( $k ));
+        if( !empty( $k )) $object->$k = a::toObject( $v );
+      }
+      return $object;
+    }
+    return FALSE;
+  }
+
 }
 
 ?>

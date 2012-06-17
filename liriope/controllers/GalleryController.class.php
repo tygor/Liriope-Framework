@@ -16,7 +16,7 @@ class GalleryController Extends LiriopeController {
 
     $yaml = new Yaml( f::read( 'data/gallery.yaml' ));
     $gallery = $yaml->get();
-    $images = $gallery['images'];
+    $images = $gallery->images;
 
     $page->set( 'gallery', $gallery );
     $page->set( 'images', $images );

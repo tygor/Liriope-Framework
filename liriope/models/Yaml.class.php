@@ -15,9 +15,11 @@ class Yaml {
     if( $v===FALSE ) return $this->parse();
   }
 
-  public function parse() {
+  public function parse( $toArray=FALSE ) {
     if( empty( $this->yaml )) return FALSE;
-    return Spyc::YAMLLoadString( $this->yaml );
+    $yaml = Spyc::YAMLLoadString( $this->yaml );
+    if( $toArray ) return $yaml;
+    return a::toObject( $yaml );
   }
   
 }

@@ -1,0 +1,32 @@
+projects:
+  label: Projects
+  url: projects
+about-us:
+  label: About Us
+  url: about-us
+  children:
+    1:
+      label: Sub Page
+      url: about-us/sub-page
+    2:
+      label: Level 3 Page
+      url: about-us/sub-page/lvl3
+features:
+  label: Features
+  url: features
+  children:
+    1:
+      label: Slider
+      url: features/slider
+    2:
+      label: Tumblr
+      url: features/tumblr
+    3:
+      label: Gallery
+      url: gallery
+blog:
+  label: Blog
+  url: blog
+docs:
+  label: Docs
+  url: docs

@@ -7,19 +7,14 @@ nav.punchcard {
     /*
      * This value is the master <nav> height
      */
-    height: 7em;
+    height: 128px
 }
 
 nav.punchcard > ul > li {
     /*
-     * The height needs to include all sub items, usually
-     * <nav> height -1em;
+     * This is the starting postion of the parent menu item
      */
-    height: 6em;
-    /*
-     * At the current font-size, this value is height -2em
-     */
-    bottom: -3.5em;
+    bottom: -80px
 }
 /* end setup
  * --------------------------------------------------
@@ -31,7 +26,7 @@ nav.punchcard {
   margin: 25px auto;
   overflow: hidden;
   font-family: "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 0.875em;
+  font-size: 16px;
 
   ul, ul ul {
     height: auto;
@@ -40,7 +35,7 @@ nav.punchcard {
   }
 
   p {
-    font-size: .875em;
+    font-size: 14px;
     color: #666;
   }
 
@@ -58,7 +53,7 @@ nav.punchcard > ul {
 
   & > li {
     float: left;
-    padding: .5em 1em;
+    padding: 2px 16px;
     position: relative;
     overflow: hidden;
   }
@@ -76,19 +71,20 @@ nav.punchcard > ul {
 
   & > li > a,
   & > li > span {
-    height: 2em;
-    line-height: 2em;
+    height: 32px;
+    line-height: 32px;
     font-weight: bold;
-    font-size: 1.25em;
+    font-size: 20px;
     color: rgb(150, 0, 0);
   }
 
   & ul {
-    margin: .5em 0;
+    margin: 8px 0;
+    padding: 0;
   }
 
   & ul > li {
-    padding: .25em 0;
+    padding: 0;
   }
 
 }

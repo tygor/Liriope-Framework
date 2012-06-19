@@ -53,9 +53,12 @@ class LiriopeController {
     // render the Liriope model using it's __toString function
     // this will store the new $page variables that are in the view and content files
     $page->set( 'content', $liriope );
-    foreach( (array) $page->css as $v ) if( !empty( $v )) $page->css( $v );
+
+    /* TODO: are these lines necessary
+    foreach( (array) $page->css() as $v ) if( !empty( $v )) $page->css( $v );
     foreach( (array) $page->js() as $v ) if( !empty( $v )) $page->js( $v );
-    foreach( (array) $page->script as $v ) if( !empty( $v )) $page->script( $v );
+    foreach( (array) $page->script() as $v ) if( !empty( $v )) $page->script( $v );
+    */
   }
 
   public function flush( $params=NULL ) {

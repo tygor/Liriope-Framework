@@ -15,15 +15,3 @@ window.log = function(){
 (function(b){function c(){}for(var d="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,timeStamp,profile,profileEnd,time,timeEnd,trace,warn".split(","),a;a=d.pop();){b[a]=b[a]||c}})((function(){try
 {console.log();return window.console;}catch(err){return window.console={};}})());
 
-
-// place any jQuery/helper plugins in here, instead of separate, slower script files.
-$(window).load(function() {
-  $('#featured').orbit({
-    animation: 'fade',               // fade, horizontal-slide, vertical-slide, horizontal-push
-    animationSpeed: 500,             // how fast animtions are
-    advanceSpeed: 5000,              // if timer is enabled, time between transitions 
-    pauseOnHover: true,              // if you hover pauses the slider
-    startClockOnMouseOut: true,      // if clock should start on MouseOut
-    bullets: true,
-  });
-});

@@ -1,38 +1,10 @@
 <?php
-// --------------------------------------------------
-// Navigation snippet
-// --------------------------------------------------
-// simply the UL of links, used in the header and footer
-// within their individual NAV tags for styling
-//
-
-// configure the menu in an array
-global $page;
-global $menu;
-
-$menu = new menu();
-$menu
-  ->addChild( 'Projects',  'projects' )
-  ->addChild( 'About Us',  'about-us' )
-  ->addChild( 'Features',  'features' )
-  ->addChild( 'Blog',      'blog' )
-  ->addChild( 'Docs',      'docs' )
-  ;
-$menu
-  ->find( 'about-us' )
-  ->addChild( 'Sub page',  'about-us/sub-page' )
-  ->addChild( 'Level 3 page', 'about-us/sub-page/lvl3' )
-  ;
-$menu
-  ->find( 'features' )
-  ->addChild( 'Slider',  'features/slider' )
-  ->addChild( 'Tumblr',  'features/tumblr' )
-  ->addChild( 'Gallery', 'gallery' )
-  ;
-
-if( $page->root() !== 'home' && !$menu->findActive ) $menu->findDeep( $page->root() )->setActive();
-
+// Menu
+$page = $module->page();
+$menu = $module->menu();
 ?>
+
+<?php if( !$module->error ): ?>
 
 <ul>
   <?php foreach( $menu->getChildren() as $m ): ?>
@@ -59,3 +31,7 @@ if( $page->root() !== 'home' && !$menu->findActive ) $menu->findDeep( $page->roo
   </li>
   <?php endforeach ?>
 </ul>
+
+<?php else: ?>
+<h1>Woops!</h1>
+<?php endif ?>

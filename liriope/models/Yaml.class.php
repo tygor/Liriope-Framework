@@ -17,8 +17,9 @@ class Yaml {
 
   public function parse( $toArray=FALSE ) {
     if( empty( $this->yaml )) return FALSE;
-    $yaml = Spyc::YAMLLoadString( $this->yaml );
-    if( $toArray ) return $yaml;
+    if( is_file( $this->yaml )) $yaml = SPyc::YAMLLoad( $this->yaml );
+    else $yaml = Spyc::YAMLLoadString( $this->yaml );
+    if( $toArray ) { return $yaml; }
     return a::toObject( $yaml );
   }
   

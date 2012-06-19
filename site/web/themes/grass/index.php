@@ -55,14 +55,14 @@
       </hgroup>
 
       <nav id="main" class="menu punchcard">
-        <?php snippet( 'navigation.php' ); ?>
+        <?php echo module( 'liriope', 'menu', $page ); ?>
       </nav>
 
     </header>
 
     <div id="main" role="main">
 
-<?= $page->render(); ?>
+<?echo $liriope ?>
 
     </div>
     <footer id="main">
@@ -94,19 +94,16 @@
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="js/plugins.js"></script>
   <script defer src="js/script.js"></script>
-  <?php foreach( (array) $page->get( 'js' ) as $script): ?>
-  <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
-  <?php endforeach; ?>
-  <?php foreach( (array) $page->get( 'script' ) as $block): ?>
+<?php var_dump($page->get('js')) ?>
+<?php foreach( (array) $page->get( 'js' ) as $script): ?>
+  <script defer src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+<?php endforeach; ?>
+<?php foreach( (array) $page->get( 'script' ) as $block): ?>
   <script type="text/javascript" charset="UTF-8">
     <?= $block; ?>
   </script>
-  <?php endforeach; ?>
+<?php endforeach; ?>
   <!-- end scripts-->
-
-  <!-- Orbit slider script -->
-  <script src="plugins/orbit/jquery.orbit-1.3.0.js" type="text/javascript"></script>
-  <!-- end orbit -->
 
   <!-- Change UA-XXXXX-X to be your site's ID -->
   <script>

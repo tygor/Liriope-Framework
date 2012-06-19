@@ -4,28 +4,6 @@ $page->title = 'Gallery';
 
 ?>
 
-<style type="text/css">
-  .gallery .column {
-    position: relative;
-  }
-  .gallery .frame {
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-  }
-  .gallery .frame a {
-    display: block;
-    overflow: hidden;
-  }
-  .gallery .frame .image {
-    display: block;
-    width: 200px;
-    height: 200px;
-    background-size: cover;
-    background-position: 50% 50%;
-  }
-</style>
-
 <h1>Gallery</h1>
 
 <div class="gallery">

@@ -51,9 +51,6 @@ class View extends obj {
     global $site;
     global $page;
 
-    // tell the theme object about the site and the page
-    theme::set( 'site', $site );
-    theme::set( 'page', $page );
     if( c::get( 'debug' )) theme::set( 'error', error::render( TRUE ));
     
     // CACHE

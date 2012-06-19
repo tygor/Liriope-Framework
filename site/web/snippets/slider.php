@@ -8,8 +8,20 @@
 // page configuration
 // ------------------
 
-page::addStylesheet( 'plugins/orbit/orbit-1.3.0.css' );
-page::addScript( 'plugins/orbit/jquery.orbit-1.3.0.js' );
+$page->css( '/plugins/orbit/orbit-1.3.0.css' );
+$page->js( '/plugins/orbit/jquery.orbit-1.3.0.js' );
+$page->script("
+jQuery(window).load( function() {
+  $('#featured').orbit({
+    animation: 'fade',               // fade, horizontal-slide, vertical-slide, horizontal-push
+    animationSpeed: 500,             // how fast animtions are
+    advanceSpeed: 5000,              // if timer is enabled, time between transitions 
+    pauseOnHover: true,              // if you hover pauses the slider
+    startClockOnMouseOut: true,      // if clock should start on MouseOut
+    bullets: true,
+  });
+});
+");
 
 ?>
 

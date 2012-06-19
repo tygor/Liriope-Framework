@@ -37,6 +37,32 @@ class LiriopeModule {
     $module->page = $page;
   }
 
+  public function menu( $page ) {
+    global $module;
+
+    $module->error = FALSE;
+    if( !$file = load::exists( 'menu.yaml', c::get( 'root.application' ))) $module->error = TRUE;
+
+    $yaml = new Yaml( $file );
+    $menu = new menu();
+    foreach( $yaml->parse(TRUE) as $v ) {
+      $menu->addChild( $v['label'], $v['url'] );
+      if( isset( $v['children'] )) {
+        $parent = $menu->find( $v['url'] );
+        foreach( $v['children'] as $c ) {
+          $parent->addChild( $c['label'], $c['url'] );
+        }
+      }
+    }
+
+    if( $page->root() !== 'home' && !$menu->findActive ) {
+      $menu->findDeep( $page->root() )->setActive();
+    }
+
+    $module->menu = $menu;
+    $module->page = $page;
+  }
+
   function __destruct() {
     global $module;
 

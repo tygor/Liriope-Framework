@@ -443,7 +443,22 @@ section#blog article {
 // Gallery
 // --------------------------------------------------
 .gallery {
-  img {
+  .frame {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+
+    a {
+      display: block;
+      overflow: hidden;
+    }
+    .image {
+      display: block;
+      width: 200px;
+      height: 200px;
+      background-size: cover;
+      background-position: 50% 50%;
+    }
   }
 }
 

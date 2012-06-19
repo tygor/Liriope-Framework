@@ -36,3 +36,8 @@ images:
     url: https://encrypted-tbn1.google.com/images?q=tbn:ANd9GcSmwp9RAcjD81ksD1dQMsfFxfJhp1FtUSSJDQUlwK5apzyfnjjeaA
     caption: This is an image from google search for 'chalk'
     link: /gallery/image-07
+  image-08:
+    name: Image 8
+    url: http://woodstockwalkforpeace.files.wordpress.com/2010/04/crosshairs2.png
+    caption: Crosshairs for registration testing
+    link: /gallery/image-08

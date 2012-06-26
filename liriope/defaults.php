@@ -14,9 +14,6 @@ router::setRule( 'blogpost',  'blog/!id',    'blog/post/id/$id' );
 router::setRule( 'bloglist',  'blog/show',   'blog/show' );
 router::setRule( 'blogfeed',  'blog/feed',   'blog/feed' );
 
-// turn on debugging
-c::set( 'debug', TRUE );
-
 //
 // Set some system defaults
 // --------------------------------------------------

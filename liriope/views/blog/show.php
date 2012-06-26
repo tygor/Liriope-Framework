@@ -5,7 +5,7 @@
  * Show the blog files from your web/content/blog folder
  */
 
-$page->title = "Blog | Liriope";
+$page->title = "Blog";
 $page->META = '<link rel="alternate" type="application/rss+xml" title="'.$page->title.'" href="'.url('blog/feed').'" />';
 
 ?>

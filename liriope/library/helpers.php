@@ -20,7 +20,7 @@ function url( $uri=FALSE ) {
 //
 // @param  string  $file The name of the file snippet
 //
-function snippet( $file=NULL ) {
+function snippet( $file=NULL, $params=NULL ) {
   if( $file===NULL ) return NULL;
   $path = c::get( 'root.snippets' );
   $success = load::file( $path . '/' . $file );

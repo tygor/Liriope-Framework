@@ -29,7 +29,7 @@ parse for YAML and off I go!</p>
 <div class="twocolumns">
   <div class="column">
     <h2>Gallery screenshot</h2>
-    <img src="/content/blog/2012-06-21/gallery-example.png" style="width: 100%;">
+    <img src="/content/blog/2012-06-21/gallery-example.png" style="width: 100%;" title="Gallery Example" alt="This is a screenshot of the gallery in action">
   </div>
   <div class="column last">
     <h2>Sample of the YML code</h2>

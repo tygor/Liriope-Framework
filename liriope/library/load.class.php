@@ -50,6 +50,7 @@ class load
     load::file( $root . '/library/string.class.php', TRUE );
     load::file( $root . '/library/menu.class.php', TRUE );
     load::file( $root . '/library/counter.class.php', TRUE );
+    load::file( $root . '/library/search.class.php', TRUE );
     load::file( $root . '/controllers/LiriopeController.class.php', TRUE );
   }
 

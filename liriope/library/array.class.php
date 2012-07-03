@@ -131,6 +131,17 @@ class a {
     return implode( $string, $array );
   }
 
+  // combine()
+  // combine two arrays ignoring the keys
+  //
+  static function combine() {
+    $return = array();
+    foreach( func_get_args() as $array ) {
+      foreach( $array as $v ) $return[] = $v;
+    }
+    return $return;
+  }
+
   //
   // toObject()
   //
@@ -140,11 +151,18 @@ class a {
     if( is_array( $array ) && count( $array ) > 0 ) {
       foreach( $array as $k => $v ) {
         $k = strtolower( trim( $k ));
-        if( !empty( $k )) $object->$k = a::toObject( $v );
+        $object->$k = a::toObject( $v );
       }
       return $object;
     }
     return FALSE;
+  }
+
+  // rewind()
+  //
+  static function rewind( $array )  {
+    reset( $array );
+    return $array;
   }
 
 }

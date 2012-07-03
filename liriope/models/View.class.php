@@ -65,6 +65,8 @@ class View extends obj {
         $cacheData = cache::get( $cacheID, TRUE );
     }
 
+// TODO: Debugging: remove this next line
+$cacheData = '';
     if( empty( $cacheData )) {
       $html = $page->render();
       if( $page->theme() !== NULL ) {
@@ -72,8 +74,7 @@ class View extends obj {
       }
       $html = filter::doFilters( $html );
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
-      // TODO: work on an indexing system to store word counts under a parent URL for a future site search
-      if( c::get( 'index' )) index::store( $cacheId, (string) $html );
+      if( c::get( 'index' )) index::store( uri::get(), (string) $html );
     } else {
       $html = $cacheData;
       $cclink = url( router::rule( 'flush' ));

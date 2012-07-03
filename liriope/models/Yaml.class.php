@@ -11,16 +11,31 @@ class Yaml {
     $this->yaml = $yaml;
   }
 
-  public function get( $v=FALSE ) {
-    if( $v===FALSE ) return $this->parse();
+  // get()
+  // @param  string $v the value of the Yaml to grab OR return the whole Yaml
+  // 
+  public function get( $v=FALSE, $toArray=FALSE ) {
+    if( $v===FALSE ) {
+      $yaml = $this->parse();
+      // check for the Yaml document line "--- *" and chop it off
+      $yaml = $this->removeDashes( $yaml );
+    }
+
+    if( $toArray ) return $yaml;
+    return a::toObject( $yaml );
   }
 
-  public function parse( $toArray=FALSE ) {
+  private function removeDashes( $yaml ) {
+    $test = key( a::rewind( $yaml ));
+    if( substr( $test, 0, 3 ) === '---' ) array_shift( $yaml );
+    return $yaml;
+  }
+
+  public function parse() {
     if( empty( $this->yaml )) return FALSE;
     if( is_file( $this->yaml )) $yaml = SPyc::YAMLLoad( $this->yaml );
     else $yaml = Spyc::YAMLLoadString( $this->yaml );
-    if( $toArray ) { return $yaml; }
-    return a::toObject( $yaml );
+    return $yaml;
   }
   
 }

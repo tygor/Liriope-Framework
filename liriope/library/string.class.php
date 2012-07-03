@@ -20,14 +20,23 @@ class str {
     }
   }
 
+  // replace()
+  // replace strings in a subject with another string
+  //
   static function replace( $search, $replace, $source ) {
     return str_replace( $search, $replace, $source);
   }
 
+  // minus()
+  // remove string from a subject
+  //
   static function minus( $source, $search ) {
     return self::replace( $search, '', $source );
   }
 
+  // rot()
+  // rotate the characters as if in a circle
+  //
   static function rot( $s, $n=13 ) {
     static $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
     $n = (int)$n % 26;
@@ -37,6 +46,16 @@ class str {
     $rep = substr($letters, $n * 2) . substr($letters, 0, $n * 2);
     return strtr($s, $letters, $rep);
   }
+
+  // findWords()
+  // remove everything that is not a word
+  //
+  static function findWords( $content ) {
+    $content = preg_replace( '/[^\pL]/i', ',', $content );
+    $content = preg_replace( '/[,]+/', ',', $content );
+    return trim( $content );
+  }
+
 }
 
 ?>

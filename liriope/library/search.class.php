@@ -67,13 +67,15 @@ class search {
         $m = array_intersect( $this->searchwords, array_keys( $page ));
 
         // loop the matched words, grab thier count from the index, and tally a score
-        foreach( $m as $v ) {
-          $found[$v] = $page[$v];
+        if( $m ) {
+          foreach( $m as $v ) {
+            $found[$v] = $page[$v];
+          }
         }
       } else  {
         foreach( $this->searchwords as $s ) {
           $m = a::searchKeys( $page, $s );
-          $found[key($m)] = current( $m );
+          if( !empty( $m )) { $found = $m; }
         }
       }
 
@@ -83,7 +85,7 @@ class search {
       }
     }
 
-    if( empty( $found )) return FALSE;
+    if( empty( $result )) return FALSE;
     arsort( $result );
     $this->results = $result;
     
@@ -93,7 +95,7 @@ class search {
 
   function duration() {
     if( empty( $this->duration )) $this->duration = $this->stop - $this->start;
-    return $this->duration;
+    return round( $this->duration, 4);
   }
 
   function found() {

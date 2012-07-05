@@ -74,7 +74,8 @@ class uri {
 
   static function getURI() {
     if( empty( self::$route )) {
-      $route = self::getRawURI();
+      $route = parse_url( self::getRawURI(), PHP_URL_PATH);
+      $route = str::replace( 'index.php', '', $route );
       $route = trim( $route, '/' );
       if( $route === "" ) {
         self::$isHome = TRUE;
@@ -86,11 +87,11 @@ class uri {
   }
 
   static function getArray( $cleanRewrite=TRUE) {
-    $route = self::getURI();
+    $route = parse_url( self::getURI(), PHP_URL_PATH );
     $route = explode( '/', $route);
 
-    if( $cleanRewrite && strtolower( $route[0] ) == 'index.php' ) {
-      array_shift( $route );
+    if( $cleanRewrite && strtolower( a::last( $route )) == 'index.php' ) {
+      array_pop( $route );
     }
 
     return (array) $route;

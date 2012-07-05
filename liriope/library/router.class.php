@@ -21,6 +21,7 @@ class router {
   //
   static function getDispatch() {
     $request = uri::getArray();
+
     if( $request[0] === 'home' ) {
         self::$rule = self::getRule( 'home' );
     } elseif( !self::matchRule( $request )) {

@@ -9,7 +9,8 @@
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class f {
-  //
+
+  // write()
   // Creates a new file
   // 
   // @param  string  $file The path for the new file
@@ -20,28 +21,29 @@ class f {
   static function write($file,$content,$append=false){
     if( is_array( $content )) $content = json_encode( $content );
     $mode = ( $append ) ? FILE_APPEND : false;
-    $write = @file_put_contents( $file, $content, $mode );
+    $write = file_put_contents( $file, $content, $mode );
     @chmod( $file, 0666 );
     return $write;
   }
 
-  //
+  // read()
   // Reads the content of a file
   // 
   // @param  string  $file The path for the file
+  // @param  mixed   $parse The str object parse method to use
   // @return mixed 
   //   
-  static function read( $file ) {
+  static function read( $file, $parse=FALSE ) {
     $content = @file_get_contents( $file );
-    return $content;
+    return ( $parse) ? str::parse( $content, $parse ) : $content;
   }
 
-  /**
-  * Deletes a file
-  * 
-  * @param  string  $file The path for the file
-  * @return boolean 
-  */  
+  // remove()
+  // Deletes a file
+  //
+  // @param  string  $file The path for the file
+  // @return boolean 
+  //  
   static function remove($file) {
     return (file_exists($file) && is_file($file) && !empty($file)) ? @unlink($file) : false;
   }

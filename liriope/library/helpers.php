@@ -47,3 +47,5 @@ function html( $string ) {
 function go( $url ) {
   router::go( $url );
 }
+
+?>

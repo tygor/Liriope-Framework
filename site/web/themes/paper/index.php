@@ -14,7 +14,7 @@
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
 
-  <link rel="shortcut icon" href="<?= theme::$folder; ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.ico">
 
   <!-- CSS -->
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
@@ -84,8 +84,8 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
+  <script defer src="/js/plugins.js"></script>
+  <script defer src="/js/script.js"></script>
   <!-- end scripts-->
 
 </body>

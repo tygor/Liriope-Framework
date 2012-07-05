@@ -92,8 +92,8 @@
   <script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="js/plugins.js"></script>
-  <script defer src="js/script.js"></script>
+  <script defer src="/js/plugins.js"></script>
+  <script defer src="/js/script.js"></script>
 <?php var_dump($page->get('js')) ?>
 <?php foreach( (array) $page->get( 'js' ) as $script): ?>
   <script defer src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>

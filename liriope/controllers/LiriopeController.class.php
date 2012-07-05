@@ -55,6 +55,16 @@ class LiriopeController {
     $page->set( 'content', $liriope );
   }
 
+  // search()
+  // the default search page
+  //
+  public function search( $params=NULL ) {
+    global $page;
+
+    $search = new search( array( 'searchfield' => 'search' ));
+    $page->set( 'search', $search );
+  }
+
   public function flush( $params=NULL ) {
     cache::flush();
     router::go();

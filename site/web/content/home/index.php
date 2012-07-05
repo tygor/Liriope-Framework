@@ -11,6 +11,8 @@ $page->title = 'Liriope | Monkey Grass';
   <p>This project is on GitHub, and I would love to include others in this learnining project. Please feel free to contribute. Find me on <a href="https://github.com/tygor/Liriope-Framework" target="_blank">GitHub</a>! </p>
 </section>
 
+<?php snippet( 'searchform.php' ) ?>
+
 <footer>
   <div class="threecolumns">
     <div class="column">

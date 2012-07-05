@@ -8,6 +8,7 @@ router::setRule( 'home',      '*',           'liriope/show' ); // catchall rule
 router::setRule( 'gallery',   'gallery',     'gallery/show' );
 router::setRule( 'image',     'gallery/!id', 'gallery/image/$id' );
 router::setRule( 'flush',     'flush',       'liriope/flush' );
+router::setRule( 'search',    'search/*',    'liriope/search' );
 router::setRule( 'mail',      'mail/:rot13', 'liriope/mail' );
 router::setRule( 'blog',      'blog',        'blog/show' );
 router::setRule( 'blogpost',  'blog/!id',    'blog/post/id/$id' );

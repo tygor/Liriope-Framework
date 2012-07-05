@@ -493,6 +493,43 @@ section#blog article {
   }
 }
 
+// Search form
+// --------------------------------------------------
+form#search {
+  width: 90%;
+  margin: 16px auto;
+  text-align: center;
+
+  input {
+    line-height: 1.125;
+    font-size: 16px;
+    padding: 8px 16px;
+    outline: none;
+    border: 1px solid rgb(120,120,120);
+    background-color: fade( rgb(255,255,255), 50);
+    border-color: transparent;
+    .rounded(5px,5px,5px,5px);
+    .shadow( 0px, -1px, 3px, #000, 60);
+  }
+
+  input.searchbox {
+    width: 50%;
+    margin: 0 auto;
+  }
+
+  input.submitbutton {
+    background-image: url('http://cdn2.iconfinder.com/data/icons/ecqlipse2/SEARCH.png');
+    background-size: contain;
+    background-repeat: none;
+    font-size: 1px;
+    text-indent: 0;
+    height: 35px;
+    width: 35px;
+    overflow: hidden;
+    line-height: 30px;
+  }
+}
+
 // Code & Pre blocks
 // --------------------------------------------------
 code {

@@ -20,6 +20,23 @@ class str {
     }
   }
 
+  // split()
+  // turn a string into an array on the passed character
+  static function split( $string, $split=',', $length=1 ) {
+    if( is_array( $string )) return $string;
+    $string = trim( $string, $split );
+    $parts = explode( $split, $string );
+    $out = array();
+    foreach( $parts as $p ) {
+      $p = trim( $p );
+      if( mb_strlen( $p, 'UTF-8' ) > 0
+        && mb_strlen( $p, 'UTF-8' ) >= $length ) {
+        $out[] = $p;
+      }
+    }
+    return $out;
+  }
+
   // replace()
   // replace strings in a subject with another string
   //
@@ -47,13 +64,43 @@ class str {
     return strtr($s, $letters, $rep);
   }
 
-  // findWords()
+  // stripToWords()
   // remove everything that is not a word
   //
-  static function findWords( $content ) {
+  static function stripToWords( $content ) {
     $content = preg_replace( '/[^\pL]/i', ',', $content );
     $content = preg_replace( '/[,]+/', ',', $content );
     return trim( $content );
+  }
+
+  // stripslashes()
+  // magic quote test, then strip slashes
+  //
+  static function stripslashes( $string ) {
+    if( is_array( $string )) return $string;
+    return (get_magic_quotes_gpc()) ? stripslashes( stripslashes( $string )) : $string;
+  }
+
+  // parse()
+  // parse the passed content with the chosen parse method
+  //
+  static function parse( $string, $mode='json' ) {
+    if( is_array( $string )) return $string;
+    switch( $mode ) {
+      case 'json':
+        $result = (array) @json_decode( $string, TRUE );
+        break;
+      case 'url':
+        $result = (array) @parse_url( $string );
+        break;
+      case 'php':
+        $result = @unserialize( $string );
+        break;
+      default:
+        $result = $string;
+        break;
+    }
+    return $result;
   }
 
 }

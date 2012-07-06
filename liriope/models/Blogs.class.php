@@ -39,7 +39,7 @@ class Blogs extends obj {
 
     // force a page title from the first <h1> tag if none exists
     if( !$page->title() ) {
-      $pattern = '/<h[1-6][^>]*>([a-z0-9\'\".!? ]*)<\/h[1-6]>/i';
+      $pattern = '/<h[1-6][^>]*>([^<]*)<\/h[1-6]>/i';
       if( preg_match( $pattern, $page->content(), $matches )) $page->title = $matches[1];
     }
 
@@ -74,7 +74,7 @@ class Blogs extends obj {
   static function linkH1( $content, $url ) {
     // wrap the <h1> tag in an anchor?
     if( c::get( 'blog.link.title', TRUE )) {
-      $pattern = '/(<h1[^>]*>)([a-z0-9\'\".!? ]*)(<\/h1>)/i';
+      $pattern = '/(<h1[^>]*>)([^<]*)(<\/h1>)/i';
       $replacement = '$1<a href="' . url( $url ) . '">$2</a>$3';
       $content = preg_replace( $pattern, $replacement, $content );
     }
@@ -147,7 +147,9 @@ class Blogs extends obj {
   // sorts the blog files by their internal $date value
   // or the fallback filemtime() value
   //
-  private function sortFiles() {
+  // @param  string  $mode The way in which to sort these files (ASC, DESC)
+  //
+  private function sortFiles( $mode='DESC' ) {
     // if it doesn't have a $date set, add a filemtime to the object
     foreach( $this->files as $file ) {
       if( $file->date()===NULL ) {
@@ -160,8 +162,8 @@ class Blogs extends obj {
   }
 
   private static function compareModifiedDate( $a, $b ) {
-    $am = $a->date();
-    $bm = $b->date();
+    $am = strtotime($a->date());
+    $bm = strtotime($b->date());
     if( $am == $bm ) return 0;
     return( $am < $bm ) ? +1 : -1;
   }

@@ -1,5 +1,5 @@
 <?php
-$page->title = 'Tumlr API';
+$page->title = 'Tumblr API';
 ?>
 <article>
   <header>

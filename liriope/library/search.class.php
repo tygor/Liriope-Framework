@@ -33,7 +33,7 @@ class search {
     // start the timer
     $this->start = microtime(TRUE);
 
-    $this->ignore =        a::get( $options, 'ignore', array( 'home' ) );
+    $this->ignore =        a::get( $options, 'ignore', array( 'home', 'search' ) );
     $this->query =         a::get( $options, 'query', FALSE );
     $this->searchfield =   a::get( $options, 'searchfield', FALSE );
     $this->casesensitive = a::get( $options, 'casesensitive', FALSE );
@@ -64,33 +64,40 @@ class search {
 
       // whole word matching
       if( $this->wholeword ) {
-        $m = array_intersect( $this->searchwords, array_keys( $page ));
+        $m = array_intersect( $this->searchwords, array_keys( $page['index'] ));
 
         // loop the matched words, grab thier count from the index, and tally a score
         if( $m ) {
           foreach( $m as $v ) {
-            $found[$v] = $page[$v];
+            $found[$v] = $page['index'][$v];
           }
         }
       } else  {
         foreach( $this->searchwords as $s ) {
-          $m = a::searchKeys( $page, $s );
+          $m = a::searchKeys( $page['index'], $s );
           if( !empty( $m )) { $found = $m; }
         }
       }
 
       $count = array_sum($found);
       if( $count ) {
-        $result[$id] = $count;
+        $result[$id] = array( 'title' => $page['title'], 'count' => $count );
       }
     }
 
     if( empty( $result )) return FALSE;
-    arsort( $result );
+    uasort( $result, 'self::sortResults' );
     $this->results = $result;
     
     // stop the timer
     $this->stop = microtime(TRUE);
+  }
+
+  private function sortResults( $a, $b ) {
+    $aa = $a['count'];
+    $bb = $b['count'];
+    if( $aa == $bb ) return 0;
+    return ( $aa > $bb ) ? -1 : 1;
   }
 
   function duration() {
@@ -108,6 +115,10 @@ class search {
 
   function query() {
     return $this->query;
+  }
+
+  function words() {
+    return a::glue( $this->searchwords, ' ' );
   }
 
   function getIndexedPages() {
@@ -162,6 +173,7 @@ class index {
     self::organizeLinks( self::$urls[1], c::get( 'url' ) );
     self::$content = a::combine( self::$content, self::findImageText( $html ));
     self::$content = a::combine( self::$content, self::findMeta( $html ));
+    $title = self::findTitle( $html );
     $html = self::removeInline( $html );
     $html = self::removeComments( $html );
     $words = explode( ',', trim( str::stripToWords( strip_tags( $html )), ' ,' ));
@@ -170,7 +182,7 @@ class index {
     // now tally what we got
     self::countWords();
 
-    $store = array( $id => self::$tally );
+    $store = array( $id => array( 'title' => $title, 'index' => self::$tally ));
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
     $file = $dir . '/' . self::prep( $id ) . '.txt';
 
@@ -181,9 +193,9 @@ class index {
   // strips out <head>, <script> and <style> tags inlcuding their contents
   //
   static function removeInline( $content ) {
-    $content = preg_replace( '/<script.*>.*<\/script>/imsxU', '', $content );
-    $content = preg_replace( '/<style.*>.*<\/style>/imsxU', '', $content );
-    $content = preg_replace( '/<head.*>.*<\/head>/imsxU', '', $content );
+    $content = preg_replace( '/<\s*script.*>.*<\/script>/imsxU', '', $content );
+    $content = preg_replace( '/<\s*style.*>.*<\/style>/imsxU', '', $content );
+    $content = preg_replace( '/<\s*head[^>]*.*<\/head>/imsxU', '', $content );
     return $content;
   }
 
@@ -257,12 +269,24 @@ class index {
     return $return;
   }
 
+  // findTitle()
+  // returns the contents of the title tag
+  //
+  static function findTitle( $content ) {
+    $pattern = '/<\s*title[^>]*>(.*)<\/title>/i';
+    preg_match( $pattern, $content, $title );
+    if( !isset( $title[1] )) return FALSE;
+    return $title[1];
+  }
+
+  // countWords()
+  // counts the instances of each word and returns an array of word => count
+  //
   static function countWords( $array=NULL ) {
-    // TODO: Look into the PHP function array_count_values()
     if( $array === NULL ) $array = self::$content;
     $tally = array();
     foreach( $array as $word ) {
-      $word = trim( strtolower( $word ), ' .,-"\'');
+      $word = trim( str::lowercase( $word ), ' .,-"\'');
       if( !isset( $tally[$word] )) $tally[$word] = 1;
       else $tally[$word] = $tally[$word] + 1;
     }

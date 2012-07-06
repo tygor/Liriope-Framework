@@ -39,5 +39,7 @@ publish
 build/buildinfo.properties
 build/config/buildinfo.properties
 
-# cache folder
+# cache & index folder
 cache/*
+index/*
+

@@ -6,10 +6,11 @@
  */
 
 $page->theme = 'paper';
+$page->title = $page->post->title();
 
 ?>
 
-<article id="blog-post">
+<article id="blog-post" class="docs">
   <header>
   </header>
   <?php echo $page->post->article(); ?>

@@ -103,6 +103,26 @@ class str {
     return $result;
   }
 
+  // lowercase()
+  // convert the passed to lower case
+  //
+  // @param  mixed  $string The string or array to change the case
+  // @param  bool   $keys TRUE changes the array keys, FALSE the values
+  // @return mixed  Returns the string all lowercase
+  //
+  static function lowercase( $string, $keys=FALSE ) {
+    if( !is_array( $string )) return strtolower( $string );
+    foreach( $string as $k => $s ) {
+      if( $keys ) {
+        $k = str::lowercase( $k );
+        $string[$k] = $s;
+      } else {
+        $string[$k] = str::lowercase( $s );
+      }
+    }
+    return $string;
+  }
+
 }
 
 ?>

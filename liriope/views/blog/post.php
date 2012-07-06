@@ -4,6 +4,8 @@
  * --------------------------------------------------
  * Show a single post
  */
+$page->title = $page->post->title();
+
 ?>
 
 <article id="blog-post">

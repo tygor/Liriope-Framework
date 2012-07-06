@@ -2,6 +2,8 @@
  * Paper Theme
  */
 
+/* HTML
+--------------------------------------------------*/
 html {
   font-size: 16px;
   font-family: Arial, sans-serif;
@@ -40,6 +42,16 @@ nav ul li a:hover {
   background-color: rgb(180,180,180);
 }
 
+hgroup {
+  margin: 16px 0;
+}
+
+hgroup > * {
+  margin: 0;
+}
+
+/* ID
+--------------------------------------------------*/
 header#main {
   float: left;
   width: 22%;
@@ -76,6 +88,90 @@ footer#main nav a {
   font-size: 10px;
   display: inline;
   padding: 1em;
+}
+
+/* Class
+--------------------------------------------------*/
+hgroup .drophead {
+}
+
+/* Blog
+--------------------------------------------------*/
+section#blog article:first-child {
+  border-top: 1px solid rgb(220,220,220);
+}
+
+section#blog article {
+  border-bottom: 1px solid rgb(220,220,220);
+  padding: 16px;
+}
+
+section#blog article div {
+  margin-left: 80px;
+}
+
+section#blog article div h1 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+section#blog article div h1 a {
+  text-decoration: none;
+}
+
+section#blog article footer {
+  float: left;
+  margin-left: 24px;
+}
+
+section#blog article footer p {
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+}
+
+section#blog article footer time.month {
+  font-weight: bold;
+}
+
+section#blog article footer time.day {
+  font-weight: 100;
+}
+
+article#blog-post.docs {
+  margin: 16px;
+}
+
+article#blog-post.docs h2 {
+  background-color: rgb(220,220,220);
+  padding: 8px 16px;
+}
+
+article#blog-post.docs .TODO {
+  color: rgb(180,50,50);
+}
+
+article#blog-post.docs dl {
+  margin-left: 32px;
+}
+
+article#blog-post.docs dl dt {
+  font-weight: bold;
+  margin: 16px 0 0 0;
+  color: rgb(0, 100, 200);
+}
+
+article#blog-post.docs dl dt em {
+  font-weight: normal;
+  font-size: 12px;
+  position: relative;
+  top: -2px;
+  color: rgb(200, 200, 150);
+}
+
+article#blog-post.docs dl dd {
+  margin: 0 0 16px 0;
 }
 
 /* DEBUGGING

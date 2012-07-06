@@ -20,7 +20,8 @@ $page->title = 'Liriope | Monkey Grass';
       <?php echo module( 'blog', 'show', array( 'limit' => 4 )) ?>
     </div>
     <div class="column">
-      <h2>Column</h2>
+      <h2>Docs</h2>
+      <?php echo module( 'blog', 'show', array( 'dir' => 'docs', 'limit' => 10 )) ?>
     </div>
     <div class="column last">
       <h2>Column</h2>

@@ -61,6 +61,7 @@ class View extends obj {
 
     if( c::get( 'cache' )) {
       $cacheModified = cache::modified( $cacheID );
+      // if the cache file is newer than all of the content files, then use the cache
       if( $cacheModified >= dir::modified( c::get( 'root.content' )))
         $cacheData = cache::get( $cacheID, TRUE );
     }

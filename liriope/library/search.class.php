@@ -33,6 +33,7 @@ class search {
     // start the timer
     $this->start = microtime(TRUE);
 
+    // set the options
     $this->ignore =        a::get( $options, 'ignore', array( 'home', 'search' ) );
     $this->query =         a::get( $options, 'query', FALSE );
     $this->searchfield =   a::get( $options, 'searchfield', FALSE );
@@ -40,9 +41,7 @@ class search {
     $this->wholeword =     a::get( $options, 'wholeword', FALSE );
     
     // clean it
-    if( $this->searchfield) {
-      $this->query = trim( urldecode( r::get( $this->searchfield )));
-    }
+    if( $this->searchfield) $this->query = trim( urldecode( r::get( $this->searchfield )));
 
     // escape for an empty string
     if( empty( $this->query )) return FALSE;
@@ -55,9 +54,21 @@ class search {
     // escape for an empty string
     if( empty( $this->searchwords )) return FALSE;
 
+    // get the set of pages to search within--our indexed pages
     $pages = $this->getIndexedPages();
-    $result = array();
+
+    $this->results = $this->search( $pages );
+    if( empty( $this->results )) return FALSE;
+
+    $this->sort( $this->results );
+    $this->excerpt( $this->results );
     
+    // stop the timer
+    $this->stop = microtime(TRUE);
+  }
+
+  function search( $pages ) {
+    $result = array();
     foreach( $pages as $id => $page ) {
       if( in_array( $id, $this->ignore )) continue;
       $found = array();
@@ -84,13 +95,15 @@ class search {
         $result[$id] = array( 'title' => $page['title'], 'count' => $count );
       }
     }
+    return $result;
+  }
 
-    if( empty( $result )) return FALSE;
-    uasort( $result, 'self::sortResults' );
-    $this->results = $result;
-    
-    // stop the timer
-    $this->stop = microtime(TRUE);
+  // sort()
+  // sorts the result pages
+  //
+  function sort( &$pages, $mode='DESC' ) {
+    // TODO: enable sorting by other fields ex. date, alphabetically, etc.
+    uasort( $pages, 'self::sortResults' );
   }
 
   private function sortResults( $a, $b ) {
@@ -98,6 +111,20 @@ class search {
     $bb = $b['count'];
     if( $aa == $bb ) return 0;
     return ( $aa > $bb ) ? -1 : 1;
+  }
+
+  // exceprt()
+  // trys to grab content around the found words as an excerpt
+  //
+  function excerpt( &$pages ) {
+    $domain = c::get( 'url' );
+    foreach( $pages as $id => $page ) {
+      $link = $domain . '/' . $id;
+      $result = content::get_web_page( $link );
+      if( a::get( $result, 'errno' ) != 0 ) continue;
+      if( a::get( $result, 'http_code' ) != 200 ) continue;
+      // TODO: use Regular Expression to find an excerpt
+    }
   }
 
   function duration() {

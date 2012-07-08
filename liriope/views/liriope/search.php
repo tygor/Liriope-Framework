@@ -13,6 +13,7 @@
       <a class="title" href="<?php echo url( $id ) ?>">
         <?php echo $result['title'] ?>
       </a><br>
+      <?php echo $result['excerpt'] ?><br>
       score: <?php echo $result['count'] ?> &mdash;
       <?php echo url( $id ) ?>
     </li>

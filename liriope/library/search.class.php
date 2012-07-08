@@ -123,7 +123,24 @@ class search {
       $result = content::get_web_page( $link );
       if( a::get( $result, 'errno' ) != 0 ) continue;
       if( a::get( $result, 'http_code' ) != 200 ) continue;
-      // TODO: use Regular Expression to find an excerpt
+
+      // TODO: use Regular Expression to find an excerpt, but where does this come from? HTML content, from the body tag.
+      $content = a::get( $result, 'content' );
+      $content = strip_tags( $content );
+      $words = '.{0,50}(';
+      foreach( $this->searchwords as $k => $word ) {
+        if( $k !== 0 ) $words .= '|';
+        $words .= preg_quote( $word );
+      }
+      $words .= ').{0,50}';
+      $pattern = '/'.$words.'/ism';
+      preg_match_all( $pattern, $content, $matches );
+      $excerpt = '&hellip;';
+      for( $i=0; $i < 3; $i++ ) {
+        if( isset( $matches[0][$i] ))
+        $excerpt .= $matches[0][$i] . '&hellip;';
+      }
+      $pages[$id]['excerpt'] = $excerpt;
     }
   }
 

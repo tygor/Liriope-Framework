@@ -34,7 +34,7 @@ class LiriopeController {
   // The default Liriope action that reads content from the web/content folder
   //
   public function show( $params=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     // the $params passed are the URI bits and may contain extensions
     // so, clean the file extension off of the $params,
@@ -52,14 +52,14 @@ class LiriopeController {
 
     // render the Liriope model using it's __toString function
     // this will store the new $page variables that are in the view and content files
-    $page->set( 'content', $liriope );
+    $page->set( 'content', $liriope->render( $page ));
   }
 
   // search()
   // the default search page
   //
   public function search( $params=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     $search = new search( array( 'searchfield' => 'search' ));
     $page->set( 'search', $search );
@@ -71,18 +71,23 @@ class LiriopeController {
   }
 
   public function mail( $encoded=NULL ) {
-    global $page;
+    $page = $this->getPage();
     list( $user, $host, $tld ) = explode( '+', str::rot( $encoded[0] ));
     $email = sprintf( '%s@%s.%s', $user, $host, $tld );
     $page->set( 'email', $email );
   }
 
   function useView( $file=NULL ) {
-    global $page;
+    $page = $this->getPage();
     // a custom view tells me that the route controller has been customized
     // update the $page object to match
     $page->controller = $file;
     return $this->_view->view( $file );
+  }
+
+  function getPage() {
+    $page = &$this->_view->_page;
+    return $page;
   }
 
   function load() {

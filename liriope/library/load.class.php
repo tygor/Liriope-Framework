@@ -94,10 +94,10 @@ class load
   // @param  bool    $require TURE requires the file, FALSE inlucdes it
   // @return bool    TRUE on success, or FALSE
   //
-  static function file( $file=NULL, $require=FALSE ) {
+  static function file( $file=NULL, $require=FALSE, $params=NULL ) {
     // inlude the global page file so that snippets can see it
-    global $page;
     if( !file_exists( $file )) return false;
+    @extract( $params );
     if( $require ) require_once( $file );
     else include( $file );
     return true;

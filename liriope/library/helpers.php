@@ -23,7 +23,7 @@ function url( $uri=FALSE ) {
 function snippet( $file=NULL, $params=NULL ) {
   if( $file===NULL ) return NULL;
   $path = c::get( 'root.snippets' );
-  $success = load::file( $path . '/' . $file );
+  $success = load::file( $path . '/' . $file, FALSE, $params );
   if( !$success ) throw new Exception( 'Woops! Can\'t find the snippet ' . $file );
 }
 

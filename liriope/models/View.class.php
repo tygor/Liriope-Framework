@@ -9,10 +9,17 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 //
 
 class View extends obj {
+
+  // the controller to call
   var $_controller;
+
+  // the action to call
   var $_action;
 
-   function __construct( $controller, $action ) {
+  // the page object
+  var $_page;
+
+  function __construct( $controller, $action ) {
     global $site;
     $site = new Site();
 
@@ -21,13 +28,13 @@ class View extends obj {
     $file = load::exists( $controller . '/' . $action . '.php' );
     if( !$file ) trigger_error( "We can't find that view file: $file", E_USER_ERROR );
 
-    global $page;
     $page = new Page( $file );
     $page->controller = $controller;
     $page->action = $action;
     $page->uri = uri::get();
     $page->theme = c::get('theme');
-	}
+    $this->_page = &$page;
+  }
 
   // view()
   // changes the view file to use
@@ -39,8 +46,7 @@ class View extends obj {
     $check = $this->_controller . '/' . $this->_action . '_' . $file . '.php';
     $file = load::exists( $check );
     if( !$file ) return FALSE;
-    global $page;
-    $page->_view = $file;
+    $this->_page->_view = $file;
   }
 
   // load()
@@ -49,7 +55,7 @@ class View extends obj {
   //
   function load() {
     global $site;
-    global $page;
+    $page = &$this->_page;
 
     if( c::get( 'debug' )) theme::set( 'error', error::render( TRUE ));
     
@@ -71,7 +77,7 @@ $cacheData = '';
     if( empty( $cacheData )) {
       $content_html = $page->render();
       if( $page->theme() !== NULL ) {
-        $html = theme::load( $page->theme(), $content_html, TRUE );
+        $html = theme::load( $page->theme(), array( 'page'=>$page, 'content'=>$content_html ), TRUE );
       }
       $html = filter::doFilters( $html );
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );

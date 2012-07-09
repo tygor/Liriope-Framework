@@ -47,7 +47,7 @@
     </hgroup>
 
     <nav id="main" class="menu punchcard">
-      <?php snippet( 'navigation.php' ) ?>
+      <?php snippet( 'navigation.php', array( 'page'=>$page )) ?>
     </nav>
 
   </header>
@@ -69,7 +69,7 @@
       </div>
       <div class="column last">
         <nav id="footer" class="menu">
-          <?php snippet( 'navigation.php' ) ?>
+          <?php snippet( 'navigation.php', array( 'page'=>$page )) ?>
         </nav>
       </div>
     </div>

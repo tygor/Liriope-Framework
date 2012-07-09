@@ -12,7 +12,7 @@ class BlogController Extends LiriopeController {
   // displays a list of the latest blog posts
   //
   public function show( $vars=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
     $dir = c::get( 'root.content' ) . '/' . $base;
@@ -37,7 +37,7 @@ class BlogController Extends LiriopeController {
   // shows a single post by filename
   //
   public function post( $vars=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
     $dir = c::get( 'root.content' ) . '/' . $base;
@@ -57,7 +57,7 @@ class BlogController Extends LiriopeController {
   // feed()
   //
   public function feed( $vars=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
     $dir = c::get( 'root.content' ) . '/' . $base;

@@ -1,1 +1,1 @@
-<?= $page->content(); ?>
+<?php echo $page->content(); ?>

@@ -7,7 +7,6 @@
 //
 
 // configure the menu in an array
-global $page;
 global $menu;
 
 $menu = new menu();

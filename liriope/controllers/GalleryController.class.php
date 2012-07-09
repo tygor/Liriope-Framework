@@ -12,7 +12,7 @@ class GalleryController Extends LiriopeController {
   // displays a list of the latest blog posts
   //
   public function show( $vars=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     $yaml = new Yaml( f::read( 'data/gallery.yaml' ));
     $gallery = $yaml->get();
@@ -25,7 +25,7 @@ class GalleryController Extends LiriopeController {
   // image()
   //
   public function image( $vars=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     $id = $vars[0];
     $yaml = new Yaml( f::read( 'data/gallery.yaml' ));

@@ -37,12 +37,11 @@ class theme {
   static function loadFile( $file, $vars=array(), $return=FALSE ) {
     if( !file_exists( $file )) return FALSE;
     global $site;
-    global $page;
     @extract( self::$vars );
-    // we feed the Theme with the rendered $page content from the View
-    // so here, we simply need to assign it a standardized variable name
-    // to be used in the theme files.
-    $liriope = $vars;
+    // REQUIRED: pass 'page' and 'content' to the theme
+    @extract( $vars );
+    // the $liriope variable is used in each theme as the dynamic content holder
+    $liriope = $content;
     content::start();
     require( $file );
     return content::end( $return );

@@ -96,9 +96,7 @@ class Liriope {
     return false;
   }
 
-  public function render() { return $this->__toString(); }
-  public function __toString() {
-    global $page;
+  public function render( $page=NULL ) {
     content::start();
     include( $this->file );
 

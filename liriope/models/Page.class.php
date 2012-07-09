@@ -8,7 +8,11 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 //
 
 class Page extends obj {
+
+  // the file to use for render
+  // TODO: this is confusing since the page parent is View... perhaps rename this variable to template?
   var $_view;
+
   var $vars = array();
 
   function __construct( $file=NULL ) {

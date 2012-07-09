@@ -9,7 +9,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 class FeedController Extends LiriopeController {
 
   public function show( $vars=NULL ) {
-    global $page;
+    $page = $this->getPage();
 
     $page->theme = 'feed';
 

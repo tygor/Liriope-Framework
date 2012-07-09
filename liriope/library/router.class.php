@@ -23,7 +23,6 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch( $request=NULL ) {
-    // TODO: Refractor this class so that it isn't a global. It simply needs to read and then return. This means I need one method to be the brains and the rest just do tasks. The one exception is the stored Rules objects.
     if( $request===NULL ) $request = uri::getArray();
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
@@ -108,27 +107,14 @@ class router {
   }
 
   // useRoute()
-  // records the parts of the matched rule into the router object
-  // this is the translation of the rule into usable dispatch
+  // returns the call_user_func parts of the route
   //
   static function useRoute( $route ) {
     $parts = explode( '/', $route );
-
-    //$name = self::$rule->name;
     $controller = array_shift( $parts );
     $action =     array_shift( $parts );
     $params =     self::pairParams( $parts );
     return array( 'controller'=>$controller, 'action'=>$action, 'params'=>$params );
-
-    /* Trying to remove Singleton affect of this class
-    self::$name       = self::$rule->name;
-    self::$controller = array_shift( $parts );
-    self::$action     = array_shift( $parts );
-    self::$params     = $parts;
-    self::pairParams();
-    */
-
-    return true;
   }
 
   //

@@ -158,6 +158,21 @@ class a {
     return FALSE;
   }
 
+  //
+  // trim()
+  // run the trim function on each value in the array
+  //
+  // @param  array  $array
+  // @param  mixed  $charlist The characters to trim
+  // @return array  the array, trimmed
+  static function trim( $array, $charlist=' ' ) {
+    if( !is_array( $array )) return trim( $array, $charlist );
+    foreach( $array as $k => $v ) {
+      $array[$k] = trim( $v, $charlist );
+    }
+    return $array;
+  }
+
   // rewind()
   //
   static function rewind( $array )  {

@@ -7,7 +7,10 @@
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class router {
+
+  // an array of the rules set during configuration grab
   static $rules = array();
+
   static $name;
   static $rule;
   static $controller;
@@ -19,34 +22,15 @@ class router {
   // reads the router rules, compares to the URI parts
   // and returns the $controller, $action, and $params
   //
-  static function getDispatch() {
-    $request = uri::getArray();
-
-    if( $request[0] === 'home' ) {
-        self::$rule = self::getRule( 'home' );
-    } elseif( !self::matchRule( $request )) {
-      trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
-    }
-    self::useRoute( self::$rule->translate( $request ));
-
-    // DEBUGGING
-    if( c::get( 'debug' )) {
-    trigger_error( "<b>Routing rule '".self::$name."'  matched.</b><br> Dispatching to <b>" .
-      self::$controller . "</b>, <b>" . self::$action . "</b>()<br> " .
-      "with the params: " . print_r( self::$params, TRUE ),
-      E_USER_NOTICE );
-    }
-
-    return array(
-      'controller' => self::$controller,
-      'action'     => self::$action,
-      'params'     => self::$params
-    );
+  static function getDispatch( $request=NULL ) {
+    // TODO: Refractor this class so that it isn't a global. It simply needs to read and then return. This means I need one method to be the brains and the rest just do tasks. The one exception is the stored Rules objects.
+    if( $request===NULL ) $request = uri::getArray();
+    $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
+    if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
+    return( self::useRoute( $rule->translate( $request )));
   }
 
-  static function pairParams() {
-    $params = self::$params;
-
+  static function pairParams( $params=NULL ) {
     // allow for dirty routes by cleaning up null params
     foreach( $params as $k => $p ) if( empty( $p )) unset( $params[$k] );
 
@@ -57,7 +41,7 @@ class router {
       if( isset( $pair[1] )) $p[$pair[0]] = $pair[1];
       else $p[$k++] = $pair[0];
     }
-    self::$params = $p;
+    return $p;
   }
 
   // setRule()
@@ -109,6 +93,7 @@ class router {
   // rules.
   //
   // @param  array  $request The URI array
+  // @parm   bool   $return If this method is called outside normal flow, return values, and don't set them
   // @return bool   TRUE on succes, FALSE on error
   //
   static function matchRule( $request ) {
@@ -117,8 +102,7 @@ class router {
       if( !$parts->matchConstants( $request )) continue;
 
       // RULE MATCHED
-      self::$rule = $parts;
-      return TRUE;
+      return $parts;
     }
     return FALSE;
   }
@@ -129,12 +113,21 @@ class router {
   //
   static function useRoute( $route ) {
     $parts = explode( '/', $route );
+
+    //$name = self::$rule->name;
+    $controller = array_shift( $parts );
+    $action =     array_shift( $parts );
+    $params =     self::pairParams( $parts );
+    return array( 'controller'=>$controller, 'action'=>$action, 'params'=>$params );
+
+    /* Trying to remove Singleton affect of this class
     self::$name       = self::$rule->name;
     self::$controller = array_shift( $parts );
     self::$action     = array_shift( $parts );
-    //$parts = preg_replace( '/\$\d+/', '', $parts );
     self::$params     = $parts;
     self::pairParams();
+    */
+
     return true;
   }
 
@@ -167,7 +160,7 @@ class router {
     $dispatch = new $controller( $model, $controllerRaw, $action );
     $content = call_user_func( array( $dispatch,$action ), $getVars );
     if( $return ) return $content;
-    return TRUE;
+    return $dispatch;
   }
 
   //
@@ -179,14 +172,18 @@ class router {
   // $action     @string The function to call inside of the controller
   // $getVars    @array  Any name/value pairs for the action to use
   //
-  static function callController( $controller=NULL, $action=NULL, $getVars=NULL ) {
+  static function callController( $controller=NULL, $action=NULL, $getVars=NULL, $return=TRUE ) {
     // Controllers are uppercase on words (ex: Shovel) with "Controller" appended
     // Models are the plural of the controller (ex: Shovels)
     $controllerRaw = $controller;
     $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
     $model = rtrim( $controller, 's' );
     $controller .= 'Controller';
-    self::callHook( $controller, $controllerRaw, $action, $model, $getVars );
+    $dispatch = self::callHook( $controller, $controllerRaw, $action, $model, $getVars );
+    if( $return ) {
+      return $dispatch;
+    }
+    $dispatch->load();
   }
 
   //

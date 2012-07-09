@@ -69,13 +69,13 @@ class View extends obj {
 // TODO: Debugging: remove this next line
 $cacheData = '';
     if( empty( $cacheData )) {
-      $html = $page->render();
+      $content_html = $page->render();
       if( $page->theme() !== NULL ) {
-        $html = theme::load( $page->theme(), $html, TRUE );
+        $html = theme::load( $page->theme(), $content_html, TRUE );
       }
       $html = filter::doFilters( $html );
       if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
-      if( c::get( 'index' )) index::store( uri::get(), (string) $html );
+      if( c::get( 'index' )) index::store( uri::get(), (string) $html, (string) $content_html );
     } else {
       $html = $cacheData;
       $cclink = url( router::rule( 'flush' ));
@@ -84,8 +84,6 @@ $cacheData = '';
 
     // OUTPUT TO BROWSER
     echo trim( $html );
-
-    exit;
   }
 
 }

@@ -117,16 +117,13 @@ class search {
   // trys to grab content around the found words as an excerpt
   //
   function excerpt( &$pages ) {
-    $domain = c::get( 'url' );
     foreach( $pages as $id => $page ) {
-      $link = $domain . '/' . $id;
-      $result = content::get_web_page( $link );
-      if( a::get( $result, 'errno' ) != 0 ) continue;
-      if( a::get( $result, 'http_code' ) != 200 ) continue;
+//extract( router::getDispatch( (array) $id ));
+//$result = router::callController( $controller, $action, $params );
+continue;
 
       // TODO: use Regular Expression to find an excerpt, but where does this come from? HTML content, from the body tag.
-      $content = a::get( $result, 'content' );
-      $content = strip_tags( $content );
+      $content = strip_tags( $result );
       $words = '(.{0,50})(';
       foreach( $this->searchwords as $k => $word ) {
         if( $k !== 0 ) $words .= '|';
@@ -199,8 +196,10 @@ class index {
   // a list of external links
   static $external = array();
 
-  // the raw input html
+  // the raw input html for the whole page
   static $html;
+  // the raw html for just the page body (sans-template)
+  static $body;
 
   // the variable to hold our cleaned content strings in an array
   static $content = array();
@@ -217,25 +216,36 @@ class index {
   //
   // @param  object  $html The page content to index
   //
-  static function store( $id, $html ) {
+  static function store( $id, $html, $body ) {
     if( a::contains( self::$ignoreURLs, $id )) return false;
-    self::$html = $html;
+    self::$body = $body; // to index for content
+    self::$html = $html; // for grabbing crawler links, title and meta
 
-    // let's remove stuff that we don't want, and grab stuff we do
+    // first, process what we want from the full HTML
     self::saveLinks();
-    self::organizeLinks();
-    self::$content = a::combine( self::$content, self::findImageText( $html ));
-    self::$content = a::combine( self::$content, self::findMeta( $html ));
-    $title = self::findTitle( $html );
-    $html = self::removeInline( $html );
-    $html = self::removeComments( $html );
-    $words = explode( ',', trim( str::stripToWords( strip_tags( $html )), ' ,' ));
-    self::$content = a::combine( self::$content, $words );
+    $meta = self::findMeta();
+    $title = self::findTitle();
+
+    // then index the content section of the page body (sans-template wrapper)
+    $img = self::findImageText();
+    self::removeInline();
+    self::removeComments();
+    self::$body = strip_tags( self::$body );
+    $words = explode( ',', trim( str::stripToWords( self::$body ), ' ,' ));
+
+    // combine our words results
+    self::$content = a::combine( $words, $img );
 
     // now tally what we got
     self::countWords();
 
-    $store = array( $id => array( 'title' => $title, 'index' => self::$tally ));
+    $store = array(
+      $id => array(
+        'title' => $title,
+        'meta' => $meta,
+        'index' => self::$tally
+      )
+    );
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
     $file = $dir . '/' . self::prep( $id ) . '.txt';
 
@@ -245,18 +255,19 @@ class index {
   // removeInline()
   // strips out <head>, <script> and <style> tags inlcuding their contents
   //
-  static function removeInline( $content ) {
+  static function removeInline() {
+    $content = self::$body;
     $content = preg_replace( '/<\s*script.*>.*<\/script>/imsxU', '', $content );
     $content = preg_replace( '/<\s*style.*>.*<\/style>/imsxU', '', $content );
     $content = preg_replace( '/<\s*head[^>]*.*<\/head>/imsxU', '', $content );
-    return $content;
+    self::$body = $content;
   }
 
   // removeComments()
   // strips out HTML comments
-  static function removeComments( $content ) {
-    $content = preg_replace( '/<!--.*-->/imsxU', '', $content );
-    return $content;
+  static function removeComments() {
+    $content = preg_replace( '/<!--.*-->/imsxU', '', self::$body );
+    self::$body = $content;
   }
 
   // saveLinks()
@@ -294,14 +305,14 @@ class index {
   // findImageText()
   // seeks and returns content from title and alt attributes
   //
-  static function findImageText( $content ) {
+  static function findImageText() {
     $title = array();
     $pattern = "/title=['\"]([^'\"]*)['\"]*+/i";
-    preg_match_all( $pattern, $content, $title );
+    preg_match_all( $pattern, self::$body, $title );
 
     $alt = array();
     $pattern = "/alt=['\"]([^'\"]*)['\"]*+/i";
-    preg_match_all( $pattern, $content, $alt );
+    preg_match_all( $pattern, self::$body, $alt );
 
     $titlewords = implode( ' ', $title[1] );
     $altwords = implode( ' ', $alt[1] );
@@ -311,16 +322,16 @@ class index {
   // findMeta()
   // seeks and returns the contents of named meta tags from the head
   //
-  static function findMeta( $content ) {
+  static function findMeta() {
     $found = array();
     $pattern = '/<meta.*name=[\'"]([a-z0-9 ]*)[\'"].*>/i';
-    preg_match_all( $pattern, $content, $found );
+    preg_match_all( $pattern, self::$html, $found );
     $return = array();
     for( $c=0; $c<count($found[0]); $c++ ) {
       if( in_array( $found[1][$c], self::$metaNames )) {
-        $pattern = '/content=[\'"]([a-z0-9\. ,=-]*)[\'"]/i';
+        $pattern = '/content=[\'"](.*)[\'"]/i';
         preg_match_all( $pattern, $found[0][$c], $content );
-        $return = a::combine( $return, explode( ' ', $content[1][0] ));
+        $return = a::trim( a::combine( $return, explode( ' ', $content[1][0] )), ' .' );
       }
     }
     return $return;
@@ -329,9 +340,9 @@ class index {
   // findTitle()
   // returns the contents of the title tag
   //
-  static function findTitle( $content ) {
+  static function findTitle() {
     $pattern = '/<\s*title[^>]*>(.*)<\/title>/i';
-    preg_match( $pattern, $content, $title );
+    preg_match( $pattern, self::$html, $title );
     if( !isset( $title[1] )) return FALSE;
     return $title[1];
   }

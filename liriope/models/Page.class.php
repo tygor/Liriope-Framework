@@ -88,6 +88,7 @@ class Page extends obj {
 
   //
   // render()
+  // attempts to render the page
   //
   // @param  bool   $return if TRUE, return the buffer string, if FALSE print it
   // @param  string $alias  the variable name to use in the _view file for $this

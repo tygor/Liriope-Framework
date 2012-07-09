@@ -85,7 +85,7 @@ class LiriopeController {
     return $this->_view->view( $file );
   }
 
-  function __destruct() {
+  function load() {
     $this->_view->load();
   }
 

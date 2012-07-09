@@ -127,18 +127,23 @@ class search {
       // TODO: use Regular Expression to find an excerpt, but where does this come from? HTML content, from the body tag.
       $content = a::get( $result, 'content' );
       $content = strip_tags( $content );
-      $words = '.{0,50}(';
+      $words = '(.{0,50})(';
       foreach( $this->searchwords as $k => $word ) {
         if( $k !== 0 ) $words .= '|';
         $words .= preg_quote( $word );
       }
-      $words .= ').{0,50}';
+      $words .= ')(.{0,50})';
       $pattern = '/'.$words.'/ism';
       preg_match_all( $pattern, $content, $matches );
       $excerpt = '&hellip;';
       for( $i=0; $i < 3; $i++ ) {
-        if( isset( $matches[0][$i] ))
-        $excerpt .= $matches[0][$i] . '&hellip;';
+        if( isset( $matches[1][$i] ) && isset( $matches[2][$i] ) && isset( $matches[3][$i] )) {
+          $excerpt .= $matches[1][$i];
+          $excerpt .= '<ins>' . $matches[2][$i] . '</ins>';
+          $excerpt .= $matches[3][$i] . '&hellip;';
+        } elseif( isset( $matches[0][$i] )) {
+          $excerpt .= $matches[0][$i] . '&hellip;';
+        }
       }
       $pages[$id]['excerpt'] = $excerpt;
     }
@@ -194,6 +199,9 @@ class index {
   // a list of external links
   static $external = array();
 
+  // the raw input html
+  static $html;
+
   // the variable to hold our cleaned content strings in an array
   static $content = array();
 
@@ -211,10 +219,11 @@ class index {
   //
   static function store( $id, $html ) {
     if( a::contains( self::$ignoreURLs, $id )) return false;
+    self::$html = $html;
 
     // let's remove stuff that we don't want, and grab stuff we do
-    self::saveLinks( $html );
-    self::organizeLinks( self::$urls[1], c::get( 'url' ) );
+    self::saveLinks();
+    self::organizeLinks();
     self::$content = a::combine( self::$content, self::findImageText( $html ));
     self::$content = a::combine( self::$content, self::findMeta( $html ));
     $title = self::findTitle( $html );
@@ -253,15 +262,19 @@ class index {
   // saveLinks()
   // save the anchor tags' href locations for crawling
   //
-  static function saveLinks( $content ) {
+  static function saveLinks() {
     $pattern = "/<a.*href=['\"](.*?)['\"].*>.*<\/a>/i";
-    preg_match_all( $pattern, $content, self::$urls );
+    preg_match_all( $pattern, self::$html, self::$urls );
+    self::organizeLinks();
   }
 
   // organizeLinks()
   // traverse the found links and extract the internal links
   //
-  static function organizeLinks( $array, $origin='' ) {
+  static function organizeLinks() {
+    if( empty( self::$urls ) || !isset( self::$urls[1] )) return FALSE;
+    $array = self::$urls[1];
+    $origin = c::get( 'url' );
     $result = array();
     $c = count( $array );
     for( $i=0; $i<$c; $i++ ) {

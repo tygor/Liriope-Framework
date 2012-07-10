@@ -47,9 +47,12 @@ class search {
     if( empty( $this->query )) return FALSE;
 
     // convert search to comma delimited string
-    $this->searchwords = preg_replace( '/[^\pL]/u', ',', preg_quote( $this->query ));
+    $this->searchwords = preg_replace( index::$stripPattern, ',', $this->query );
     if( !$this->casesensitive ) $this->searchwords = strtolower( $this->searchwords );
     $this->searchwords = str::split( $this->searchwords, ',' );
+
+    // remove ignored words
+    $this->searchwords = array_diff( $this->searchwords, index::$ignore );
 
     // escape for an empty string
     if( empty( $this->searchwords )) return FALSE;
@@ -70,6 +73,7 @@ class search {
   function search( $pages ) {
     $result = array();
     foreach( $pages as $id => $page ) {
+      // ignore certain pages
       if( in_array( $id, $this->ignore )) continue;
       $found = array();
 
@@ -84,9 +88,9 @@ class search {
           }
         }
       } else  {
-        foreach( $this->searchwords as $s ) {
+        foreach( $this->searchwords as $k => $s ) {
           $m = a::searchKeys( $page['index'], $s );
-          if( !empty( $m )) { $found = $m; }
+          if( !empty( $m )) { $found += $m; }
         }
       }
 
@@ -118,20 +122,23 @@ class search {
   //
   function excerpt( &$pages ) {
     foreach( $pages as $id => $page ) {
-//extract( router::getDispatch( (array) $id ));
-//$result = router::callController( $controller, $action, $params );
-continue;
+      extract( router::getDispatch( (array) $id ));
+      $controller = router::callController( $controller, $action, $params );
+      $pages[$id]['content'] = $controller->getPage()->get('content');
 
-      // TODO: use Regular Expression to find an excerpt, but where does this come from? HTML content, from the body tag.
-      $content = strip_tags( $result );
+      $stripped = strip_tags( $pages[$id]['content'] );
       $words = '(.{0,50})(';
       foreach( $this->searchwords as $k => $word ) {
-        if( $k !== 0 ) $words .= '|';
+        if( $word !== a::first( $this->searchwords )) $words .= '|';
         $words .= preg_quote( $word );
       }
       $words .= ')(.{0,50})';
-      $pattern = '/'.$words.'/ism';
-      preg_match_all( $pattern, $content, $matches );
+      $pattern = '/'.$words.'/im';
+      preg_match_all( $pattern, $stripped, $matches );
+      if( !$matches[1] ) {
+        $pages[$id]['excerpt'] = '';
+        continue;
+      }
       $excerpt = '&hellip;';
       for( $i=0; $i < 3; $i++ ) {
         if( isset( $matches[1][$i] ) && isset( $matches[2][$i] ) && isset( $matches[3][$i] )) {
@@ -147,6 +154,7 @@ continue;
   }
 
   function duration() {
+    if( empty( $this->stop )) return 0;
     if( empty( $this->duration )) $this->duration = $this->stop - $this->start;
     return round( $this->duration, 4);
   }
@@ -183,8 +191,6 @@ continue;
 class index {
 
   // TODO: have the 404 page tell index which pages can't be found as a way to clean up old indexes.
-  // TODO: figure out how to get each page title and excerpt to show during the results
-  // TODO: does the excerpt addition go here, or in the searching? If in searching, I can highlight the searched terms
 
   // an array of urls to ignore
   static $ignoreURLs = array( 'search' );
@@ -212,6 +218,9 @@ class index {
   // the words to ignore
   static $ignore = array( 'i', 'a', 'an', 'and', 'the', 'some', 'to', 'for', 'that', 'it', 'is', 'of', 'so', 's' );
 
+  // pattern for stripping out wanted characters to index
+  static $stripPattern = '/[^a-z0-9,\'"=:%]/iu';
+
   // store()
   //
   // @param  object  $html The page content to index
@@ -231,7 +240,8 @@ class index {
     self::removeInline();
     self::removeComments();
     self::$body = strip_tags( self::$body );
-    $words = explode( ',', trim( str::stripToWords( self::$body ), ' ,' ));
+    //$words = explode( ',', trim( str::stripToWords( self::$body ), ' ,' ));
+    $words = explode( ',', trim( self::stripToWords( self::$body ), ' ,' ));
 
     // combine our words results
     self::$content = a::combine( $words, $img );
@@ -250,6 +260,15 @@ class index {
     $file = $dir . '/' . self::prep( $id ) . '.txt';
 
     f::write( $file, $store );
+  }
+
+  // stripToWords()
+  // removes all unwanted characters
+  //
+  static function stripToWords( $content ) {
+    $content = preg_replace( self::$stripPattern, ',', $content );
+    $content = preg_replace( '/[,]+/', ',', $content );
+    return $content;
   }
 
   // removeInline()

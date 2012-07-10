@@ -10,12 +10,13 @@
   <ol>
   <?php foreach( $search->results() as $id => $result ): ?>
     <li> 
-      <a class="title" href="<?php echo url( $id ) ?>">
+      <p class="title"><a href="<?php echo url( $id ) ?>">
         <?php echo $result['title'] ?>
-      </a><br>
-      <?php echo $result['excerpt'] ?><br>
-      score: <?php echo $result['count'] ?> &mdash;
-      <?php echo url( $id ) ?>
+      </a></p>
+      <p class="url"><?php echo url( $id ) ?>
+        <abbr class="score" title="matched words: <?php echo $result['count'] ?>">+</abbr>
+      </p>
+      <p class="excerpt"><?php echo $result['excerpt'] ?></p>
     </li>
   <?php endforeach ?>
   </ol>

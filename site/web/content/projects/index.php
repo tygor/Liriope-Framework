@@ -1,7 +1,7 @@
 <?php
 // Projects
 
-$page->title = 'Projects | Liriope';
+$page->title = 'Projects';
 
 ?>
 

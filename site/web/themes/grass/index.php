@@ -20,7 +20,7 @@
        More info: h5bp.com/b/378 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title><?= $page->title(); ?></title>
+  <title><?= $page->title(); ?> | <?= $site->title() ?></title>
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
   <?php echo $page->META ?>

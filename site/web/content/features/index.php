@@ -2,7 +2,7 @@
 // Features > index.php
 // --------------------------------------------------
 
-$page->title = 'Features | Liriope';
+$page->title = 'Features';
 
 ?>
 

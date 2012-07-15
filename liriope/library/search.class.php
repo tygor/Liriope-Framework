@@ -377,7 +377,7 @@ class index {
       if( !isset( $tally[$word] )) $tally[$word] = 1;
       else $tally[$word] = $tally[$word] + 1;
     }
-    $tally = array_diff_key( $tally, array_flip( static::$ignore ));
+    $tally = array_diff_key( $tally, array_flip( self::$ignore ));
     arsort( $tally );
     self::$tally = $tally;
   }

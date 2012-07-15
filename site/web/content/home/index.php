@@ -1,7 +1,7 @@
 <?php
 // Home
 
-$page->title = 'Liriope | Monkey Grass';
+$page->title = 'Home';
 
 ?>
 

@@ -107,7 +107,9 @@ class search {
   //
   function sort( &$pages, $mode='DESC' ) {
     // TODO: enable sorting by other fields ex. date, alphabetically, etc.
-    uasort( $pages, 'self::sortResults' );
+    // only sort if the array conatins more than 1 item
+    if( count($pages) <= 1 ) return; 
+    uasort( $pages, array( __CLASS__, 'sortResults' ));
   }
 
   private function sortResults( $a, $b ) {

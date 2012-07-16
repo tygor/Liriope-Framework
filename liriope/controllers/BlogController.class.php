@@ -41,11 +41,14 @@ class BlogController Extends LiriopeController {
 
     $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
     $dir = c::get( 'root.content' ) . '/' . $base;
-    if( isset( $vars['dir'] )) $this->useView( basename( $dir ));
+    if( isset( $vars['dir'] )) {
+      $this->useView( basename( $dir ));
+      unset($vars['dir']);
+    }
 
     $blogs = new Blogs( $dir );
-    $post = $blogs->getPost( $vars['id'] );
-
+    $id = a::glue( $vars, '/' );
+    $post = $blogs->getPost( $id );
     $page->set( 'post', $post );
 
     // get the post css, js, and script blocks

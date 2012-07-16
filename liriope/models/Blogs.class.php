@@ -11,7 +11,6 @@ class Blogs extends obj {
   var $root;
   var $modified;
   var $files = array();
-  var $children = array();
 
   // __construct()
   // builds the Blog model object
@@ -22,7 +21,23 @@ class Blogs extends obj {
   //
   public function __construct( $path=NULL, $file=NULL) {
     $data = dir::contents( $path );
-    foreach( $data as $k => $v ) $this->$k = $v;
+    $this->name = $data['name'];
+    $this->root = rtrim( $data['root'], '/'.$data['name']);
+    $this->modified = $data['modified'];
+    // now store recursively from the blog root
+    $this->storeBlogArticles( $this->root .'/'. $this->name );
+  }
+
+  private function storeBlogArticles( $folder ) {
+    $data = dir::contents( $folder );
+    foreach( $data['files'] as $k => $file ) {
+      // only grab .php files
+      if( pathinfo( $folder . '/' . $file, PATHINFO_EXTENSION ) !== 'php' ) continue;
+      $this->files[] = $folder . '/' . $file;
+    }
+    foreach( $data['children'] as $subfolder ) {
+      $this->storeBlogArticles( $folder . '/' . $subfolder );
+    }
   }
 
   // init()
@@ -34,7 +49,7 @@ class Blogs extends obj {
 
     // grab the content with an output buffer
     content::start();
-    include( $this->root . '/' . $file );
+    include( $file );
     $page->content = content::end( TRUE );
 
     // force a page title from the first <h1> tag if none exists
@@ -44,11 +59,12 @@ class Blogs extends obj {
     }
 
     // and set some info about each post
-    $page->file = $file;
     $info = pathinfo( $file );
-    $page->url = $this->name . '/' . $info['filename'];
+    $dir = str::minus($info['dirname'], $this->root.'/');
+    $page->file = $info['basename'];
+    $page->url = $dir . '/' . $info['filename'];
     if( $page->date()===NULL ) {
-      $modified = filemtime( $this->root . '/' . $file );
+      $modified = filemtime( $file );
       $page->date = date( 'Y-m-d H:i:s', $modified );
     }
     $page->time = strtotime( $page->date );
@@ -136,8 +152,7 @@ class Blogs extends obj {
   // @param  string  $file The file of the blog to get
   // @return object  The blog object
   public function getPost( $file ) {
-    $info = pathinfo( load::exists($file, $this->root));
-    $file = $info['basename'];
+    $file = a::first(a::search($this->files, $file));
     $post = $this->init( $file );
     if( $post ) return $post;
     return FALSE;

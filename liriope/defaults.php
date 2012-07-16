@@ -11,7 +11,7 @@ router::setRule( 'flush',     'flush',       'liriope/flush' );
 router::setRule( 'search',    'search/*',    'liriope/search' );
 router::setRule( 'mail',      'mail/:rot13', 'liriope/mail' );
 router::setRule( 'blog',      'blog',        'blog/show' );
-router::setRule( 'blogpost',  'blog/!id',    'blog/post/id/$id' );
+router::setRule( 'blogpost',  'blog/!id/*',  'blog/post/id/$id' );
 router::setRule( 'bloglist',  'blog/show',   'blog/show' );
 router::setRule( 'blogfeed',  'blog/feed',   'blog/feed' );
 

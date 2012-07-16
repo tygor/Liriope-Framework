@@ -72,8 +72,6 @@ class View extends obj {
         $cacheData = cache::get( $cacheID, TRUE );
     }
 
-// TODO: Debugging: remove this next line
-$cacheData = '';
     if( empty( $cacheData )) {
       $content_html = $page->render();
       if( $page->theme() !== NULL ) {

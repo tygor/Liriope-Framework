@@ -45,6 +45,7 @@ class Blogs extends obj {
   // stores them to the new object
   //
   private function init( $file ) {
+    // the pseudo-page object to act as surrogate page for the post to load into
     $page = new obj();
 
     // grab the content with an output buffer
@@ -52,21 +53,19 @@ class Blogs extends obj {
     include( $file );
     $page->content = content::end( TRUE );
 
-    // force a page title from the first <h1> tag if none exists
+    // force a page title from the first <h*> tag
     if( !$page->title() ) {
       $pattern = '/<h[1-6][^>]*>([^<]*)<\/h[1-6]>/i';
       if( preg_match( $pattern, $page->content(), $matches )) $page->title = $matches[1];
+      else $page->title = 'Untitled';
     }
 
     // and set some info about each post
     $info = pathinfo( $file );
-    $dir = str::minus($info['dirname'], $this->root.'/');
+    $page->dir = str::minus($info['dirname'], $this->root.'/');
     $page->file = $info['basename'];
-    $page->url = $dir . '/' . $info['filename'];
-    if( $page->date()===NULL ) {
-      $modified = filemtime( $file );
-      $page->date = date( 'Y-m-d H:i:s', $modified );
-    }
+    $page->url = (str::lowercase($info['filename']) === 'index') ? $page->dir : $page->dir . '/' . $info['filename'];
+    $page->date = ($page->date()===NULL) ? date( 'Y-m-d H:i:s', filemtime($file)) : $page->date();
     $page->time = strtotime( $page->date );
 
     // get post parts
@@ -152,6 +151,7 @@ class Blogs extends obj {
   // @param  string  $file The file of the blog to get
   // @return object  The blog object
   public function getPost( $file ) {
+    if( is_dir( $file )) $file = $file . '/index';
     $file = a::first(a::search($this->files, $file));
     $post = $this->init( $file );
     if( $post ) return $post;

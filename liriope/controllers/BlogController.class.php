@@ -1,7 +1,7 @@
 <?php
-/**
- * BlogController.class.php
- */
+//
+// BlogController.class.php
+//
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );

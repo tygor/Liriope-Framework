@@ -45,43 +45,42 @@
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
   <img id="background" src="/<?= theme::$folder; ?>/images/grass-wallpaper.jpg">
 
-  <div id="container">
-    <header id="main" class="clear">
+  <header id="main" class="content">
 
-      <hgroup id="identity">
-        <a href="/">
-          <img src="/<?= theme::$folder; ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
-        </a>
-      </hgroup>
+    <hgroup id="identity">
+      <a href="/">
+        <img src="/<?= theme::$folder; ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
+      </a>
+    </hgroup>
 
-      <nav id="main" class="menu punchcard">
-        <?php echo module( 'liriope', 'menu', $page ); ?>
-      </nav>
+    <nav id="main" class="menu punchcard">
+      <?php echo module( 'liriope', 'menu', $page ); ?>
+    </nav>
 
-    </header>
+  </header>
 
-    <div id="main" role="main">
+  <div id="main" role="main" class="content">
 
 <?echo $liriope ?>
 
-    </div>
-    <footer id="main">
-      <div class="fourcolumns">
-        <div class="column span-2">
-          <p>View the <a href="https://github.com/tygor/Liriope-Framework" target="_blank">Liriope Framework</a> project on Github</p>
-          <p>&copy;2012 Liriope Framework
-        </div>
-        <div class="column">
-        <br>
-        </div>
-        <div class="column last">
-          <nav id="footer" class="menu">
-            <?php snippet( 'navigation.php', array( 'page'=>$page )); ?>
-          </nav>
-        </div>
+  </div><!-- /#main -->
+
+  <footer id="main" class="content">
+    <div class="fourcolumns">
+      <div class="column span-2">
+        <p>View the <a href="https://github.com/tygor/Liriope-Framework" target="_blank">Liriope Framework</a> project on Github</p>
+        <p>&copy;2012 Liriope Framework
       </div>
-    </footer>
-  </div> <!--! end of #container -->
+      <div class="column">
+      <br>
+      </div>
+      <div class="column last">
+        <nav id="footer" class="menu">
+          <?php snippet( 'navigation.php', array( 'page'=>$page )); ?>
+        </nav>
+      </div>
+    </div>
+  </footer><!-- /footer#main -->
 
   <?php if( $error ) echo $error; ?>
 
@@ -94,7 +93,6 @@
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="/js/plugins.js"></script>
   <script defer src="/js/script.js"></script>
-<?php var_dump($page->get('js')) ?>
 <?php foreach( (array) $page->get( 'js' ) as $script): ?>
   <script defer src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
 <?php endforeach; ?>

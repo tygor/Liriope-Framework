@@ -45,6 +45,8 @@ class Blogs extends obj {
   // stores them to the new object
   //
   private function init( $file ) {
+    if( empty( $file )) trigger_error( 'The passed file is empty', E_USER_ERROR );
+
     // the pseudo-page object to act as surrogate page for the post to load into
     $page = new obj();
 
@@ -151,7 +153,12 @@ class Blogs extends obj {
   // @param  string  $file The file of the blog to get
   // @return object  The blog object
   public function getPost( $file ) {
-    if( is_dir( $file )) $file = $file . '/index';
+    // if the passed $file is a file, then go with it
+    if( !is_file($this->root.'/'.$this->name.'/'.$file.'.php')) {
+      // if the passed $file is a directory, then look inside for index.php
+      if( is_dir( $this->root .'/'. $this->name .'/'. $file )) $file = $file . '/index';
+    }
+    // check for a file first then check for a directory with index.php inside
     $file = a::first(a::search($this->files, $file));
     $post = $this->init( $file );
     if( $post ) return $post;

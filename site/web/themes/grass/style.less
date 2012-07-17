@@ -56,9 +56,8 @@ img.alignleft
 
 // HTML Basic
 // --------------------------------------------------
-html
+html, body
 {
-  width: 100%;
   height: 100%;
 }
 
@@ -66,8 +65,7 @@ body
 {
   position: relative;
   margin: 0 auto;
-  width: 960px;
-  font-size: @baseFontSize;
+  font-size: 100%;
   font-family: @fontCopy;
   color: @BaseCopyColor;
   line-height: 1.68;
@@ -81,10 +79,7 @@ img#background {
   left: 0;
   min-height: 100%;
   min-width: 100%;
-}
-
-body > #container {
-  position: relative;
+  z-index: -1;
 }
 
 ins
@@ -132,7 +127,7 @@ h1, h2, h3, h4, h5, h6
   margin: 0.75em 0 0;
   line-height: 1.125;
   text-shadow: rgb(0,0,0) 0px 1px 3px;
-  text-shadow: rgba(0,0,0,.5) 0px 1px 3px, rgb(255,200,200) 0px -1px 0px;
+  text-shadow: rgba(0,0,0,.5) 0px 1px 3px;
 }
 
 h1
@@ -230,12 +225,7 @@ header#main
 }
 
 div#main {
-  overflow: hidden;
   margin-top: 2em;
-  padding: 1.25em 1.5em 3em;
-  background-color: rgba( 255,255,255, 0.3 );
-  .rounded();
-  .shadow();
 }
 
 nav#main
@@ -253,6 +243,16 @@ footer#main
   p {
     font-size: @baseFontSize  * .75;
   }
+}
+
+// Styles by class tag
+// --------------------------------------------------
+.content {
+  max-width: 1100px;
+  width: 90%;
+  margin: auto;
+  padding: 0 40px;
+  overflow: auto;
 }
 
 // Image with captions

@@ -181,6 +181,19 @@ class a {
     return $array;
   }
 
+  // unfold()
+  // takes a key, value paired array and unfolds it into a new array of all
+  // values (keys become values in order)
+  //
+  static function unfold( $array ) {
+    $new = array();
+    foreach( $array as $k => $v ) {
+      $new[] = $k;
+      $new[] = $v;
+    }
+    return $new;
+  }
+
 }
 
 ?>

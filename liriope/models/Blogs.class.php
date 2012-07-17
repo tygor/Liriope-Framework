@@ -156,8 +156,14 @@ class Blogs extends obj {
     // if the passed $file is a file, then go with it
     if( !is_file($this->root.'/'.$this->name.'/'.$file.'.php')) {
       // if the passed $file is a directory, then look inside for index.php
-      if( is_dir( $this->root .'/'. $this->name .'/'. $file )) $file = $file . '/index';
+      if( !is_dir( $this->root .'/'. $this->name .'/'. $file )
+        && !is_file( $this->root.'/'.$this->name.'/'.$file)) {
+        trigger_error('The reference to that post is wrong.', E_USER_ERROR );
+      } else {
+        $file = $file . '/index';
+      }
     }
+
     // check for a file first then check for a directory with index.php inside
     $file = a::first(a::search($this->files, $file));
     $post = $this->init( $file );

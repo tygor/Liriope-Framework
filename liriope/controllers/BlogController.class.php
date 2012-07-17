@@ -47,7 +47,17 @@ class BlogController Extends LiriopeController {
     }
 
     $blogs = new Blogs( $dir );
-    $id = a::glue( $vars, '/' );
+    // $vars contains the path to the file
+    // the first element in the array is [id] => blog_article
+    // if the article is nested, additional items will be in the array, folded
+    // into key=>value pairs. The exception is that odd pairs will be assigned a numerical array key of 0
+    // we need to loop the array and build a path that exempts 'id' and '0'
+    $id = array();
+    foreach( $vars as $k => $v ) {
+      if( $k !== 'id' && $k !== 0 ) $id[] = $k;
+      $id[] = $v;
+    }
+    $id = a::glue( $id, '/' );
     $post = $blogs->getPost( $id );
     $page->set( 'post', $post );
 

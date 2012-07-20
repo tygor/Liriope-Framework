@@ -4,11 +4,16 @@
  * Grass theme
  */
 
+  $page->css( '/vendors/normalize/normalize.css' );
   $page->css( '/css/styles.css' );
-  $page->css( theme::$folder . '/style.css' );
-  //$page->css( theme::$folder . '/style.less', 'stylesheet/less' );
-  //$page->js( '/js/libs/less-1.3.0.min.js' );
-  //$page->script( 'less.watch();' );
+
+  if( c::get('debug')) {
+    $page->css( theme::$folder . '/style.less', 'stylesheet/less' );
+    $page->js( '/js/libs/less-1.3.0.min.js' );
+    $page->script( 'less.watch();' );
+  } else {
+    $page->css( theme::$folder . '/style.css' );
+  }
 
   echo $site->DOCTYPE();
 ?>
@@ -65,7 +70,7 @@
 
   </div><!-- /#main -->
 
-  <footer id="main" class="content">
+  <footer id="footer" class="content">
     <div class="fourcolumns">
       <div class="column span-2">
         <p>View the <a href="https://github.com/tygor/Liriope-Framework" target="_blank">Liriope Framework</a> project on Github</p>

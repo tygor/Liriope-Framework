@@ -9,12 +9,11 @@
 // --------------------------------------------------
 @white           : rgb(200,200,200);
 @black           : rgb(50,50,50);
-@BaseColor       : rgb(180,0,40);
-@AccentColor1    : rgb(158,55,42);
-@AccentColor2    : rgb(192,182,19);
-@linkColor       : @AccentColor1;
-@linkColorAlt    : lighten( @AccentColor1, 10%);
+@primaryColor    : rgb(180,0,40);
+@color1          : darken( @primaryColor, 5% );
+@color2          : rgb(0,180,28);
 @baseFontSize    : 16px;
+@font            : @baseFontSize;
 @BaseCopyColor   : @black;
 @fontHeading     : Kreon, serif;
 @fontCopy        : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
@@ -28,6 +27,8 @@
 // Google Web Fonts
 // --------------------------------------------------
 @import url(http://fonts.googleapis.com/css?family=Kreon);
+
+* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
 // Helpers
 // --------------------------------------------------
@@ -45,20 +46,20 @@ img.alignright,
 figure.alignright
 {
   float: right;
-  margin-left: @baseFontSize;
-  margin-bottom: @baseFontSize;
+  margin-left: @font;
+  margin-bottom: @font;
 }
 
 img.alignleft,
 figure.alignleft
 {
   float: left;
-  margin-right: @baseFontSize;
-  margin-bottom: @baseFontSize;
+  margin-right: @font;
+  margin-bottom: @font;
 }
 
 .fancy-framework {
-  color: @BaseColor;
+  color: @primaryColor;
   font-weight: bold;
   font-style: italic;
 }
@@ -74,11 +75,10 @@ body
 {
   position: relative;
   margin: 0 auto;
-  font-size: 100%;
   font-family: @fontCopy;
   color: @BaseCopyColor;
   line-height: 1.68;
-  padding-bottom: @baseFontSize;
+  padding-bottom: @font;
 }
 
 img#background {
@@ -93,7 +93,7 @@ img#background {
 
 ins
 {
-  background-color: hsl( hue(@AccentColor2), 100%, 75% );
+  background-color: hsl( hue(@color2), 100%, 75% );
 }
 
 a,
@@ -101,7 +101,7 @@ a:link,
 a:active,
 a:visited
 {
-  color: @BaseColor;
+  color: @primaryColor;
 
   transition: color 0.25s ease-in;
   -o-transition: color 0.25s ease-in;
@@ -109,7 +109,7 @@ a:visited
   -webkit-transition: color 0.25s ease-in;
 
   &:hover {
-    color: lighten( @BaseColor, 25 );
+    color: lighten( @primaryColor, 25 );
   }
 }
 
@@ -134,41 +134,39 @@ h1, h2, h3, h4, h5, h6
 {
   font-family: @fontHeading;
   margin: 0.75em 0 0;
-  line-height: 1.125;
-  text-shadow: rgb(0,0,0) 0px 1px 3px;
-  text-shadow: rgba(0,0,0,.5) 0px 1px 3px;
+  line-height: 1.6;
 }
 
 h1
 {
-  font-size: @baseFontSize * 2.25;
+  font-size: @font * 2.75;
   font-weight: normal;
-  color: @BaseColor;
+  color: @primaryColor;
 }
 h2
 {
-  font-size: @baseFontSize * 2.00;
-  color: @AccentColor1;
+  font-size: @font * 2.00;
+  color: @color1;
 }
 h3
 {
-  font-size: @baseFontSize * 1.75;
-  color: darken( @AccentColor1, 10% );
+  font-size: @font * 1.75;
+  color: darken( @color1, 10% );
 }
 h4
 {
-  font-size: @baseFontSize * 1.50;
-  color: darken( @AccentColor1, 20% );
+  font-size: @font * 1.50;
+  color: darken( @color1, 20% );
 }
 h5
 {
-  font-size: @baseFontSize * 1.25;
-  color: darken( @AccentColor1, 20% );
+  font-size: @font * 1.25;
+  color: darken( @color1, 20% );
 }
 h6
 {
-  font-size: @baseFontSize * 1.00;
-  color: darken( @AccentColor1, 20% );
+  font-size: @font * 1.00;
+  color: darken( @color1, 20% );
 }
 
 // place this after the h# tags
@@ -184,7 +182,7 @@ p,
 dl,
 li
 {
-  font-size: @baseFontSize * 0.875;
+  font-size: @font * 0.875;
 }
 
 li
@@ -192,7 +190,7 @@ li
   *
   {
     // 2nd level elements are smaller
-    font-size: @baseFontSize 0.75;
+    font-size: @font 0.75;
   }
 }
 
@@ -210,7 +208,7 @@ article
 {
   footer
   {
-    font-size: @baseFontSize * 0.75;
+    font-size: @font * 0.75;
     color: lighten( @BaseCopyColor, 30);
   }
 }
@@ -219,7 +217,7 @@ article
 // --------------------------------------------------
 header#main
 {
-  margin-top: @baseFontSize;
+  margin-top: @font;
 }
 
 #identity
@@ -243,14 +241,14 @@ nav#main
   margin: 0 0 0 1em;
 }
 
-footer#main
+footer#footer
 {
   border-top: 1px solid;
   margin-top: 2em;
   padding-top: 2em;
 
   p {
-    font-size: @baseFontSize  * .75;
+    font-size: @font  * .75;
   }
 }
 
@@ -313,21 +311,21 @@ footer nav.menu
     {
       display: block;
       padding: .125em 0;
-      font-size: @baseFontSize * 0.75;
+      font-size: @font * 0.75;
       font-family: @fontCopy;
       line-height: inherit;
       border-right: 0 none;
 
       a
       {
-        color: @AccentColor1;
+        color: @color1;
       }
 
       &:hover
       {
         a
         {
-          color: darken( @AccentColor1, 20% );
+          color: darken( @color1, 20% );
         }
 
         ul {
@@ -426,7 +424,7 @@ section#blog article {
         font-size: 20px;
       }
       .url {
-        color: @AccentColor1;
+        color: @color1;
       }
       .excerpt {
       }

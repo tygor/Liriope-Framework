@@ -58,7 +58,7 @@
       </a>
     </hgroup>
 
-    <nav id="main" class="menu punchcard">
+    <nav id="main" class="menu">
       <?php echo module( 'liriope', 'menu', $page ); ?>
     </nav>
 
@@ -81,7 +81,7 @@
       </div>
       <div class="column last">
         <nav id="footer" class="menu">
-          <?php snippet( 'navigation.php', array( 'page'=>$page )); ?>
+          <?php echo module( 'liriope', 'menu', $page ); ?>
         </nav>
       </div>
     </div>

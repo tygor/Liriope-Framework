@@ -5,23 +5,47 @@
  * compiled styles
  */
 
+// TABLE OF CONTENTS
+// ==================================================
+//
+// LESS
+// - Variables
+// - Mixins
+// Web Fonts
+// - Google Web Fonts
+// CSS
+// - Helpers
+// - Basic HTML
+// - Headings
+// - Body Copy Elements
+// - Styles by ID tag
+// - Styles by class tag
+// - Image with captions
+// - Menu
+// - Blog.css
+// - Pagination
+// - Gallery
+// - Debugging
+// - Search
+//   - Search form
+//   - Search results
+// - Code and Pre blocks
+
 // Variables
 // --------------------------------------------------
-@white           : rgb(200,200,200);
-@black           : rgb(50,50,50);
-@primaryColor    : rgb(180,0,40);
-@color1          : darken( @primaryColor, 5% );
-@color2          : rgb(0,180,28);
-@baseFontSize    : 16px;
-@font            : @baseFontSize;
-@BaseCopyColor   : @black;
-@fontHeading     : Kreon, serif;
-@fontCopy        : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
+@white         : darken( white, 20% );
+@black         : lighten( black, 20% );
+@color1        : rgb(180,0,40);
+@color2        : darken( @color1, 5% );
+@color3        : saturate( spin( @color1, 90 ), 100%);
+@font          : 16px;
+@CopyColor     : @black;
+@fontHeading   : Kreon, serif;
+@fontCopy      : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
 
 // Mixins
 // --------------------------------------------------
 @import '../LESS-goodies/goodies';
-@import '../LESS-goodies/punchcard-menu';
 @import '../LESS-goodies/elements/elements';
 
 // Google Web Fonts
@@ -59,26 +83,30 @@ figure.alignleft
 }
 
 .fancy-framework {
-  color: @primaryColor;
+  color: @color1;
   font-weight: bold;
   font-style: italic;
 }
 
 // HTML Basic
 // --------------------------------------------------
-html, body
-{
+html, body {
   height: 100%;
 }
 
-body
-{
+body {
   position: relative;
   margin: 0 auto;
   font-family: @fontCopy;
-  color: @BaseCopyColor;
+  color: @CopyColor;
   line-height: 1.68;
   padding-bottom: @font;
+}
+
+:focus {
+  background-color: @color3;
+  color: #FFFFFF !important;
+  outline: none;
 }
 
 img#background {
@@ -91,9 +119,8 @@ img#background {
   z-index: -1;
 }
 
-ins
-{
-  background-color: hsl( hue(@color2), 100%, 75% );
+ins {
+  background-color: hsl( hue(@color3), 100%, 75% );
 }
 
 a,
@@ -101,7 +128,7 @@ a:link,
 a:active,
 a:visited
 {
-  color: @primaryColor;
+  color: @color1;
 
   transition: color 0.25s ease-in;
   -o-transition: color 0.25s ease-in;
@@ -109,7 +136,7 @@ a:visited
   -webkit-transition: color 0.25s ease-in;
 
   &:hover {
-    color: lighten( @primaryColor, 25 );
+    color: lighten( @color1, 25 );
   }
 }
 
@@ -141,32 +168,32 @@ h1
 {
   font-size: @font * 2.75;
   font-weight: normal;
-  color: @primaryColor;
+  color: @color1;
 }
 h2
 {
   font-size: @font * 2.00;
-  color: @color1;
+  color: @color2;
 }
 h3
 {
   font-size: @font * 1.75;
-  color: darken( @color1, 10% );
+  color: darken( @color2, 10% );
 }
 h4
 {
   font-size: @font * 1.50;
-  color: darken( @color1, 20% );
+  color: darken( @color2, 20% );
 }
 h5
 {
   font-size: @font * 1.25;
-  color: darken( @color1, 20% );
+  color: darken( @color2, 20% );
 }
 h6
 {
   font-size: @font * 1.00;
-  color: darken( @color1, 20% );
+  color: darken( @color2, 20% );
 }
 
 // place this after the h# tags
@@ -182,15 +209,13 @@ p,
 dl,
 li
 {
-  font-size: @font * 0.875;
+  font-size: @font * 14/16;
 }
 
-li
-{
-  *
-  {
+li {
+  * {
     // 2nd level elements are smaller
-    font-size: @font 0.75;
+    font-size: @font * 12/16;
   }
 }
 
@@ -204,12 +229,10 @@ dl {
   }
 }
 
-article
-{
-  footer
-  {
+article {
+  footer {
     font-size: @font * 0.75;
-    color: lighten( @BaseCopyColor, 30);
+    color: lighten( @CopyColor, 30);
   }
 }
 
@@ -293,6 +316,18 @@ div.image {
 // MENU
 // <nav class="menu"><ul><li><a></a></li></ul></nav>
 // --------------------------------------------------
+nav#main.menu {
+  a, a:link, a:active, a:visited {
+    text-decoration: none;
+  }
+
+  ul {
+
+    li {
+    }
+  }
+}
+
 footer nav.menu
 {
   a,
@@ -303,12 +338,10 @@ footer nav.menu
     text-decoration: none;
   }
 
-  ul
-  {
+  ul {
     height: auto;
 
-    li
-    {
+    li {
       display: block;
       padding: .125em 0;
       font-size: @font * 0.75;
@@ -316,16 +349,13 @@ footer nav.menu
       line-height: inherit;
       border-right: 0 none;
 
-      a
-      {
-        color: @color1;
+      a {
+        color: @color2;
       }
 
-      &:hover
-      {
-        a
-        {
-          color: darken( @color1, 20% );
+      &:hover {
+        a {
+          color: darken( @color2, 20% );
         }
 
         ul {
@@ -411,32 +441,6 @@ section#blog article {
   }
 }
 
-
-// Search.css
-// --------------------------------------------------
-#searchresults {
-  ol {
-    li {
-      p {
-        margin: 0;
-      }
-      .title {
-        font-size: 20px;
-      }
-      .url {
-        color: @color1;
-      }
-      .excerpt {
-      }
-      .score {
-        font-size: 12px;
-        font-weight: 100;
-      }
-      ins {
-      }
-    }
-  }
-}
 
 // Pagination
 // --------------------------------------------------
@@ -526,7 +530,10 @@ section#blog article {
   }
 }
 
-// Search form
+// Search
+// ==================================================
+//
+// - Search Form
 // --------------------------------------------------
 form#search {
   width: 90%;
@@ -539,7 +546,7 @@ form#search {
     padding: 8px 16px;
     outline: none;
     border: 1px solid rgb(120,120,120);
-    background-color: fade( rgb(255,255,255), 50);
+    background-color: fade( @white, 50);
     border-color: transparent;
     .rounded(5px,5px,5px,5px);
     .shadow( 0px, -1px, 3px, #000, 60);
@@ -563,20 +570,43 @@ form#search {
   }
 }
 
+// - Search results
+// --------------------------------------------------
+#searchresults {
+  ol {
+    li {
+      p {
+        margin: 0;
+      }
+      .title {
+        font-size: 20px;
+      }
+      .url {
+        color: @color2;
+      }
+      .excerpt {
+      }
+      .score {
+        font-size: 12px;
+        font-weight: 100;
+      }
+      ins {
+      }
+    }
+  }
+}
+
+
 // Code & Pre blocks
 // --------------------------------------------------
-code {
-  font-size: 12px;
-  background-color: rgb(240,240,240);
+code, pre {
+  font-size: @font * 12/16;
+  background-color: @white;
   border: 1px solid rgb(180,180,180);
-  padding: 16px;
+  padding: @font;
 }
 
 pre {
-  background-color: rgb(240,240,240);
-  border: 1px solid rgb(180,180,180);
-  font-size: 12px;
-  margin: 16px;
-  padding: 16px;
+  margin: @font;
   overflow: hidden;
 }

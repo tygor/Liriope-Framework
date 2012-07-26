@@ -82,8 +82,10 @@ class View extends obj {
       if( c::get( 'index' )) index::store( uri::get(), (string) $html, (string) $content_html );
     } else {
       $html = $cacheData;
-      $cclink = url( router::rule( 'flush' ));
-      $html = preg_replace( '/<\/body>/i', '<div id="cacheBox" style="display:none;"><a href="'.$cclink.'">Clear Cache</a></div></body>', $html );
+      if( c::get('debug')) {
+        $cclink = url( router::rule( 'flush' ));
+        $html = preg_replace( '/<\/body>/i', '<div id="cacheBox" style="display:none;"><a href="'.$cclink.'">Clear Cache</a></div></body>', $html );
+      }
     }
 
     // OUTPUT TO BROWSER

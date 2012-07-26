@@ -8,14 +8,16 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 //
 
 class menu extends obj {
+  var $depth;
   var $label;
   var $url;
   var $parent;
   var $active = FALSE;
 
-  function __construct( $label=NULL, $url=NULL ) {
+  function __construct( $label=NULL, $url=NULL, $depth=1 ) {
     $this->label = $label;
     $this->url = $url;
+    $this->depth = $depth;
     return $this;
   }
 
@@ -41,7 +43,7 @@ class menu extends obj {
   }
 
   function addChild( $label, $url ) {
-    $menu = new menu( $label, $url );
+    $menu = new menu( $label, $url, $this->depth+1 );
     $menu->parent = $this;
     $menu->isActive();
     $this->$url = $menu;
@@ -49,7 +51,13 @@ class menu extends obj {
   }
 
   function hasChildren() { return ( count( $this->_ ) > 0 ) ? TRUE : FALSE; }
-  function getChildren() { return $this->_; }
+
+  function getChildren( $depth=FALSE ) {
+    if( !$depth ) return $this->_;
+    if( $this->depth <= $depth ) return $this->_;
+    return array();
+  }
+
   function hasParent() { return ( isset( $this->parent )) ? TRUE : FALSE; }
   function getParent() { return ( is_object( $this->parent )) ? $this->parent : NULL; }
 

@@ -49,33 +49,3 @@ class filter {
   }
 
 }
-
-//
-// fancyFramework
-// --------------------------------------------------
-// wrap any instance of "Liriope Framework" with
-// a span class of fancy-framework
-function fancyFramework( $c ) {
-  $pattern = '/(Liriope Framework)/';
-  $replacement = '<span class="fancy-framework">$1</span>';
-  return preg_replace( $pattern, $replacement, $c );
-}
-filter::addFilter( 'fancyFramework', 'fancyFramework' );
-
-//
-// email obfuscation
-// --------------------------------------------------
-// seek any emails in content and convert it to something
-// harder for spam bots to read
-function emailIncognito( $c ) {
-  $pattern = '#<a.href=\"mailto:([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})\"([\s]*[\w=\'"]*)>(.*)</a>#e';
-  $replacement = "'<a class=\"obf\" href=\"mail/'.str::rot('$1').'+'.str::rot('$2').'+'.str::rot('$3').'\"$4>$5</a>'";
-  $firstpass = preg_replace( $pattern, $replacement, $c );
-  // -----
-  $pattern = "#([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})#e";
-  $replacement = "'<span style=\"unicode-bidi:bidi-override;direction:rtl;\">'.strrev('$1@$2.$3').'</span>'";
-  return preg_replace( $pattern, $replacement, $firstpass );
-}
-filter::addFilter( 'emailIncognito', 'emailIncognito' );
-
-?>

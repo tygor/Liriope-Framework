@@ -37,11 +37,16 @@ class LiriopeModule {
     $module->page = $page;
   }
 
-  public function menu( $page ) {
+  public function menu( $params=array() ) {
     global $module;
 
     $module->error = FALSE;
     if( !$file = load::exists( 'menu.yaml', c::get( 'root.application' ))) $module->error = TRUE;
+
+    // extract params
+    foreach($params as $k=>$v ) {
+      $module->$k = $v;
+    }
 
     $yaml = new Yaml( $file );
     $menu = new menu();
@@ -55,12 +60,12 @@ class LiriopeModule {
       }
     }
 
-    if( $page->root() !== 'home' && !$menu->findActive ) {
-      $menu->findDeep( $page->root() )->setActive();
+    if( $module->page->root() !== 'home' && !$menu->findActive ) {
+      $menu->findDeep( $module->page->root() )->setActive();
     }
 
+    // set variables for the view file to use
     $module->menu = $menu;
-    $module->page = $page;
   }
 
   function __destruct() {

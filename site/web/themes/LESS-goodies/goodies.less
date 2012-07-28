@@ -65,6 +65,12 @@
   -o-transform: scale(@x, @y);
 }
 
+.box-sizing( @p: 'border-box' ) {
+  -moz-box-sizing: @p;
+  -webkit-box-sizing: @p;
+  box-sizing: @p;
+}
+
 // Columns
 // --------------------------------------------------
 @gutter: 10%;

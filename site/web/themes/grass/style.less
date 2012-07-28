@@ -90,6 +90,10 @@ figure.alignleft
 
 // HTML Basic
 // --------------------------------------------------
+* {
+  .box-sizing( border-box );
+}
+
 html, body {
   height: 100%;
 }
@@ -258,12 +262,6 @@ div#main {
   margin-top: 2em;
 }
 
-nav#main
-{
-  float: left;
-  margin: 0 0 0 1em;
-}
-
 footer#footer
 {
   border-top: 1px solid;
@@ -317,13 +315,40 @@ div.image {
 // <nav class="menu"><ul><li><a></a></li></ul></nav>
 // --------------------------------------------------
 nav#main.menu {
+  float: left;
+  margin: 0 0 0 1em;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
   a, a:link, a:active, a:visited {
     text-decoration: none;
   }
 
-  ul {
+  li {
+    float: left;
+    margin: 0 4px;
+  }
+
+  li a:first-child {
+    float: left;
+    height: inherit;
+    font-size: 24px;
+    padding: 0 16px;
+  }
+
+  ul.children {
 
     li {
+      float: none;
+
+      a {
+        font-size: 12px;
+        height: auto;
+      }
     }
   }
 }
@@ -507,14 +532,16 @@ section#blog article {
   left: 0;
   display: block;
   width: 100%;
-  background: rgb(0,0,0);
-  background: rgba(0,0,0,.5);
-  padding: 2.5%;
+  padding: 16px;
   
   h1 {
     font-size: 14px;
     color: rgb(255,255,255);
     text-shadow: none;
+    background-color: rgb(0,0,0);
+    display: inline;
+    padding: 8px;
+    margin: 0;
   }
   
   #debug-content {
@@ -522,6 +549,7 @@ section#blog article {
     width: 90%;
     background: rgb( 0,0,0 );
     color: rgb(255,255,255);
+    margin: 0;
     padding: 1em 1em 1em 2em;
 
     li {

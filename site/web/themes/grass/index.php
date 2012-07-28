@@ -59,7 +59,7 @@
     </hgroup>
 
     <nav id="main" class="menu">
-      <?php echo module( 'liriope', 'menu', $page ); ?>
+      <?php echo module( 'liriope', 'menu', array( 'page'=>$page )); ?>
     </nav>
 
   </header>
@@ -81,7 +81,7 @@
       </div>
       <div class="column last">
         <nav id="footer" class="menu">
-          <?php echo module( 'liriope', 'menu', $page ); ?>
+          <?php echo module( 'liriope', 'menu', array( 'page'=>$page, 'depth'=>1 )); ?>
         </nav>
       </div>
     </div>

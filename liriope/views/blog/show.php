@@ -31,7 +31,7 @@ $page->META = '<link rel="alternate" type="application/rss+xml" title="'.$page->
 <?php endif ?>
 
   <footer>
-    <?php echo module( 'liriope', 'pagination', $page ) ?>
+    <?php echo module( 'liriope', 'pagination', array( 'page'=>$page )) ?>
     <p style="clear: both;"><a href="<?php echo url( 'blog/feed' ) ?>"><img src="/images/rss-14x14.png" alt="Subscribe"> Subscribe</a></p>
   </footer>
 

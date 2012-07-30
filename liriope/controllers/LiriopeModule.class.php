@@ -32,9 +32,9 @@ class LiriopeModule {
     $module = new Page( $file );
   }
 
-  public function pagination( $page ) {
+  public function pagination( $vars ) {
     global $module;
-    $module->page = $page;
+    $module->page = $vars['page'];
   }
 
   public function menu( $params=array() ) {

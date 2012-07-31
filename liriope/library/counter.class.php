@@ -19,10 +19,15 @@ class counter {
     if( self::$_ == 0 || self::test( self::$cycle ) == 1 ) return TRUE;
     return FALSE;
   }
+
+  // last()
+  // returns true if the counter is at the last item in a cycle
+  //
   static function last() {
     if( self::$_ != 0 && self::test( self::$cycle ) == 0 ) return TRUE;
     return FALSE;
   }
+
   static function cycle( $num ) { self::$cycle = $num; }
   static function add() { self::$_++; }
   static function subtract() { self::$_--; }

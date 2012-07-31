@@ -85,10 +85,21 @@ filter::addFilter( 'fancyFramework', 'fancyFramework' );
 // seek any emails in content and convert it to something
 // harder for spam bots to read
 function emailIncognito( $c ) {
-  $pattern = '#<a.href=\"mailto:([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})\"([\s]*[\w=\'"]*)>(.*)</a>#e';
-  $replacement = "'<a class=\"obf\" href=\"mail/'.str::rot('$1').'+'.str::rot('$2').'+'.str::rot('$3').'\"$4>$5</a>'";
+  // TODO: email obf isn't allowing email params
+  // Grab all web content => $c
+  // search for anchor tags containing "mailto:"
+  // save the href value, rot13 the email address
+  // save any class values and add obf to it
+  // save any other content within the < and > tags
+  // now reassemble
+  $pattern = '#<a(.*)href=\"mailto:([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})\"([\s]*[\w=\'"]*)(.*)>(.*)</a>#e';
+  $replacement = "'<a$1class=\"obf\" href=\"mail/'.str::rot('$2').'+'.str::rot('$3').'+'.str::rot('$4').'\"$5>$6</a>'";
   $firstpass = preg_replace( $pattern, $replacement, $c );
+  return $firstpass;
   // -----
+  // take this new content and look for any other email addresses
+  // unicode RTL them
+  // return replaced content
   $pattern = "#([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})#e";
   $replacement = "'<span style=\"unicode-bidi:bidi-override;direction:rtl;\">'.strrev('$1@$2.$3').'</span>'";
   return preg_replace( $pattern, $replacement, $firstpass );

@@ -36,7 +36,7 @@ works.</p>
 <?php endif ?>
 
   <footer>
-    <?php echo module( 'liriope', 'pagination', $page ) ?>
+    <?php echo module( 'liriope', 'pagination', array( 'page'=>$page )) ?>
   </footer>
 
 </section><!-- /#blog-list -->

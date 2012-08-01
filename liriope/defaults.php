@@ -85,22 +85,38 @@ filter::addFilter( 'fancyFramework', 'fancyFramework' );
 // seek any emails in content and convert it to something
 // harder for spam bots to read
 function emailIncognito( $c ) {
-  // TODO: email obf isn't allowing email params
-  // Grab all web content => $c
-  // search for anchor tags containing "mailto:"
-  // save the href value, rot13 the email address
-  // save any class values and add obf to it
-  // save any other content within the < and > tags
-  // now reassemble
-  $pattern = '#<a(.*)href=\"mailto:([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})\"([\s]*[\w=\'"]*)(.*)>(.*)</a>#e';
-  $replacement = "'<a$1class=\"obf\" href=\"mail/'.str::rot('$2').'+'.str::rot('$3').'+'.str::rot('$4').'\"$5>$6</a>'";
-  $firstpass = preg_replace( $pattern, $replacement, $c );
-  return $firstpass;
+  $email_pattern = '([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})';
+  $pattern = '#<a([^>]*href=[\'"]mailto:(.*)[\'"][^>]*)>.*</a>#iU';
+  preg_match_all( $pattern, $c, $matches );
+  // save the class settings
+  $classes = array();
+  foreach($matches[1] as $k=>$m) {
+    preg_match('/class=[\'"](.*)[\'"]/iU', $m, $match);
+    $classes[$k] = !empty($match[1]) ? explode( ' ', trim($match[1])) : '';
+    $classes[$k][] = 'obf';
+  }
+  // save the href settings
+  $emails = array();
+  foreach($matches[2] as $k=>$m) {
+    preg_match('/'.$email_pattern.'[\?]*(.*)/i', $m, $match); 
+    $emails[$k] = $match;
+  }
+  // remove/replace the href and class
+  $anchors = array();
+  foreach( $matches[0] as $k=>$m) {
+    $class = trim(implode(' ', $classes[$k]));
+    $email = str::rot($emails[$k][1]).'+'.str::rot($emails[$k][2]).'+'.str::rot($emails[$k][3]);
+    if($emails[$k][4]) $email = $email . '?' . $emails[$k][4];
+    $strip = preg_replace('/\s*href=[\'"].*[\'"]|\s*class=[\'"].*[\'"]/iU', '', $m);
+    $anchors[$k] = preg_replace('/<a (.*)/iU', '<a href="mail/'.$email.'" class="'.$class.'" $1', $strip);
+  }
+  // now replace each in the content
+  $firstpass = $c;
+  foreach($matches[0] as $k=>$m) {
+    $firstpass = preg_replace( "/".preg_quote($m,'/')."/", $anchors[$k], $firstpass );
+  }
   // -----
-  // take this new content and look for any other email addresses
-  // unicode RTL them
-  // return replaced content
-  $pattern = "#([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})#e";
+  $pattern = "#".$email_pattern."#e";
   $replacement = "'<span style=\"unicode-bidi:bidi-override;direction:rtl;\">'.strrev('$1@$2.$3').'</span>'";
   return preg_replace( $pattern, $replacement, $firstpass );
 }

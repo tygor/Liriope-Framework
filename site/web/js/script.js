@@ -14,12 +14,18 @@ function emailDecode() {
   var anchor = document.getElementsByTagName('a');
   var map = rot13init();
   for( var l=0 ; l < anchor.length ; l++ ) {
-    if( anchor[l].className == 'obf' ) {
+    if( anchor[l].className.indexOf('obf') > -1 ) {
       var href = anchor[l].getAttribute('href');
-      var address = href.replace(/.*mail\/([a-z0-9._%-]+)\+([a-z0-9._%-]+)\+([a-z.]+)/i, '$1' + '@' + '$2' + '.' + '$3' );
+      var address = href.replace(/.*mail\/([a-z0-9._%-]+)\+([a-z0-9._%-]+)\+([a-z.]+)(.+)/i, '$1' + '@' + '$2' + '.' + '$3$4' );
       if( href != address ) {
-        var newhref = 'mailto:' + str_rot13(address,map);
-        anchor[l].setAttribute('href', 'mailto:' + str_rot13(address,map));
+        params = address.indexOf('?');
+        var extra = '';
+        if( params > -1 ) {
+          extra   = address.substr(params);
+          address = address.substr(0,params);
+        }
+        var newhref = 'mailto:' + str_rot13(address,map) + extra;
+        anchor[l].setAttribute('href', newhref);
       }
     }
   }

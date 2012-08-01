@@ -20,7 +20,7 @@ class BlogModule Extends LiriopeModule {
     $blogs = new Blogs( $dir );
     $posts = $blogs->getList( a::get( $vars, 'limit', 5 ), a::get( $vars, 'page', 1 ));
 
-    $module->dir = $vars['dir'];
+    $module->dir = $base;
     $module->more = $base;
     $module->posts = $posts;
   }

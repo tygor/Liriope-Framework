@@ -7,13 +7,7 @@
   $page->css( '/vendors/normalize/normalize.css' );
   $page->css( '/css/styles.css' );
 
-  if( c::get('debug')) {
-    $page->css( theme::$folder . '/style.less', 'stylesheet/less' );
-    $page->js( '/js/libs/less-1.3.0.min.js' );
-    $page->script( 'less.watch();' );
-  } else {
-    $page->css( theme::$folder . '/style.css' );
-  }
+  $page->css( theme::$folder . '/style.css' );
 
   echo $site->DOCTYPE();
 ?>

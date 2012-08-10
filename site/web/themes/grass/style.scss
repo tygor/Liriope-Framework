@@ -1,9 +1,4 @@
-/**
- * LESSCSS.org
- * styles using the LESS compiler
- * for developement only. to publish create a CSS file with the 
- * compiled styles
- */
+/* test.scss */
 
 // TABLE OF CONTENTS
 // ==================================================
@@ -33,20 +28,52 @@
 
 // Variables
 // --------------------------------------------------
-@white         : darken( white, 20% );
-@black         : lighten( black, 20% );
-@color1        : rgb(180,0,40);
-@color2        : darken( @color1, 5% );
-@color3        : saturate( spin( @color1, 90 ), 100%);
-@font          : 16px;
-@CopyColor     : @black;
-@fontHeading   : Kreon, serif;
-@fontCopy      : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
+$white         : darken( white, 20% );
+$black         : lighten( black, 20% );
+$color1        : rgb(180,0,40);
+$color2        : darken( $color1, 5% );
+$color3        : saturate( adjust_hue( $color1, 90 ), 100%);
+$font          : 16px;
+$CopyColor     : $black;
+$fontHeading   : Kreon, serif;
+$fontCopy      : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
 
 // Mixins
 // --------------------------------------------------
-@import '../LESS-goodies/goodies';
-@import '../LESS-goodies/elements/elements';
+@mixin box-sizing( $p: 'border-box' ) {
+  -moz-box-sizing: $p;
+  -webkit-box-sizing: $p;
+  box-sizing: $p;
+}
+$default-radius: 4px;
+@mixin border-radius( $top:$default-radius, $right:$default-radius, $bottom:$default-radius, $left:$default-radius ) {
+  -moz-border-radius: $top $right $bottom $left;
+  -webkit-border-radius: $top $right $bottom $left;
+  border-radius: $top $right $bottom $left;
+}
+@mixin box-shadow( $x: 0px, $y: 1px, $blur: 3px, $color: #000, $opacity: 0.7 ) {
+  -moz-box-shadow: $x $y $blur fade_out( $color, $opacity );
+  -webkti-box-shadow: $x $y $blur fade_out( $color, $opacity );
+  box-shadow: $x $y $blur fade_out( $color, $opacity );
+}
+@mixin columns {
+  .threecolumns {
+    .column { float: left; width: 33%; }
+  }
+
+  .threecolumns,
+  .fourcolumns {
+    .last { float: right; }
+    .last::after {
+      content: '';
+      clear: both;
+    }
+  }
+}
+@include columns;
+
+// Functions
+// --------------------------------------------------
 
 // Google Web Fonts
 // --------------------------------------------------
@@ -70,20 +97,20 @@ img.alignright,
 figure.alignright
 {
   float: right;
-  margin-left: @font;
-  margin-bottom: @font;
+  margin-left: $font;
+  margin-bottom: $font;
 }
 
 img.alignleft,
 figure.alignleft
 {
   float: left;
-  margin-right: @font;
-  margin-bottom: @font;
+  margin-right: $font;
+  margin-bottom: $font;
 }
 
 .fancy-framework {
-  color: @color1;
+  color: $color1;
   font-weight: bold;
   font-style: italic;
 }
@@ -91,7 +118,7 @@ figure.alignleft
 // HTML Basic
 // --------------------------------------------------
 * {
-  .box-sizing( border-box );
+  @include box-sizing( border-box );
 }
 
 html, body {
@@ -101,14 +128,14 @@ html, body {
 body {
   position: relative;
   margin: 0 auto;
-  font-family: @fontCopy;
-  color: @CopyColor;
+  font-family: $fontCopy;
+  color: $CopyColor;
   line-height: 1.68;
-  padding-bottom: @font;
+  padding-bottom: $font;
 }
 
 :focus {
-  background-color: @color3;
+  background-color: $color3;
   color: #FFFFFF !important;
   outline: none;
 }
@@ -124,7 +151,7 @@ img#background {
 }
 
 ins {
-  background-color: hsl( hue(@color3), 100%, 75% );
+  background-color: hsl( hue($color3), 100%, 75% );
 }
 
 a,
@@ -132,7 +159,7 @@ a:link,
 a:active,
 a:visited
 {
-  color: @color1;
+  color: $color1;
 
   transition: color 0.25s ease-in;
   -o-transition: color 0.25s ease-in;
@@ -140,7 +167,7 @@ a:visited
   -webkit-transition: color 0.25s ease-in;
 
   &:hover {
-    color: lighten( @color1, 25 );
+    color: lighten( $color1, 25 );
   }
 }
 
@@ -163,41 +190,41 @@ aside {
 // --------------------------------------------------
 h1, h2, h3, h4, h5, h6
 {
-  font-family: @fontHeading;
+  font-family: $fontHeading;
   margin: 0.75em 0 0;
   line-height: 1.6;
 }
 
 h1
 {
-  font-size: @font * 2.75;
+  font-size: $font * 2.75;
   font-weight: normal;
-  color: @color1;
+  color: $color1;
 }
 h2
 {
-  font-size: @font * 2.00;
-  color: @color2;
+  font-size: $font * 2.00;
+  color: $color2;
 }
 h3
 {
-  font-size: @font * 1.75;
-  color: darken( @color2, 10% );
+  font-size: $font * 1.75;
+  color: darken( $color2, 10% );
 }
 h4
 {
-  font-size: @font * 1.50;
-  color: darken( @color2, 20% );
+  font-size: $font * 1.50;
+  color: darken( $color2, 20% );
 }
 h5
 {
-  font-size: @font * 1.25;
-  color: darken( @color2, 20% );
+  font-size: $font * 1.25;
+  color: darken( $color2, 20% );
 }
 h6
 {
-  font-size: @font * 1.00;
-  color: darken( @color2, 20% );
+  font-size: $font * 1.00;
+  color: darken( $color2, 20% );
 }
 
 // place this after the h# tags
@@ -213,13 +240,13 @@ p,
 dl,
 li
 {
-  font-size: @font * 14/16;
+  font-size: $font * 14/16;
 }
 
 li {
   * {
     // 2nd level elements are smaller
-    font-size: @font * 12/16;
+    font-size: $font * 12/16;
   }
 }
 
@@ -235,8 +262,8 @@ dl {
 
 article {
   footer {
-    font-size: @font * 0.75;
-    color: lighten( @CopyColor, 30);
+    font-size: $font * 0.75;
+    color: lighten( $CopyColor, 30);
   }
 }
 
@@ -244,7 +271,7 @@ article {
 // --------------------------------------------------
 header#main
 {
-  margin-top: @font;
+  margin-top: $font;
 }
 
 #identity
@@ -269,7 +296,7 @@ footer#footer
   padding-top: 2em;
 
   p {
-    font-size: @font  * .75;
+    font-size: $font  * .75;
   }
 }
 
@@ -286,13 +313,13 @@ footer#footer
 // Image with captions
 // --------------------------------------------------
 div.image {
-  background: @white;
+  background: $white;
   float: right;
   padding: 10px;
   margin: 0 0 20px 20px;
   font-size: 12px;
-  .rounded( 10px, 10px, 4px, 4px);
-  .shadow();
+  @include border-radius( 10px, 10px, 4px, 4px );
+  @include box-shadow();
 
   &.alignright { float: right; margin: 0 0 20px 20px; }
   &.alignleft { float: left; margin: 0 20px 20px 0; }
@@ -302,7 +329,7 @@ div.image {
   img {
     display: block;
     margin-bottom: 10px;
-    .rounded();
+    @include border-radius();
   }
   p.caption {
     font-size: inherit;
@@ -369,18 +396,18 @@ footer nav.menu
     li {
       display: block;
       padding: .125em 0;
-      font-size: @font * 0.75;
-      font-family: @fontCopy;
+      font-size: $font * 0.75;
+      font-family: $fontCopy;
       line-height: inherit;
       border-right: 0 none;
 
       a {
-        color: @color2;
+        color: $color2;
       }
 
       &:hover {
         a {
-          color: darken( @color2, 20% );
+          color: darken( $color2, 20% );
         }
 
         ul {
@@ -401,7 +428,7 @@ footer nav.menu
 .orbit-wrapper
 {
   margin: 20px 10px 40px;
-  .shadow();
+  @include box-shadow();
 
   div.orbit
   {
@@ -478,11 +505,11 @@ section#blog article {
     display: block;
     text-decoration: none;
     background-color: rgba(255,255,255,.5);
-    .rounded();
-    .shadow();
+    @include border-radius();
+    @include box-shadow();
   }
   span {
-    color: lighten( @black, 30 );
+    color: lighten( $black, 30 );
   }
   a:hover {
     background-color: rgba(255,255,255,1);
@@ -498,7 +525,7 @@ section#blog article {
     text-align: center;
   }
   a.current {
-    color: @black;
+    color: $black;
   }
 }
 
@@ -574,10 +601,10 @@ form#search {
     padding: 8px 16px;
     outline: none;
     border: 1px solid rgb(120,120,120);
-    background-color: fade( @white, 50);
+    background-color: fade_out( $white, 0.50);
     border-color: transparent;
-    .rounded(5px,5px,5px,5px);
-    .shadow( 0px, -1px, 3px, #000, 60);
+    @include border-radius( 5px, 5px, 5px, 5px);
+    @include box-shadow( 0px, -1px, 3px, #000, 0.6);
   }
 
   input.searchbox {
@@ -610,7 +637,7 @@ form#search {
         font-size: 20px;
       }
       .url {
-        color: @color2;
+        color: $color2;
       }
       .excerpt {
       }
@@ -628,13 +655,13 @@ form#search {
 // Code & Pre blocks
 // --------------------------------------------------
 code, pre {
-  font-size: @font * 12/16;
-  background-color: @white;
+  font-size: $font * 12/16;
+  background-color: $white;
   border: 1px solid rgb(180,180,180);
-  padding: @font;
+  padding: $font;
 }
 
 pre {
-  margin: @font;
+  margin: $font;
   overflow: hidden;
 }

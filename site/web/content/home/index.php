@@ -5,6 +5,12 @@ $page->title = 'Home';
 
 ?>
 
+<?php if( publish( 'Aug 10, 2012, 8:00 AM', 'Aug 10, 2012, 8:54 AM' )): ?>
+<aside>
+  <h1>It's Aug 5-20</h1>
+</aside>
+<?php endif ?>
+
 <section id="welcome">
   <h1>Welcome</h1>
   <p>I started the Liriope Framework to learn more about PHP and at the same time build my own framework. Along the way, I realized that this was becoming something useful for various websites I was thinking about or working on. I love it when your interests match up with your workload!</p>

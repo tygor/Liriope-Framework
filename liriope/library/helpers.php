@@ -65,4 +65,23 @@ function go( $url ) {
   router::go( $url );
 }
 
+// publish()
+// template function to be used in an if block that takes two optional date/time strings
+// and returns TRUE if withing that range, FALSE otherwise
+//
+// @param  string  $start When to begin publishing
+// @param  string  $stop  When to stop publishing
+// @return bool    TRUE if within the range, FALSE otherwise
+function publish( $start=FALSE, $stop=FALSE ) {
+  $alpha = empty( $start ) ? FALSE : strtotime( $start );
+  $omega = empty( $stop ) ? FALSE : strtotime( $stop );
+  $now = time();
+
+  if( $alpha && $omega && $now >= $alpha && $now <= $omega ) return TRUE;
+  if( $alpha && !$omega && $now >= $alpha ) return TRUE;
+  if( !$alpha && $omega && $now <= $omega ) return TRUE;
+
+  return FALSE;
+}
+
 ?>

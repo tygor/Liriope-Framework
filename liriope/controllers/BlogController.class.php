@@ -14,7 +14,17 @@ class BlogController Extends LiriopeController {
   public function show( $vars=NULL ) {
     $page = $this->getPage();
 
-    $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
+    // the vars may contain a reference to a custom blog directory
+    // this may include nested directories in the form dir:dir:dir
+    // so we'll need to strip out the path, and the final 'dir' which
+    // will be the view partial to use.
+    if( isset( $vars['dir'] )) {
+      $dirfull = $vars['dir'];
+      $dirarray = explode( ':', $dirfull );
+      $base = implode( '/', $dirarray );
+    } else {
+      $base = c::get('blog.dir' );
+    }
     $dir = c::get( 'root.content' ) . '/' . $base;
     if( isset( $vars['dir'] )) $this->useView( basename( $dir ));
 

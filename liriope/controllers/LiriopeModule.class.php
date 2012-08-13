@@ -68,6 +68,13 @@ class LiriopeModule {
     $module->menu = $menu;
   }
 
+  function setView( $name ) {
+    global $module;
+    $file = load::exists( $this->_controller . '/_' . $this->_action . '-' . $name . '.php' );
+    if(!$file) return FALSE;
+    $module->_view = $file;
+  }
+
   function __destruct() {
     global $module;
 

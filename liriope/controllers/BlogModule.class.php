@@ -14,30 +14,26 @@ class BlogModule Extends LiriopeModule {
   public function show( $vars=NULL ) {
     global $module;
 
-    // the vars may contain a reference to a custom blog directory
-    // this may include nested directories in the form dir:dir:dir
-    // so we'll need to strip out the path, and the final 'dir' which
-    // will be the view partial to use.
-    $customdir = FALSE;
-    if( isset( $vars['dir'] )) {
-      $dirfull = $vars['dir'];
-      $dirarray = explode( ':', $dirfull );
-      $base = implode( '/', $dirarray );
-      $customdir = TRUE;
+    $contentDir = c::get( 'root.content' );
+
+    // look for a custom blog folder
+    if( a::get($vars, 'dir')===NULL ) {
+      // use the default blog directory
+      $customDir = FALSE;
+      $blogDir = c::get('blog.dir' );
     } else {
-      $base = c::get('blog.dir' );
-    }
-    $dir = c::get( 'root.content' ) . '/' . $base;
-    if($customdir) {
-      $file = load::exists( $this->_controller . '/_' . $this->_action . '-' . basename($base) . '.php' );
-      $module->_view = $file;
+      $customDir = a::get($vars, 'dir');
+      $blogDir = implode( '/', explode( ':', $customDir ));
+      $seek = $this->_controller . '/_' . $this->_action . '-' . basename($blogDir) . '.php';
+      $file = load::exists( $seek );
+      if( $file ) $module->_view = $file;
     }
 
-    $blogs = new Blogs( $dir );
+    $blogs = new Blogs( $contentDir . '/' . $blogDir );
     $posts = $blogs->getList( a::get( $vars, 'limit', 5 ), a::get( $vars, 'page', 1 ));
 
-    $module->dir = $base;
-    $module->more = $base;
+    $module->dir = $blogDir;
+    $module->more = $blogDir;
     $module->posts = $posts;
   }
 

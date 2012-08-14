@@ -7,9 +7,15 @@
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class Blogs extends obj {
+  // the name of the blog folder
   var $name;
+  // the file system path to the blog's parent folder
   var $root;
+  // the path between the root content and the blog
+  var $parent;
+  // the timestamp of the last modified file
   var $modified;
+  // the files within the blog
   var $files = array();
 
   // __construct()
@@ -23,6 +29,7 @@ class Blogs extends obj {
     $data = dir::contents( $path );
     $this->name = $data['name'];
     $this->root = rtrim( $data['root'], '/'.$data['name']);
+    $this->parent = str::replace( c::get('root.content'), '', $this->root );
     $this->modified = $data['modified'];
     // now store recursively from the blog root
     $this->storeBlogArticles( $this->root .'/'. $this->name );
@@ -64,7 +71,7 @@ class Blogs extends obj {
 
     // and set some info about each post
     $info = pathinfo( $file );
-    $page->dir = str::minus($info['dirname'], $this->root.'/');
+    $page->dir = str::minus($info['dirname'], c::get('root.content').'/');
     $page->file = $info['basename'];
     $page->url = (str::lowercase($info['filename']) === 'index') ? $page->dir : $page->dir . '/' . $info['filename'];
     $page->date = ($page->date()===NULL) ? date( 'Y-m-d H:i:s', filemtime($file)) : $page->date();

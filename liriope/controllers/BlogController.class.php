@@ -14,21 +14,20 @@ class BlogController Extends LiriopeController {
   public function show( $vars=NULL ) {
     $page = $this->getPage();
 
-    // the vars may contain a reference to a custom blog directory
-    // this may include nested directories in the form dir:dir:dir
-    // so we'll need to strip out the path, and the final 'dir' which
-    // will be the view partial to use.
-    if( isset( $vars['dir'] )) {
-      $dirfull = $vars['dir'];
-      $dirarray = explode( ':', $dirfull );
-      $base = implode( '/', $dirarray );
-    } else {
-      $base = c::get('blog.dir' );
-    }
-    $dir = c::get( 'root.content' ) . '/' . $base;
-    if( isset( $vars['dir'] )) $this->useView( basename( $dir ));
+    $contentDir = c::get( 'root.content' );
 
-    $blogs = new Blogs( $dir );
+    // look for a custom blog folder
+    if( a::get($vars, 'dir')===NULL ) {
+      // use the default blog directory
+      $customDir = FALSE;
+      $blogDir = c::get('blog.dir' );
+    } else {
+      $customDir = a::get($vars, 'dir');
+      $blogDir = implode( '/', explode( ':', $customDir ));
+      $this->useView( basename( $blogDir ));
+    }
+
+    $blogs = new Blogs( $contentDir . '/' . $blogDir );
     $posts = $blogs->getList( a::get( $vars, 'limit', 10 ), a::get( $vars, 'page', 1 ));
 
     // catch an empty set
@@ -49,14 +48,20 @@ class BlogController Extends LiriopeController {
   public function post( $vars=NULL ) {
     $page = $this->getPage();
 
-    $base = isset( $vars['dir'] ) ? $vars['dir'] : c::get( 'blog.dir' );
-    $dir = c::get( 'root.content' ) . '/' . $base;
-    if( isset( $vars['dir'] )) {
-      $this->useView( basename( $dir ));
-      unset($vars['dir']);
+    $contentDir = c::get('root.content');
+    // look for a custom blog folder
+    if( a::get($vars, 'dir')===NULL ) {
+      // use the default blog directory
+      $customDir = FALSE;
+      $blogDir = c::get('blog.dir' );
+    } else {
+      $customDir = a::get($vars, 'dir');
+      $blogDir = implode( '/', explode( ':', $customDir ));
+      $this->useView( basename( $blogDir ));
+      unset( $vars['dir'] );
     }
 
-    $blogs = new Blogs( $dir );
+    $blogs = new Blogs( $contentDir .'/'. $blogDir );
     // $vars contains the path to the file
     // the first element in the array is [id] => blog_article
     // if the article is nested, additional items will be in the array, folded

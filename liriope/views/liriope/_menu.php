@@ -2,11 +2,12 @@
 // Menu
 $page = $module->page();
 $menu = $module->menu();
+$menuclass = $module->menuclass();
 ?>
 
 <?php if( !$module->error ): ?>
 
-<ul class="top">
+<ul class="top <?= $menuclass ?>">
   <?php foreach( $menu->getChildren() as $child ): ?>
   <?php partial( 'liriope', 'menuitem', array(
     'hasChildren' => $child->hasChildren(),

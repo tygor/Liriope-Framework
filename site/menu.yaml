@@ -17,3 +17,10 @@ blog:
 docs:
   label: Docs
   url: docs
+news:
+  label: News
+  url: news
+  children:
+    1:
+      label: Chicken
+      url: news/chicken

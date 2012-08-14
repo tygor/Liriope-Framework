@@ -90,8 +90,8 @@ class error {
         break;
     }
 
-    // don't execute PHP internal error handler
-    return true;
+    // return FALSE so that the default PHP error handeling can take place
+    return FALSE;
   }
 }
 

@@ -21,7 +21,10 @@ $page->title = 'Home';
     </div>
     <div class="column">
       <h2>Docs</h2>
-      <?php echo module( 'blog', 'show', array( 'dir' => 'docs', 'limit' => 10 )) ?>
+      <?php echo module( 'blog', 'show', array(
+        'dir' => 'docs',
+        'limit' => 10
+      )) ?>
     </div>
     <div class="column last">
       <h2>Timed content</h2>

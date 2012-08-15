@@ -51,8 +51,9 @@ function LiriopeException( $exception )
 set_exception_handler( 'LiriopeException' );
 
 // Setup Error Handeling
-require_once( 'error.class.php' );
-set_error_handler( array( 'error', 'handler' ));
+// TODO: decide if we need an error handler. It causes some hosts to throw a FAILURE.
+//require_once( 'error.class.php' );
+//set_error_handler( array( 'error', 'handler' ));
 
 function stripSlashesDeep( $value ) {
 	$value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );

@@ -39,7 +39,7 @@ class error {
   static function handler( $code, $msg, $file, $line ) {
     if( !( error_reporting() & $code )) {
       // Error code not included in error_reporting
-      return FALSE;
+      return;
     }
 
     switch( $code ) {
@@ -90,7 +90,7 @@ class error {
         break;
     }
 
-    // return FALSE so that the default PHP error handeling can take place
+    // return FALSE so that the default PHP error handling can take place
     return FALSE;
   }
 }

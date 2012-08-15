@@ -112,8 +112,7 @@ class load
   // (string) $file the file to be sought
   // returns  (bool) TRUE on success, or FALSE
   //
-  static function seek( $file=NULL )
-  {
+  static function seek( $file=NULL ) {
     if( $file===NULL ) return false;
     if( $file = self::exists( $file )) {
       self::file( $file, TRUE );

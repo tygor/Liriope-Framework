@@ -19,6 +19,9 @@ class View extends obj {
   // the page object
   var $_page;
 
+  var $cacheEnabled = FALSE;
+  var $bypassCache = FALSE;
+
   function __construct( $controller, $action ) {
     global $site;
     $site = new Site();
@@ -65,7 +68,7 @@ class View extends obj {
     $cacheModified = time();
     $cacheID = uri::md5URI();
 
-    if( c::get( 'cache' )) {
+    if( c::get( 'cache' ) && !$this->bypassCache ) {
       $cacheModified = cache::modified( $cacheID );
       // if the cache file is newer than all of the content files, then use the cache
       if( $cacheModified >= dir::modified( c::get( 'root.content' )))
@@ -78,8 +81,8 @@ class View extends obj {
         $html = theme::load( $page->theme(), array( 'page'=>$page, 'content'=>$content_html ), TRUE );
       }
       $html = filter::doFilters( $html );
-      if( c::get( 'cache' )) cache::set( $cacheID, (string) $html, TRUE );
-      if( c::get( 'index' )) index::store( uri::get(), (string) $html, (string) $content_html );
+      if( c::get( 'cache' ) && !$this->bypassCache ) { cache::set( $cacheID, (string) $html, TRUE ); }
+      if( c::get( 'index' )) { index::store( uri::get(), (string) $html, (string) $content_html ); }
     } else {
       $html = $cacheData;
       if( c::get('debug')) {

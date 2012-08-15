@@ -60,9 +60,14 @@ class LiriopeController {
   //
   public function search( $params=NULL ) {
     $page = $this->getPage();
+    $this->skipCache( TRUE );
 
     $search = new search( array( 'searchfield' => 'search' ));
     $page->set( 'search', $search );
+  }
+
+  public function skipCache( $set=FALSE ) {
+    $this->_view->bypassCache = $set;
   }
 
   public function flush( $params=NULL ) {

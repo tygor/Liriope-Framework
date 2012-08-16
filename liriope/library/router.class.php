@@ -14,6 +14,7 @@ class router {
   static $name;
   static $rule;
   static $controller;
+  static $use;
   static $action;
   static $params = array();
 
@@ -26,6 +27,7 @@ class router {
     if( $request===NULL ) $request = uri::getArray();
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
+    self::$use = $rule->getUse();
     return( self::useRoute( $rule->translate( $request )));
   }
 
@@ -51,12 +53,13 @@ class router {
   // @param  string $route The translation into controller/action?params
   // @return bool   TRUE on sucess, FALSE on error
   //
-  static function setRule( $name=NULL, $rule=NULL, $route=NULL ) {
+  static function setRule( $name=NULL, $rule=NULL, $route=NULL, $use='controller' ) {
     if( $name === NULL || $rule === NULL || $route === NULL ) {
       trigger_error( 'setRule was passed an empty parameter', E_USER_NOTICE );
       return false;
     }
-    self::$rules[$name] = new routerRule( $name, $rule, $route );
+    $use = strtolower($use);
+    self::$rules[$name] = new routerRule( $name, $rule, $route, $use );
     return true;
   }
 
@@ -114,7 +117,8 @@ class router {
     $controller = array_shift( $parts );
     $action =     array_shift( $parts );
     $params =     self::pairParams( $parts );
-    return array( 'controller'=>$controller, 'action'=>$action, 'params'=>$params );
+    $use =        self::$use;
+    return array( 'controller'=>$controller, 'action'=>$action, 'params'=>$params, 'use'=>$use );
   }
 
   //
@@ -226,15 +230,22 @@ class routerRule {
   var $name;
   var $rule;
   var $route;
+  // holds whether to use the controller or the module view
+  var $use;
   var $_rule = array();
   var $_constant = array();
   var $_mandatory = array();
   var $_optional = array();
 
-  function __construct( $name, $rule, $route ) {
+  function __construct( $name, $rule, $route, $use ) {
     $this->name = $name;
     $this->readRule( $rule );
     $this->route = $route;
+    $this->use = $use;
+  }
+
+  function getUse() {
+    return $this->use;
   }
 
   // readRule()

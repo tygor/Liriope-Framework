@@ -68,6 +68,75 @@ class LiriopeModule {
     $module->menu = $menu;
   }
 
+  // tweets()
+  // returns the posts from the passed user
+  public function tweets( $params=NULL ) {
+    global $module;
+
+    $user = a::get($params,'user',FALSE);
+    if( !$user ) $module->error = 'We couldn\'t find that Twitter user. Sorry.';
+    $limit = a::get($params,'limit',3);
+
+    try{
+      $twitter_xml = file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".atom");
+    
+      if( strlen($twitter_xml) < 25) {
+        // not enough data
+        throw new Exception('No tweets right now.');
+      }
+
+      $doc = new DOMDocument();
+      $doc->preserveWhiteSpace = false;
+      if( !$doc->loadXML($twitter_xml)) {
+        // Failed loading the XML data
+        throw new Exception('No tweets right now.');
+      }
+
+      $tweets = array();
+      $entries = $doc->getElementsByTagName("entry");
+
+      if( $entries ) {
+        foreach( $entries as $tweet ) {
+          $tags = $tweet->getElementsByTagName('name'); // Username who wrote the tweet
+          $name = $tags->item(0)->nodeValue;
+          $tags = $tweet->getElementsByTagName('title');
+          $title = $tags->item(0)->nodeValue;
+          $tags = $tweet->getElementsByTagName('content');
+          $content = $tags->item(0)->nodeValue;
+          $tags = $tweet->getElementsByTagName('link');
+          for($i=0; $i < $tags->length; $i++ ) {
+            if( $tags->item($i)->getAttribute('rel') === 'alternate' ) $link = $tags->item($i)->getAttribute('href');
+            if( $tags->item($i)->getAttribute('rel') === 'image' ) $icon = $tags->item($i)->getAttribute('href');
+          }
+          $tags = $tweet->getElementsByTagName('published');
+          $date = $tags->item(0)->nodeValue;
+          $timestamp = strtotime( $date );
+
+          $tweets[] = array(
+            'name' => $name,
+            'title' => $title,
+            'content' => $content,
+            'link' => $link,
+            'icon' => $icon,
+            'date' => $date,
+            'timestamp' => $timestamp
+          );
+
+          if( --$limit <= 0 ) break;
+        }
+      } else {
+        throw new Exception('No tweets right now.');
+      }
+
+    } catch( Exception $e ) {
+      $message->error = $e->getMessage();
+    }
+
+    $module->tweets = $tweets;
+    $module->user = $user;
+    $module->limit = $limit;
+  }
+
   function setView( $name ) {
     global $module;
     $file = load::exists( $this->_controller . '/_' . $this->_action . '-' . $name . '.php' );

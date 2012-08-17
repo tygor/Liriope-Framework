@@ -78,55 +78,14 @@ class LiriopeModule {
       if( !$user ) throw new Exception('Woops! Can\'t find that twitter user.');
       $limit = a::get($params,'limit',3);
 
-      $twitter_xml = file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".atom");
+      $twitter_feed = str::parse(@file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".json"));
     
-      if( strlen($twitter_xml) < 25) {
+      if( empty($twitter_feed)) {
         // not enough data
         throw new Exception('No tweets right now.');
       }
 
-      $doc = new DOMDocument();
-      $doc->preserveWhiteSpace = false;
-      if( !$doc->loadXML($twitter_xml)) {
-        // Failed loading the XML data
-        throw new Exception('No tweets right now.');
-      }
-
-      $tweets = array();
-      $entries = $doc->getElementsByTagName("entry");
-
-      if( $entries ) {
-        foreach( $entries as $tweet ) {
-          $tags = $tweet->getElementsByTagName('name'); // Username who wrote the tweet
-          $name = $tags->item(0)->nodeValue;
-          $tags = $tweet->getElementsByTagName('title');
-          $title = $tags->item(0)->nodeValue;
-          $tags = $tweet->getElementsByTagName('content');
-          $content = $tags->item(0)->nodeValue;
-          $tags = $tweet->getElementsByTagName('link');
-          for($i=0; $i < $tags->length; $i++ ) {
-            if( $tags->item($i)->getAttribute('rel') === 'alternate' ) $link = $tags->item($i)->getAttribute('href');
-            if( $tags->item($i)->getAttribute('rel') === 'image' ) $icon = $tags->item($i)->getAttribute('href');
-          }
-          $tags = $tweet->getElementsByTagName('published');
-          $date = $tags->item(0)->nodeValue;
-          $timestamp = strtotime( $date );
-
-          $tweets[] = array(
-            'name' => $name,
-            'title' => $title,
-            'content' => $content,
-            'link' => $link,
-            'icon' => $icon,
-            'date' => $date,
-            'timestamp' => $timestamp
-          );
-
-          if( --$limit <= 0 ) break;
-        }
-      } else {
-        throw new Exception('No tweets right now.');
-      }
+      $tweets = array_slice($twitter_feed,0,$limit);
 
     } catch( Exception $e ) {
       $message->error = $e->getMessage();

@@ -123,6 +123,25 @@ class str {
     return $string;
   }
 
+  // linkLinks()
+  // parses a string and wraps anchor tags around strings with http:// or https://
+  //
+  static function linkLinks($string) {
+    $pattern = '/\b(http.*)\b/i';
+    $count = preg_match_all( $pattern, $string, $matches );
+    if( !$count ) return $string; 
+
+    $wrapper = '<a href="%s" target="_blank">%s</a>';
+    $patterns = array();
+    $replacements = array();
+    foreach( $matches[1] as $match) {
+      $patterns[] = '#' . preg_quote($match, '#') . '#i';
+      $replacements[] = sprintf( $wrapper, $match, $match );
+    }
+    $newstring = preg_replace( $patterns, $replacements, $string );
+    return $newstring;
+  }
+
 }
 
 ?>

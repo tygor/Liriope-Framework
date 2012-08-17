@@ -73,11 +73,11 @@ class LiriopeModule {
   public function tweets( $params=NULL ) {
     global $module;
 
-    $user = a::get($params,'user',FALSE);
-    if( !$user ) $module->error = 'We couldn\'t find that Twitter user. Sorry.';
-    $limit = a::get($params,'limit',3);
-
     try{
+      $user = a::get($params,'user',FALSE);
+      if( !$user ) throw new Exception('Woops! Can\'t find that twitter user.');
+      $limit = a::get($params,'limit',3);
+
       $twitter_xml = file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".atom");
     
       if( strlen($twitter_xml) < 25) {

@@ -86,6 +86,14 @@
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="/js/plugins.js"></script>
   <script defer src="/js/script.js"></script>
+<?php foreach( (array) $page->get( 'js' ) as $script): ?>
+  <script defer src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
+<?php endforeach; ?>
+<?php foreach( (array) $page->get( 'script' ) as $block): ?>
+  <script type="text/javascript" charset="UTF-8">
+    <?= $block; ?>
+  </script>
+<?php endforeach; ?>
   <!-- end scripts-->
 
 </body>

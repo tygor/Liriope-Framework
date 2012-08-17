@@ -5,6 +5,7 @@
 
 // Set some default router rules
 router::setRule( 'home',      '*',           'liriope/show' ); // catchall rule
+router::setRule( 'tweets',    'tweets/from/!user/:limit', 'liriope/tweets/user/$user/limit/$limit', 'module' ); // catchall rule
 router::setRule( 'gallery',   'gallery',     'gallery/show' );
 router::setRule( 'image',     'gallery/!id', 'gallery/image/$id' );
 router::setRule( 'flush',     'flush',       'liriope/flush' );

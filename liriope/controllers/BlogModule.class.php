@@ -15,6 +15,8 @@ class BlogModule Extends LiriopeModule {
     global $module;
 
     $contentDir = c::get( 'root.content' );
+    // Hold the name of the custom view file if one was passed
+    $customView = FALSE;
 
     // look for a custom blog folder
     if( a::get($vars, 'dir')===NULL ) {

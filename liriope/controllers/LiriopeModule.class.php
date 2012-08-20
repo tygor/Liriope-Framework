@@ -93,7 +93,7 @@ class LiriopeModule {
       $message->error = $e->getMessage();
     }
 
-    $module->tweets = $tweets;
+    $module->tweets = !empty( $tweets ) ? $tweets : array();
     $module->user = $user;
     $module->limit = $limit;
   }

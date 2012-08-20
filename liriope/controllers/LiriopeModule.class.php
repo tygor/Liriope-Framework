@@ -78,7 +78,9 @@ class LiriopeModule {
       if( !$user ) throw new Exception('Woops! Can\'t find that twitter user.');
       $limit = a::get($params,'limit',3);
 
+      if( !ini_get( 'allow_url_fopen' )) ini_set( 'allow_url_fopen', '1' );
       $twitter_feed = str::parse(@file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".json"));
+      ini_restore('allow_url_fopen');
     
       if( empty($twitter_feed)) {
         // not enough data

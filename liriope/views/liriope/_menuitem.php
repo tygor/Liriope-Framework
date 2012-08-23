@@ -1,5 +1,5 @@
-<li<?php echo $hasChildren ? ' class="deeper"' : '' ?>>
-  <a href="<?php echo url( $url ) ?>" <?php echo ($isActive) ? ' class="active"' : '' ?>><?php echo html($label) ?></a>
+<li<?= $hasChildren ? ' class="deeper"' : '' ?>>
+  <a href="<?= url( $url ) ?>" <?php echo ($isActive) ? ' class="active"' : '' ?>><?= html($label) ?></a>
   <?php if( $hasChildren ): ?>
   <ul class="children">
     <?php foreach( $children as $child ): ?>

@@ -33,8 +33,11 @@ class Yaml {
 
   public function parse() {
     if( empty( $this->yaml )) return FALSE;
-    if( is_file( $this->yaml )) $yaml = SPyc::YAMLLoad( $this->yaml );
-    else $yaml = Spyc::YAMLLoadString( $this->yaml );
+    if( is_file( $this->yaml )) {
+      $yaml = SPyc::YAMLLoad( $this->yaml );
+    } else {
+      $yaml = Spyc::YAMLLoadString( $this->yaml );
+    }
     return $yaml;
   }
   

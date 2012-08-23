@@ -181,6 +181,13 @@ class a {
     return $array;
   }
 
+  // fastforward()
+  //
+  static function fastforward( $array )  {
+    end( $array );
+    return $array;
+  }
+
   // unfold()
   // takes a key, value paired array and unfolds it into a new array of all
   // values (keys become values in order)

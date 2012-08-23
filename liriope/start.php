@@ -41,7 +41,8 @@ c::set( 'path', array(
   c::get( 'root.liriope' ) . '/library',
   c::get( 'root.liriope' ) . '/controllers',
   c::get( 'root.liriope' ) . '/models',
-  c::get( 'root.liriope' ) . '/views'
+  c::get( 'root.liriope' ) . '/views',
+  c::get( 'root.content' )
 ));
 
 // load the rest of the system

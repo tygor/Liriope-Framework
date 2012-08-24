@@ -8,7 +8,7 @@
       'children'    => $child->getChildren(),
       'url'         => $child->url,
       'label'       => $child->label,
-      'isActive'    => $child->isActive
+      'isActive'    => $child->isActive()
     )) ?>
     <?php endforeach ?>
    </ul>

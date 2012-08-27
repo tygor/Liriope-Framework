@@ -204,7 +204,8 @@ class router {
   // 
   static function go ( $url=FALSE, $code=FALSE ) {
 
-    if( empty( $url )) $url = c::get( 'root.URL', '/' );
+    if( is_numeric( $url )) { $code = $url; }
+    if( empty( $url )) { $url = c::get( 'root.URL', '/' ); }
     switch( $code ) {
       case 301:
         header( 'HTTP/1.1 301 Moved Permanently' );

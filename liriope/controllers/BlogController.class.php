@@ -13,6 +13,7 @@ class BlogController Extends LiriopeController {
   //
   public function show( $vars=NULL ) {
     $page = $this->getPage();
+    $defaultLimit = 10;
 
     $contentDir = c::get( 'root.content' );
 
@@ -27,8 +28,13 @@ class BlogController Extends LiriopeController {
       $this->useView( basename( $blogDir ));
     }
 
+    // build a page url from the GET vars for this blog listing
+    $blogListingURL = $blogDir.'/show'.'/limit/'.a::get($vars,'limit',$defaultLimit);
+    $page->set('paginationURL', $blogListingURL.'/page/');
+    $blogListingURL .= '/page/'.a::get($vars,'page',1);
+
     $blogs = new Blogs( $contentDir . '/' . $blogDir );
-    $posts = $blogs->getList( a::get( $vars, 'limit', 10 ), a::get( $vars, 'page', 1 ));
+    $posts = $blogs->getList( a::get( $vars, 'limit', $defaultLimit ), a::get( $vars, 'page', 1 ));
 
     // catch an empty set
     if( empty( $posts )) {
@@ -37,8 +43,8 @@ class BlogController Extends LiriopeController {
     }
 
     $page->set( 'blogs', $posts );
-    $page->set( 'limitNum', a::get( $vars, 'limit', 10 ));
-    $page->set( 'totalPages', ceil( $blogs->count() / a::get( $vars, 'limit', 10 )));
+    $page->set( 'limitNum', a::get( $vars, 'limit', $defaultLimit ));
+    $page->set( 'totalPages', ceil( $blogs->count() / a::get( $vars, 'limit', $defaultLimit )));
     $page->set( 'pageNum', a::get( $vars, 'page', 1 ));
   }
 

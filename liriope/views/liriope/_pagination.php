@@ -2,45 +2,24 @@
 // Pagination
 // show the below if the total pages is > 1
 $page = $module->page();
+$url = $page->paginationURL;
 if( $page->totalPages > 1 ):
 ?>
 
-<div class='pagination'>
-  <a href="<?php echo url(
-      $page->url(TRUE) .
-      '/limit/'.$page->limitNum.'/page/1') ?>" class="first">&laquo;</a>
-  <?php if( $page->pageNum > 1 ) : ?>
-    <a href="<?php echo url(
-      $page->url(TRUE) .
-      '/page/' . ( $page->pageNum - 1 ) .
-      '/limit/' . $page->limitNum
-      ) ?>" class="prev">&lt;</a>
-  <?php else: ?>
-    <span>&lt;</span>
-  <?php endif; ?>
+<ul class='pagination'>
+  <li class="arrow<?php if( $page->pageNum <= 1 ) echo ' unavailable' ?>">
+    <a href="<?php if( $page->pageNum > 1 ) { echo url($url . ($page->pageNum-1)); } else { echo '#'; } ?>" class="prev">&laquo;</a>
+  </li>
   <?php for( $i=1; $i<=$page->totalPages; $i++ ): ?>
-    <?php $class = ( $i == $page->pageNum ) ? 'page current' : 'page'; ?>
-    <a href="<?php echo url(
-      $page->url(TRUE) .
-      '/page/'.$i .
-      '/limit/'.$page->limitNum
-      ) ?>" class="<?php echo $class ?>"><?php echo $i ?></a>
+    <?php $class = ( $i == $page->pageNum ) ? 'current' : ''; ?>
+    <li>
+      <a href="<?= url( $url . $i) ?>" class="<?php echo $class ?>"><?php echo $i ?></a>
+    </li>
   <?php endfor; ?>
-  <?php if( $page->pageNum < $page->totalPages ) : ?>
-    <a href="<?php echo url(
-      $page->url(TRUE) .
-      '/page/'.( $page->pageNum + 1 ) .
-      '/limit/'.$page->limitNum
-      ) ?>" class="next">&gt;</a>
-  <?php else: ?>
-    <span>&gt;</span>
-  <?php endif; ?>
-  <a href="<?php echo url(
-      $page->url(TRUE) .
-      '/page/'.$page->totalPages .
-      '/limit/'.$page->limitNum
-      ) ?>" class="last">&raquo;</a>
-</div>
+  <li class="arrow<?php if( $page->pageNum >= $page->totalPages ) echo ' unavailable' ?>">
+    <a href="<?php if( $page->pageNum < $page->totalPages ) { echo  url( $url . ($page->pageNum+1)); } else { echo '#'; } ?>" class="last">&raquo;</a>
+  </li>
+</ul>
 
 <?php endif; ?>
 

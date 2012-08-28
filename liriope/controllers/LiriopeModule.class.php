@@ -34,7 +34,7 @@ class LiriopeModule {
 
   public function pagination( $vars ) {
     global $module;
-    $module->page = $vars['page'];
+    $module->page = a::get($vars,'page');
   }
 
   public function menu( $params=array() ) {

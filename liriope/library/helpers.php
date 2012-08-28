@@ -24,7 +24,7 @@ function snippet( $file=NULL, $params=NULL ) {
   if( $file===NULL ) return NULL;
   $path = c::get( 'root.snippets' );
   $success = load::file( $path . '/' . $file, FALSE, $params );
-  if( !$success ) throw new Exception( 'Woops! Can\'t find the snippet ' . $file );
+  if( !$success ) trigger_error( 'Woops! Can\'t find the snippet ' . $file );
 }
 
 //

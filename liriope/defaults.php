@@ -8,6 +8,7 @@ router::setRule( 'home',      '*',           'liriope/show' ); // catchall rule
 router::setRule( 'tweets',    'tweets/from/!user/:limit', 'liriope/tweets/user/$user/limit/$limit', 'module' ); // catchall rule
 router::setRule( 'gallery',   'gallery',     'gallery/show' );
 router::setRule( 'image',     'gallery/!id', 'gallery/image/$id' );
+router::setRule( 'crawl',     'crawl',       'liriope/crawl' );
 router::setRule( 'flush',     'flush',       'liriope/flush' );
 router::setRule( 'search',    'search/*',    'liriope/search' );
 router::setRule( 'mail',      'mail/:rot13', 'liriope/mail' );
@@ -32,6 +33,7 @@ c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt', 'yml', 'yaml' 
 c::set( 'context', 'render' );
 c::set( 'cache', TRUE );
 c::set( 'index', TRUE );
+c::set( 'index.multiplier', 3 );
 
 //
 // Set some site defaluts

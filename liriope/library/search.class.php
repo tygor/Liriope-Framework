@@ -223,14 +223,19 @@ class index {
   // pattern for stripping out wanted characters to index
   static $stripPattern = '/[^a-z0-9,\'"=:%]/iu';
 
+  // multiplier for title and meta tag words, giving them more importance
+  static $multiplier;
+
   // store()
   //
   // @param  object  $html The page content to index
   //
-  static function store( $id, $html, $body ) {
+  static function store( $id, $html, $body=NULL ) {
     if( a::contains( self::$ignoreURLs, $id )) return false;
-    self::$body = $body; // to index for content
+    self::$body = $body!==NULL ? $body : $html; // to index for content
     self::$html = $html; // for grabbing crawler links, title and meta
+
+    self::$multiplier = c::get('index.multiplier', 3);
 
     // first, process what we want from the full HTML
     self::saveLinks();
@@ -242,11 +247,21 @@ class index {
     self::removeInline();
     self::removeComments();
     self::$body = strip_tags( self::$body );
-    //$words = explode( ',', trim( str::stripToWords( self::$body ), ' ,' ));
     $words = explode( ',', trim( self::stripToWords( self::$body ), ' ,' ));
 
-    // combine our words results
-    self::$content = a::combine( $words, $img );
+    // get the words from the title and meta tags, multiplying their score by duplicating their words
+    $goldwords = array();
+    foreach( $meta as $m ) {
+      end($goldwords);
+      $goldwords += array_fill( key($goldwords)+1, self::$multiplier, $m );
+    }
+    foreach( explode(',',trim(self::stripToWords($title))) as $t ) {
+      end($goldwords);
+      $goldwords += array_fill( key($goldwords)+1, self::$multiplier, $t );
+    }
+
+    // combine our word results
+    self::$content = array_filter(a::combine( $goldwords, $words, $img ));
 
     // now tally what we got
     self::countWords();
@@ -262,6 +277,17 @@ class index {
     $file = $dir . '/' . self::prep( $id ) . '.txt';
 
     f::write( $file, $store );
+  }
+
+  // unstore()
+  // remove a page from the index
+  //
+  // @param  string  $uri the sought uri that needs to be removed
+  //
+  static function unstore( $uri ) {
+    $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
+    $file = $dir . '/' . str::replace( '/', '|', $uri ) . '.txt';
+    f::remove($file);
   }
 
   // stripToWords()

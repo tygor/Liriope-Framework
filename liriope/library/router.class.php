@@ -218,6 +218,7 @@ class router {
         break;
       case 404:
         header( 'HTTP/1.0 404 Not Found' );
+        index::unstore(uri::get());
         $url = '/error/404';
         break;
     }

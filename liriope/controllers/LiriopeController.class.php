@@ -71,6 +71,10 @@ class LiriopeController {
     router::go();
   }
 
+  public function crawl( $params=NULL ) {
+    crawler::crawl();
+  }
+
   public function mail( $encoded=NULL ) {
     $page = $this->getPage();
     list( $user, $host, $tld ) = explode( '+', str::rot( $encoded[0] ));

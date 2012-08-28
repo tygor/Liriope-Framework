@@ -78,6 +78,7 @@ class crawler {
         $internal[] = $u;
       }
     }
+a::show($internal);exit;
     self::$internal = array_unique( array_merge( self::$internal, $internal ));
     self::$external = array_unique( array_merge( self::$external, $external ));
   }

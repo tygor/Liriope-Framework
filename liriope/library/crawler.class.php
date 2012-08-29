@@ -33,6 +33,7 @@ class crawler {
     foreach( (array) self::$internal as $i ) {
       $page = self::getPage( $i );
       self::visit( $i, $page );
+      self::$visited[] = $i;
       self::getHREF($page);
     }
   }

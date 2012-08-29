@@ -56,7 +56,8 @@ function slugify( $input=NULL ) {
 // HTML
 // creates safe html
 function html( $string ) {
-  return str::html( $string, true );
+  $html = new String( $string );
+  return $html->to_html();
 }
 
 // go

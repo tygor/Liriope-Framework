@@ -53,6 +53,8 @@ class load
     load::file( $root . '/library/counter.class.php', TRUE );
     load::file( $root . '/library/search.class.php', TRUE );
     load::file( $root . '/library/crawler.class.php', TRUE );
+    // test object
+    load::file( $root . '/library/String.class.php', TRUE );
     load::file( $root . '/controllers/LiriopeController.class.php', TRUE );
   }
 

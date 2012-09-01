@@ -72,7 +72,11 @@ class LiriopeController {
   }
 
   public function crawl( $params=NULL ) {
-    crawler::crawl();
+    $page = $this->getPage();
+    $visited = crawler::crawl();
+    $count = count((array)$visited);
+    $page->set('visited', $visited);
+    $page->set('crawled', $count);
   }
 
   public function mail( $encoded=NULL ) {

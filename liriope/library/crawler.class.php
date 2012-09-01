@@ -16,34 +16,52 @@ class crawler {
   // stores the internal urls
   static $internal = array();
 
+  // position of the visited pointer
+  static $pos = 0;
+
   // stores the external urls (though I'm not sure how to use these yet)
   static $external = array();
 
   static function crawl() {
     self::$root = c::get('url');
-    $page = self::getPage(self::$root);
+    $page = self::getPage('/');
     // index the home page
     // TODO: this grabs and indexes the whole HTML where in the MVC process of a pageview, it only grabs the page body content
     self::visit( 'home', $page );
     self::getHREF($page);
     self::traverse();
+    return self::$visited;
   }
 
   static function traverse() {
-    foreach( (array) self::$internal as $i ) {
+    while( $i = self::nextplease() ) {
       $page = self::getPage( $i );
       self::visit( $i, $page );
-      self::$visited[] = $i;
       self::getHREF($page);
     }
   }
 
+  static function nextplease() {
+    // get current() of the internal and move pointer
+    if( isset(self::$internal[self::$pos] )) {
+      $current = self::$internal[self::$pos];
+      if(isset($current) && !in_array( $current, self::$visited)) {
+        self::$pos++;
+        return $current;
+      }
+    }
+    return false;
+  }
+
   static function visit( $id, $html ) {
-    self::$visited[$id] = TRUE;
-    index::store( 'home', $html );
+    if(!in_array($id, self::$visited)) {
+      self::$visited[] = $id;
+      index::store( $id, $html );
+    }
   }
 
   static function getPage( $url ) {
+    $url = self::$root . '/'.$url;
     $ch = curl_init();
     curl_setopt( $ch, CURLOPT_URL, $url );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -79,7 +97,6 @@ class crawler {
         $internal[] = $u;
       }
     }
-a::show($internal);exit;
     self::$internal = array_unique( array_merge( self::$internal, $internal ));
     self::$external = array_unique( array_merge( self::$external, $external ));
   }

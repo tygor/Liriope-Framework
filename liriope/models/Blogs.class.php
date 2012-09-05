@@ -140,7 +140,7 @@ class Blogs extends obj {
   // @param  int   $page  The starting multiplier of $limit
   // @return array An array of entires
   //
-  public function getList( $limit, $page ) {
+  public function getList( $limit, $page=1 ) {
     // convert each blog file into an object
     $files = array();
     foreach( $this->files as $file ) {
@@ -152,6 +152,15 @@ class Blogs extends obj {
     $start = ( $page * $limit ) - $limit;
     $entries = array_slice( $this->files, $start, $limit);
     return (array) $entries;
+  }
+
+  // getNext()
+  // returns the current() blog post and moves the array position
+  //
+  public function getNext() {
+    $post = current($this->files);
+    next($this->files);
+    return $this->init( $post );
   }
 
   // getPost()

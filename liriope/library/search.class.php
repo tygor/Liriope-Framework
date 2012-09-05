@@ -401,9 +401,9 @@ class index {
     if( $array === NULL ) $array = self::$content;
     $tally = array();
     foreach( $array as $word ) {
-      $word = trim( str::lowercase( $word ), ' .,-"\'');
-      if( !isset( $tally[$word] )) $tally[$word] = 1;
-      else $tally[$word] = $tally[$word] + 1;
+      $word_id = trim( str::lowercase( $word ), ' .,-"\'');
+      if( !isset( $tally[$word_id] )) $tally[$word_id] = 1;
+      else $tally[$word_id] = $tally[$word_id] + 1;
     }
     $tally = array_diff_key( $tally, array_flip( self::$ignore ));
     arsort( $tally );

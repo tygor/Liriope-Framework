@@ -104,4 +104,14 @@ class uri {
     return md5( url( self::$path ));
   }
 
+  // toRelative()
+  // takes the passed file system path and converts it to the web root relative path
+  //
+  // @param  string  $path The path to convert
+  // @return string  Returns the new path relative to the web root
+  static function toRelative($path) {
+    $return = new String($path);
+    return $return->minus(c::get('root.web', 'web'))->get();
+  }
+
 } ?>

@@ -17,6 +17,8 @@ class Blogs extends obj {
   var $modified;
   // the files within the blog
   var $files = array();
+  // holds the initilization status of the blog files
+  var $initFlag = FALSE;
 
   // __construct()
   // builds the Blog model object
@@ -141,26 +143,36 @@ class Blogs extends obj {
   // @return array An array of entires
   //
   public function getList( $limit, $page=1 ) {
+    $this->initAll();
+    $start = ( $page * $limit ) - $limit;
+    $entries = array_slice( $this->files, $start, $limit);
+    return (array) $entries;
+  }
+
+  // initAll()
+  // loads each blog file so that the file's settings can be read
+  //
+  public function initAll() {
+    if( $this->initFlag ) return TRUE;
     // convert each blog file into an object
     $files = array();
     foreach( $this->files as $file ) {
       $files[] = $this->init( $file );
     }
     $this->files = $files;
-
     $this->sortFiles();
-    $start = ( $page * $limit ) - $limit;
-    $entries = array_slice( $this->files, $start, $limit);
-    return (array) $entries;
+    $this->initFlag = TRUE;
+    return $this;
   }
 
   // getNext()
   // returns the current() blog post and moves the array position
   //
   public function getNext() {
+    $this->initAll();
     $post = current($this->files);
     next($this->files);
-    return $this->init( $post );
+    return $post;
   }
 
   // getPost()
@@ -203,6 +215,7 @@ class Blogs extends obj {
       }
     }
     uasort( $this->files, "Blogs::compareModifiedDate" );
+    reset( $this->files );
     return $this;
   }
 

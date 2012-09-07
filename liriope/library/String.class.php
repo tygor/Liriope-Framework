@@ -16,6 +16,10 @@ class String {
   }
 
   public function __toString() {
+    return $this->get();
+  }
+
+  public function get() {
     $return = $this->getInstance();
     unset( $this->instance );
     return $return;

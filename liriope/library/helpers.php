@@ -85,4 +85,21 @@ function publish( $start=FALSE, $stop=FALSE ) {
   return FALSE;
 }
 
+// img()
+// takes a guessed path to an image file and if it's not there, it searches for it
+// uses the current URI to help guess
+//
+// @param  string  $file The path plus file name to insert
+// @return string  Returns the source for <img src=""> relative to the root of the site
+//
+function img($file) {
+  $content = c::get('root.content', 'content');
+  $root = uri::toRelative($content);
+  $uri = uri::get();
+  $path = "$root/$uri/$file";
+  if(file_exists($content . '/' . $uri . '/' . $file)) return $path;
+  trigger_error("We couldn't guess where that image is", E_USER_WARNING);
+  return false;
+}
+
 ?>

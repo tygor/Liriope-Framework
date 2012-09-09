@@ -403,7 +403,8 @@ class index {
     if( $array === NULL ) $array = self::$content;
     $tally = array();
     foreach( $array as $word ) {
-      $word_id = trim( str::lowercase( $word ), ' .,-"\'');
+      $word = new String($word);
+      $word_id = $word->to_lowercase()->trim(' .,-"\'')->get();
       if( !isset( $tally[$word_id] )) $tally[$word_id] = 1;
       else $tally[$word_id] = $tally[$word_id] + 1;
     }

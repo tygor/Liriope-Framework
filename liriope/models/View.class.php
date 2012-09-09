@@ -8,6 +8,8 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // handles throwing to HTML
 //
 
+load::file( load::exists( 'Obj.class.php'), TRUE );
+
 class View extends obj {
 
   // the controller to call

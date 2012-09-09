@@ -74,7 +74,15 @@ class crawler {
     $ignore = array( '/', '#' );
     $pattern = '#<a[^href]href=[\'"](.*?)[\'"]#i';
     preg_match_all( $pattern, $s, $matches );
-    //self::$urls = array_unique( array_merge( self::$urls, array_map( function ($v) { return str_replace( c::get('url') . '/', '', $v); }, array_diff($matches[1], $ignore) )));
+    self::$urls = array_unique( array_merge(
+      self::$urls,
+      array_map(
+        function ($v) {
+          return str_replace( c::get('url') . '/', '', $v);
+        },
+        array_diff($matches[1], $ignore)
+      )
+    ));
     self::splitURLS( self::$urls );
   }
 

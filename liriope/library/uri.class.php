@@ -74,14 +74,13 @@ class uri {
 
   static function getURI() {
     if( empty( self::$route )) {
-      $route = parse_url( self::getRawURI(), PHP_URL_PATH);
-      $route = str::replace( 'index.php', '', $route );
-      $route = trim( $route, '/' );
-      if( $route === "" ) {
+      $route = new String(parse_url( self::getRawURI(), PHP_URL_PATH));
+      $result = $route->minus('index.php')->trim("/")->get();
+      if( $result === "" ) {
         self::$isHome = TRUE;
-        $route = c::get( 'home', 'home' );
+        $result = c::get( 'home', 'home' );
       }
-      self::store( $route );
+      self::store( $result );
     }
     return self::$route;
   }

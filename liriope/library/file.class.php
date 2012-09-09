@@ -34,8 +34,8 @@ class f {
   // @return mixed 
   //   
   static function read( $file, $parse=FALSE ) {
-    $content = @file_get_contents( $file );
-    return ( $parse) ? str::parse( $content, $parse ) : $content;
+    $content = new String(@file_get_contents($file));
+    return ( $parse) ? $content->parse($parse) : $content->get();
   }
 
   // remove()

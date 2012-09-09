@@ -35,26 +35,23 @@ class load
     // load controllers, model, helpers, or just anything that
     // is integral to the Liriope Framework
     $root = c::get( 'root.liriope' );
-    load::file( $root . '/library/obj.class.php', TRUE );
+    // Toolbox
+    load::file( $root . '/library/string.class.php', TRUE );
+    load::file( $root . '/library/array.class.php', TRUE );
     load::file( $root . '/library/uri.class.php', TRUE );
     load::file( $root . '/library/router.class.php', TRUE );
-    load::file( $root . '/library/browser.class.php', TRUE );
+    //load::file( $root . '/library/browser.class.php', TRUE );
     load::file( $root . '/library/error.class.php', TRUE );
     load::file( $root . '/library/filter.class.php', TRUE );
     load::file( $root . '/library/content.class.php', TRUE );
-    load::file( $root . '/library/cache.class.php', TRUE );
+    //load::file( $root . '/library/cache.class.php', TRUE );
     load::file( $root . '/library/dir.class.php', TRUE );
     load::file( $root . '/library/file.class.php', TRUE );
     load::file( $root . '/library/server.class.php', TRUE );
     load::file( $root . '/library/request.class.php', TRUE );
-    load::file( $root . '/library/array.class.php', TRUE );
-    load::file( $root . '/library/string.class.php', TRUE );
     load::file( $root . '/library/menu.class.php', TRUE );
     load::file( $root . '/library/counter.class.php', TRUE );
     load::file( $root . '/library/search.class.php', TRUE );
-    load::file( $root . '/library/crawler.class.php', TRUE );
-    // test object
-    load::file( $root . '/library/String.class.php', TRUE );
     load::file( $root . '/controllers/LiriopeController.class.php', TRUE );
   }
 

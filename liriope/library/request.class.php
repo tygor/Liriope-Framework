@@ -38,7 +38,8 @@ class r {
   static function sanatize( $data ) {
     foreach( $data as $k => $v ) {
       if( !is_array( $v )) {
-        $v = trim( str::stripslashes( $v ));
+        $v = new String($v);
+        $v = $v->stripslashes()->get();
       } else {
         $v = self::sanatize( $v );
       }

@@ -47,9 +47,10 @@ class search {
     if( empty( $this->query )) return FALSE;
 
     // convert search to comma delimited string
-    $this->searchwords = preg_replace( index::$stripPattern, ',', $this->query );
-    if( !$this->casesensitive ) $this->searchwords = strtolower( $this->searchwords );
-    $this->searchwords = str::split( $this->searchwords, ',' );
+    //$this->searchwords = preg_replace( index::$stripPattern, ',', $this->query );
+    $searchwords = new String(preg_replace( index::$stripPattern, ',', $this->query ));
+    if( !$this->casesensitive ) $searchwords->to_lowercase();
+    $this->searchwords = $searchwords->split(',');
 
     // remove ignored words
     $this->searchwords = array_diff( $this->searchwords, index::$ignore );
@@ -286,7 +287,8 @@ class index {
   //
   static function unstore( $uri ) {
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
-    $file = $dir . '/' . str::replace( '/', '|', $uri ) . '.txt';
+    $uri = new String($uri);
+    $file = $dir . '/' . $uri->replace( '/', '|' ) . '.txt';
     f::remove($file);
   }
 

@@ -19,14 +19,22 @@ class String {
     return $this->get();
   }
 
+  public function raw() {
+    return $this->_;
+  }
+
+  public function peek() {
+    return $this->getInstance();
+  }
+
   public function get() {
-    $return = $this->getInstance();
+    $return = &$this->getInstance();
     unset( $this->instance );
     return $return;
   }
 
   private function &getInstance() {
-    if(empty($this->instance)) {
+    if(!isset($this->instance)) {
       $this->instance = $this->_;
     }
     return $this->instance;
@@ -109,6 +117,7 @@ class String {
   }
 
   // stripslashes
+  // magic quote test, then strip slashes
   //
   public function stripslashes() {
     $i = &$this->getInstance();
@@ -132,6 +141,24 @@ class String {
       $replacements[] = sprintf( $wrapper, $match, $match );
     }
     $i = preg_replace( $patterns, $replacements, $i );
+    return $this;
+  }
+
+  // rot()
+  // rotate the characters as if in a circle
+  //
+  public function rot( $n=13 ) {
+    $i = &$this->getInstance();
+    static $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+    $n = (int)$n % 26;
+    if (!$n) return $this;
+    if ($n < 0) $n += 26;
+    if ($n == 13) {
+      $i = str_rot13($i);
+    } else {
+      $rep = substr($letters, $n * 2) . substr($letters, 0, $n * 2);
+      $i = strtr($i, $letters, $rep);
+    }
     return $this;
   }
 
@@ -165,6 +192,29 @@ class String {
     }
     $i = (array) $out;
     return $i;
+  }
+
+  // parse()
+  // parse the passed content with the chosen parse method
+  //
+  public function parse( $mode='json' ) {
+    $i = &$this->getInstance();
+    if( is_array( $i )) return $this;
+    switch( $mode ) {
+      case 'json':
+        $result = (array) @json_decode( $i, TRUE );
+        break;
+      case 'url':
+        $result = (array) @parse_url( $i );
+        break;
+      case 'php':
+        $result = @unserialize( $i );
+        break;
+      default:
+        $result = $i;
+        break;
+    }
+    return $result;
   }
 
 }

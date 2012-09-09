@@ -7,6 +7,8 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // menu
 //
 
+load::file( load::exists( 'Obj.class.php'), TRUE );
+
 class menu extends obj {
   var $depth;
   var $label;

@@ -2,9 +2,10 @@
 
 $page->title = 'Twitter Module';
 $page->date = '2012/08/18';
-$page->script = ("
-  $(document).ready(function() {
-    $(\"#tweets\").fadeOut('slow').load('/tweets/from/tyler_s_gordon/5').fadeIn('slow');
+$page->script( "
+  $(window).load(function(){
+    // Grab the last tweet
+    getTweets('tyler_s_gordon', 5);
   });
 ");
 

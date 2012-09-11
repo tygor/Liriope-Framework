@@ -21,16 +21,6 @@
   <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
   <?php endforeach; ?>
 
-  <!-- JS -->
-  <?php foreach( (array) $page->get( 'js' ) as $script): ?>
-  <script src="<?= $script['file']; ?>" type="<?= $script['type']; ?>"></script>
-  <?php endforeach; ?>
-  
-  <?php foreach( (array) $page->get( 'script' ) as $block): ?>
-  <script type="text/javascript" charset="UTF-8">
-    <?= $block; ?>
-  </script>
-  <?php endforeach; ?>
   <!-- end CSS-->
 
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>

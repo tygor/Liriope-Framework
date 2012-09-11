@@ -78,9 +78,9 @@ class LiriopeModule {
       if( !$user ) throw new Exception('Woops! Can\'t find that twitter user.');
       $limit = a::get($params,'limit',3);
 
-      if( !ini_get( 'allow_url_fopen' )) ini_set( 'allow_url_fopen', '1' );
-      $twitter_feed = str::parse(@file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".json"));
-      ini_restore('allow_url_fopen');
+die("this needs to be updated from my NRHC site code, which uses javascript rather than relying on the url_allow_fopen php ini setting");
+      $twitter_feed = new String(@file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".json"));
+      $twitter_feed->parse();
     
       if( empty($twitter_feed)) {
         // not enough data

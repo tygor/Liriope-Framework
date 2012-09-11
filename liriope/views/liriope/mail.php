@@ -15,7 +15,7 @@ $page->theme = NULL;
   <body>
     <div id="wrap">
       <h1>You're about to send an e-mail to <strong><?php echo $page->email() ?></strong></h1>
-      <p>We've opened up your e-mail program. If that didn't work, please click
+      <p>We've opened up your e-mail program. If that didn't work, please copy and paste this email into your favorite email program:
       <a href="mailto:<? echo $page->email() ?>"><?=$page->email() ?></a>.</p>
     </div>
   </body>

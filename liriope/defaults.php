@@ -117,7 +117,7 @@ function emailIncognito( $c ) {
     $email = "$one+$two+$three";
     if($emails[$k][4]) $email = $email . '?' . $emails[$k][4];
     $strip = preg_replace('/\s*href=[\'"].*[\'"]|\s*class=[\'"].*[\'"]/iU', '', $m);
-    $anchors[$k] = preg_replace('/<a(.*)/iU', '<a href="mail/'.$email.'" class="'.$class.'" $1', $strip);
+    $anchors[$k] = preg_replace('/<a(.*)/iU', '<a href="/mail/'.$email.'" class="'.$class.'" $1', $strip);
   }
   // now replace each in the content
   $firstpass = $c;

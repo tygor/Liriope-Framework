@@ -81,7 +81,8 @@ class LiriopeController {
 
   public function mail( $encoded=NULL ) {
     $page = $this->getPage();
-    list( $user, $host, $tld ) = explode( '+', str::rot( $encoded[0] ));
+    $covert_email = new String($encoded[0]);
+    list( $user, $host, $tld ) = $covert_email->rot()->split('+');
     $email = sprintf( '%s@%s.%s', $user, $host, $tld );
     $page->set( 'email', $email );
   }

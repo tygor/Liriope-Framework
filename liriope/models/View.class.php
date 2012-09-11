@@ -80,10 +80,13 @@ class View extends obj {
       $content_html = $page->render();
       if( $page->theme() !== NULL ) {
         $html = theme::load( $page->theme(), array( 'page'=>$page, 'content'=>$content_html ), TRUE );
+        $html = filter::doFilters( $html );
+        if( c::get( 'cache' )) { cache::set( $cacheID, (string) $html, TRUE ); }
+        if( c::get( 'index' )) { index::store( uri::get(), (string) $html, (string) $content_html ); }
+      } else {
+        // if the theme is set to null, simply return the content html
+        $html = $content_html;
       }
-      $html = filter::doFilters( $html );
-      if( c::get( 'cache' )) { cache::set( $cacheID, (string) $html, TRUE ); }
-      if( c::get( 'index' )) { index::store( uri::get(), (string) $html, (string) $content_html ); }
     } else {
       $html = $cacheData;
       if( c::get('debug')) {

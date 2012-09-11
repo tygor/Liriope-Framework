@@ -2,7 +2,7 @@
 
 $page->title = 'Twitter Module';
 $page->date = '2012/08/18';
-$page->script( "
+$page->script("
   $(window).load(function(){
     // Grab the last tweet
     getTweets('tyler_s_gordon', 5);

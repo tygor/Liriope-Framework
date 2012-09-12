@@ -53,6 +53,8 @@ class LiriopeController {
     // render the Liriope model using it's __toString function
     // this will store the new $page variables that are in the view and content files
     $page->set( 'content', $liriope->render( $page ));
+    
+    // now that it has been rendered, the page variables are loaded
   }
 
   // search()

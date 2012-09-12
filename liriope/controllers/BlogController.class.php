@@ -85,6 +85,7 @@ class BlogController Extends LiriopeController {
     // get the post css, js, and script blocks
     $page->description = $post->description ? $post->description : $page->description;
     $page->author = $post->author ? $post->author : $page->author;
+    $page->add_keywords($post->keywords);
     foreach( (array) $post->css as $v ) $page->css($v);
     foreach( (array) $post->js as $v ) $page->js($v);
     foreach( (array) $post->script as $v ) $page->script($v);

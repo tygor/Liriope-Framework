@@ -13,6 +13,8 @@ class Page extends obj {
   // TODO: this is confusing since the page parent is View... perhaps rename this variable to template?
   var $_view;
 
+  var $keywords;
+
   var $vars = array();
 
   function __construct( $file=NULL ) {
@@ -78,6 +80,23 @@ class Page extends obj {
     // return the root URI item
     $parts = explode( '/', trim( $this->uri, '/' ));
     return $parts[0];
+  }
+
+  public function keywords() {
+    if(empty($this->keywords)) {
+      $s = new String(c::get('page.keywords'));
+      $s = $s->split(',');
+      $this->keywords = a::glue($s, ',');
+    }
+    return $this->keywords;
+  }
+
+  public function add_keywords($s) {
+    if(!is_array($s)) {
+      $s = new String($s);
+      $s = $s->split(',');
+    }
+    $this->keywords = $this->keywords() . ',' . a::glue($s, ',');
   }
 
   public function isHomePage() {

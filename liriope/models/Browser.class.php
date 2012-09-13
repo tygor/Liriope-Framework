@@ -101,7 +101,7 @@ class browser {
     self::$name      = $bname;
     self::$shortname = strtolower($ub);
     self::$version   = $version;
-    self::$shortver  = strstr( $version,'.',true );
+    self::$shortver  = substr($version, 0,strpos($version,'.'));
     self::$platform  = $platform;
     self::$pattern   = $pattern;
 

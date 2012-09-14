@@ -1,7 +1,7 @@
 <?php
 
-$blog->title = 'A page with an image';
-$blog->date = '2012-04-17';
+$page->title = 'A page with an image';
+$page->date = '2012-04-17';
 
 $page->css( 'content/blog/2012-04-17/styles.css' );
 

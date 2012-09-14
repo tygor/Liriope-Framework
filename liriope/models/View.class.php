@@ -50,7 +50,7 @@ class View extends obj {
     $check = $this->_controller . '/' . $this->_action . '_' . $file . '.php';
     $file = load::exists( $check );
     if( !$file ) return FALSE;
-    $this->_page->_view = $file;
+    $this->_page->setTheme($file);
   }
 
   // load()

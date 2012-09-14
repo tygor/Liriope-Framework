@@ -102,7 +102,7 @@ die("this needs to be updated from my NRHC site code, which uses javascript rath
     global $module;
     $file = load::exists( $this->_controller . '/_' . $this->_action . '-' . $name . '.php' );
     if(!$file) return FALSE;
-    $module->_view = $file;
+    $module->_theme = $file;
   }
 
   function __destruct() {

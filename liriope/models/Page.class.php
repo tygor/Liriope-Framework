@@ -10,15 +10,14 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 class Page extends obj {
 
   // the file to use for render
-  // TODO: this is confusing since the page parent is View... perhaps rename this variable to template?
-  var $_view;
+  var $_theme;
 
   var $keywords;
 
   var $vars = array();
 
   function __construct( $file=NULL ) {
-    $this->_view = $file;
+    $this->_theme = $file;
     $this->title = c::get( 'page.title' );
     $this->description = c::get( 'page.description' );
     $this->author = c::get( 'page.author' );
@@ -39,6 +38,12 @@ class Page extends obj {
     if( $key===NULL ) return (array) $this->vars;
     if( isset( $this->vars[$key] )) return $this->vars[$key];
     return $default;
+  }
+
+  public function setTheme($file) {
+    if(empty($file)) return FALSE;
+    $this->_theme = $file;
+    return $file;
   }
 
   public function css( $file=NULL, $rel='stylesheet' ) {
@@ -114,13 +119,13 @@ class Page extends obj {
   // attempts to render the page
   //
   // @param  bool   $return if TRUE, return the buffer string, if FALSE print it
-  // @param  string $alias  the variable name to use in the _view file for $this
+  // @param  string $alias  the variable name to use in the _theme file for $this
   // @return mixed  Returns the output buffer string, or echos it
   public function render( $return=TRUE, $alias='page' ) {
     content::start();
     $this->transferStored();
     $$alias = $this;
-    include( $this->_view );
+    include( $this->_theme );
     $render = content::end( $return );
     if( $return ) return $render;
     echo $render;

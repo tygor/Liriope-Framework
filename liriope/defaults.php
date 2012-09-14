@@ -29,6 +29,7 @@ c::set( 'theme',              'grass' );
 c::set( 'theme.folder',       'themes' );
 c::set( 'default.404.folder', 'error' );
 c::set( 'default.404.file',   '404.php' );
+// TODO: is content.filetypes needed or even used?
 c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt', 'yml', 'yaml' ));
 c::set( 'context', 'render' );
 c::set( 'cache', TRUE );

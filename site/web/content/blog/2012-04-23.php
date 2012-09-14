@@ -1,7 +1,7 @@
 <?php
 
-$blog->title = 'Routing fun';
-$blog->date = '2012-04-23';
+$page->title = 'Routing fun';
+$page->date = '2012-04-23';
 
 ?>
 

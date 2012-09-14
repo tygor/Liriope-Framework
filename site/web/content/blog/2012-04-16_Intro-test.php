@@ -1,7 +1,7 @@
 <?php
 
-$blog->title = 'No more intro text';
-$blog->date = '2012-04-16';
+$page->title = 'No more intro text';
+$page->date = '2012-04-16';
 
 ?>
 

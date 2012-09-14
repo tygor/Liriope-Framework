@@ -1,7 +1,7 @@
 <?php
 
-$blog->title = 'Wallpaper website';
-$blog->date = '2012-05-01';
+$page->title = 'Wallpaper website';
+$page->date = '2012-05-01';
 
 ?>
 

@@ -5,10 +5,10 @@ $page->date = "2012-05-09";
 
 ?>
 
-<h1><?= $blog->title; ?></h1>
+<h1><?= $page->title; ?></h1>
 <hr class='readmore'>
 
-<h1><?= $blog->title; ?></h1>
+<h1><?= $page->title; ?></h1>
 
 <p>It&rsquo;s nice to see forward movement. Not to say that I won&rsquo;t backslide anytime
 soon. It seems to go that way with coding. You move quickly to a point, discover flaws,

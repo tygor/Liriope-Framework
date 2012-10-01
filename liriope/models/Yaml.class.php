@@ -28,6 +28,7 @@ class Yaml {
   private function removeDashes( $yaml ) {
     $test = key( a::rewind( $yaml ));
     if( substr( $test, 0, 3 ) === '---' ) array_shift( $yaml );
+    if( trim(end($yaml)) === '...' ) array_pop( $yaml );
     return $yaml;
   }
 

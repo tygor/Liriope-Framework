@@ -17,8 +17,6 @@ class Yaml {
   public function get( $v=FALSE, $toArray=FALSE ) {
     if( $v===FALSE ) {
       $yaml = $this->parse();
-      // check for the Yaml document line "--- *" and chop it off
-      $yaml = $this->removeDashes( $yaml );
     }
 
     if( $toArray ) return $yaml;
@@ -28,7 +26,7 @@ class Yaml {
   private function removeDashes( $yaml ) {
     $test = key( a::rewind( $yaml ));
     if( substr( $test, 0, 3 ) === '---' ) array_shift( $yaml );
-    if( trim(end($yaml)) === '...' ) array_pop( $yaml );
+    if( end($yaml) === '...' ) array_pop( $yaml );
     return $yaml;
   }
 
@@ -39,6 +37,7 @@ class Yaml {
     } else {
       $yaml = Spyc::YAMLLoadString( $this->yaml );
     }
+    $yaml = $this->removeDashes( $yaml );
     return $yaml;
   }
   

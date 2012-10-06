@@ -33,6 +33,7 @@ c::set( 'default.404.file',   '404.php' );
 c::set( 'content.filetypes',  array( 'php', 'html', 'htm', 'txt', 'yml', 'yaml' ));
 c::set( 'context', 'render' );
 c::set( 'cache', TRUE );
+c::set( 'cache.expiration', (24*60*60));
 c::set( 'index', TRUE );
 c::set( 'index.multiplier', 3 );
 

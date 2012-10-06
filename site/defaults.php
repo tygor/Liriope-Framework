@@ -27,5 +27,6 @@ c::set( 'theme', 'grass' );
 // Debugging
 // --------------------------------------------------
 c::set( 'debug', TRUE );
-c::set( 'cache', FALSE );
+c::set( 'cache', TRUE );
+
 ?>

@@ -68,12 +68,18 @@ class View extends obj {
     $cache = NULL;
     $cacheModified = time();
     $cacheID = uri::md5URI();
+    $cacheExpiredTime = c::get('cache.expiration', (24*60*60));
 
-    if( c::get( 'cache' )) {
+    // if cache is enabled...
+    if(c::get('cache')) {
       $cacheModified = cache::modified( $cacheID );
-      // if the cache file is newer than all of the content files, then use the cache
-      if( $cacheModified >= dir::modified( c::get( 'root.content' )))
-        $cacheData = cache::get( $cacheID, TRUE );
+      // ...and the cache file is newer than all of the content files...
+      if( $cacheModified >= dir::modified( c::get( 'root.content' ))) {
+        // ...and the cache file created time is withing the expiration time
+        if(!cache::expired($cacheID, $cacheExpiredTime)) {
+          $cacheData = cache::get( $cacheID, TRUE );
+        }
+      }
     }
 
     if( empty( $cacheData )) {

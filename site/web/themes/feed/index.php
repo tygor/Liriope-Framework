@@ -6,6 +6,6 @@
     <lastBuildDate><?php echo date('r', time()) ?></lastBuildDate>
     <link><?php echo $site->url() ?></link>
     <atom:link href="<?php echo $site->url() ?>" rel="self" type="application/rss+xml" />
-    <?php echo $page->render() ?>
+    <?= $liriope ?>
   </channel>
 </rss>

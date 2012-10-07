@@ -160,7 +160,7 @@ class load
     foreach( $paths as $path ) { 
       // but what if the file passed has no extension?
       if( !isset( $info['extension'] )) {
-        foreach( c::get( 'content.filetypes', array( 'php', 'html', 'htm', 'txt', 'yml', 'yaml' )) as $ext ) {
+        foreach( c::get('load.filetypes', array( 'php', 'html', 'htm', 'txt', 'yml', 'yaml' )) as $ext ) {
           if( file_exists( "$path/$file.$ext" ) && !is_dir( "$path/$file.$ext" )) return "$path/$file.$ext"; 
         }
       }

@@ -56,13 +56,19 @@ class search {
     $this->searchwords = array_diff( $this->searchwords, index::$ignore );
 
     // escape for an empty string
-    if( empty( $this->searchwords )) return FALSE;
+    if( empty( $this->searchwords )) {
+      trigger_error("The search words were all ignored, or the query was empty");
+      return FALSE;
+    }
 
     // get the set of pages to search within--our indexed pages
     $pages = $this->getIndexedPages();
 
     $this->results = $this->search( $pages );
-    if( empty( $this->results )) return FALSE;
+    if( empty( $this->results )) {
+      trigger_error("The search results were empty for the query '" . $this->query . "'", E_USER_WARNING);
+      return FALSE;
+    }
 
     $this->sort( $this->results );
     $this->excerpt( $this->results );
@@ -75,7 +81,10 @@ class search {
     $result = array();
     foreach( $pages as $id => $page ) {
       // ignore certain pages
-      if( in_array( $id, $this->ignore )) continue;
+      if( in_array( $id, $this->ignore )) {
+        trigger_error('Ignoring this page: ' . $id, E_USER_WARNING);
+        continue;
+      }
       $found = array();
 
       // whole word matching
@@ -124,6 +133,10 @@ class search {
   // trys to grab content around the found words as an excerpt
   //
   function excerpt( &$pages ) {
+    if(empty($pages)) {
+      trigger_error("The search page result array is empty", E_USER_WARNING);
+      return FALSE;
+    }
     foreach( $pages as $id => $page ) {
       extract( router::getDispatch( (array) $id ));
       $controller = router::callController( $controller, $action, $params );

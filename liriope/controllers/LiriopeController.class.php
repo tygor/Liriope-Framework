@@ -89,6 +89,15 @@ class LiriopeController {
     $page->set( 'email', $email );
   }
 
+  public function redirect( $params=NULL ) {
+    $destination = a::get($params, 'url');
+    if(!$url = parse_url(urldecode($destination))) trigger_error('That\'s not a good URL.');
+    if(isset($url['scheme']) && substr($url['scheme'],0,4) == 'http') {
+      go(urldecode($destination));
+    }
+    go();
+  }
+
   function useView( $file=NULL ) {
     $page = $this->getPage();
     // a custom view tells me that the route controller has been customized

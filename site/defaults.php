@@ -12,6 +12,8 @@ router::setRule( 'chicken',  'news/chicken/!id',          'blog/post/dir/news:ch
 router::setRule( 'docs', 'docs/:page/:limit', 'blog/show/dir/docs/page/$page/limit/$limit' );
 router::setRule( 'doc',  'docs/!id',          'blog/post/dir/docs/id/$id' );
 
+router::setRule( 'google', 'google', 'liriope/redirect/url/'.urlencode('http://google.com'));
+
 //
 // Site 
 // --------------------------------------------------

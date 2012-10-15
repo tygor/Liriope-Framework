@@ -11,6 +11,10 @@ class BlogModule Extends LiriopeModule {
   // show()
   // displays a list of the latest blog posts
   //
+  // @param  string  $dir The blog directory to look for content
+  // @param  int     $page The page number of results to fetch
+  // @param  int     $limit The amount of entries per page
+  //
   public function show( $vars=NULL ) {
     global $module;
 

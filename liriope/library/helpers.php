@@ -9,6 +9,8 @@
 // build a url based
 //
 function url( $uri=FALSE ) {
+  // is it internal?
+  if(substr($uri,0,4)==='http') return $uri;
   // strip leading and trailing slashes
   $uri = trim( $uri, '/' );
   return c::get( 'url' ) . '/' . $uri;

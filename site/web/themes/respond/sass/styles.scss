@@ -1,0 +1,49 @@
+/**
+ * Respond theme SASS stylesheet
+ */
+
+// Testing settings
+$color1: red;
+$color2: blue;
+$color3: green;
+
+@import 'settings';
+@import 'functions';
+@import 'mixins';
+@import 'grid';
+
+html {
+  font-family: $fontStack;
+  box-sizing: border-box;
+}
+
+body {
+  width: $canvasSmall;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.25);
+}
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+// MEDIA QUERIES
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+
+@media screen and (max-width: $canvasMedium - 1) {
+  html { background: $color1; }
+  body {
+    width: $canvasSmall;
+  }
+}
+
+@media screen and (min-width: $canvasMedium) and (max-width: $canvasLarge - 1) {
+  html { background: $color2; }
+  body {
+    width: $canvasMedium;
+  }
+}
+
+@media screen and (min-width: $canvasLarge) {
+  html { background: $color3; }
+  body {
+    width: $canvasLarge;
+  }
+}

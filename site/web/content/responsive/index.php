@@ -9,6 +9,7 @@ $page->theme = 'respond';
 
 <div class="row">
   <div class="six columns">
-    <h1><?= $page->title ?></h1>
+    <?php snippet('html-sampler.php') ?>
   </div>
 </div>
+

@@ -11,6 +11,9 @@ features:
     3:
       label: Gallery
       url: gallery
+    4:
+      label: Responsive
+      url: responsive
 blog:
   label: Blog
   url: blog

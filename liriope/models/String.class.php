@@ -162,6 +162,17 @@ class String {
     return $this;
   }
 
+  // truncate()
+  // reduces the string to a limited amount of characters
+  // and optionally adds an ellipsis
+  //
+  public function truncate($limit=300, $ellipsis=TRUE) {
+    $i = &$this->getInstance();
+    $i = substr($i, 0, $limit);
+    if($ellipsis) $i .= '&hellip;';
+    return $this;
+  }
+
 /*
  --------------------------------------------------
  Methods that return a result rather than the object

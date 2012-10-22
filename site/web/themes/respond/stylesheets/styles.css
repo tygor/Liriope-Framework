@@ -7,12 +7,54 @@
  */
 /**
  * Respond theme
+ * _settings
+ */
+/**
+ * Respond theme
+ * _functions
+ */
+html {
+  font-size: 62.5%; }
+
+* {
+  font-size: 14px;
+  font-size: 1.4rem; }
+
+h1 {
+  font-size: 48px;
+  font-size: 4.8rem; }
+
+h2 {
+  font-size: 36px;
+  font-size: 3.6rem; }
+
+h3 {
+  font-size: 28px;
+  font-size: 2.8rem; }
+
+h4 {
+  font-size: 23px;
+  font-size: 2.3rem; }
+
+h5 {
+  font-size: 18px;
+  font-size: 1.8rem; }
+
+h6 {
+  font-size: 14px;
+  font-size: 1.4rem; }
+
+/**
+ * Respond theme
  * _functions
  */
 /**
  * Respond theme
  * _grid
  */
+* {
+  box-sizing: border-box; }
+
 .row {
   width: 1048px;
   max-width: 100%;
@@ -95,6 +137,10 @@ img {
   .row:after {
     clear: both; }
 
+@media screen and (max-width: 767px) {
+  .column, .columns {
+    float: none;
+    width: 100%; } }
 html {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
   box-sizing: border-box; }

@@ -38,6 +38,10 @@ $CopyColor     : $black;
 $fontHeading   : Kreon, serif;
 $fontCopy      : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
 
+// Includes
+// --------------------------------------------------
+@import '../liriope/sass/app';
+
 // Mixins
 // --------------------------------------------------
 @mixin box-sizing( $p: 'border-box' ) {

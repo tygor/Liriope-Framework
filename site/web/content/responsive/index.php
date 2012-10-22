@@ -11,5 +11,8 @@ $page->theme = 'respond';
   <div class="six columns">
     <?php snippet('html-sampler.php') ?>
   </div>
+  <div class="six columns">
+    <img src="http://placehold.it/500x300">
+  </div>
 </div>
 

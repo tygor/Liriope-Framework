@@ -8,6 +8,7 @@ $color2: blue;
 $color3: green;
 
 @import 'settings';
+@import '../../liriope/sass/app';
 @import 'functions';
 @import 'mixins';
 @import 'grid';

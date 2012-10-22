@@ -35,8 +35,38 @@ $lorem = new String($lorem);
 
 ?>
 
-<?php for($i=1; $i<=6; $i++ ) : ?>
+<?php for($i=1; $i<=3; $i++ ) : ?>
 <h<?= $i ?>>Heading <?= $i ?></h<?= $i ?>>
 <?php endfor ?>
 
-<p><?= $lorem->truncate(500) ?></p>
+<p><?= $lorem->truncate(500,0) ?></p>
+
+<ul>
+  <li>List Item</li>
+  <li>List Item
+    <ul>
+      <li>List Item</li>
+      <li>List Item</li>
+    </ul>
+  </li>
+  <li>List Item</li>
+  <li>List Item</li>
+</ul>
+
+<?php for($i=4; $i<=6; $i++ ) : ?>
+<h<?= $i ?>>Heading <?= $i ?></h<?= $i ?>>
+<?php endfor ?>
+
+<p><?= $lorem->truncate(200,0) ?></p>
+
+<ol>
+  <li>List Item</li>
+  <li>List Item
+    <ol>
+      <li>List Item</li>
+      <li>List Item</li>
+    </ol>
+  </li>
+  <li>List Item</li>
+  <li>List Item</li>
+</ol>

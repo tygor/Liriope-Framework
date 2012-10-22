@@ -1,5 +1,3 @@
-/* test.scss */
-
 // TABLE OF CONTENTS
 // ==================================================
 //
@@ -30,13 +28,15 @@
 // --------------------------------------------------
 $white         : darken( white, 20% );
 $black         : lighten( black, 20% );
-$color1        : rgb(180,0,40);
-$color2        : darken( $color1, 5% );
-$color3        : saturate( adjust_hue( $color1, 90 ), 100%);
-$font          : 16px;
+$color1        : rgb(170,225,0);
+$color2        : darken( $color1, 10% );
+$color3        : darken( $color1, 20% );
+$font          : 16;
 $CopyColor     : $black;
 $fontHeading   : Kreon, serif;
 $fontCopy      : "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
+$themeFolder   : '/themes/grass/';
+$themeImages   : $themeFolder + 'images/';
 
 // Includes
 // --------------------------------------------------
@@ -130,6 +130,7 @@ html, body {
 }
 
 body {
+  border-top: 10px solid $color1;
   position: relative;
   margin: 0 auto;
   font-family: $fontCopy;
@@ -139,9 +140,12 @@ body {
 }
 
 :focus {
-  background-color: $color3;
-  color: #FFFFFF !important;
   outline: none;
+}
+
+::selection {
+  background: $color1;
+  color: #fff;
 }
 
 img#background {
@@ -152,10 +156,6 @@ img#background {
   min-height: 100%;
   min-width: 100%;
   z-index: -1;
-}
-
-ins {
-  background-color: hsl( hue($color3), 100%, 75% );
 }
 
 a,
@@ -199,35 +199,38 @@ h1, h2, h3, h4, h5, h6
   line-height: 1.6;
 }
 
-h1
-{
-  font-size: $font * 2.75;
+.drophead {
+  font-weight: 900;
+}
+
+h1 + .drophead {
+  @include fontSize($font*1.5);
+}
+
+h1 {
+  @include fontSize($font*2);
   font-weight: normal;
   color: $color1;
 }
-h2
-{
-  font-size: $font * 2.00;
+h2 {
+  @include fontSize($font*1.5);
+  font-weight: 500;
   color: $color2;
 }
-h3
-{
-  font-size: $font * 1.75;
+h3 {
+  @include fontSize($font*1.125);
   color: darken( $color2, 10% );
 }
-h4
-{
-  font-size: $font * 1.50;
+h4 {
+  @include fontSize($font);
   color: darken( $color2, 20% );
 }
-h5
-{
-  font-size: $font * 1.25;
+h5 {
+  @include fontSize($font*0.875);
   color: darken( $color2, 20% );
 }
-h6
-{
-  font-size: $font * 1.00;
+h6 {
+  @include fontSize($font*0.75);
   color: darken( $color2, 20% );
 }
 
@@ -244,7 +247,7 @@ p,
 dl,
 li
 {
-  font-size: $font * 14/16;
+  @include fontSize($font*0.875);
 }
 
 li {
@@ -278,15 +281,26 @@ header#main
   margin-top: $font;
 }
 
-#identity
-{
-  margin: .25em 0 1em 0;
-  float: left;
+#identity {
+  font-weight: bold;
+  margin: .25em 0 .25em 0;
 
-  h1
-  {
-    font-weight: bold;
+  a {
+    @include fontSize(36);
+    color: $black;
+    text-decoration: none;
   }
+
+  &:before {
+    content: url('#{$themeImages}Liriope-logo.gif');
+    padding-right: 10px;
+    position: relative;
+    top: 15px;
+  }
+}
+
+.svg #identity:before {
+  content: url('#{$themeImages}Liriope-logo.svg');
 }
 
 div#main {
@@ -300,7 +314,7 @@ footer#footer
   padding-top: 2em;
 
   p {
-    font-size: $font  * .75;
+    @include fontSize($font*0.75);
   }
 }
 
@@ -346,8 +360,10 @@ div.image {
 // <nav class="menu"><ul><li><a></a></li></ul></nav>
 // --------------------------------------------------
 nav#main.menu {
-  float: left;
-  margin: 0 0 0 1em;
+  margin: 0 0 1;
+  padding-bottom: $font;
+  @include clearfix();
+  border-bottom: 3px solid $color1;
 
   ul {
     list-style: none;
@@ -357,6 +373,7 @@ nav#main.menu {
 
   a, a:link, a:active, a:visited {
     text-decoration: none;
+    color: $black;
   }
 
   li {
@@ -475,17 +492,15 @@ section#blog article {
 
   h1 {
     margin: 0;
-    font-size: 30px;
   }
 
   p {
-    font-size: 12px;
     margin: 0 0 .5em 0;
   }
 
   a {
     text-decoration: none;
-    color: rgb(180,0,40);
+    color: $color2;
     transition-property: color;
     transition-duration: .5s;
     transition-delay: .5s;
@@ -493,7 +508,7 @@ section#blog article {
   }
 
   a:hover {
-    color: rgb(250,50,50);
+    color: $color3;
   }
 }
 
@@ -605,27 +620,13 @@ form#search {
     padding: 8px 16px;
     outline: none;
     border: 1px solid rgb(120,120,120);
-    background-color: fade_out( $white, 0.50);
     border-color: transparent;
-    @include border-radius( 5px, 5px, 5px, 5px);
-    @include box-shadow( 0px, -1px, 3px, #000, 0.6);
   }
 
   input.searchbox {
     width: 50%;
     margin: 0 auto;
-  }
-
-  input.submitbutton {
-    background-image: url('http://cdn2.iconfinder.com/data/icons/ecqlipse2/SEARCH.png');
-    background-size: contain;
-    background-repeat: none;
-    font-size: 1px;
-    text-indent: 0;
-    height: 35px;
-    width: 35px;
-    overflow: hidden;
-    line-height: 30px;
+    border: 1px solid $black;
   }
 }
 

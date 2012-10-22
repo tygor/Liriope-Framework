@@ -7,7 +7,7 @@
   $page->css( '/vendors/normalize/normalize.css' );
   $page->css( '/css/styles.css' );
 
-  $page->css( theme::$folder . '/style.css' );
+  $page->css( theme::$folder . '/stylesheets/style.css' );
 
   echo $site->DOCTYPE();
 ?>
@@ -22,6 +22,8 @@
   <title><?= $page->title(); ?> | <?= $site->title() ?></title>
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
+  <meta name="copyright" content="<?= c::get('page.copyright') ?>">
+  <meta name="keywords" content="<?= $page->keywords; ?>">
   <?php echo $page->META ?>
 
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -42,15 +44,9 @@
 </head>
 
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
-  <img id="background" src="/<?= theme::$folder; ?>/images/grass-wallpaper.jpg">
-
   <header id="main" class="content">
 
-    <hgroup id="identity">
-      <a href="/">
-        <img src="/<?= theme::$folder; ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
-      </a>
-    </hgroup>
+    <h1 id="identity"><a href="/">Liriope</a></h1>
 
     <nav id="main" class="menu">
       <?php echo module( 'liriope', 'menu', array( 'page'=>$page )); ?>

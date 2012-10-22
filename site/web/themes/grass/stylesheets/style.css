@@ -1,7 +1,135 @@
 @import url(http://fonts.googleapis.com/css?family=Kreon);
-/* test.scss */
+/**
+ * Respond theme
+ * _settings
+ */
+/**
+ * Respond theme
+ * _functions
+ */
+/**
+ * Respond theme
+ * _grid
+ */
+* {
+  box-sizing: border-box; }
+
+.row {
+  width: 1048px;
+  max-width: 100%;
+  min-width: 320px;
+  margin: 0 auto; }
+  .row .row {
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    margin: 0 -16px; }
+    .row .row.collapse .column, .row .row.collapse .columns {
+      margin: 0; }
+  .row.collapse .column, .row.collapse .columns {
+    padding: 0; }
+
+.column, .columns {
+  float: left;
+  min-height: 1px;
+  padding: 0 16px;
+  position: relative; }
+  .column.centered, .columns.centered {
+    float: none;
+    margin: 0 auto; }
+
+.one {
+  width: 8.33333%; }
+
+.two {
+  width: 16.66667%; }
+
+.three {
+  width: 25%; }
+
+.four {
+  width: 33.33333%; }
+
+.five {
+  width: 41.66667%; }
+
+.six {
+  width: 50%; }
+
+.seven {
+  width: 58.33333%; }
+
+.eight {
+  width: 66.66667%; }
+
+.nine {
+  width: 75%; }
+
+.ten {
+  width: 83.33333%; }
+
+.eleven {
+  width: 91.66667%; }
+
+.twelve {
+  width: 100%; }
+
+img, object, embed {
+  max-width: 100%;
+  height: auto; }
+
+object, embed {
+  height: 100%; }
+
+img {
+  -ms-interpolation-mode: bicubic; }
+
+#map_canvas img, .map_canvas img {
+  max-width: none!important; }
+
+/* Nicolas Gallagher's micro clearfix */
+.row {
+  *zoom: 1; }
+  .row:before, .row:after {
+    content: "";
+    display: table; }
+  .row:after {
+    clear: both; }
+
+@media screen and (max-width: 767px) {
+  .column, .columns {
+    float: none;
+    width: 100%; } }
+html {
+  font-size: 62.5%; }
+
+body {
+  font-size: 14px;
+  font-size: 1.4rem; }
+
 h1 {
-  color: red !important; }
+  font-size: 48px;
+  font-size: 4.8rem; }
+
+h2 {
+  font-size: 36px;
+  font-size: 3.6rem; }
+
+h3 {
+  font-size: 28px;
+  font-size: 2.8rem; }
+
+h4 {
+  font-size: 23px;
+  font-size: 2.3rem; }
+
+h5 {
+  font-size: 18px;
+  font-size: 1.8rem; }
+
+h6 {
+  font-size: 14px;
+  font-size: 1.4rem; }
 
 .threecolumns .column {
   float: left;
@@ -31,17 +159,17 @@ h1 {
 img.alignright,
 figure.alignright {
   float: right;
-  margin-left: 16px;
-  margin-bottom: 16px; }
+  margin-left: 16;
+  margin-bottom: 16; }
 
 img.alignleft,
 figure.alignleft {
   float: left;
-  margin-right: 16px;
-  margin-bottom: 16px; }
+  margin-right: 16;
+  margin-bottom: 16; }
 
 .fancy-framework {
-  color: #b40028;
+  color: #aae100;
   font-weight: bold;
   font-style: italic; }
 
@@ -54,17 +182,20 @@ html, body {
   height: 100%; }
 
 body {
+  border-top: 10px solid #aae100;
   position: relative;
   margin: 0 auto;
   font-family: "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
   color: #333333;
   line-height: 1.68;
-  padding-bottom: 16px; }
+  padding-bottom: 16; }
 
 :focus {
-  background-color: #82b400;
-  color: #FFFFFF !important;
   outline: none; }
+
+::selection {
+  background: #aae100;
+  color: #fff; }
 
 img#background {
   overflow: hidden;
@@ -75,14 +206,11 @@ img#background {
   min-width: 100%;
   z-index: -1; }
 
-ins {
-  background-color: #dcff80; }
-
 a,
 a:link,
 a:active,
 a:visited {
-  color: #b40028;
+  color: #aae100;
   transition: color 0.25s ease-in;
   -o-transition: color 0.25s ease-in;
   -moz-transition: color 0.25s ease-in;
@@ -91,7 +219,7 @@ a:visited {
   a:link:hover,
   a:active:hover,
   a:visited:hover {
-    color: #ff3561; }
+    color: #d8ff62; }
 
 aside {
   float: right;
@@ -110,30 +238,44 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0.75em 0 0;
   line-height: 1.6; }
 
+.drophead {
+  font-weight: 900; }
+
+h1 + .drophead {
+  font-size: 24px;
+  font-size: 2.4rem; }
+
 h1 {
-  font-size: 44px;
+  font-size: 32px;
+  font-size: 3.2rem;
   font-weight: normal;
-  color: #b40028; }
+  color: #aae100; }
 
 h2 {
-  font-size: 32px;
-  color: #9b0022; }
+  font-size: 24px;
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #83ae00; }
 
 h3 {
-  font-size: 28px;
-  color: #680017; }
+  font-size: 18px;
+  font-size: 1.8rem;
+  color: #5d7b00; }
 
 h4 {
-  font-size: 24px;
-  color: #35000c; }
+  font-size: 16px;
+  font-size: 1.6rem;
+  color: #364800; }
 
 h5 {
-  font-size: 20px;
-  color: #35000c; }
+  font-size: 14px;
+  font-size: 1.4rem;
+  color: #364800; }
 
 h6 {
-  font-size: 16px;
-  color: #35000c; }
+  font-size: 12px;
+  font-size: 1.2rem;
+  color: #364800; }
 
 hgroup {
   margin: 2em 0; }
@@ -143,27 +285,39 @@ hgroup {
 p,
 dl,
 li {
-  font-size: 14px; }
+  font-size: 14px;
+  font-size: 1.4rem; }
 
 li * {
-  font-size: 12px; }
+  font-size: 12; }
 
 dl dt {
   font-weight: bold;
   margin-top: 0.5em; }
 
 article footer {
-  font-size: 12px;
+  font-size: 12;
   color: gray; }
 
 header#main {
-  margin-top: 16px; }
+  margin-top: 16; }
 
 #identity {
-  margin: .25em 0 1em 0;
-  float: left; }
-  #identity h1 {
-    font-weight: bold; }
+  font-weight: bold;
+  margin: .25em 0 .25em 0; }
+  #identity a {
+    font-size: 36px;
+    font-size: 3.6rem;
+    color: #333333;
+    text-decoration: none; }
+  #identity:before {
+    content: url("/themes/grass/images/Liriope-logo.gif");
+    padding-right: 10px;
+    position: relative;
+    top: 15px; }
+
+.svg #identity:before {
+  content: url("/themes/grass/images/Liriope-logo.svg"); }
 
 div#main {
   margin-top: 2em; }
@@ -173,7 +327,8 @@ footer#footer {
   margin-top: 2em;
   padding-top: 2em; }
   footer#footer p {
-    font-size: 12px; }
+    font-size: 12px;
+    font-size: 1.2rem; }
 
 .content {
   max-width: 1100px;
@@ -214,14 +369,22 @@ div.image {
     margin: 10px 0 5px; }
 
 nav#main.menu {
-  float: left;
-  margin: 0 0 0 1em; }
+  margin: 0 0 1;
+  padding-bottom: 16;
+  *zoom: 1;
+  border-bottom: 3px solid #aae100; }
+  nav#main.menu:before, nav#main.menu:after {
+    content: "";
+    display: table; }
+  nav#main.menu:after {
+    clear: both; }
   nav#main.menu ul {
     list-style: none;
     margin: 0;
     padding: 0; }
   nav#main.menu a, nav#main.menu a:link, nav#main.menu a:active, nav#main.menu a:visited {
-    text-decoration: none; }
+    text-decoration: none;
+    color: #333333; }
   nav#main.menu li {
     float: left;
     margin: 0 4px; }
@@ -246,14 +409,14 @@ footer nav.menu ul {
   footer nav.menu ul li {
     display: block;
     padding: .125em 0;
-    font-size: 12px;
+    font-size: 12;
     font-family: "Helvetica Neue", Helvetica, "Trebuchet MS", Arial, sans-serif;
     line-height: inherit;
     border-right: 0 none; }
     footer nav.menu ul li a {
-      color: #9b0022; }
+      color: #83ae00; }
     footer nav.menu ul li:hover a {
-      color: #35000c; }
+      color: #364800; }
     footer nav.menu ul li:hover ul {
       display: none; }
     footer nav.menu ul li ul {
@@ -292,20 +455,18 @@ section#blog article {
       font-weight: bold;
       font-size: 14px; }
   section#blog article h1 {
-    margin: 0;
-    font-size: 30px; }
+    margin: 0; }
   section#blog article p {
-    font-size: 12px;
     margin: 0 0 .5em 0; }
   section#blog article a {
     text-decoration: none;
-    color: #b40028;
+    color: #83ae00;
     transition-property: color;
     transition-duration: .5s;
     transition-delay: .5s;
     transition-timing-function: ease-out; }
   section#blog article a:hover {
-    color: #fa3232; }
+    color: #5d7b00; }
 
 .pagination a, .pagination span {
   margin: 0em .5em;
@@ -383,44 +544,28 @@ form#search {
     padding: 8px 16px;
     outline: none;
     border: 1px solid #787878;
-    background-color: rgba(204, 204, 204, 0.5);
-    border-color: transparent;
-    -moz-border-radius: 5px 5px 5px 5px;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-    -moz-box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.4);
-    -webkti-box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.4); }
+    border-color: transparent; }
   form#search input.searchbox {
     width: 50%;
-    margin: 0 auto; }
-  form#search input.submitbutton {
-    background-image: url("http://cdn2.iconfinder.com/data/icons/ecqlipse2/SEARCH.png");
-    background-size: contain;
-    background-repeat: none;
-    font-size: 1px;
-    text-indent: 0;
-    height: 35px;
-    width: 35px;
-    overflow: hidden;
-    line-height: 30px; }
+    margin: 0 auto;
+    border: 1px solid #333333; }
 
 #searchresults ol li p {
   margin: 0; }
 #searchresults ol li .title {
   font-size: 20px; }
 #searchresults ol li .url {
-  color: #9b0022; }
+  color: #83ae00; }
 #searchresults ol li .score {
   font-size: 12px;
   font-weight: 100; }
 
 code, pre {
-  font-size: 12px;
+  font-size: 12;
   background-color: #cccccc;
   border: 1px solid #b4b4b4;
-  padding: 16px; }
+  padding: 16; }
 
 pre {
-  margin: 16px;
+  margin: 16;
   overflow: hidden; }

@@ -18,9 +18,7 @@ html { font-size: 62.5%; }
 // HTML Tags
 // --------------------------------------------------
 //
-* {
-  @include fontSize(14);
-}
+body { @include fontSize(14); }
 
 h1 { @include fontSize(48); }
 h2 { @include fontSize(36); }

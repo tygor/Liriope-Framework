@@ -2,16 +2,32 @@
 // Home
 
 $page->title = 'Home';
+$page->keywords = 'Liriope,CMS,file,based,content,management';
 
 ?>
 
 <section id="welcome">
-  <h1>Welcome</h1>
-  <p>I started the Liriope Framework to learn more about PHP and at the same time build my own framework. Along the way, I realized that this was becoming something useful for various websites I was thinking about or working on. I love it when your interests match up with your workload!</p>
-  <p>This project is on GitHub, and I would love to include others in this learnining project. Please feel free to contribute. Find me on <a href="https://github.com/tygor/Liriope-Framework" target="_blank">GitHub</a>! </p>
-</section>
+  <hgroup>
+    <h1>Liriope is a CMS</h1>
+    <p class="drophead">Play with folders and files. Make a website.</p>
+  </hgroup>
 
-<?php snippet( 'searchform.php' ) ?>
+  <div class="row">
+    <div class="four columns">
+      <p><strong>You already know how it works.</strong></p>
+      <p>Liriope is a file-based CMS. Simply add folders, then text files and you have a new page.</p>
+    </div>
+    <div class="four columns">
+      <p><strong>One install, multiple sites.</strong></p>
+      <p>Liriope is designed to power multiple sites. Install it in the root, and then all of the sites on your host
+      can utilize the same “brains.”</p>
+    </div>
+    <div class="four columns">
+      <p><strong>Built by a web guy.</strong></p>
+      <p>Why Liriope? It’s simple. I built it for me, and found that it could work well for anyone. Do you know HTML, PHP? Then it's for you too.</p>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="threecolumns">

@@ -140,7 +140,9 @@ class router {
 
     // HERE'S THE MAGIC
     // Grab that file
-    if( !load::seek( $target )) router::go( '/', 404 ); 
+    if( !load::seek( $target )) {
+      router::go( '/', 404 ); 
+    }
 
     // check that the class was loaded and that it has the correct method
     if( !class_exists( $controller )) trigger_error( "We can't find the class file <b>" . ucfirst($controller) . ".class.php</b>.", E_USER_ERROR );

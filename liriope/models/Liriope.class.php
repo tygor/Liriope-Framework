@@ -48,9 +48,8 @@ class Liriope {
 
     // neither, so dump to 404
     // hijack the "content" and replace with 404 content
-    $this->setFolder( c::get( 'default.404.folder' ));
-    $this->setFile( c::get( 'default.404.file' ));
-    return true;
+    index::unstore(uri::get());
+    router::go('404');
   }
 
   // setFolder

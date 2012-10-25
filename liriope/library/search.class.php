@@ -302,7 +302,7 @@ class index {
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
     $uri = new String($uri);
     $file = $dir . '/' . $uri->replace( '/', '|' ) . '.txt';
-    f::remove($file);
+    $success = f::remove($file);
   }
 
   // stripToWords()

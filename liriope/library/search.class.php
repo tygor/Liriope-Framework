@@ -206,8 +206,6 @@ class search {
 
 class index {
 
-  // TODO: have the 404 page tell index which pages can't be found as a way to clean up old indexes.
-
   // an array of urls to ignore
   static $ignoreURLs = array( 'search' );
 

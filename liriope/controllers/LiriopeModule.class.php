@@ -68,6 +68,40 @@ class LiriopeModule {
     $module->menu = $menu;
   }
 
+  public function submenu( $params=array() ) {
+    global $module;
+
+    $module->error = FALSE;
+    if( !$file = load::exists( 'menu.yaml', c::get( 'root.application' ))) $module->error = TRUE;
+
+    // extract params
+    foreach($params as $k=>$v ) {
+      $module->$k = $v;
+    }
+
+    $yaml = new Yaml( $file );
+    $menu = new menu();
+
+    foreach( $yaml->parse(TRUE) as $v ) {
+      $menu->addChild( $v['label'], $v['url'] );
+      if( isset( $v['children'] )) {
+        $parent = $menu->find( $v['url'] );
+        foreach( $v['children'] as $c ) {
+          $parent->addChild( $c['label'], $c['url'] );
+        }
+      }
+    }
+
+    $active = $menu->findActive();
+
+    if( $module->page->root() !== 'home' && !$menu->findActive ) {
+      $menu->findDeep( $module->page->root() )->setActive();
+    }
+
+    // set variables for the view file to use
+    $module->menu = $menu;
+  }
+
   // tweets()
   // returns the posts from the passed user
   public function tweets( $params=NULL ) {

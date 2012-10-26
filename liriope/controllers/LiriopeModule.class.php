@@ -40,29 +40,19 @@ class LiriopeModule {
   public function menu( $params=array() ) {
     global $module;
 
+    // prep an error variable for the view to bail
     $module->error = FALSE;
-    if( !$file = load::exists( 'menu.yaml', c::get( 'root.application' ))) $module->error = TRUE;
 
-    // extract params
-    foreach($params as $k=>$v ) {
-      $module->$k = $v;
+    // if the menu yaml is missing, bail.
+    if( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) {
+      $module->error = TRUE;
     }
 
-    $yaml = new Yaml( $file );
+    // extract params to the module
+    foreach($params as $k=>$v ) { $module->$k = $v; }
+
     $menu = new menu();
-    foreach( $yaml->parse(TRUE) as $v ) {
-      $menu->addChild( $v['label'], $v['url'] );
-      if( isset( $v['children'] )) {
-        $parent = $menu->find( $v['url'] );
-        foreach( $v['children'] as $c ) {
-          $parent->addChild( $c['label'], $c['url'] );
-        }
-      }
-    }
-
-    if( $module->page->root() !== 'home' && !$menu->findActive ) {
-      $menu->findDeep( $module->page->root() )->setActive();
-    }
+    $menu->loadFromYaml($menuFile);
 
     // set variables for the view file to use
     $module->menu = $menu;
@@ -71,65 +61,25 @@ class LiriopeModule {
   public function submenu( $params=array() ) {
     global $module;
 
+    // extract params to the module
+    foreach($params as $k=>$v ) { $module->$k = $v; }
+
+    // prep an error variable for the view to bail
     $module->error = FALSE;
-    if( !$file = load::exists( 'menu.yaml', c::get( 'root.application' ))) $module->error = TRUE;
 
-    // extract params
-    foreach($params as $k=>$v ) {
-      $module->$k = $v;
+    // if the menu yaml is missing, bail.
+    if( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) {
+      $module->error = TRUE;
     }
 
-    $yaml = new Yaml( $file );
     $menu = new menu();
+    $menu->loadFromYaml($menuFile);
+    $submenu = $menu->getCurrent();
 
-    foreach( $yaml->parse(TRUE) as $v ) {
-      $menu->addChild( $v['label'], $v['url'] );
-      if( isset( $v['children'] )) {
-        $parent = $menu->find( $v['url'] );
-        foreach( $v['children'] as $c ) {
-          $parent->addChild( $c['label'], $c['url'] );
-        }
-      }
-    }
-
-    $active = $menu->findActive();
-
-    if( $module->page->root() !== 'home' && !$menu->findActive ) {
-      $menu->findDeep( $module->page->root() )->setActive();
-    }
+    if(!$submenu) $module->error = TRUE;
 
     // set variables for the view file to use
-    $module->menu = $menu;
-  }
-
-  // tweets()
-  // returns the posts from the passed user
-  public function tweets( $params=NULL ) {
-    global $module;
-
-    try{
-      $user = a::get($params,'user',FALSE);
-      if( !$user ) throw new Exception('Woops! Can\'t find that twitter user.');
-      $limit = a::get($params,'limit',3);
-
-die("this needs to be updated from my NRHC site code, which uses javascript rather than relying on the url_allow_fopen php ini setting");
-      $twitter_feed = new String(@file_get_contents("http://api.twitter.com/1/statuses/user_timeline/".$user.".json"));
-      $twitter_feed->parse();
-    
-      if( empty($twitter_feed)) {
-        // not enough data
-        throw new Exception('No tweets right now.');
-      }
-
-      $tweets = array_slice($twitter_feed,0,$limit);
-
-    } catch( Exception $e ) {
-      $message->error = $e->getMessage();
-    }
-
-    $module->tweets = !empty( $tweets ) ? $tweets : array();
-    $module->user = $user;
-    $module->limit = $limit;
+    $module->menu = $submenu;
   }
 
   function setView( $name ) {

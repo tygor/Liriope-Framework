@@ -374,6 +374,10 @@ nav#main.menu {
   a, a:link, a:active, a:visited {
     text-decoration: none;
     color: $black;
+
+    &.active {
+      color: $color1;
+    }
   }
 
   li {

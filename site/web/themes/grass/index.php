@@ -56,6 +56,10 @@
 
   <div id="main" role="main" class="content">
 
+    <nav id="submenu" class="menu">
+      <?php echo module( 'liriope', 'submenu', array( 'page'=>$page, 'depth'=>1 )); ?>
+    </nav>
+
 <?echo $liriope ?>
 
   </div><!-- /#main -->

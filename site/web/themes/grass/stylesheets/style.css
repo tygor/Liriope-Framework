@@ -385,6 +385,8 @@ nav#main.menu {
   nav#main.menu a, nav#main.menu a:link, nav#main.menu a:active, nav#main.menu a:visited {
     text-decoration: none;
     color: #333333; }
+    nav#main.menu a.active, nav#main.menu a:link.active, nav#main.menu a:active.active, nav#main.menu a:visited.active {
+      color: #aae100; }
   nav#main.menu li {
     float: left;
     margin: 0 4px; }

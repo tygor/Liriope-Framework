@@ -74,12 +74,15 @@ class LiriopeModule {
     }
 
     // now truncate the menu object to the desired $depth
-    if($depth) $menu->trim($depth);
+    if($depth) {
+      $menu->trim($depth);
+    }
 
     // set variables for the view file to use
     $module->menu = $menu;
   }
 
+  // DEPRECATED
   public function submenu( $params=array() ) {
     global $module;
 

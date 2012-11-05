@@ -3,10 +3,7 @@ features:
   url: features
   children:
     - label: Gallery
-      url: gallery
-      children:
-        - label: test
-          url: features/gallery/test
+      url: features/gallery
     - label: Responsive
       url: responsive
 blog:
@@ -21,3 +18,6 @@ news:
   children:
     - label: Chicken
       url: news/chicken
+      children:
+        - label: test
+          url: news/chicken/test

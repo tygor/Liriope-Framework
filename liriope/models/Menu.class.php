@@ -26,6 +26,10 @@ class menu extends obj {
     return $this;
   }
 
+  function __toString() {
+    return $this->url;
+  }
+
   function loadFromYaml($file) {
     $yaml = new Yaml($file);
     
@@ -92,7 +96,9 @@ class menu extends obj {
     // usually run from the parent. Finds the menu object marked $current
     if( $this->current ) return $this;
     foreach($this->getChildren() as $child ) {
-      if( $child->current ) return $child;
+      if( $child->current ) {
+        return $child;
+      }
       $child->getCurrent();
     }
     return FALSE;

@@ -52,6 +52,8 @@
       <?php echo module( 'liriope', 'menu', array( 'page'=>$page )); ?>
     </nav>
 
+    <?php echo module( 'liriope', 'menu', array( 'page'=>$page, 'from'=>'auto', 'depth'=>1 )); ?>
+
   </header>
 
   <div id="main" role="main" class="content">

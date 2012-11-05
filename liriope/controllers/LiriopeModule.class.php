@@ -37,6 +37,12 @@ class LiriopeModule {
     $module->page = a::get($vars,'page');
   }
 
+  // menu()
+  // creates a menu object with navigation from the menu.yml file
+  //
+  // @param  int    $depth how deep should the menu display (default = NULL (everything))
+  // @param  string $from  what should the top item be? (default = home, 'auto' displays the decendants of the
+  //                       current page, or level slug where from yaml file)
   public function menu( $params=array() ) {
     global $module;
 
@@ -44,15 +50,31 @@ class LiriopeModule {
     $module->error = FALSE;
 
     // if the menu yaml is missing, bail.
-    if( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) {
-      $module->error = TRUE;
-    }
+    $module->error = ( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) ? TRUE : FALSE;
+
+    $depth = a::get($params, 'depth');
+    $from  = a::get($params, 'from');
 
     // extract params to the module
     foreach($params as $k=>$v ) { $module->$k = $v; }
 
+    // if the menu yaml is missing, bail.
+    if( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) {
+      $module->error = TRUE;
+    }
+
+    // create the menu object
     $menu = new menu();
     $menu->loadFromYaml($menuFile);
+
+    // return the menu from a specific point and it's decendants if $from is set
+    if($from) {
+      if(strtolower($from)==='auto') { $menu = $menu->getCurrent(); }
+      else { $menu = $menu->findDeep($from); }
+    }
+
+    // now truncate the menu object to the desired $depth
+    if($depth) $menu->trim($depth);
 
     // set variables for the view file to use
     $module->menu = $menu;

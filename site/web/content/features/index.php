@@ -13,8 +13,6 @@ $page->title = 'Features';
 
 <nav>
   <ul>
-    <li><a href="<?php echo url('features/slider') ?>">slider</a>
-    <li><a href="<?php echo url('features/tumblr') ?>">tumblr</a>
     <li><a href="<?php echo url('gallery') ?>">Gallery</a>
   </ul>
 </nav>

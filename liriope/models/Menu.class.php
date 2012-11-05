@@ -17,7 +17,7 @@ class menu extends obj {
   var $active;
   var $current;
 
-  function __construct( $label=NULL, $url=NULL, $depth=1 ) {
+  function __construct( $label='Home', $url='home', $depth=1 ) {
     $this->label = $label;
     $this->url = $url;
     $this->depth = $depth;
@@ -29,14 +29,36 @@ class menu extends obj {
   function loadFromYaml($file) {
     $yaml = new Yaml($file);
     
-    foreach( $yaml->parse(TRUE) as $v ) {
-      $this->addChild( $v['label'], $v['url'] );
-      if( isset( $v['children'] )) {
-        $parent = $this->find( $v['url'] );
-        foreach( $v['children'] as $c ) {
-          $parent->addChild( $c['label'], $c['url'] );
-        }
-      }
+    $this->isActive();
+    // parse through the nested arrays and convert to a parent/child menu
+    foreach( $yaml->parse(TRUE) as $item ) {
+      $this->addChild($item['label'], $item['url']);
+      $this->loadChildren($item);
+    }
+    return $this;
+  }
+
+  private function loadChildren($item) {
+    if(!isset($item['children'])) return FALSE;
+    $parent = $this->find($item['url']);
+    foreach($item['children'] as $item) {
+      $parent->addChild($item['label'], $item['url']);
+      $parent->loadChildren($item);
+    }
+  }
+
+  function trim($depth) {
+    if(!$depth) return $this;
+    $trimDepth = $this->depth + $depth;
+    $this->trimDeep($trimDepth);
+  }
+
+  private function trimDeep($depth) {
+    foreach($this->getChildren() as $child) {
+      $child->trimDeep($depth);
+    }
+    if($this->depth >= $depth) {
+      $this->_ = array();
     }
   }
 
@@ -98,7 +120,7 @@ class menu extends obj {
   function find( $k ) {
     return ( $this->$k ) ? $this->$k : FALSE;
   }
-
+  
   function findDeep( $k ) {
     // check children
     $menu = $this->find( $k );

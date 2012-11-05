@@ -2,17 +2,12 @@ features:
   label: Features
   url: features
   children:
-    1:
-      label: Slider
-      url: features/slider
-    2:
-      label: Tumblr
-      url: features/tumblr
-    3:
-      label: Gallery
+    - label: Gallery
       url: gallery
-    4:
-      label: Responsive
+      children:
+        - label: test
+          url: features/gallery/test
+    - label: Responsive
       url: responsive
 blog:
   label: Blog
@@ -24,6 +19,5 @@ news:
   label: News
   url: news
   children:
-    1:
-      label: Chicken
+    - label: Chicken
       url: news/chicken

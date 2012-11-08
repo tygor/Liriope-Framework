@@ -35,6 +35,7 @@ c::set( 'cache', TRUE );
 c::set( 'cache.expiration', (24*60*60));
 c::set( 'index', TRUE );
 c::set( 'index.multiplier', 3 );
+c::set( 'form.folder', 'data/forms' );
 
 //
 // Set some site defaluts

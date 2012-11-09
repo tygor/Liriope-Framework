@@ -5,12 +5,10 @@
 
 // Set some default router rules
 router::setRule( 'home',        '*',           'liriope/show' ); // catchall rule
-router::setRule( 'auto-action', '!controller/!action', '$controller/$action' );
-router::setRule( 'tweets',      'tweets/from/!user/:limit', 'liriope/tweets/user/$user/limit/$limit', 'module' ); // catchall rule
 router::setRule( 'gallery',     'gallery',     'gallery/show' );
 router::setRule( 'image',       'gallery/!id', 'gallery/image/$id' );
-router::setRule( 'crawl',       'crawl',       'liriope/crawl' );
-router::setRule( 'flush',       'flush',       'liriope/flush' );
+router::setRule( 'crawl',       'crawl',       'liriope/crawl' ); // crawl the site and index page content
+router::setRule( 'flush',       'flush',       'liriope/flush' ); // flush the cache
 router::setRule( 'search',      'search/*',    'liriope/search' );
 router::setRule( 'mail',        'mail/:rot13', 'liriope/mail' );
 router::setRule( 'blog',        'blog',        'blog/show' );

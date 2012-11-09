@@ -51,6 +51,7 @@ class LiriopeModule {
 
     // if the menu yaml is missing, bail.
     $module->error = ( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) ? TRUE : FALSE;
+    $menuYaml = new Yaml($menuFile);
 
     $depth = a::get($params, 'depth');
     $from  = a::get($params, 'from');
@@ -59,55 +60,18 @@ class LiriopeModule {
     foreach($params as $k=>$v ) { $module->$k = $v; }
 
     // create the menu object
-    $menu = new menu();
-    $menu->loadFromYaml($menuFile);
+    $menu = new menu($menuYaml->parse());
 
     // return the menu from a specific point and it's decendants if $from is set
     if($from) {
-      if(strtolower($from)==='auto') {
-        $swap = $menu->getCurrent();
-      }
-      else { $swap = $menu->findDeep($from); }
-      if(!$swap) {
-        $module->error = TRUE;
-      }
+      if(strtolower($from)==='auto') { $swap = $menu->findCurrent(); }
+      else { $swap = $menu->findURL($from); }
+      if(!$swap) { $module->error = TRUE; }
       $menu = $swap;
-    }
-
-    // now truncate the menu object to the desired $depth
-    if($depth && is_object($menu)) {
-      $menu->trim($depth);
-      // an empty menu is no good, so if it has no children, send the parent
-      if(!$menu->hasChildren()) $menu = $menu->getParent();
     }
 
     // set variables for the view file to use
     $module->menu = $menu;
-  }
-
-  // DEPRECATED
-  public function submenu( $params=array() ) {
-    global $module;
-
-    // extract params to the module
-    foreach($params as $k=>$v ) { $module->$k = $v; }
-
-    // prep an error variable for the view to bail
-    $module->error = FALSE;
-
-    // if the menu yaml is missing, bail.
-    if( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) {
-      $module->error = TRUE;
-    }
-
-    $menu = new menu();
-    $menu->loadFromYaml($menuFile);
-    $submenu = $menu->getCurrent();
-
-    if(!$submenu) $module->error = TRUE;
-
-    // set variables for the view file to use
-    $module->menu = $submenu;
   }
 
   function setView( $name ) {

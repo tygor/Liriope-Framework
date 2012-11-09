@@ -1,31 +1,21 @@
 ---
-features:
-  label: Features
-  url: features
-  children:
-    - label: Gallery
-      url: gallery
-    - label: Responsive
-      url: responsive
-blog:
-  label: Blog
-  url: blog
-docs:
-  label: Docs
-  url: docs
-news:
-  label: News
-  url: news
-  children:
-    - label: Chicken
-      url: news/chicken
-      children:
-        - label: test
-          url: news/chicken/test
-labs:
-  label: Labs
-  url: labs
-  children:
-    - label: Iterator
-      url: labs/iterator
+label: Home
+url: /
+children:
+  - label: Features
+    url: features
+    children:
+      - label: Gallery
+        url: gallery
+      - label: Responsive
+        url: responsive
+  - label: Blog
+    url: blog
+  - label: Docs
+    url: docs
+  - label: News
+    url: news
+    children:
+      - label: Chicken
+        url: news/chicken
 ...

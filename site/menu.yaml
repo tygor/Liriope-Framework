@@ -3,7 +3,7 @@ features:
   url: features
   children:
     - label: Gallery
-      url: features/gallery
+      url: gallery
     - label: Responsive
       url: responsive
 blog:

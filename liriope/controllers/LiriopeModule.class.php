@@ -69,13 +69,21 @@ class LiriopeModule {
 
     // return the menu from a specific point and it's decendants if $from is set
     if($from) {
-      if(strtolower($from)==='auto') { $menu = $menu->getCurrent(); }
-      else { $menu = $menu->findDeep($from); }
+      if(strtolower($from)==='auto') {
+        $swap = $menu->getCurrent();
+      }
+      else { $swap = $menu->findDeep($from); }
+      if(!$swap) {
+        $module->error = TRUE;
+      }
+      $menu = $swap;
     }
 
     // now truncate the menu object to the desired $depth
-    if($depth) {
+    if($depth && is_object($menu)) {
       $menu->trim($depth);
+      // an empty menu is no good, so if it has no children, send the parent
+      if(!$menu->hasChildren()) $menu = $menu->getParent();
     }
 
     // set variables for the view file to use

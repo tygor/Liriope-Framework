@@ -31,6 +31,11 @@ class router {
     return( self::useRoute( $rule->translate( $request )));
   }
 
+  // 
+  // pairParams()
+  // takes an array of values and, in order, pairs them as key/value
+  // if there is an odd-one-out, it's key is numeric
+  //
   static function pairParams( $params=NULL ) {
     // allow for dirty routes by cleaning up null params
     foreach( $params as $k => $p ) if( empty( $p )) unset( $params[$k] );

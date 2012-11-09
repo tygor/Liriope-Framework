@@ -92,16 +92,18 @@ class menu extends obj {
     return FALSE;
   }
 
+  //
+  // getCurrent()
+  // returns the menu item that is marked as current
+  //
   function getCurrent() {
-    // usually run from the parent. Finds the menu object marked $current
-    if( $this->current ) return $this;
+echo " $this ";
     foreach($this->getChildren() as $child ) {
-      if( $child->current ) {
+      if($child->current) {
         return $child;
       }
       $child->getCurrent();
     }
-    return FALSE;
   }
 
   function addChild( $label, $url ) {
@@ -120,7 +122,7 @@ class menu extends obj {
     return array();
   }
 
-  function hasParent() { return ( isset( $this->parent )) ? TRUE : FALSE; }
+  function hasParent() { return ( !empty( $this->parent )) ? TRUE : FALSE; }
   function getParent() { return ( is_object( $this->parent )) ? $this->parent : NULL; }
 
   function find( $k ) {

@@ -52,7 +52,7 @@
       <?php echo module( 'liriope', 'menu', array( 'page'=>$page )); ?>
     </nav>
 
-    <?php echo module( 'liriope', 'menu', array( 'page'=>$page, 'from'=>'auto', 'depth'=>1 )); ?>
+    <?php //echo module( 'liriope', 'menu', array( 'page'=>$page, 'from'=>'auto', 'depth'=>1 )); ?>
 
   </header>
 

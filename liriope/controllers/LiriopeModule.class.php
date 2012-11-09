@@ -58,11 +58,6 @@ class LiriopeModule {
     // extract params to the module
     foreach($params as $k=>$v ) { $module->$k = $v; }
 
-    // if the menu yaml is missing, bail.
-    if( !$menuFile = load::exists( 'menu.yaml', c::get( 'root.application' ))) {
-      $module->error = TRUE;
-    }
-
     // create the menu object
     $menu = new menu();
     $menu->loadFromYaml($menuFile);

@@ -19,6 +19,4 @@ $menuclass = $module->menuclass();
   <?php endforeach ?>
 </ul>
 
-<?php else: ?>
-<h1>Woops!</h1>
 <?php endif ?>

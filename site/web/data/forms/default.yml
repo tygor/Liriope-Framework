@@ -1,0 +1,37 @@
+---
+name: Contact Us
+eventdate: 2012-11-10
+intro: >
+  Make yourself heard.
+  Drop us a line. We promise that we'll read the first few lines.
+send_to: [info@liriope.ubuntu, webmaster@liriope.ubuntu]
+fields:
+  - label: Name
+    type: text
+    required: TRUE
+    placeholder: And who are you?
+    name: name
+  - label: Email
+    type: text
+    required: TRUE
+    placeholder: Best email address
+    name: email
+  - type: checkbox
+    label: Would you like a reply?
+    required: TRUE
+    name: reply_to_me
+    options:
+      - label: "YES"
+        value: yes
+        checked: TRUE
+      - label: "NO"
+        value: no
+  - label: Comments
+    type: textarea
+    required: TRUE
+    placeholder: Tell us what's on your mind
+    name: comments
+submit:
+  label: Say it
+  name: submit
+...

@@ -11,6 +11,11 @@ router::setRule( 'crawl',       'crawl',       'liriope/crawl' ); // crawl the s
 router::setRule( 'flush',       'flush',       'liriope/flush' ); // flush the cache
 router::setRule( 'search',      'search/*',    'liriope/search' );
 router::setRule( 'mail',        'mail/:rot13', 'liriope/mail' );
+router::setRule( 'form',        'form',        'form/show' );
+router::setRule( 'formpost',    'form/!id/*',  'form/get/id/$id' );
+router::setRule( 'formlist',    'form/show',   'form/show' );
+router::setRule( 'formprocess', 'form/submit', 'form/submit' );
+router::setRule( 'formsuccess', 'form/success','form/success' );
 router::setRule( 'blog',        'blog',        'blog/show' );
 router::setRule( 'blogpost',    'blog/!id/*',  'blog/post/id/$id' );
 router::setRule( 'bloglist',    'blog/show',   'blog/show' );
@@ -35,6 +40,7 @@ c::set( 'cache.expiration', (24*60*60));
 c::set( 'index', TRUE );
 c::set( 'index.multiplier', 3 );
 c::set( 'form.folder', 'data/forms' );
+c::set( 'date.format', 'l, F jS, Y');
 
 //
 // Set some site defaluts

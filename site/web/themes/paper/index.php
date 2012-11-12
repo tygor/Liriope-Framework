@@ -32,7 +32,7 @@
 
     <hgroup id="identity">
       <a href="/">
-        <img src="/<?= theme::$folder; ?>/images/liriope-logo.png" alt="Logo" height="75" width="200">
+        <img src="/<?= theme::$folder; ?>/images/Liriope-logo.gif" alt="Logo">
       </a>
     </hgroup>
 

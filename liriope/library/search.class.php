@@ -138,6 +138,7 @@ class search {
       return FALSE;
     }
     foreach( $pages as $id => $page ) {
+      $id = explode($id, '/');
       extract( router::getDispatch( (array) $id ));
       $controller = router::callController( $controller, $action, $params );
       $pages[$id]['content'] = $controller->getPage()->get('content');

@@ -143,8 +143,6 @@ class router {
 
     $target = $controller . '.class.php';
 
-    // HERE'S THE MAGIC
-    // Grab that file
     if( !load::seek( $target )) {
       router::go( '/', 404 ); 
     }

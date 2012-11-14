@@ -16,6 +16,9 @@ class load
     // Apply the naming convention
     $className = ucfirst( $className ) . '.class.php';
 
+    self::seek( $className );
+
+    /*
     // find out if the file exists
     try {
       if( !self::seek( $className )) throw new Exception( 'Unable to find the ' . $className . ' object with the autoloader.' );
@@ -28,6 +31,7 @@ class load
         exit;
     }
     return true; 
+    */
   }
 
   static function lib()
@@ -171,5 +175,3 @@ class load
   }
 
 }
-
-?>

@@ -98,9 +98,16 @@ function img($file) {
   $content = c::get('root.content', 'content');
   $root = uri::toRelative($content);
   $uri = uri::get();
+  // check if the image exists in a folder named after the uri
   $path = "$root/$uri/$file";
   if(file_exists($content . '/' . $uri . '/' . $file)) return $path;
-  trigger_error("We couldn't guess where that image is", E_USER_WARNING);
+  // also check the parent folder for content pages not using index.php within a folder
+  $uri = explode('/',$uri);
+  array_pop($uri);
+  $uri = implode('/',$uri);
+  $path2 = "$root/$uri/$file";
+  if(file_exists($content . '/' . $uri . '/' . $file)) return $path2;
+  trigger_error("We couldn't guess the location for $file. We looked in $path and $path2", E_USER_WARNING);
   return false;
 }
 

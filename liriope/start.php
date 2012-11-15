@@ -56,6 +56,10 @@ load::plugins();
 load::config();
 spl_autoload_register( 'load::autoload', TRUE );
 
+load::file(__DIR__.'/../Liriope/vendor/SplClassLoader.php', TRUE);
+$classLoader = new SplClassLoader('Liriope', realpath(__DIR__.'/..'));
+$classLoader->register();
+
 // switch on error reporting
 if( c::get( 'debug' )) {
   error_reporting( E_ALL );

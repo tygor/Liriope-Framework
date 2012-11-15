@@ -1,4 +1,4 @@
 <input type="submit"
-  name="<?= isset($submit['name']) ? $submit['name'] : 'submit' ?>" 
-  value="<?= isset($submit['label']) ? $submit['label'] : 'Submit' ?>"
+  name="<?= isset($field['name']) ? $field['name'] : 'submit' ?>" 
+  value="<?= isset($field['label']) ? $field['label'] : 'Submit' ?>"
 >

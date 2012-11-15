@@ -1,10 +1,13 @@
 ---
 name: Contact Us
 eventdate: 2012-11-10
+theme: paper
 intro: >
   Make yourself heard.
   Drop us a line. We promise that we'll read the first few lines.
+send_from: info@liriope.ubuntu
 send_to: [info@liriope.ubuntu, webmaster@liriope.ubuntu]
+action: mail
 fields:
   - label: Name
     type: text
@@ -27,11 +30,13 @@ fields:
       - label: "NO"
         value: no
   - label: Comments
+    help: musings?
     type: textarea
     required: TRUE
     placeholder: Tell us what's on your mind
     name: comments
-submit:
-  label: Say it
-  name: submit
+  - label: Say it
+    type: submit
+    name: submit
+    value: submit
 ...

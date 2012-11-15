@@ -3,6 +3,9 @@
   <?php if(isset($page->form->eventdate)): ?>
   <p class="drophead"><?= date(c::get('date.format'), strtotime($page->form->eventdate)) ?></p>
   <?php endif ?>
+  <?php if(isset($page->form->details)): ?>
+  <p class="byline"><?= $page->form->details ?></p>
+  <?php endif ?>
 </hgroup>
 
 <?php if(!$page->form->hasErrors()): ?>
@@ -15,8 +18,6 @@
     <?php foreach($page->form as $field): ?>
       <?php partial('form',$field['type'], array('field'=>$field)); ?>
     <?php endforeach ?>
-
-    <?php partial('form','submit',array('submit'=>$page->form->submit)) ?>
   </form>
 
 <?php else: ?>

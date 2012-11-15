@@ -6,21 +6,30 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class Form implements Iterator {
-  // the id of the form and also the filename of the config for the form
-  private $id;
-  // the folder that contains the config files
-  private $folder;
+class Form implements \Iterator {
+  // @var boolean
+  private $error = FALSE;
 
-  private $error;
-
+  // @var string The name of the form and the form heading
   public $name;
+
+  // @var string The theme to use during display
   public $theme;
+
+  // @var date (optional) The date of the event the form describes
   public $eventdate;
+
+  // @var string (optional) Paragraph text to precede the form fields
   public $intro;
+
+  // @var array An array of email addresses to send the form data to
   public $send_to = array();
+
+  // @var email_address (optional) The email address for the "from" field of the confirmation email
+  public $send_from = array();
+
+  // @var array An array of fields for the form
   public $fields = array();
-  public $submit;
 
   public function __construct( $id=NULL, $folder=NULL ) {
     if($id===NULL) return FALSE;
@@ -36,6 +45,7 @@ class Form implements Iterator {
     $this->name = a::get($data,'name',NULL);
     $this->theme = a::get($data,'theme',NULL);
     $this->eventdate = a::get($data,'eventdate',NULL);
+    $this->details = a::get($data,'details',NULL);
     $this->intro = a::get($data,'intro',NULL);
     $this->send_to = a::get($data,'send_to',array());
     $this->fields = a::get($data,'fields',FALSE);
@@ -49,6 +59,9 @@ class Form implements Iterator {
 
   public function hasErrors() { return $this->error ? TRUE : FALSE; }
 
+  /**
+   * Iterator interface methods
+   */
   public function rewind() { reset($this->fields); }
   public function current() { return current($this->fields); }
   public function next() { return next($this->fields); }

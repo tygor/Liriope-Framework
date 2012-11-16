@@ -28,7 +28,7 @@ class Email {
   public function __construct($to='', $from='', $subject='', $body='') {
     // The assumption is that this email is an HTML email, so the Content-Type header must be set
     $this->headers['mime'] = 'MIME-Version: 1.0';
-    $this->headers['type'] = 'Content-type: text/html; charset=iso-8859-1';
+    $this->headers['type'] = 'Content-type: text/html; charset=UTF-8';
 
     $this->sendTo($to);
     $this->sendFrom($from);
@@ -148,6 +148,7 @@ class Email {
     if(empty($this->from)) throw new \Exception('Your email is missing the FROM address.');
 
     $this->headers['from'] = 'From: ' . $this->from;
+    $this->headers['from'] = 'Reply-To: ' . $this->from;
     $this->headers['mailer'] = 'X-Mailer: PHP/' . phpversion();
 
     return implode("\r\n", $this->headers);

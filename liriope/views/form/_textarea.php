@@ -1,14 +1,16 @@
-<div<?php if($field['required']): ?> class="required"<?php endif ?>>
-  <?php if(isset($field['label'])): ?>
-  <label><?= $field['label'] ?>
-    <?php if(isset($field['help'])): ?>
-    <span><?= $field['help'] ?></span>
+<div<?php if($field->isRequired()): ?> class="required"<?php endif ?>>
+
+  <?php if($field->getLabel()): ?>
+  <label><?= $field->getLabel() ?></label>
+    <?php if($field->getHelp()): ?>
+    <span><?= $field->getHelp() ?></span>
     <?php endif ?>
-  </label>
   <?php endif ?>
+
   <textarea
-    <?php if($field['name']): ?>name="<?= $field['name'] ?>"<?php endif ?>
-    <?php if($field['placeholder']): ?>placeholder="<?= $field['placeholder'] ?>"<?php endif ?>
-    <?php if($field['required']): ?>required<?php endif ?>
+    <?php if($field->getName()): ?>name="<?= $field->getName() ?>"<?php endif ?>
+    <?php if($field->getPlaceholder()): ?>placeholder="<?= $field->getPlaceholder() ?>"<?php endif ?>
+    <?php if($field->isRequired()): ?>required<?php endif ?>
   ></textarea>
+
 </div>

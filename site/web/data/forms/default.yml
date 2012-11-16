@@ -5,30 +5,28 @@ theme: paper
 intro: >
   Make yourself heard.
   Drop us a line. We promise that we'll read the first few lines.
-send_from: info@liriope.ubuntu
-send_to: [info@liriope.ubuntu, webmaster@liriope.ubuntu]
-action: mail
 fields:
   - label: Name
     type: text
     required: TRUE
     placeholder: And who are you?
     name: name
+    autofocus: TRUE
   - label: Email
     type: text
     required: TRUE
     placeholder: Best email address
     name: email
-  - type: checkbox
+  - type: radio
     label: Would you like a reply?
     required: TRUE
     name: reply_to_me
     options:
       - label: "YES"
-        value: yes
+        value: "YES"
         checked: TRUE
       - label: "NO"
-        value: no
+        value: "NO"
   - label: Comments
     help: musings?
     type: textarea
@@ -39,4 +37,14 @@ fields:
     type: submit
     name: submit
     value: submit
+action:
+  use: email
+  options:
+    subject: Thank you for contacting us
+    from: tygor@tygorden.com
+    message: >
+      <p>Thank you for contact us. Someone will be responding shortly.</p>
+      <p>
+        If you need quick information, please try our website <a href="http://northrockhill.com">NorthRockHill.com</a>
+      </p>
 ...

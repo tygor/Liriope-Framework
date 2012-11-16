@@ -3,6 +3,7 @@
  * FormController.class.php
  */
 
+use Liriope\Component\Forms\Form;
 use Liriope\Component\Correspondence\Email;
 
 // Direct access protection
@@ -34,30 +35,48 @@ class FormController extends LiriopeController {
 
   public function submit($vars=NULL) {
     $form = new Form(a::get($vars,'id'));
+    $form->store($_POST);
 
-    $mail = new Email();
-    $mail->sendTo(array('tygor81@gmail.com'))->sendFrom('info@liriope.ubun');
-    $mail->subject('Test email');
-    $mail->message('This is a test message that has no meaning what-so-ever and it definately should be ignored if you happen to come across it in any form.');
+    $action = $form->getAction();
+    $use = $action['use'];
+    $response = $this->$use($form, $action);
 
-var_dump($mail->send());
-echo "\n";
-print_r($mail);
-echo "\n";
-exit;
-    if($mail->send() !== FALSE) {
-echo "SUCCESS\n";
-print_r($mail);
-exit("\nExiting before the redirect");
+var_dump($response);exit;
+
+    if($response !== FALSE) {
       go(url('form/success'));
     }
     else {
-echo "ERROR\n";
-print_r($mail);
-exit("\nExiting before the redirect");
       go(url('form/error'));
     }
 
+  }
+
+  private function email($form, $action) {
+    // to continue, the "to" value must be a valid email address
+    $to = $form->getField('email')->getValue();
+    
+    // check for a valid email format
+    if(!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+      throw new Exception('The email address entered into the form is not valid.');
+    }
+
+    // now check the domain name on the email
+    list($user,$domain) = preg_split('/@/', $to, 2);
+    if(!checkdnsrr($domain, 'MX') && !checkdnsrr($domain, 'A')) {
+      throw new Exception('The email address entered into the form has an invalid domain.');
+    }
+
+    $options = $action['options'];
+
+    $from = $options['from'];
+    $subject = $options['subject'];
+    $message = $options['message'];
+
+    $mail = new Email();
+    $mail->sendTo($to)->sendFrom($from)->subject($subject)->message($message);
+
+    return $mail->send();
   }
 
   public function success($vars=NULL) {

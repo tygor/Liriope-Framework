@@ -134,7 +134,7 @@ class Email {
    * @return Email The current Email instance
    */
   public function message($body) {
-    $this->message = filter_var($body, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_AMP);
+    $this->message = filter_var(trim($body), FILTER_SANITIZE_MAGIC_QUOTES);
 
     return $this;
   }

@@ -41,8 +41,6 @@ class FormController extends LiriopeController {
     $use = $action['use'];
     $response = $this->$use($form, $action);
 
-var_dump($response);exit;
-
     if($response !== FALSE) {
       go(url('form/success'));
     }
@@ -53,6 +51,10 @@ var_dump($response);exit;
   }
 
   private function email($form, $action) {
+    /**
+     * CHECKS
+     */
+
     // to continue, the "to" value must be a valid email address
     $to = $form->getField('email')->getValue();
     
@@ -67,16 +69,35 @@ var_dump($response);exit;
       throw new Exception('The email address entered into the form has an invalid domain.');
     }
 
+    /**
+     * DRAFT EMAILS
+     */
+
     $options = $action['options'];
 
     $from = $options['from'];
     $subject = $options['subject'];
     $message = $options['message'];
 
-    $mail = new Email();
-    $mail->sendTo($to)->sendFrom($from)->subject($subject)->message($message);
+    $userMail = new Email();
+    $userMail->sendTo($to)->sendFrom($from)->subject($subject)->message($message);
 
-    return $mail->send();
+    $receiptMail = new Email();
+    $receiptMail->sendTo($from)->sendFrom('no-reply@'.\uri::getDomain())->subject('Submission from \'' . $form->getName() .'\' form');
+
+    // TODO: wrap this into a View model or some such. So, probably a View model v2.0
+    $template = 'receiptEmail.html.php';
+    $folder = __DIR__.'/../../Liriope/Resources/views/Forms';
+    \content::start();
+    include($folder.DIRECTORY_SEPARATOR.$template);
+    $receipt = \content::end(TRUE);
+
+    $receiptMail->message($receipt);
+
+    if($userMail->send() && $receiptMail->send()) {
+      return TRUE;
+    }
+    return FALSE;
   }
 
   public function success($vars=NULL) {

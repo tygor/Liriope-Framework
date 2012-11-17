@@ -88,6 +88,10 @@ class Form implements \Iterator {
   
   public function hasErrors() { return $this->error ? TRUE : FALSE; }
 
+  public function getName() {
+    return $this->name;
+  }
+
   public function getField($name) {
     return isset($this->fields[$name]) ? $this->fields[$name] : NULL;
   }

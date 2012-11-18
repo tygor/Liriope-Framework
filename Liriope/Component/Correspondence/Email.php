@@ -6,7 +6,7 @@ namespace Liriope\Component\Correspondence;
  * This email class handles sending PHP email using the mail() function
  */
 
-// TODO: Implement Reply-To, CC, and BCC
+// TODO: Implement CC, and BCC
 // TODO: Implement naming the email addresses with a user name ex. Tyler <tyler@host.com>
 
 class Email {
@@ -21,6 +21,8 @@ class Email {
   private $subject;
   // @var string
   private $message;
+  // @var string
+  private $replyTo;
 
   /**
    * CONSTRUCTOR
@@ -89,6 +91,22 @@ class Email {
   }
 
   /**
+   * Sets the address the emailer should reply to
+   *
+   * This method implements a fluent interface.
+   *
+   * @param string $address A valid email address
+   *
+   * @return Email The current Email instance
+   */
+  public function replyTo($address) {
+    $address = $this->validateEmail($address) ? $address : FALSE;
+    $this->replyTo = $address;
+
+    return $this;
+  }
+
+  /**
    * Gets the subject of the message
    *
    * @return string The subject line of the message
@@ -148,7 +166,6 @@ class Email {
     if(empty($this->from)) throw new \Exception('Your email is missing the FROM address.');
 
     $this->headers['from'] = 'From: ' . $this->from;
-    $this->headers['from'] = 'Reply-To: ' . $this->from;
     $this->headers['mailer'] = 'X-Mailer: PHP/' . phpversion();
 
     return implode("\r\n", $this->headers);
@@ -163,8 +180,7 @@ class Email {
     $message = $this->getMessage();
     $headers = $this->getHeaders();
 
-print_r(array($to,$subject,$message,$headers));
-    return mail($to, $subject, $message, $headers);
+    return mail($to, $subject, $message, $headers, '-f'.$this->from);
   }
 
   /**

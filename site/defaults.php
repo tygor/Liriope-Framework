@@ -17,7 +17,7 @@ router::setRule( 'google', 'google', 'liriope/redirect/url/'.urlencode('http://g
 //
 // Site 
 // --------------------------------------------------
-c::set( 'url', 'http://liriope.ubuntu' );
+c::set( 'url', 'http://liriope.ubun' );
 c::set( 'site.title', 'Liriope' );
 
 //

@@ -26,7 +26,7 @@ router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
 // --------------------------------------------------
 
 c::set( 'home', 'home' );
-c::set( 'url', 'http://liriope.ubuntu' );
+c::set( 'url', 'http://liriope.ubun' );
 c::set( 'default.controller', 'liriope' );
 c::set( 'default.action',     'show' );
 c::set( 'theme',              'grass' );

@@ -83,7 +83,7 @@ class FormController extends LiriopeController {
     $userMail->sendTo($to)->sendFrom($from)->subject($subject)->message($message);
 
     $receiptMail = new Email();
-    $receiptMail->sendTo($from)->sendFrom('no-reply@'.\uri::getDomain())->subject('Submission from \'' . $form->getName() .'\' form');
+    $receiptMail->sendTo($from)->sendFrom('no-reply@'.uri::getDomain())->replyTo($to)->subject('Submission from \'' . $form->getName() .'\' form');
 
     // TODO: wrap this into a View model or some such. So, probably a View model v2.0
     $template = 'receiptEmail.html.php';

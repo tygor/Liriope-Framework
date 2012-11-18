@@ -40,10 +40,10 @@ fields:
 action:
   use: email
   options:
-    subject: Thank you for contacting us
+    subject: "Liriope Forms: Thanks for the contact"
     from: tygor@tygorden.com
     message: >
-      <p>Thank you for contact us. Someone will be responding shortly.</p>
+      <h1>Thank you for contact us. Someone will be responding shortly.</h1>
       <p>
         If you need quick information, please try our website <a href="http://northrockhill.com">NorthRockHill.com</a>
       </p>

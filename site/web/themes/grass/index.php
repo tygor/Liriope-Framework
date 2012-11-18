@@ -4,7 +4,6 @@
  * Grass theme
  */
 
-  $page->css( '/vendors/normalize/normalize.css' );
   $page->css( '/css/styles.css' );
 
   $page->css( theme::$folder . '/stylesheets/style.css' );

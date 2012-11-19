@@ -41,7 +41,9 @@ action:
   use: email
   options:
     subject: "Liriope Forms: Thanks for the contact"
-    from: tygor@tygorden.com
+    from:
+      name: Tyler Gordon
+      email: tygor@tygorden.com
     message: >
       <h1>Thank you for contact us. Someone will be responding shortly.</h1>
       <p>

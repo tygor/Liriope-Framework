@@ -1,1 +1,1 @@
-<p>ERROR</p>
+<h1>ERROR</h1>

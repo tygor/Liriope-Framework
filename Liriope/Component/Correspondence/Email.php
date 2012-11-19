@@ -2,6 +2,8 @@
 
 namespace Liriope\Component\Correspondence;
 
+use Liriope\Component\Correspondence\EmailAddress;
+
 /**
  * This email class handles sending PHP email using the mail() function
  */
@@ -27,7 +29,7 @@ class Email {
   /**
    * CONSTRUCTOR
    */
-  public function __construct($to='', $from='', $subject='', $body='') {
+  public function __construct($to=NULL, $from=NULL, $subject=NULL, $body=NULL) {
     // The assumption is that this email is an HTML email, so the Content-Type header must be set
     $this->headers['mime'] = 'MIME-Version: 1.0';
     $this->headers['type'] = 'Content-type: text/html; charset=UTF-8';
@@ -44,11 +46,7 @@ class Email {
    * @return string The email address(es) to send the message to
    */
   public function getTo() {
-    foreach($this->to as $key => $to) {
-      $this->to[$key] = trim($to);
-    }
-
-    $to = implode(', ', $this->to);
+    $to = $this->to;
     if(empty($to)) throw new \Exception('Your message needs at least one address as the destination');
 
     return $to;
@@ -63,13 +61,9 @@ class Email {
    *
    * @return Email The current Email instance
    */
-  public function sendTo($address) {
-    foreach((array) $address as $a) {
-      if($this->validateEmail($a)) {
-        $this->to[] = $a;
-        $this->to = array_flip(array_flip($this->to));
-      }
-    }
+  public function sendTo($address, $name=NULL) {
+    $address = new EmailAddress($address, $name);
+    $this->to = $address;
 
     return $this;
   }
@@ -83,8 +77,8 @@ class Email {
    *
    * @return Email The current Email instance
    */
-  public function sendFrom($address) {
-    $address = $this->validateEmail($address) ? $address : FALSE;
+  public function sendFrom($address, $name=NULL) {
+    $address = new EmailAddress($address, $name);
     $this->from = $address;
 
     return $this;
@@ -181,6 +175,18 @@ class Email {
     $headers = $this->getHeaders();
 
     return mail($to, $subject, $message, $headers, '-f'.$this->from);
+  }
+
+  /**
+   * Returns the variables used in the mail function, but does not send mail
+   */
+  public function sendTest() {
+    $to      = $this->getTo();
+    $subject = $this->getSubject();
+    $message = $this->getMessage();
+    $headers = $this->getHeaders();
+
+    return array($to, $subject, $message, $headers, '-f'.$this->from);
   }
 
   /**

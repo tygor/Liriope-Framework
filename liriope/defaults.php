@@ -16,7 +16,7 @@ router::setRule( 'formpost',    'form/!id/*',  'form/get/id/$id' );
 router::setRule( 'formlist',    'form/show',   'form/show' );
 router::setRule( 'formprocess', 'form/submit', 'form/submit' );
 router::setRule( 'formsuccess', 'form/success','form/success' );
-router::setRule( 'formsuccess', 'form/error',  'form/error' );
+router::setRule( 'formerror',   'form/error',  'form/error' );
 router::setRule( 'blog',        'blog',        'blog/show' );
 router::setRule( 'blogpost',    'blog/!id/*',  'blog/post/id/$id' );
 router::setRule( 'bloglist',    'blog/show',   'blog/show' );

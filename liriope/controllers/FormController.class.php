@@ -80,10 +80,16 @@ class FormController extends LiriopeController {
     $message = $options['message'];
 
     $userMail = new Email();
-    $userMail->sendTo($to)->sendFrom($from)->subject($subject)->message($message);
+    $userMail->sendTo($to, $form->getField('name')->getValue())
+             ->sendFrom($from['email'])
+             ->subject($subject)
+             ->message($message);
 
     $receiptMail = new Email();
-    $receiptMail->sendTo($from)->sendFrom('no-reply@'.uri::getDomain())->replyTo($to)->subject('Submission from \'' . $form->getName() .'\' form');
+    $receiptMail->sendTo($from['email'],$from['name'])
+                ->sendFrom('no-reply@'.uri::getDomain())
+                ->replyTo($to)
+                ->subject('Submission from \'' . $form->getName() .'\' form');
 
     // TODO: wrap this into a View model or some such. So, probably a View model v2.0
     $template = 'receiptEmail.html.php';
@@ -94,6 +100,9 @@ class FormController extends LiriopeController {
 
     $receiptMail->message($receipt);
 
+a::show($userMail->sendTest());
+a::show($receiptMail->sendTest());
+exit;
     if($userMail->send() && $receiptMail->send()) {
       return TRUE;
     }
@@ -101,6 +110,10 @@ class FormController extends LiriopeController {
   }
 
   public function success($vars=NULL) {
+    $page = $this->getPage();
+  }
+
+  public function error($vars=NULL) {
     $page = $this->getPage();
   }
 

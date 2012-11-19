@@ -19,8 +19,8 @@ class EmailAddress {
    * CONSTRUCTOR
    */
   public function __construct($address, $name=NULL) {
-    $this->storeAddress(trim($address));
-    $this->storeName(trim($name));
+    $this->setAddress(trim($address));
+    $this->setName(trim($name));
   }
 
   /**
@@ -50,8 +50,17 @@ class EmailAddress {
    *
    * @return void
    */
-  private function storeName($name) {
+  private function setName($name) {
     $this->name = $name;
+  }
+
+  /**
+   * Gets the stored name
+   *
+   * @return string The stored name
+   */
+  public function getName() {
+    return $this->name ?: FALSE;
   }
 
   /**
@@ -59,9 +68,18 @@ class EmailAddress {
    *
    * @return void
    */
-  private function storeAddress($address) {
+  private function setAddress($address) {
     $address = $this->validateEmail($address) ? $address : FALSE;
     $this->address = $address;
+  }
+
+  /**
+   * Gets the stored address
+   *
+   * @return string The stored email address
+   */
+  public function getAddress() {
+    return $this->address ?: FALSE;
   }
 
   /**

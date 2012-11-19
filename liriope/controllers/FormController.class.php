@@ -100,10 +100,6 @@ class FormController extends LiriopeController {
 
     $receiptMail->message($receipt);
 
-echo "<hr>\nSEND TEST<br>\n";
-a::show($userMail->sendTest());
-a::show($receiptMail->sendTest());
-exit;
     if($userMail->send() && $receiptMail->send()) {
       return TRUE;
     }

@@ -119,7 +119,7 @@ class Email {
    */
   public function replyTo($address) {
     $address = $this->validateEmail($address) ? $address : FALSE;
-    $this->replyTo = $address;
+    $this->headers['reply-to'] = 'Reply-To: ' . $address;
 
     return $this;
   }
@@ -198,7 +198,7 @@ class Email {
     $message = $this->getMessage();
     $headers = $this->getHeaders();
 
-    return mail($to, $subject, $message, $headers, '-f'.$this->from);
+    return mail($to, $subject, $message, $headers, '-f'.$this->from->getAddress());
   }
 
   /**
@@ -210,7 +210,7 @@ class Email {
     $message = $this->getMessage();
     $headers = $this->getHeaders();
 
-    return array($to, $subject, $message, $headers, '-f'.$this->from);
+    return array($to, $subject, $message, $headers, '-f'.$this->from->getAddress());
   }
 
   /**

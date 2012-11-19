@@ -41,13 +41,13 @@ action:
   use: email
   options:
     subject: "Liriope Forms: Thanks for the contact"
-    form_recipients: [info@liriope.ubun, forms@liriope.ubun]
+    form_recipients: [user@liriope.ubun, user2@liriope.ubun]
     from:
-      name: Tyler Gordon
-      email: tygor@tygorden.com
+      name: Liriope User
+      email: admin@liriope.ubun
     message: >
-      <h1>Thank you for contact us. Someone will be responding shortly.</h1>
-      <p>
-        If you need quick information, please try our website <a href="http://northrockhill.com">NorthRockHill.com</a>
-      </p>
+      <h1>Thank you for contacting us.</h1>
+      <h2>Someone will be responding shortly.</h2>
+      <p>If you need quick information, please try our website
+      <a href="http://northrockhill.com" target="_blank">NorthRockHill.com</a></p>
 ...

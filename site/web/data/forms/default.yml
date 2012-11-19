@@ -41,6 +41,7 @@ action:
   use: email
   options:
     subject: "Liriope Forms: Thanks for the contact"
+    form_recipients: [info@liriope.ubun, forms@liriope.ubun]
     from:
       name: Tyler Gordon
       email: tygor@tygorden.com

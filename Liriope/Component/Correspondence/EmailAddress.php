@@ -19,17 +19,30 @@ class EmailAddress {
    * CONSTRUCTOR
    */
   public function __construct($address, $name=NULL) {
-    $this->storeAddress($address);
-    $this->storeName($name);
+    $this->storeAddress(trim($address));
+    $this->storeName(trim($name));
   }
 
   /**
    * TO STRING
    */
   public function __toString() {
-    $format = "%s <%s>";
-    if(!isset($this->name)) return $this->address ?: '';
-    return sprintf($format, $this->name, $this->address);
+    return $this->get();
+  }
+
+  /**
+   * Returns a string name and email pair
+   *
+   * @return string The "name <address>" string
+   */
+  public function get() {
+    if(empty($this->name)) {
+      return $this->address ?: '';
+    }
+
+    $format = '%s <%s>';
+    $return = sprintf($format, $this->name, $this->address);
+    return $return;
   }
 
   /**

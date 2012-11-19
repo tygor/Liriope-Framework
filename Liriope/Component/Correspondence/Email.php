@@ -29,15 +29,10 @@ class Email {
   /**
    * CONSTRUCTOR
    */
-  public function __construct($to=NULL, $from=NULL, $subject=NULL, $body=NULL) {
+  public function __construct() {
     // The assumption is that this email is an HTML email, so the Content-Type header must be set
     $this->headers['mime'] = 'MIME-Version: 1.0';
     $this->headers['type'] = 'Content-type: text/html; charset=UTF-8';
-
-    $this->sendTo($to);
-    $this->sendFrom($from);
-    $this->subject($subject);
-    $this->message($body);
   }
 
   /**
@@ -46,24 +41,53 @@ class Email {
    * @return string The email address(es) to send the message to
    */
   public function getTo() {
-    $to = $this->to;
-    if(empty($to)) throw new \Exception('Your message needs at least one address as the destination');
+    if(empty($this->to)) throw new \Exception('Your message needs at least one address as the destination');
 
-    return $to;
+    if(!is_array($this->to)) {
+      return $this->to->get();
+    }
+
+    // format to:
+    // name@domain.com, First Last <name@domain.com>
+    $toString = array();
+    $format = '%s <%s>';
+    foreach($this->to as $address) {
+      $toString[] = $address;
+    }
+    $toString = implode(', ', $toString);
+
+    return $toString;
   }
 
   /**
-   * Adds to the list of address to receive the email
+   * Defines the singular recipient of the email message
    *
    * This method implements a fluent interface.
    *
-   * @param mixed $address The string or array of string email addresses to get the email
+   * @param mixed $address The string email addresse to receive the email
    *
    * @return Email The current Email instance
    */
   public function sendTo($address, $name=NULL) {
     $address = new EmailAddress($address, $name);
     $this->to = $address;
+
+    return $this;
+  }
+
+  /**
+   * Creates a list of recipeients for the email
+   *
+   * This method implements a fluent interface.
+   *
+   * @param mixed $address The array of string email addresses to get the email
+   *
+   * @return Email The current Email instance
+   */
+  public function sendToMany($addresses) {
+    foreach($addresses as $address) {
+      $this->to[$address] = new EmailAddress($address);
+    }
 
     return $this;
   }

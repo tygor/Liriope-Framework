@@ -81,12 +81,12 @@ class FormController extends LiriopeController {
 
     $userMail = new Email();
     $userMail->sendTo($to, $form->getField('name')->getValue())
-             ->sendFrom($from['email'])
+             ->sendFrom($from['email'], $from['name'])
              ->subject($subject)
              ->message($message);
 
     $receiptMail = new Email();
-    $receiptMail->sendTo($from['email'],$from['name'])
+    $receiptMail->sendToMany($options['form_recipients'])
                 ->sendFrom('no-reply@'.uri::getDomain())
                 ->replyTo($to)
                 ->subject('Submission from \'' . $form->getName() .'\' form');
@@ -100,6 +100,7 @@ class FormController extends LiriopeController {
 
     $receiptMail->message($receipt);
 
+echo "<hr>\nSEND TEST<br>\n";
 a::show($userMail->sendTest());
 a::show($receiptMail->sendTest());
 exit;

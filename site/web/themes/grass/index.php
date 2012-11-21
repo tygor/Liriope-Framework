@@ -4,8 +4,6 @@
  * Grass theme
  */
 
-  $page->css( '/css/styles.css' );
-
   $page->css( theme::$folder . '/stylesheets/style.css' );
 
   echo $site->DOCTYPE();
@@ -43,25 +41,25 @@
 </head>
 
 <body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
-  <header id="main" class="content">
+  <header class="site-header content">
 
-    <h1 id="identity"><a href="/">Liriope</a></h1>
+    <h1 class="site-identity"><a href="/">Liriope</a></h1>
 
-    <nav id="main" class="menu">
+    <nav class="menu">
       <?php echo module( 'liriope', 'menu', array( 'page'=>$page )); ?>
     </nav>
 
     <?php echo module( 'liriope', 'menu', array( 'page'=>$page, 'from'=>'auto' )); ?>
 
-  </header>
+  </header><!-- /.site-header -->
 
-  <div id="main" role="main" class="content">
+  <div role="main" class="site-content content">
 
 <?echo $liriope ?>
 
-  </div><!-- /#main -->
+  </div><!-- /.site-content -->
 
-  <footer id="footer" class="content">
+  <footer class="site-footer content">
     <div class="fourcolumns">
       <div class="column span-2">
         <p>View the <a href="https://github.com/tygor/Liriope-Framework" target="_blank">Liriope Framework</a> project on Github</p>
@@ -76,9 +74,7 @@
         </nav>
       </div>
     </div>
-  </footer><!-- /footer#main -->
-
-  <?php if( $error ) echo $error; ?>
+  </footer><!-- /site-footer -->
 
   <!-- JavaScript at the bottom for fast page loading -->
 

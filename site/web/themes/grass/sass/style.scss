@@ -23,10 +23,12 @@
 //   - Search form
 //   - Search results
 // - Code and Pre blocks
+// - Forms
 
 // Variables
 // --------------------------------------------------
-$white         : darken( white, 20% );
+$purewhite     : rgb(255,255,255);
+$white         : darken( $purewhite, 20% );
 $black         : lighten( black, 20% );
 $color1        : rgb(170,225,0);
 $color2        : darken( $color1, 10% );
@@ -40,7 +42,7 @@ $themeImages   : $themeFolder + 'images/';
 
 // Includes
 // --------------------------------------------------
-@import '../liriope/sass/app';
+@import 'liriope_goodies';
 
 // Mixins
 // --------------------------------------------------
@@ -54,11 +56,6 @@ $default-radius: 4px;
   -moz-border-radius: $top $right $bottom $left;
   -webkit-border-radius: $top $right $bottom $left;
   border-radius: $top $right $bottom $left;
-}
-@mixin box-shadow( $x: 0px, $y: 1px, $blur: 3px, $color: #000, $opacity: 0.7 ) {
-  -moz-box-shadow: $x $y $blur fade_out( $color, $opacity );
-  -webkti-box-shadow: $x $y $blur fade_out( $color, $opacity );
-  box-shadow: $x $y $blur fade_out( $color, $opacity );
 }
 @mixin columns {
   .threecolumns {
@@ -130,6 +127,7 @@ html, body {
 }
 
 body {
+    background-color: $purewhite;
   border-top: 10px solid $color1;
   position: relative;
   margin: 0 auto;
@@ -148,16 +146,6 @@ body {
   color: #fff;
 }
 
-img#background {
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  min-height: 100%;
-  min-width: 100%;
-  z-index: -1;
-}
-
 a,
 a:link,
 a:active,
@@ -165,13 +153,10 @@ a:visited
 {
   color: $color1;
 
-  transition: color 0.25s ease-in;
-  -o-transition: color 0.25s ease-in;
-  -moz-transition: color 0.25s ease-in;
-  -webkit-transition: color 0.25s ease-in;
+  @include transition(color,0.125s,linear);
 
   &:hover {
-    color: lighten( $color1, 25 );
+    color: darken( $color1, 25 );
   }
 }
 
@@ -276,12 +261,12 @@ article {
 
 // Styles by ID tags
 // --------------------------------------------------
-header#main
+.site-header
 {
   margin-top: $font;
 }
 
-#identity {
+.site-identity {
   font-weight: bold;
   margin: .25em 0 .25em 0;
 
@@ -299,16 +284,15 @@ header#main
   }
 }
 
-.svg #identity:before {
+.svg .site-ideneity:before {
   content: url('#{$themeImages}Liriope-logo.svg');
 }
 
-div#main {
+.site-content {
   margin-top: 2em;
 }
 
-footer#footer
-{
+.site-footer {
   border-top: 1px solid;
   margin-top: 2em;
   padding-top: 2em;
@@ -359,7 +343,7 @@ div.image {
 // MENU
 // <nav class="menu"><ul><li><a></a></li></ul></nav>
 // --------------------------------------------------
-nav#main.menu {
+.site-header .menu {
   margin: 0 0 1;
   padding-bottom: $font;
   @include clearfix();
@@ -470,50 +454,49 @@ footer nav.menu
 // Styles for the blog controller
 // --------------------------------------------------
 
-section#blog article {
-  padding-left: 60px;
-  margin: .5em 0;
-  border-bottom: 1px solid;
-  position: relative;
-  overflow: hidden;
+.blog-list {
+    article {
+        padding-left: 60px;
+        margin: .5em 0;
+        border-bottom: 1px solid;
+        position: relative;
+        overflow: hidden;
 
-  footer {
-    float: left;
-    width: 60px;
-    margin: .25em 0 .125em -60px;
-    text-align: center;
-    font-size: 10px;
-    line-height: 1.125;
-    color: rgb(50,50,50);
-    text-shadow: rgb(0,0,0) 0px 1px 3px;
-    text-shadow: rgba(0,0,0,.5) 0px 1px 3px;
+        footer {
+            float: left;
+            width: 60px;
+            margin: .25em 0 .125em -60px;
+            text-align: center;
+            font-size: 10px;
+            line-height: 1.125;
+            color: rgb(50,50,50);
+            text-shadow: rgb(0,0,0) 0px 1px 3px;
+            text-shadow: rgba(0,0,0,.5) 0px 1px 3px;
 
-    time.day {
-      font-weight: bold;
-      font-size: 14px;
+            time.day {
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        p {
+            margin: 0 0 .5em 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: $color2;
+            @include transition(color,0.5s,ease-in-out);
+        }
+
+        a:hover {
+            color: $color3;
+        }
     }
-  }
-
-  h1 {
-    margin: 0;
-  }
-
-  p {
-    margin: 0 0 .5em 0;
-  }
-
-  a {
-    text-decoration: none;
-    color: $color2;
-    transition-property: color;
-    transition-duration: .5s;
-    transition-delay: .5s;
-    transition-timing-function: ease-out;
-  }
-
-  a:hover {
-    color: $color3;
-  }
 }
 
 
@@ -574,46 +557,12 @@ section#blog article {
   }
 }
 
-// Debugging
-// --------------------------------------------------
-#debugging {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  padding: 16px;
-  
-  h1 {
-    font-size: 14px;
-    color: rgb(255,255,255);
-    text-shadow: none;
-    background-color: rgb(0,0,0);
-    display: inline;
-    padding: 8px;
-    margin: 0;
-  }
-  
-  #debug-content {
-    display: none;
-    width: 90%;
-    background: rgb( 0,0,0 );
-    color: rgb(255,255,255);
-    margin: 0;
-    padding: 1em 1em 1em 2em;
-
-    li {
-      font-size: 10px;
-    }
-  }
-}
-
 // Search
 // ==================================================
 //
 // - Search Form
 // --------------------------------------------------
-form#search {
+.search-form {
   width: 90%;
   margin: 16px auto;
   text-align: center;
@@ -636,28 +585,24 @@ form#search {
 
 // - Search results
 // --------------------------------------------------
-#searchresults {
-  ol {
-    li {
-      p {
-        margin: 0;
-      }
-      .title {
-        font-size: 20px;
-      }
-      .url {
-        color: $color2;
-      }
-      .excerpt {
-      }
-      .score {
-        font-size: 12px;
-        font-weight: 100;
-      }
-      ins {
-      }
+.search-results {
+    ol {
+        li {
+            p {
+                margin: 0;
+            }
+            .title {
+                font-size: 20px;
+            }
+            .url {
+                color: $color2;
+            }
+            .score {
+                font-size: 12px;
+                font-weight: 100;
+            }
+        }
     }
-  }
 }
 
 
@@ -673,4 +618,49 @@ code, pre {
 pre {
   margin: $font;
   overflow: hidden;
+}
+
+// Forms
+// --------------------------------------------------
+label {
+    margin-top: 1em;
+    display: block;
+    & + span {
+        display: block;
+        font-size: 0.875em;
+        color: lighten( $black, 50%);
+    }
+
+    & + p {
+        margin-top: 0;
+    }
+}
+
+input,
+textarea
+{
+    padding: 0.5em 1em;
+
+}
+
+textarea {
+    min-height: 10em;
+}
+
+input[type=text],
+textarea
+{
+    font-size: 1.25em;
+    width: 100%;
+    border: 1px solid darken($purewhite, 20%);
+    background-color: darken($purewhite, 5%);
+
+    &:focus {
+        background-color: $purewhite;
+    }
+
+}
+
+input[type=submit] {
+    @include buttonify();
 }

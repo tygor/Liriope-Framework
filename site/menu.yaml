@@ -9,6 +9,8 @@ children:
         url: gallery
       - label: Responsive
         url: responsive
+      - label: Drop Box
+        url: dropbox
   - label: Blog
     url: blog
   - label: Docs

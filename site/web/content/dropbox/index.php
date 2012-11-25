@@ -14,5 +14,5 @@ $data = $yml->parse();
 <h1><?= $page->title ?></h1>
 
 <pre>
-<?= print_r($data) ?>
+<?php print_r($data) ?>
 </pre>

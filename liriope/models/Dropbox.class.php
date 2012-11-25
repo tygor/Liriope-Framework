@@ -20,7 +20,18 @@ class Dropbox {
     $this->data = utf8_encode(trim($output));
   }
 
+  /**
+   * Returns the data string
+   */
   public function __toString() {
     return $this->data;
   }
+
+  /**
+   * Returns the data string
+   */
+  public function get() {
+    return $this->data;
+  }
+  
 }

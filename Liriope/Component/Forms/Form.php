@@ -67,7 +67,7 @@ class Form implements \Iterator {
     $data = $yml->parse();
 
     $this->name = \a::get($data, 'name', NULL);
-    $this->theme = \a::get($data, 'theme', NULL);
+    $this->theme = \a::get($data, 'theme', \c::get('theme', 'grass'));
     $this->eventdate = \a::get($data, 'eventdate', NULL);
     $this->intro = \a::get($data, 'intro', NULL);
     $this->storeFields(\a::get($data, 'fields', FALSE));

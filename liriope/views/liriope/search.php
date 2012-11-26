@@ -2,7 +2,7 @@
   $search = $page->search();
 ?>
 
-<div id="searchresults">
+<div clss="search-results">
   <h1>Search results</h1>
   <?php snippet( 'searchform.php' ) ?>
   <hr>

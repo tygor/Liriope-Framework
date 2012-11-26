@@ -16,6 +16,7 @@ router::setRule( 'formpost',    'form/!id/*',  'form/get/id/$id' );
 router::setRule( 'formlist',    'form/show',   'form/show' );
 router::setRule( 'formprocess', 'form/submit', 'form/submit' );
 router::setRule( 'formsuccess', 'form/success','form/success' );
+router::setRule( 'formerror',   'form/error',  'form/error' );
 router::setRule( 'blog',        'blog',        'blog/show' );
 router::setRule( 'blogpost',    'blog/!id/*',  'blog/post/id/$id' );
 router::setRule( 'bloglist',    'blog/show',   'blog/show' );
@@ -26,7 +27,7 @@ router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
 // --------------------------------------------------
 
 c::set( 'home', 'home' );
-c::set( 'url', 'http://liriope.ubuntu' );
+c::set( 'url', 'http://liriope.ubun' );
 c::set( 'default.controller', 'liriope' );
 c::set( 'default.action',     'show' );
 c::set( 'theme',              'grass' );

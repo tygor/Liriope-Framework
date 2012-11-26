@@ -10,7 +10,7 @@ $page->META = '<link rel="alternate" type="application/rss+xml" title="'.$page->
 
 ?>
 
-<section id="blog">
+<section class="blog-list">
 
 <?php if( $page->error ) : ?>
   <h1>There were no blog posts </h1>

@@ -1,0 +1,16 @@
+/**
+ * Settings
+ */
+
+// Typography settings
+$textColor: rgb(0,0,90) !default;
+$fontStack: "Gill Sans", "Gill Sans MT", Calibri, sans-serif !default;
+
+// Canvas settings for responsive design
+$canvasPosition: center !default;
+$canvasSmall:  320px !default;
+$canvasMedium: 768px !default;
+$canvasLarge:  1048px !default;
+
+// Grid settings
+$totalColumns: 12 !default;

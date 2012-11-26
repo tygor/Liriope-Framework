@@ -1,0 +1,32 @@
+/**
+ * Transition
+ *
+ * @param $property The CSS property to transition
+ * @param $duration How long the transition should take
+ * @param $timing The function used to calcualte the transition animation
+ *        [ease, ease-out, ease-in, ease-in-out, linear, cubic-bezier(0.1, 0.7, 0.1, 0.1),
+ *        step-start, step-stop, steps(4, end)]
+ * @param $delay How long before the transition starts
+ */
+
+@mixin transition($property: all, $duration: '0.5s', $timing: ease, $delay: '0s') {
+    -o-transition-property: $property;
+    -o-transition-duration: $duration;
+    -o-transition-timing-function: $timing;
+    -o-transition-delay: $delay;
+
+    -moz-transition-property: $property;
+    -moz-transition-duration: $duration;
+    -moz-transition-timing-function: $timing;
+    -moz-transition-delay: $delay;
+
+    -webkit-transition-property: $property;
+    -webkit-transition-duration: $duration;
+    -webkit-transition-timing-function: $timing;
+    -webkit-transition-delay: $delay;
+
+    transition-property: $property;
+    transition-duration: $duration;
+    transition-timing-function: $timing;
+    transition-delay: $delay;
+}

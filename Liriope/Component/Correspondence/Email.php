@@ -2,11 +2,13 @@
 
 namespace Liriope\Component\Correspondence;
 
+use Liriope\Component\Correspondence\EmailAddress;
+
 /**
  * This email class handles sending PHP email using the mail() function
  */
 
-// TODO: Implement Reply-To, CC, and BCC
+// TODO: Implement CC, and BCC
 // TODO: Implement naming the email addresses with a user name ex. Tyler <tyler@host.com>
 
 class Email {
@@ -21,19 +23,16 @@ class Email {
   private $subject;
   // @var string
   private $message;
+  // @var string
+  private $replyTo;
 
   /**
    * CONSTRUCTOR
    */
-  public function __construct($to='', $from='', $subject='', $body='') {
+  public function __construct() {
     // The assumption is that this email is an HTML email, so the Content-Type header must be set
     $this->headers['mime'] = 'MIME-Version: 1.0';
-    $this->headers['type'] = 'Content-type: text/html; charset=iso-8859-1';
-
-    $this->sendTo($to);
-    $this->sendFrom($from);
-    $this->subject($subject);
-    $this->message($body);
+    $this->headers['type'] = 'Content-type: text/html; charset=UTF-8';
   }
 
   /**
@@ -42,31 +41,52 @@ class Email {
    * @return string The email address(es) to send the message to
    */
   public function getTo() {
-    foreach($this->to as $key => $to) {
-      $this->to[$key] = trim($to);
+    if(empty($this->to)) throw new \Exception('Your message needs at least one address as the destination');
+
+    if(!is_array($this->to)) {
+      return $this->to->get();
     }
 
-    $to = implode(', ', $this->to);
-    if(empty($to)) throw new \Exception('Your message needs at least one address as the destination');
+    // format to:
+    // name@domain.com, First Last <name@domain.com>
+    $toString = array();
+    $format = '%s <%s>';
+    foreach($this->to as $address) {
+      $toString[] = $address;
+    }
+    $toString = implode(', ', $toString);
 
-    return $to;
+    return $toString;
   }
 
   /**
-   * Adds to the list of address to receive the email
+   * Defines the singular recipient of the email message
    *
    * This method implements a fluent interface.
    *
-   * @param mixed $address The string or array of string email addresses to get the email
+   * @param mixed $address The string email addresse to receive the email
    *
    * @return Email The current Email instance
    */
-  public function sendTo($address) {
-    foreach((array) $address as $a) {
-      if($this->validateEmail($a)) {
-        $this->to[] = $a;
-        $this->to = array_flip(array_flip($this->to));
-      }
+  public function sendTo($address, $name=NULL) {
+    $address = new EmailAddress($address, $name);
+    $this->to = $address;
+
+    return $this;
+  }
+
+  /**
+   * Creates a list of recipeients for the email
+   *
+   * This method implements a fluent interface.
+   *
+   * @param mixed $address The array of string email addresses to get the email
+   *
+   * @return Email The current Email instance
+   */
+  public function sendToMany($addresses) {
+    foreach($addresses as $address) {
+      $this->to[$address] = new EmailAddress($address);
     }
 
     return $this;
@@ -81,9 +101,25 @@ class Email {
    *
    * @return Email The current Email instance
    */
-  public function sendFrom($address) {
-    $address = $this->validateEmail($address) ? $address : FALSE;
+  public function sendFrom($address, $name=NULL) {
+    $address = new EmailAddress($address, $name);
     $this->from = $address;
+
+    return $this;
+  }
+
+  /**
+   * Sets the address the emailer should reply to
+   *
+   * This method implements a fluent interface.
+   *
+   * @param string $address A valid email address
+   *
+   * @return Email The current Email instance
+   */
+  public function replyTo($address) {
+    $address = $this->validateEmail($address) ? $address : FALSE;
+    $this->headers['reply-to'] = 'Reply-To: ' . $address;
 
     return $this;
   }
@@ -134,7 +170,7 @@ class Email {
    * @return Email The current Email instance
    */
   public function message($body) {
-    $this->message = filter_var($body, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_AMP);
+    $this->message = filter_var(trim($body), FILTER_SANITIZE_MAGIC_QUOTES);
 
     return $this;
   }
@@ -162,8 +198,19 @@ class Email {
     $message = $this->getMessage();
     $headers = $this->getHeaders();
 
-print_r(array($to,$subject,$message,$headers));
-    return mail($to, $subject, $message, $headers);
+    return mail($to, $subject, $message, $headers, '-f'.$this->from->getAddress());
+  }
+
+  /**
+   * Returns the variables used in the mail function, but does not send mail
+   */
+  public function sendTest() {
+    $to      = $this->getTo();
+    $subject = $this->getSubject();
+    $message = $this->getMessage();
+    $headers = $this->getHeaders();
+
+    return array($to, $subject, $message, $headers, '-f'.$this->from->getAddress());
   }
 
   /**

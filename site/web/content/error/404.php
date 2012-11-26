@@ -1,11 +1,4 @@
-<?php
-
-// TODO: create a .css version of the LESSCSS error styles
-$page->css( 'css/error.less', 'stylesheet/less' );
-
-?>
-
-<div id="error404">
+<div class="error404">
   <section id="message">
     <h1><span>The Grass is in fact</span> Greener!</h1>
     <p>But that's not why you're here. Honestly, we can't find the page you want.</p>

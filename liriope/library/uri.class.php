@@ -67,6 +67,12 @@ class uri {
     return self::getURI();
   }
 
+  static function getDomain($withHTTP=FALSE) {
+    $http = 'http://';
+    $domain = server::get('HTTP_HOST');
+    return $withHTTP ? $http.$domain : $domain; 
+  }
+
   static function getRawURI() {
     if( empty( self::$uri )) self::$uri = server::get( 'REQUEST_URI' );
     return self::$uri;

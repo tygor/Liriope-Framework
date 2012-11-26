@@ -16,7 +16,7 @@
 
   <form method="post" action="<?= url('form/submit/id/'.$page->form) ?>">
     <?php foreach($page->form as $field): ?>
-      <?php partial('form',$field['type'], array('field'=>$field)); ?>
+      <?php partial('form',$field->getType(), array('field'=>$field)); ?>
     <?php endforeach ?>
   </form>
 

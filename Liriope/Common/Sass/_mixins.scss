@@ -12,3 +12,16 @@
     clear: both;
   }
 }
+
+/**
+ * Vendor prefix mixin
+ *
+ * ‘@include vendor(box-shadow, 1px 1px 1px #fff);’
+ */
+@mixin vendor($property, $value) {
+    -webkit-#{$property}: $value;
+       -moz-#{$property}: $value;
+        -ms-#{$property}: $value;
+         -o-#{$property}: $value;
+            #{$property}: $value;
+}

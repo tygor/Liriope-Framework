@@ -116,9 +116,6 @@ class LiriopeController {
             throw new Exception("The view file you are attempting to use ($check) cannot be found");
         }
     }
-
-    // TODO: the page controller should not equal the view alternate modifier string. What was this for and is it still needed?
-    //$page->controller = $modifier;
     $page->useView($file);
   }
 

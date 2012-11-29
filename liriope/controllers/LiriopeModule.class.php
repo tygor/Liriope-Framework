@@ -78,7 +78,7 @@ class LiriopeModule {
     global $module;
     $file = load::exists( $this->_controller . '/_' . $this->_action . '-' . $name . '.php' );
     if(!$file) return FALSE;
-    $module->_theme = $file;
+    $module->useView($file);
   }
 
   function __destruct() {

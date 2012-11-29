@@ -8,11 +8,17 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
 class LiriopeController {
 
-  var $_model;
-  var $_controller;
-  var $_action;
-  var $_theme;
-  var $_view;
+  // @var string The name of the model to use
+  // TODO: This variable is not being used. Find a purpose or remove.
+  private $_model;
+  // @var string The name of the controller to be used
+  private $_controller;
+  // @var string The name of the action to call in the controller
+  private $_action;
+  // @var string The name of the theme to wrap the view in during render
+  private $_theme;
+  // @var string The name of the view file to buffer during render
+  private $_view;
 
   // construct()
   // Initiates the View layer and creates the $page object
@@ -23,7 +29,7 @@ class LiriopeController {
   // @param  string  $action The method of that controller to call
   // @return self    Returns itself as an object so that other methods can be chained
   //
-  function __construct($model, $controller, $action) {
+  public function __construct($model, $controller, $action) {
     $this->_controller = strtolower( $controller );
     $this->_action = strtolower( $action );
     $this->_model =& $model;
@@ -97,12 +103,16 @@ class LiriopeController {
     go();
   }
 
-  function useView( $file=NULL ) {
+  function useView( $modifier=NULL ) {
     $page = $this->getPage();
-    // a custom view tells me that the route controller has been customized
-    // update the $page object to match
-    $page->controller = $file;
-    return $this->_view->view( $file );
+
+    $check = $this->_controller . '/' . $this->_action . '_' . $modifier . '.php';
+    $file = load::exists( $check );
+    if( !$file ) throw new Exception("The view file you are attempting to use ($check) cannot be found");
+
+    // TODO: the page controller should not equal the view alternate modifier string. What was this for and is it still needed?
+    //$page->controller = $modifier;
+    $page->useView($file);
   }
 
   function getPage() {

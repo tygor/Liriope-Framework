@@ -3,34 +3,41 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-//
-// View.class.php
-// handles throwing to HTML
-//
+/**
+ * View class
+ * Handles throwing to HTML
+ */
 
 load::file( load::exists( 'Obj.class.php'), TRUE );
 
 class View extends obj {
 
-  // the controller to call
+  // @var string The controller to call
   var $_controller;
 
-  // the action to call
+  // @var string The action to call
   var $_action;
 
-  // the page object
+  // @var string The page object
   var $_page;
 
+  // @var boolean Cache flag (default FALSE)
   var $cacheEnabled = FALSE;
 
-  function __construct( $controller, $action ) {
+  /**
+   * CONSTRUCTOR
+   *
+   * @param string $controller The name of the controller to use before rendering
+   * @param string $action     The name of the method in the cotnroller to call
+   */
+  public function __construct( $controller, $action ) {
     global $site;
     $site = new Site();
 
     $this->_controller = $controller;
     $this->_action = $action;
     $file = load::exists( $controller . '/' . $action . '.php' );
-    if( !$file ) trigger_error( "We can't find that view file: $file", E_USER_ERROR );
+    if( !$file ) throw new Exception("We can't find that view file: $file");
 
     $page = new Page( $file );
     $page->controller = $controller;
@@ -40,22 +47,9 @@ class View extends obj {
     $this->_page = &$page;
   }
 
-  // view()
-  // changes the view file to use
-  //
-  // @param  string  $file The file to use instead of the predetermined one
-  // @return bool    TRUE on success, FALSE on error
-  function view( $file=NULL ) {
-    if( $file===NULL ) return FALSE;
-    $check = $this->_controller . '/' . $this->_action . '_' . $file . '.php';
-    $file = load::exists( $check );
-    if( !$file ) return FALSE;
-    $this->_page->setTheme($file);
-  }
-
   // load()
   // Render the output directly to the page or optionally return the
-  // generated output to caller (which never happens).
+  // generated output to caller (like for modules or partials).
   //
   function load() {
     global $site;
@@ -73,32 +67,39 @@ class View extends obj {
     // if cache is enabled...
     if(c::get('cache')) {
       $cacheModified = cache::modified( $cacheID );
+
       // ...and the cache file is newer than all of the content files...
       if( $cacheModified >= dir::modified( c::get( 'root.content' ))) {
+
         // ...and the cache file created time is withing the expiration time
         if(!cache::expired($cacheID, $cacheExpiredTime)) {
+
           $cacheData = cache::get( $cacheID, TRUE );
+
         }
       }
     }
 
     if( empty( $cacheData )) {
-      $content_html = $page->render();
-      if( $page->theme() !== NULL ) {
-        $html = theme::load( $page->theme(), array( 'page'=>$page, 'content'=>$content_html ), TRUE );
+
+      // first, render the page and store the output
+      $html = $page->render();
+
+      if( $page->getTheme() !== NULL ) {
+        $html = theme::load( $page->getTheme(), array( 'page'=>$page, 'content'=>$html ), TRUE );
         $html = filter::doFilters( $html );
         if( c::get( 'cache' )) { cache::set( $cacheID, (string) $html, TRUE ); }
-        if( c::get( 'index' ) && !$page->is404 ) { index::store( uri::get(), (string) $html, (string) $content_html ); }
-      } else {
-        // if the theme is set to null, simply return the content html
-        $html = $content_html;
+        // TODO: $page->is404 must be an overloaded variable. Is this a useless check?
+        if( c::get( 'index' ) && !$page->is404 ) { index::store( uri::get(), (string) $html, (string) $html ); }
       }
-    } else {
-      $html = $cacheData;
+
+      // Add a clear cache button if the configuration is set to [debug]
       if( c::get('debug')) {
         $cclink = url( router::rule( 'flush' ));
         $html = preg_replace( '/<\/body>/i', '<div id="cacheBox" style="display:none;"><a href="'.$cclink.'">Clear Cache</a></div></body>', $html );
       }
+    } else {
+      $html = $cacheData;
     }
 
     // OUTPUT TO BROWSER

@@ -10,14 +10,17 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 class Page extends obj {
 
   // the file to use for render
-  var $_theme;
+  var $_view;
+
+  // @var string The name of the theme folder to wrap the page in
+  private $theme;
 
   var $keywords;
 
   var $vars = array();
 
   function __construct( $file=NULL ) {
-    $this->_theme = $file;
+    $this->_view = $file;
     $this->title = c::get( 'page.title' );
     $this->description = c::get( 'page.description' );
     $this->author = c::get( 'page.author' );
@@ -40,10 +43,25 @@ class Page extends obj {
     return $default;
   }
 
-  public function setTheme($file) {
-    if(empty($file)) return FALSE;
-    $this->_theme = $file;
-    return $file;
+  public function useView($file) {
+    $this->_view = $file;
+    return TRUE;
+  }
+
+  /**
+   * Ask the page which theme it will be wearing for the night
+   */
+  public function getTheme() {
+      return $this->theme;
+  }
+
+  /**
+   * Wardrobe change!
+   *
+   * @param string $name The name of the theme folder to use
+   */
+  public function setTheme($name) {
+      $this->theme = $name;
   }
 
   public function css( $file=NULL, $rel='stylesheet' ) {
@@ -119,13 +137,14 @@ class Page extends obj {
   // attempts to render the page
   //
   // @param  bool   $return if TRUE, return the buffer string, if FALSE print it
-  // @param  string $alias  the variable name to use in the _theme file for $this
+  // @param  string $alias  the variable name to use in the _view file for $this
   // @return mixed  Returns the output buffer string, or echos it
   public function render( $return=TRUE, $alias='page' ) {
     content::start();
     $this->transferStored();
+    // TODO: This alias idea, is it necessary? Why not use $this in page?
     $$alias = $this;
-    include( $this->_theme );
+    include( $this->_view );
     $render = content::end( $return );
     if( $return ) return $render;
     echo $render;

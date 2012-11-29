@@ -5,8 +5,8 @@
  * Show a single post
  */
 
-$this->setTheme('paper');
-$this->title = $page->post->title();
+$page->theme = 'paper';
+$page->title = $page->post->title();
 
 ?>
 

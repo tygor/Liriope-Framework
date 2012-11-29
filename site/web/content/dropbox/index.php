@@ -13,6 +13,17 @@ $data = $yml->parse();
 
 <h1><?= $page->title ?></h1>
 
-<pre>
-<?php print_r($data) ?>
-</pre>
+<p>This list is edited through a file that lives in a public Drop Box folder. So I can edit anywhere I have Drop Box
+or web access to Drop Box and the page will updated.</p>
+
+<ul>
+<?php foreach(array_shift($data) as $item): ?>
+    <li>
+        <p>
+            <a href="<?= $item['link'] ?>" target="_blank"><strong><?= $item['title'] ?></strong></a><br>
+            <time><?= $item['pubdate'] ?></time><br>
+            <?= $item['excerpt'] ?>
+        </p>
+    </li>
+<?php endforeach ?>
+</ul>

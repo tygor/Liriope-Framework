@@ -1,0 +1,19 @@
+/**
+ * Gradient
+ *
+ * @param $property The CSS property to transition
+ * @param $duration How long the transition should take
+ * @param $timing The function used to calcualte the transition animation
+ *        [ease, ease-out, ease-in, ease-in-out, linear, cubic-bezier(0.1, 0.7, 0.1, 0.1),
+ *        step-start, step-stop, steps(4, end)]
+ * @param $delay How long before the transition starts
+ */
+
+@mixin gradient($from, $to) {
+    background-color: $to; /* fallback color if gradients are not supported */
+    background-image: -webkit-linear-gradient(top, $from, $to);
+    background-image:    -moz-linear-gradient(top, $from, $to); /* For Fx 3.6 to Fx 15 */
+    background-image:     -ms-linear-gradient(top, $from, $to); /* For IE 10 Platform Previews and Consumer Preview */
+    background-image:      -o-linear-gradient(top, $from, $to); /* For Opera 11.1 to 12.0 */
+    background-image:         linear-gradient(to bottom, $from, $to); /* Standard syntax; must be the last statement */
+}

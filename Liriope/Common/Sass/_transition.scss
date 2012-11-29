@@ -9,24 +9,9 @@
  * @param $delay How long before the transition starts
  */
 
-@mixin transition($property: all, $duration: '0.5s', $timing: ease, $delay: '0s') {
-    -o-transition-property: $property;
-    -o-transition-duration: $duration;
-    -o-transition-timing-function: $timing;
-    -o-transition-delay: $delay;
-
-    -moz-transition-property: $property;
-    -moz-transition-duration: $duration;
-    -moz-transition-timing-function: $timing;
-    -moz-transition-delay: $delay;
-
-    -webkit-transition-property: $property;
-    -webkit-transition-duration: $duration;
-    -webkit-transition-timing-function: $timing;
-    -webkit-transition-delay: $delay;
-
-    transition-property: $property;
-    transition-duration: $duration;
-    transition-timing-function: $timing;
-    transition-delay: $delay;
+@mixin transition($property: all, $duration: 0.5s, $timing: ease, $delay: 0s) {
+    @include vendor(transition-property, $property);
+    @include vendor(transition-duration, $duration);
+    @include vendor(transition-timing-function, $timing);
+    @include vendor(transition-delay, $delay);
 }

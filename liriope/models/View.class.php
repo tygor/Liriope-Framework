@@ -1,5 +1,7 @@
 <?php
 
+use Liriope\Component\Content\Page;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
@@ -43,7 +45,7 @@ class View extends obj {
     $page->controller = $controller;
     $page->action = $action;
     $page->uri = uri::get();
-    $page->theme = c::get('theme');
+    $page->setTheme(c::get('theme'));
     $this->_page = &$page;
   }
 

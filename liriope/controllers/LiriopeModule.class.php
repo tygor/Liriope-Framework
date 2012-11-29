@@ -3,6 +3,8 @@
 // LiriopeModule.class.php
 //
 
+use Liriope\Component\Content\Page;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 

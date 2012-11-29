@@ -108,7 +108,14 @@ class LiriopeController {
 
     $check = $this->_controller . '/' . $this->_action . '_' . $modifier . '.php';
     $file = load::exists( $check );
-    if( !$file ) throw new Exception("The view file you are attempting to use ($check) cannot be found");
+    if( !$file ) {
+        $fallback = $this->_controller . '/' . $this->_action . '.php';
+        $file = load::exists( $fallback );
+
+        if( !$file ) {
+            throw new Exception("The view file you are attempting to use ($check) cannot be found");
+        }
+    }
 
     // TODO: the page controller should not equal the view alternate modifier string. What was this for and is it still needed?
     //$page->controller = $modifier;

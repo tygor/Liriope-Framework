@@ -6,12 +6,33 @@
 html { font-size: 62.5%; }
 
 // --------------------------------------------------
+// Functions
+// --------------------------------------------------
+//
+@function toREM($pxval, $base: 10) {
+    @if (unitless($pxval)) {
+        $pxval: $pxval * 1px;
+    }
+
+    @if (unitless($base)) {
+        $base: $base * 1px;
+    }
+
+    @return $pxval / $base * 1rem;
+}
+
+@mixin rem($property,$value) {
+    #{$property}: $value +px;
+    #{$property}: toREM($value);
+}
+
+// --------------------------------------------------
 // MIXINS
 // --------------------------------------------------
 //
 @mixin fontSize($size) {
   font-size: #{$size}px;
-  font-size: #{$size/10}rem;
+  font-size: toREM($size);
 }
 
 // --------------------------------------------------

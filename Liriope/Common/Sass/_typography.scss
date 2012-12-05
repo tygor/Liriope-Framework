@@ -13,6 +13,16 @@ html { font-size: 62.5%; }
   font-size: #{$size}px;
   font-size: #{$size/10}rem;
 }
+@function toREM($px, $base: 10) {
+    @if (unitless($px)) {
+        $px: $px * 1px;
+    }
+    @return $px / $base +rem;
+}
+@mixin rem($property, $value) {
+    #{$property}: $value +px;
+    #{$property}: toREM($value);
+}
 
 // --------------------------------------------------
 // HTML Tags

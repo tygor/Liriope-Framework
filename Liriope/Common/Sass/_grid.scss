@@ -1,6 +1,5 @@
 /**
- * Respond theme
- * _grid
+ * Grid
  */
 
 $totalColumns: 12 !default;
@@ -33,21 +32,28 @@ $columnGutter: 32px !default;
 }
 
 .column, .columns {
-  float: $defaultFloat;
-  min-height: 1px;
-  padding: 0 ($columnGutter / 2);
-  position: relative;
+    float: $defaultFloat;
+    min-height: 1px;
+    padding: 0 ($columnGutter / 2);
+    position: relative;
 
-  &.centered {
-    float: none;
-    margin: 0 auto;
-  }
+    &.centered {
+        float: none;
+        margin: 0 auto;
+    }
 }
 
-  // Creating column classes
-  @for $i from 1 through $totalColumns {
-    .#{convert-number-to-word($i)} { width: 100% / $totalColumns * $i; }
-  }
+// Creating column classes
+@for $i from 1 through $totalColumns {
+    .#{convert-number-to-word($i)} {
+        width: 100% / $totalColumns * $i;
+
+        @media screen and (max-width: $canvasMedium - 1) {
+            float: none;
+            width: 100%;
+        }
+    }
+}
 
 img, object, embed { max-width: 100%; height: auto; }
 object, embed { height: 100%; }
@@ -59,16 +65,37 @@ img { -ms-interpolation-mode: bicubic; }
   @include clearfix();
 }
 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-// MEDIA QUERIES
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+/**
+ * Block grid
+ */
 
-@media screen and (max-width: $canvasMedium - 1) {
-  .column, .columns { float: none; width: 100%; }
+.block-grid {
+    display: block;
+    overflow: hidden;
+    padding: 0;
+
+    &>li {
+        @media screen and (min-width: $canvasMedium) {
+            display: block;
+            height: auto;
+            float: $defaultFloat;
+        }
+    }
+
+    @for $i from 1 through $totalColumns {
+        &.#{convert-number-to-word($i)}-up {
+            @if $i == 1 { margin: 0; }
+            @else { margin: 0 -4px; }
+            &>li {
+                @if $i == 1 { padding: 0 0 15px; }
+                @else { padding: 0 4px 4px; }
+                @if $i > 1 { &:nth-child(#{$i}n+1) { clear: both; } }
+
+                @media screen and (min-width: $canvasMedium) {
+                    width: 100%/$i;
+                }
+            }
+        }
+    }
 }
 
-@media screen and (min-width: $canvasMedium) and (max-width: $canvasLarge - 1) {
-}
-
-@media screen and (min-width: $canvasLarge) {
-}

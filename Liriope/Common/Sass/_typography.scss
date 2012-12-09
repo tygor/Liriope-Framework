@@ -33,13 +33,10 @@ html { font-size: 62.5%; }
   font-size: #{$size}px;
   font-size: toREM($size);
 }
-<<<<<<< HEAD
-=======
 @mixin rem($property, $value) {
     #{$property}: $value +px;
     #{$property}: toREM($value);
 }
->>>>>>> b627205b52f1749d44f18aced0c856fe7103ad40
 
 // --------------------------------------------------
 // HTML Tags

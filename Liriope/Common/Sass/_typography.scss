@@ -9,21 +9,20 @@ html { font-size: 62.5%; }
 // Functions
 // --------------------------------------------------
 //
-@function toREM($pxval, $base: 10) {
-    @if (unitless($pxval)) {
-        $pxval: $pxval * 1px;
+@function toREM($target, $base: 10) {
+    @if unitless($target) {
+        $target: $target * 1px;
     }
-
-    @if (unitless($base)) {
-        $base: $base * 1px;
+    
+    // provide an out if no coversion is necessary
+    @if (unit($target) == "rem") {
+        @return $target;
     }
-
-    @return $pxval / $base * 1rem;
-}
-
-@mixin rem($property,$value) {
-    #{$property}: $value +px;
-    #{$property}: toREM($value);
+    @else {
+        // dividing by 1px strips the units;
+        $target: $target / $base / 1px;
+        @return $target * 1rem;
+    }
 }
 
 // --------------------------------------------------
@@ -34,6 +33,13 @@ html { font-size: 62.5%; }
   font-size: #{$size}px;
   font-size: toREM($size);
 }
+<<<<<<< HEAD
+=======
+@mixin rem($property, $value) {
+    #{$property}: $value +px;
+    #{$property}: toREM($value);
+}
+>>>>>>> b627205b52f1749d44f18aced0c856fe7103ad40
 
 // --------------------------------------------------
 // HTML Tags

@@ -8,6 +8,8 @@ class menu implements RecursiveIterator, Countable {
   private $label;
   // the relative url
   private $url;
+  // the class to be added to the anchor tag
+  private $anchorClass;
   // the parent object
   private $parent;
   // active: this menu item is current or a predecessor of current
@@ -19,8 +21,9 @@ class menu implements RecursiveIterator, Countable {
 
   public function __construct($array, $parent=NULL) {
     $this->parent = $parent!==NULL ? $parent : NULL;
-    $this->label = isset($array['label']) ? $array['label'] : NULL;
-    $this->url   = isset($array['url'])   ? $array['url']   : NULL;
+    $this->label       = isset($array['label']) ? $array['label'] : NULL;
+    $this->url         = isset($array['url'])   ? $array['url']   : NULL;
+    $this->anchorClass = isset($array['class']) ? $array['class']   : NULL;
     if(isset($array['children'])) {
       foreach($array['children'] as $v) {
         $this->_[] = new menu($v, $this);
@@ -51,6 +54,7 @@ class menu implements RecursiveIterator, Countable {
   public function getParent() { return $this->parent; }
   public function getLabel() { return $this->label; }
   public function getURL() { return $this->url; }
+  public function getClass() { return $this->anchorClass; }
   public function isActive() { return $this->active; }
   public function isCurrent() { return $this->current; }
   public function findCurrent() {

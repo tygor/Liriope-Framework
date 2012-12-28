@@ -73,6 +73,7 @@ img { -ms-interpolation-mode: bicubic; }
     display: block;
     overflow: hidden;
     padding: 0;
+    @include clearfix();
 
     &>li {
         @media screen and (min-width: $canvasMedium) {

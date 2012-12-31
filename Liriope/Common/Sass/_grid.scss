@@ -13,13 +13,13 @@ $columnGutter: 32px !default;
   width: $rowWidth;
   max-width: 100%;
   min-width: $canvasSmall;
-  margin: 0 auto;
+  margin: $columnGutter / 2 auto;
   
   .row {
     width: auto;
     max-width: none;
     min-width: 0;
-    margin: 0 (-($columnGutter / 2));
+    margin: $columnGutter / 2 (-($columnGutter / 2));
 
     &.collapse {
       .column, .columns { margin: 0; }

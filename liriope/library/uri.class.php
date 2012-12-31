@@ -67,6 +67,14 @@ class uri {
     return self::getURI();
   }
 
+  static function back($times=1) {
+      $path = explode('/', self::get());
+      for($i=0; $i < $times; $i++) {
+          array_pop($path);
+      }
+      return implode('/', $path);
+  }
+
   static function getDomain($withHTTP=FALSE) {
     $http = 'http://';
     $domain = server::get('HTTP_HOST');

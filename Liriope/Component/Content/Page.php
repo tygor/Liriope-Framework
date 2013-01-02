@@ -1,30 +1,38 @@
 <?php
 
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+namespace Liriope\Component\Content;
 
-//
-// Page.class.php
-//
+/**
+ * This class represents a page object. It can be the whole page, or a building block of the page.
+ */
 
-class Page extends obj {
+class Page extends \obj {
 
-  // the file to use for render
-  var $_view;
+  // @var string The file to use for render
+  private $_view;
 
-  // @var string The name of the theme folder to wrap the page in
+  // @var string The title of the page
+  private $title;
+
+  // @var string The date for the page
+  private $date;
+  private $time;
+
+  // @var string The name of the theme folder that wraps the page
   private $theme;
 
+  // TODO: What's this $keywords for? Overloaded?
   var $keywords;
 
+  // TODO: What's this $vars for? Is it overloaded params?
   var $vars = array();
 
   function __construct( $file=NULL ) {
     $this->_view = $file;
-    $this->title = c::get( 'page.title' );
-    $this->description = c::get( 'page.description' );
-    $this->author = c::get( 'page.author' );
-    $this->theme = c::get( 'theme' );
+    $this->title = \c::get( 'page.title' );
+    $this->description = \c::get( 'page.description' );
+    $this->author = \c::get( 'page.author' );
+    $this->theme = \c::get( 'theme' );
   }
 
   public function set( $key, $value=FALSE ) {
@@ -41,6 +49,42 @@ class Page extends obj {
     if( $key===NULL ) return (array) $this->vars;
     if( isset( $this->vars[$key] )) return $this->vars[$key];
     return $default;
+  }
+
+  /**
+   * Manages the page title, either setting or getting
+   *
+   * @param  string $title The title for the page
+   *
+   * @return string Will return the page title on set and get, or '' if no title is set
+   */
+  public function title($title=NULL) {
+      if($title === NULL) return $this->title ?: '';
+      $this->title = $title;
+      return $this->title;
+  }
+
+  /**
+   * Manages the page date, either setting or getting
+   *
+   * @param  string $date The date of the page. Intrepetation is open to pubdate, modify date, or just date
+   *
+   * @return string Will return the page date on set and get, or '' if no date is set
+   */
+  public function date($date=NULL) {
+      if($date === NULL) return $this->date ?: '';
+      $this->date = $date;
+      $this->time = strtotime($date);
+      return $this->date;
+  }
+
+  /**
+   * Returns the time representation for the date parameter
+   *
+   * @return string The time representation of the date parameter
+   */
+  public function time() {
+      return $this->time ?: NULL;
   }
 
   public function useView($file) {
@@ -107,23 +151,23 @@ class Page extends obj {
 
   public function keywords() {
     if(empty($this->keywords)) {
-      $s = new String(c::get('page.keywords'));
+      $s = new \String(\c::get('page.keywords'));
       $s = $s->split(',');
-      $this->keywords = a::glue($s, ',');
+      $this->keywords = \a::glue($s, ',');
     }
     return $this->keywords;
   }
 
   public function add_keywords($s) {
     if(!is_array($s)) {
-      $s = new String($s);
+      $s = new \String($s);
       $s = $s->split(',');
     }
-    $this->keywords = $this->keywords() . ',' . a::glue($s, ',');
+    $this->keywords = $this->keywords() . ',' . \a::glue($s, ',');
   }
 
   public function isHomePage() {
-    return ( $this->uri === c::get( 'home' )) ? TRUE : FALSE;
+    return ( $this->uri === \c::get( 'home' )) ? TRUE : FALSE;
   }
 
   public function isActive( $uri=NULL ) {
@@ -140,12 +184,12 @@ class Page extends obj {
   // @param  string $alias  the variable name to use in the _view file for $this
   // @return mixed  Returns the output buffer string, or echos it
   public function render( $return=TRUE, $alias='page' ) {
-    content::start();
+    \content::start();
     $this->transferStored();
     // TODO: This alias idea, is it necessary? Why not use $this in page?
     $$alias = $this;
     include( $this->_view );
-    $render = content::end( $return );
+    $render = \content::end( $return );
     if( $return ) return $render;
     echo $render;
   }

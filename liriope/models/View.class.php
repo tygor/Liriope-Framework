@@ -57,8 +57,6 @@ class View extends obj {
     global $site;
     $page = &$this->_page;
 
-    if( c::get( 'debug' )) theme::set( 'error', error::render( TRUE ));
-    
     // CACHE
     // ----------
     $cache = NULL;

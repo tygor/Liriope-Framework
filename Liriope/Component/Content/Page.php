@@ -2,6 +2,8 @@
 
 namespace Liriope\Component\Content;
 
+use Liriope\Component\Content\Buffer;
+
 /**
  * This class represents a page object. It can be the whole page, or a building block of the page.
  */
@@ -184,12 +186,12 @@ class Page extends \obj {
   // @param  string $alias  the variable name to use in the _view file for $this
   // @return mixed  Returns the output buffer string, or echos it
   public function render( $return=TRUE, $alias='page' ) {
-    \content::start();
+    Buffer::start();
     $this->transferStored();
     // TODO: This alias idea, is it necessary? Why not use $this in page?
     $$alias = $this;
     include( $this->_view );
-    $render = \content::end( $return );
+    $render = Buffer::end( $return );
     if( $return ) return $render;
     echo $render;
   }

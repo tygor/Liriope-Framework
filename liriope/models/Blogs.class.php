@@ -3,6 +3,8 @@
 // Blogs.class.php
 //
 
+use Liriope\Component\Content\Buffer;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
@@ -61,9 +63,9 @@ class Blogs extends obj {
     $page = new obj();
 
     // grab the content with an output buffer
-    content::start();
+    Buffer::start();
     include( $file );
-    $page->content = content::end( TRUE );
+    $page->content = Buffer::end( TRUE );
 
     // force a page title from the first <h*> tag
     if( !$page->title() ) {

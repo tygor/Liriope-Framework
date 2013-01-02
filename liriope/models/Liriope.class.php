@@ -5,6 +5,8 @@
  *
  */
 
+use Liriope\Component\Content\Buffer;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
@@ -100,10 +102,10 @@ class Liriope {
   }
 
   public function render( $page=NULL ) {
-    content::start();
+    Buffer::start();
     include( $this->file );
 
-    $render = content::end( TRUE );
+    $render = Buffer::end( TRUE );
     return $render;
   }
 

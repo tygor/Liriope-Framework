@@ -1,16 +1,12 @@
 <?php
-//
-// Content object
-// content.class.php
-// handles output buffering
-//
 
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+namespace Liriope\Component\Content;
 
-// TODO: remove now that I have the Namespace version... note in changelog that content::* is now Buffer::*
+/**
+ * This class handles the output buffering built into PHP.
+ */
 
-class content_backup {
+class Buffer {
 
   //
   // start()

@@ -1,5 +1,7 @@
 <?php
 
+use Liriope\Component\Content\Buffer;
+
 // direct access proctection
 if(!defined('LIRIOPE')) die( 'Direct access is not allowed');
 
@@ -42,9 +44,9 @@ class theme {
     @extract( $vars );
     // the $liriope variable is used in each theme as the dynamic content holder
     $liriope = $content;
-    content::start();
+    Buffer::start();
     require( $file );
-    return content::end( $return );
+    return Buffer::end( $return );
   }
 }
 

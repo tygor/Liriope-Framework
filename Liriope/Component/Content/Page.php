@@ -3,6 +3,7 @@
 namespace Liriope\Component\Content;
 
 use Liriope\Component\Content\Buffer;
+use Liriope\Toolbox\Str;
 
 /**
  * This class represents a page object. It can be the whole page, or a building block of the page.
@@ -153,7 +154,7 @@ class Page extends \obj {
 
   public function keywords() {
     if(empty($this->keywords)) {
-      $s = new \String(\c::get('page.keywords'));
+      $s = new Str(\c::get('page.keywords'));
       $s = $s->split(',');
       $this->keywords = \a::glue($s, ',');
     }
@@ -162,7 +163,7 @@ class Page extends \obj {
 
   public function add_keywords($s) {
     if(!is_array($s)) {
-      $s = new \String($s);
+      $s = new Str($s);
       $s = $s->split(',');
     }
     $this->keywords = $this->keywords() . ',' . \a::glue($s, ',');

@@ -3,6 +3,10 @@
 // router.class.php
 // --------------------------------------------------
 
+use Liriope\Toolbox\Uri;
+use Liriope\Toolbox\A;
+use Liriope\Toolbox\Files;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
@@ -24,7 +28,7 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch( $request=NULL ) {
-    if( $request===NULL ) $request = uri::getArray();
+    if( $request===NULL ) $request = Uri::getArray();
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     self::$use = $rule->getUse();

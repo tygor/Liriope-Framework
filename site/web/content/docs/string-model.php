@@ -1,5 +1,7 @@
 <?php
 
+use Liriope\Toolbox\String;
+
 $page->title = "String model";
 $page->date = '2012-09-10';
 

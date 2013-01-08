@@ -4,6 +4,7 @@
 //
 
 use Liriope\Component\Content\Buffer;
+use Liriope\Toolbox\Str;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );

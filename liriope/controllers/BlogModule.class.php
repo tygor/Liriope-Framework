@@ -1,4 +1,8 @@
 <?php
+
+use Liriope\Toolbox\A;
+use Liriope\Toolbox\Str;
+
 //
 // BlogModule.class.php
 //

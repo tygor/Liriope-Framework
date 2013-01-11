@@ -160,7 +160,9 @@ class Blogs extends obj {
     // convert each blog file into an object
     $files = array();
     foreach( $this->files as $file ) {
-      $files[] = $this->init( $file );
+      $post = $this->init($file);
+      // test for a future date value (meaning it should be published in the future)
+      if(strtotime($post->date) <= time()) $files[] = $post;
     }
     $this->files = $files;
     $this->sortFiles();

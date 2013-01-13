@@ -80,7 +80,7 @@ class Uri {
 
   static function getURI() {
     if( empty( self::$route )) {
-      $route = new String(parse_url( self::getRawURI(), PHP_URL_PATH));
+      $route = new Str(parse_url( self::getRawURI(), PHP_URL_PATH));
       $result = $route->minus('index.php')->trim("/")->get();
       if( $result === "" ) {
         self::$isHome = TRUE;
@@ -115,7 +115,7 @@ class Uri {
   // @param  string  $path The path to convert
   // @return string  Returns the new path relative to the web root
   static function toRelative($path) {
-    $return = new String($path);
+    $return = new Str($path);
     return $return->minus(\c::get('root.web', 'web'))->get();
   }
 

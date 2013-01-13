@@ -1,5 +1,7 @@
 <?php
 
+use Liriope\Toolbox\Uri;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
@@ -26,7 +28,7 @@ class menu implements RecursiveIterator, Countable {
         $this->_[] = new menu($v, $this);
       }
     }
-    if($this->url===uri::get()) {
+    if($this->url===Uri::get()) {
       $this->active = TRUE;
       $this->current = TRUE;
       if($this->hasParent()) $this->getParent()->setStatus(TRUE);

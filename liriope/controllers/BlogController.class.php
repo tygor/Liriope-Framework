@@ -1,4 +1,7 @@
 <?php
+
+use Liriope\Toolbox\a;
+
 //
 // BlogController.class.php
 //

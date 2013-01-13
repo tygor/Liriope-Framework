@@ -5,6 +5,7 @@
 
 use Liriope\Component\Content\Buffer;
 use Liriope\Toolbox\Str;
+use Liriope\Toolbox\a;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
@@ -34,7 +35,7 @@ class Blogs extends obj {
     $data = dir::contents( $path );
     $this->name = $data['name'];
     $this->root = rtrim( $data['root'], '/'.$data['name']);
-    $parent = new String($this->root);
+    $parent = new Str($this->root);
     $this->parent = $parent->replace(c::get('root.content'),'')->get();
     $this->modified = $data['modified'];
     // now store recursively from the blog root
@@ -77,10 +78,10 @@ class Blogs extends obj {
 
     // and set some info about each post
     $info = pathinfo( $file );
-    $dir = new String($info['dirname']);
+    $dir = new Str($info['dirname']);
     $page->dir = $dir->minus(c::get('root.content').'/')->get();
     $page->file = $info['basename'];
-    $url = new String($info['filename']);
+    $url = new Str($info['filename']);
     $page->url = ($url->to_lowercase()->get() === 'index') ? $page->dir : $page->dir . '/' . $info['filename'];
     $page->date = ($page->date()===NULL) ? date( 'Y-m-d H:i:s', filemtime($file)) : $page->date();
     $page->time = strtotime( $page->date );

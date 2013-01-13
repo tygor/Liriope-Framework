@@ -4,6 +4,7 @@ namespace Liriope\Component\Content;
 
 use Liriope\Component\Content\Buffer;
 use Liriope\Toolbox\Str;
+use Liriope\Toolbox\a;
 
 /**
  * This class represents a page object. It can be the whole page, or a building block of the page.
@@ -156,7 +157,7 @@ class Page extends \obj {
     if(empty($this->keywords)) {
       $s = new Str(\c::get('page.keywords'));
       $s = $s->split(',');
-      $this->keywords = \a::glue($s, ',');
+      $this->keywords = a::glue($s, ',');
     }
     return $this->keywords;
   }
@@ -166,7 +167,7 @@ class Page extends \obj {
       $s = new Str($s);
       $s = $s->split(',');
     }
-    $this->keywords = $this->keywords() . ',' . \a::glue($s, ',');
+    $this->keywords = $this->keywords() . ',' . a::glue($s, ',');
   }
 
   public function isHomePage() {

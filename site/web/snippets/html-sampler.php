@@ -1,5 +1,7 @@
 <?php
 
+use Liriope\Toolbox\Str;
+
 $lorem = <<<LOREM
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ornare justo in tortor sollicitudin eget aliquam purus
 euismod. Vivamus posuere volutpat laoreet. Curabitur nunc erat, sollicitudin ut euismod quis, sagittis in ipsum. Sed
@@ -31,7 +33,7 @@ adipiscing nec, bibendum id risus. Sed vitae diam massa. Nulla lacus nunc, commo
 In hac habitasse platea dictumst. Etiam quis leo arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
 posuere cubilia Curae; In felis justo, accumsan et porttitor ut, faucibus eu quam. 
 LOREM;
-$lorem = new String($lorem);
+$lorem = new Str($lorem);
 
 ?>
 

@@ -147,7 +147,7 @@ class a {
   //
   static function toObject( $array ) {
     if( !is_array( $array )) return $array;
-    $object = new stdClass();
+    $object = new \stdClass();
     if( is_array( $array ) && count( $array ) > 0 ) {
       foreach( $array as $k => $v ) {
         $k = strtolower( trim( $k ));

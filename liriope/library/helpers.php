@@ -1,4 +1,7 @@
 <?php
+
+use Liriope\Toolbox\Str;
+
 //
 // helpers.php
 // Base helpers for the Liriope templates
@@ -58,7 +61,7 @@ function slugify( $input=NULL ) {
 // HTML
 // creates safe html
 function html( $string ) {
-  $html = new String( $string );
+  $html = new Str( $string );
   return $html->to_html();
 }
 

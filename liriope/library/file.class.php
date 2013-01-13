@@ -1,4 +1,7 @@
 <?php
+
+use Liriope\Toolbox\Str;
+
 //
 // File object
 // file.class.php
@@ -34,7 +37,7 @@ class f {
   // @return mixed 
   //   
   static function read( $file, $parse=FALSE ) {
-    $content = new String(@file_get_contents($file));
+    $content = new Str(@file_get_contents($file));
     return ( $parse) ? $content->parse($parse) : $content->get();
   }
 

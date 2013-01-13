@@ -1,7 +1,6 @@
 <?php
 
 namespace Liriope\Component\Content;
-
 use Liriope\Component\Content\Buffer;
 use Liriope\Toolbox\Str;
 use Liriope\Toolbox\a;
@@ -16,14 +15,14 @@ class Page extends \obj {
   private $_view;
 
   // @var string The title of the page
-  private $title;
+  public $title;
 
   // @var string The date for the page
-  private $date;
-  private $time;
+  public $date;
+  public $time;
 
   // @var string The name of the theme folder that wraps the page
-  private $theme;
+  public $theme;
 
   // TODO: What's this $keywords for? Overloaded?
   var $keywords;

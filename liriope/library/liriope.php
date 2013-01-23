@@ -11,7 +11,7 @@
 
 // load the configuration class
 require_once( 'config.class.php' );
-c::set( 'version', 0.0 );
+c::set( 'version', 0.2 );
 c::set( 'language', 'en' );
 c::set( 'charset', 'utf-8' );
 

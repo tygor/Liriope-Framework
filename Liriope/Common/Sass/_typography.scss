@@ -42,7 +42,9 @@ html { font-size: 62.5%; }
 // HTML Tags
 // --------------------------------------------------
 //
-body { @include fontSize(14); }
+
+/* Liriope: base body font size */
+body { @include rem(font-size, 14); }
 
 h1 { @include fontSize(48); }
 h2 { @include fontSize(36); }

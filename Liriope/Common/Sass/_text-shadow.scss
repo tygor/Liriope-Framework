@@ -1,3 +1,7 @@
 @mixin text-shadow($x: 0, $y: 1px, $blur: 3px, $color: rgb(0,0,0), $inset: null) {
     @include vendor(text-shadow, $inset $x $y $blur $color);
 }
+
+@mixin no-text-shadow() {
+    @include vendor(text-shadow, none);
+}

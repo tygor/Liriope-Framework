@@ -1,4 +1,7 @@
 <?php
+
+use Liriope\Toolbox\String;
+
 //
 // Liriope's default configuration
 // 

@@ -50,7 +50,7 @@ class Uri {
     //                 |->             route              <-|
     //          host   |->         path          <-| file ext
     self::$file = A::last( $uriArray );
-    self::$extension = Files::extension( self::$file );
+    self::$extension = File::extension( self::$file );
     self::$path = implode( '/', $uriArray );
     self::$url = $route;
     self::$query = Server::get( 'QUERY_STRING' );
@@ -80,7 +80,7 @@ class Uri {
 
   static function getURI() {
     if( empty( self::$route )) {
-      $route = new Str(parse_url( self::getRawURI(), PHP_URL_PATH));
+      $route = new String(parse_url( self::getRawURI(), PHP_URL_PATH));
       $result = $route->minus('index.php')->trim("/")->get();
       if( $result === "" ) {
         self::$isHome = TRUE;
@@ -115,7 +115,7 @@ class Uri {
   // @param  string  $path The path to convert
   // @return string  Returns the new path relative to the web root
   static function toRelative($path) {
-    $return = new Str($path);
+    $return = new String($path);
     return $return->minus(\c::get('root.web', 'web'))->get();
   }
 

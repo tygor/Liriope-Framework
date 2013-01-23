@@ -1,4 +1,7 @@
 <?php
+
+use Liriope\Toolbox\File;
+
 /**
  * GalleryController.class.php
  */
@@ -14,7 +17,7 @@ class GalleryController Extends LiriopeController {
   public function show( $vars=NULL ) {
     $page = $this->getPage();
 
-    $yaml = new Yaml( f::read( 'data/gallery.yaml' ));
+    $yaml = new Yaml( File::read( 'data/gallery.yaml' ));
     $gallery = $yaml->get();
     $images = $gallery->images;
 
@@ -28,7 +31,7 @@ class GalleryController Extends LiriopeController {
     $page = $this->getPage();
 
     $id = $vars[0];
-    $yaml = new Yaml( f::read( 'data/gallery.yaml' ));
+    $yaml = new Yaml( File::read( 'data/gallery.yaml' ));
     $gallery = $yaml->get();
 
     $image = $gallery->images->$id;

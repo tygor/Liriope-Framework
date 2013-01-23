@@ -1,11 +1,11 @@
 <?php
 
-use Liriope\Toolbox\Str;
+use Liriope\Toolbox\String;
 
 $page->title = "String model";
 $page->date = '2012-09-10';
 
-$sample = new Str("The quick brown fox jumps over the lazy dog.");
+$sample = new String("The quick brown fox jumps over the lazy dog.");
 
 ?>
 
@@ -19,7 +19,7 @@ end of most methods (the ones that retain the string status). Also, these modifi
 in that the original string is preserved. Once the instance has been retrieved, the object
 resets to the original for further modification.</p>
 
-<h2>new Str( $the_string )</h2>
+<h2>new String( $the_string )</h2>
 <p>First, create a new string object by assigning it to a variable</p>
 <dl>
   <dt><em>(string)</em> $the_string</dt>

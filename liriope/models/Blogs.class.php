@@ -4,13 +4,11 @@
 //
 
 use Liriope\Component\Content\Buffer;
-use Liriope\Toolbox\Str;
+use Liriope\Toolbox\String;
 use Liriope\Toolbox\a;
+use Liriope\Toolbox\Directory;
 
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
-
-class Blogs extends obj {
+class Blogs extends \obj {
   // the name of the blog folder
   var $name;
   // the file system path to the blog's parent folder
@@ -32,10 +30,10 @@ class Blogs extends obj {
   // all params are optional
   //
   public function __construct( $path=NULL, $file=NULL) {
-    $data = dir::contents( $path );
+    $data = Directory::contents( $path );
     $this->name = $data['name'];
     $this->root = rtrim( $data['root'], '/'.$data['name']);
-    $parent = new Str($this->root);
+    $parent = new String($this->root);
     $this->parent = $parent->replace(c::get('root.content'),'')->get();
     $this->modified = $data['modified'];
     // now store recursively from the blog root
@@ -43,7 +41,7 @@ class Blogs extends obj {
   }
 
   private function storeBlogArticles( $folder ) {
-    $data = dir::contents( $folder );
+    $data = Directory::contents( $folder );
     foreach( $data['files'] as $k => $file ) {
       // only grab .php files
       if( pathinfo( $folder . '/' . $file, PATHINFO_EXTENSION ) !== 'php' ) continue;
@@ -78,10 +76,10 @@ class Blogs extends obj {
 
     // and set some info about each post
     $info = pathinfo( $file );
-    $dir = new Str($info['dirname']);
+    $dir = new String($info['dirname']);
     $page->dir = $dir->minus(c::get('root.content').'/')->get();
     $page->file = $info['basename'];
-    $url = new Str($info['filename']);
+    $url = new String($info['filename']);
     $page->url = ($url->to_lowercase()->get() === 'index') ? $page->dir : $page->dir . '/' . $info['filename'];
     $page->date = ($page->date()===NULL) ? date( 'Y-m-d H:i:s', filemtime($file)) : $page->date();
     $page->time = strtotime( $page->date );

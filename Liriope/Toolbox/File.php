@@ -3,10 +3,10 @@
 namespace Liriope\Toolbox;
 
 //
-// Files.php
+// File.php
 //
 
-class Files {
+class File {
   public $path;
   public $fullpath;
   public $file;
@@ -33,6 +33,44 @@ class Files {
     if( $this->error ) trigger_error( "The file could not be properly initiated.", E_USER_ERROR );
     $this->fullpath = load::exists( $this->file, $this->path );
     $this->extension = $this->getExtension( $this->file );
+  }
+
+  // write()
+  // Creates a new file
+  // 
+  // @param  string  $file The path for the new file
+  // @param  mixed   $content Either a string or an array. Arrays will be converted to JSON. 
+  // @param  bool    $append true: append the content to an exisiting file if available. false: overwrite. 
+  // @return bool    
+  //   
+  static function write($file,$content,$append=false){
+    if( is_array( $content )) $content = json_encode( $content );
+    $mode = ( $append ) ? FILE_APPEND : false;
+    $write = file_put_contents( $file, $content, $mode );
+    @chmod( $file, 0666 );
+    return $write;
+  }
+
+  // read()
+  // Reads the content of a file
+  // 
+  // @param  string  $file The path for the file
+  // @param  mixed   $parse The str object parse method to use
+  // @return mixed 
+  //   
+  static function read( $file, $parse=FALSE ) {
+    $content = new String(@file_get_contents($file));
+    return ( $parse) ? $content->parse($parse) : $content->get();
+  }
+
+  // remove()
+  // Deletes a file
+  //
+  // @param  string  $file The path for the file
+  // @return boolean 
+  //  
+  static function remove($file) {
+    return (file_exists($file) && is_file($file) && !empty($file)) ? @unlink($file) : false;
   }
 
   public function setPath( $v=NULL ) {

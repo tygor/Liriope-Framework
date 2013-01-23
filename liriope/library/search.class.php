@@ -1,7 +1,8 @@
 <?php
 
 use Liriope\Toolbox\a;
-use Liriope\Toolbox\Str;
+use Liriope\Toolbox\String;
+use Liriope\Toolbox\File;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
@@ -51,7 +52,7 @@ class search {
 
     // convert search to comma delimited string
     //$this->searchwords = preg_replace( index::$stripPattern, ',', $this->query );
-    $searchwords = new Str(preg_replace( index::$stripPattern, ',', $this->query ));
+    $searchwords = new String(preg_replace( index::$stripPattern, ',', $this->query ));
     if( !$this->casesensitive ) $searchwords->to_lowercase();
     $this->searchwords = $searchwords->split(',');
 
@@ -292,7 +293,7 @@ class index {
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
     $file = $dir . '/' . self::prep( $id ) . '.txt';
 
-    f::write( $file, $store );
+    File::write( $file, $store );
   }
 
   // unstore()
@@ -302,7 +303,7 @@ class index {
   //
   static function unstore( $uri ) {
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
-    $uri = new Str($uri);
+    $uri = new String($uri);
     $file = $dir . '/' . $uri->replace( '/', '|' ) . '.txt';
     $success = f::remove($file);
   }
@@ -418,7 +419,7 @@ class index {
     if( $array === NULL ) $array = self::$content;
     $tally = array();
     foreach( $array as $word ) {
-      $word = new Str($word);
+      $word = new String($word);
       $word_id = $word->to_lowercase()->trim(' .,-"\'')->get();
       if( !isset( $tally[$word_id] )) $tally[$word_id] = 1;
       else $tally[$word_id] = $tally[$word_id] + 1;

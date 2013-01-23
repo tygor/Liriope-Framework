@@ -1,6 +1,7 @@
 <?php
 
-use Liriope\Toolbox\Str;
+use Liriope\Toolbox\String;
+use Liriope\Toolbox\Uri;
 
 //
 // helpers.php
@@ -61,7 +62,7 @@ function slugify( $input=NULL ) {
 // HTML
 // creates safe html
 function html( $string ) {
-  $html = new Str( $string );
+  $html = new String( $string );
   return $html->to_html();
 }
 
@@ -99,8 +100,8 @@ function publish( $start=FALSE, $stop=FALSE ) {
 //
 function img($file) {
   $content = c::get('root.content', 'content');
-  $root = uri::toRelative($content);
-  $uri = uri::get();
+  $root = Uri::toRelative($content);
+  $uri = Uri::get();
   // check if the image exists in a folder named after the uri
   $path = "$root/$uri/$file";
   if(file_exists($content . '/' . $uri . '/' . $file)) return $path;

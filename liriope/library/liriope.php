@@ -9,6 +9,8 @@
 // @package Liriope
 //
 
+use Liriope\Toolbox\Router;
+
 // load the configuration class
 require_once( 'config.class.php' );
 c::set( 'version', 0.0 );

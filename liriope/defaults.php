@@ -2,6 +2,7 @@
 
 use Liriope\Toolbox\String;
 use Liriope\Toolbox\Filter;
+use Liriope\Toolbox\Router;
 
 //
 // Liriope's default configuration

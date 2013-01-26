@@ -1,5 +1,7 @@
 <?php
 
+use Liriope\Toolbox\Router;
+
 //
 // Set your site default configuration in this file
 // 

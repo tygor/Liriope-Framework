@@ -4,6 +4,7 @@ use Liriope\Component\Content\Page;
 use Liriope\Toolbox\Uri;
 use Liriope\Toolbox\Filter;
 use Liriope\Toolbox\Site;
+use Liriope\Toolbox\Router;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );

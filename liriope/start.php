@@ -49,7 +49,7 @@ c::set( 'path', array(
   c::get( 'root.content' )
 ));
 
-// load the rest of the system
+// load the must have Liriope objects
 require_once( c::get( 'root.liriope' ) . '/library/load.class.php' );
 spl_autoload_register( 'load::autoload', TRUE );
 

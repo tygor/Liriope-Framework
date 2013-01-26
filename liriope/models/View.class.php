@@ -2,6 +2,8 @@
 
 use Liriope\Component\Content\Page;
 use Liriope\Toolbox\Uri;
+use Liriope\Toolbox\Filter;
+use Liriope\Toolbox\Site;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
@@ -88,7 +90,7 @@ class View extends obj {
 
       if( $page->getTheme() !== NULL ) {
         $html = theme::load( $page->getTheme(), array( 'page'=>$page, 'content'=>$html ), TRUE );
-        $html = filter::doFilters( $html );
+        $html = Filter::doFilters( $html );
         if( c::get( 'cache' )) { cache::set( $cacheID, (string) $html, TRUE ); }
         // TODO: $page->is404 must be an overloaded variable. Is this a useless check?
         if( c::get( 'index' ) && !$page->is404 ) { index::store( Uri::get(), (string) $html, (string) $html ); }

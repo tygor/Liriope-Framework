@@ -1,5 +1,6 @@
 <?php
 
+use Liriope\Models\Yaml;
 use Liriope\Toolbox\File;
 
 /**

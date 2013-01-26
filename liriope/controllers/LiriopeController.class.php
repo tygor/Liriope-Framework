@@ -1,6 +1,7 @@
 <?php
 
 use Liriope\Toolbox\A;
+use Liriope\Models\Liriope;
 
 /**
  * LiriopeController.class.php

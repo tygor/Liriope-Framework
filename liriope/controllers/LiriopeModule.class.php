@@ -3,6 +3,8 @@
 // LiriopeModule.class.php
 //
 
+use Liriope\Models\Yaml;
+use Liriope\Models\Menu;
 use Liriope\Component\Content\Page;
 use Liriope\Toolbox\a;
 

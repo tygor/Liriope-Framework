@@ -9,20 +9,21 @@ It's for us who write the web. It stemmed from a learning project, but as the pr
 got better, I decided to use it here and there. Now, it's live on a few sites which is awesome
 and horrible at the same time. Why? Because now I have issues and bugs that I want to fix.
 
-## The name
-As it goes with code projects, they need a name, and generally a person chooses something silly
-just to get it named, not expecting it to thrive and become public. Well, Liriope isn't famous,
-and it's name means nothing. It was a silly title, and it worked. I chose it for the
-abundant flora in my back yard. And who doesn't like monkeys?
+## The name As it goes with code projects, they need a name, and generally a
+person chooses something silly just to get it named, not expecting it to
+thrive and become public. Well, Liriope isn't famous, and it's name means
+nothing. It was a silly title, and it worked. I chose it for the abundant
+flora in my back yard. And who doesn't like monkeys?
 
 - @version 0.1 BETA
 - @author Tyler Gordon
 
 ##Structure:
 
-Each site within the root folder is autonomous. And because of the use of the web
-layer and root layer (directories) on most Linux web hosts any default Liriope theme or stylesheet or anything
-used by the web needs to be located within each site's web folder.
+Each site within the root folder is autonomous. And because of the use of the
+web layer and root layer (directories) on most Linux web hosts any default
+Liriope theme or stylesheet or anything used by the web needs to be located
+within each site's web folder.
 
 ###Suggested structure:
 
@@ -41,5 +42,3 @@ used by the web needs to be located within each site's web folder.
 - http://anantgarg.com/2009/03/13/write-your-own-php-mvc-framework-part-1/
 - http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-one
 - http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-two
-- http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-three
-

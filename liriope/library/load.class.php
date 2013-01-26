@@ -9,29 +9,21 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // --------------------------------------------------
 //
 
-class load 
-{
+class load {
 
+  /**
+   * Attempts to find the file to be loaded within Liriope.
+   *
+   * @param string The name of the file to be found.
+   *
+   * @return void So that further registered autoloaders can make the attempt
+   */
   static function autoload( $className ) {
-    // Apply the naming convention
+    // Apply the naming convention for classes
+    // DEPRECATED: this naming convention is prior to namespaces and the SPL autoloader.
     $className = ucfirst( $className ) . '.class.php';
 
-    self::seek( $className );
-
-    /*
-    // find out if the file exists
-    try {
-      if( !self::seek( $className )) throw new Exception( 'Unable to find the ' . $className . ' object with the autoloader.' );
-    } catch( Exception $e ) {
-        header("HTTP/1.0 500 Internal Server Error");
-        echo $e->getMessage();
-        echo "<hr><pre>";
-        echo $e->getTraceAsString();
-        echo "</pre><hr>";
-        exit;
-    }
-    return true; 
-    */
+    echo "<span style='background-color: red; color: white; margin-right: 1em;'>" . self::seek( $className ) . "</span>";
   }
 
   static function lib()
@@ -41,9 +33,6 @@ class load
     $root = c::get( 'root.liriope' );
     // Toolbox
     load::file( $root . '/library/router.class.php', TRUE );
-    load::file( $root . '/library/error.class.php', TRUE );
-    load::file( $root . '/library/filter.class.php', TRUE );
-    load::file( $root . '/library/menu.class.php', TRUE );
     load::file( $root . '/library/search.class.php', TRUE );
     load::file( $root . '/controllers/LiriopeController.class.php', TRUE );
   }
@@ -76,7 +65,7 @@ class load
   static function plugins() {
     // load plugins
     $root = c::get( 'root.liriope' );
-    load::file( $root . '/plugins/spyc.php', TRUE );
+    // load::file( $root . '/plugins/spyc.php', TRUE );
   }
 
   //
@@ -109,7 +98,7 @@ class load
     if( $file===NULL ) return false;
     if( $file = self::exists( $file )) {
       self::file( $file, TRUE );
-      return true; 
+      return $file; 
     }
     return false;
   }

@@ -1,5 +1,6 @@
 <?php
 
+use Liriope\Models\Blogs;
 use Liriope\Toolbox\A;
 use Liriope\Toolbox\Str;
 

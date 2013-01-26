@@ -1,4 +1,7 @@
 <?php
+
+use Liriope\Models\Blogs;
+
 // Home
 
 $page->title = 'Home';

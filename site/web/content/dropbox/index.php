@@ -1,5 +1,7 @@
 <?php
 
+use Liriope\Models\Yaml;
+
 $page->title='Drop Box';
 $page->data='2012-11-24';
 

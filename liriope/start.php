@@ -37,6 +37,7 @@ unset( $rootApplication );
 c::set( 'path', array(
   c::get( 'root' ) . '/library',
   c::get( 'root' ) . '/library/helpers',
+  c::get( 'root' ) . '/_Liriope',
   c::get( 'root.application' ) . '/controllers',
   c::get( 'root.application' ) . '/models',
   c::get( 'root.application' ) . '/views',
@@ -49,16 +50,19 @@ c::set( 'path', array(
 
 // load the rest of the system
 require_once( c::get( 'root.liriope' ) . '/library/load.class.php' );
+spl_autoload_register( 'load::autoload', TRUE );
+
+// TODO: remove the underscore in front of Liriope/vendor...
+load::file(c::get('root.liriope').'/../_Liriope/vendor/SplClassLoader.php', TRUE);
+$classLoader = new SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
+$classLoader->register();
+
 load::lib();
 load::models();
 load::helpers();
 load::plugins();
 load::config();
-spl_autoload_register( 'load::autoload', TRUE );
 
-load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
-$classLoader = new SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
-$classLoader->register();
 
 // switch on error reporting
 if( c::get( 'debug' )) {

@@ -1,6 +1,7 @@
 <?php
 
 use Liriope\Toolbox\String;
+use Liriope\Toolbox\Filter;
 
 //
 // Liriope's default configuration
@@ -91,7 +92,7 @@ function fancyFramework( $c ) {
   $replacement = '<span class="fancy-framework">$1</span>';
   return preg_replace( $pattern, $replacement, $c );
 }
-filter::addFilter( 'fancyFramework', 'fancyFramework' );
+Filter::addFilter( 'fancyFramework', 'fancyFramework' );
 
 //
 // email obfuscation

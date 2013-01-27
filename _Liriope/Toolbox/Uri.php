@@ -1,7 +1,9 @@
 <?php
 
 namespace Liriope\Toolbox;
+
 use Liriope\Component;
+use Liriope\c;
 
 //
 // uri Model
@@ -84,7 +86,7 @@ class Uri {
       $result = $route->minus('index.php')->trim("/")->get();
       if( $result === "" ) {
         self::$isHome = TRUE;
-        $result = \c::get( 'home', 'home' );
+        $result = c::get( 'home', 'home' );
       }
       self::store( $result );
     }

@@ -6,15 +6,9 @@
 // this should be the same as the directory where
 // index.php is located.
 //
-$rootWeb = dirname(__FILE__);
-
-// --------------------------------------------------
-// Server root of your site
-// --------------------------------------------------
-// This is where the the meat of the application
-// code lives.
+// You will likely not need to change this setting
 //
-$root = realpath( $rootWeb . '/../..' );
+$rootWeb = dirname(__FILE__);
 
 // --------------------------------------------------
 // Liriope framework folder
@@ -24,7 +18,7 @@ $root = realpath( $rootWeb . '/../..' );
 // can move the folder and change the reference here
 // so that multiple sites can be run from one installation.
 //
-$rootLiriope = $root . '/liriope';
+$rootLiriope = realpath('../../_Liriope');
 
 // --------------------------------------------------
 // Site application folder
@@ -33,13 +27,13 @@ $rootLiriope = $root . '/liriope';
 // usually /application under which is the /controllers, /models
 // and /views folders.
 //
-$rootApplication = $root . '/site';
+$rootApplication = realpath('../../site');
 
 // Load Liriope: Monkey Grass
-if( !file_exists( $rootLiriope . '/start.php' )) {
+if( !file_exists( $rootLiriope . '/Liriope.php' )) {
   die( 'The Liriope framework could not be found.' );
 }
 
-require_once( $rootLiriope . '/start.php' );
+require_once( $rootLiriope . '/Liriope.php' );
 
 ?>

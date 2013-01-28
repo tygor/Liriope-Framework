@@ -2,7 +2,9 @@
 
 namespace Liriope\Toolbox;
 
-class Site extends \obj {
+use Liriope\Models\Obj;
+
+class Site extends obj {
 	
   // construct()
   // Builds the site object

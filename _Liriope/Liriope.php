@@ -61,8 +61,8 @@ function LiriopeException( $exception )
 set_exception_handler( 'Liriope\LiriopeException' );
 
 function stripSlashesDeep( $value ) {
-	$value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
-	return $value;
+  $value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
+  return $value;
 }
 
 // --------------------------------------------------
@@ -150,9 +150,8 @@ c::set( 'path', array(
   c::get( 'root.application' ) . '/controllers',
   c::get( 'root.application' ) . '/models',
   c::get( 'root.application' ) . '/views',
-  c::get( 'root.liriope' ) . '/library',
-  c::get( 'root.liriope' ) . '/controllers',
-  c::get( 'root.liriope' ) . '/models',
+  c::get( 'root.liriope' ) . '/Controllers',
+  c::get( 'root.liriope' ) . '/Models',
   c::get( 'root.liriope' ) . '/views',
   c::get( 'root.content' )
 ));

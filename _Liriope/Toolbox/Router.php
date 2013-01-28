@@ -3,6 +3,7 @@
 namespace Liriope\Toolbox;
 
 use Liriope\Component\Load;
+use Liriope\Component\Search\Index;
 
 class Router {
 
@@ -24,8 +25,6 @@ class Router {
   static function getDispatch( $request=NULL ) {
     if( $request===NULL ) $request = Uri::getArray();
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
-var_dump(self::getRule());
-exit;
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     self::$use = $rule->getUse();
     return( self::useRoute( $rule->translate( $request )));
@@ -141,9 +140,10 @@ exit;
     // $getVars nees to be an array
     if( empty( $getVars )) $getVars = array();
 
-    $target = $controller . '.class.php';
+    $target = $controller . '.php';
 
     if( !Load::seek( $target )) {
+die('calling the 404 b/c we can\'t find ' . $target);
       router::go( '/', 404 ); 
     }
 
@@ -170,14 +170,16 @@ exit;
   static function callController( $controller=NULL, $action=NULL, $getVars=NULL, $return=TRUE ) {
     // Controllers are uppercase on words (ex: Shovel) with "Controller" appended
     // Models are the plural of the controller (ex: Shovels)
-    $controllerRaw = $controller;
-    $controller = ucwords( \tools::cleanInput( $controller, 'alphaOnly' ));
+    $C = new String($controller);
+    $controllerRaw = $C->raw();
+    $controller =  $C->sanatize('onlyLetters')->to_titlecase()->get();
     $model = rtrim( $controller, 's' );
     $controller .= 'Controller';
     $dispatch = self::callHook( $controller, $controllerRaw, $action, $model, $getVars );
     if( $return ) {
       return $dispatch;
     }
+var_dump($dispath);exit;
     $dispatch->load();
   }
 

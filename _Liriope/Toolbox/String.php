@@ -51,6 +51,12 @@ class String {
     return $this;
   }
 
+  public function to_titlecase() {
+    $i = &$this->getInstance();
+    $i = ucwords(strtolower($i));
+    return $this;
+  }
+
   public function reverse() {
     $i = &$this->getInstance();
     $i = strrev($i);
@@ -169,6 +175,35 @@ class String {
     $i = &$this->getInstance();
     $i = substr($i, 0, $limit);
     if($ellipsis) $i .= '&hellip;';
+    return $this;
+  }
+
+  /**
+   * sanatize()
+   * cleans the input to the desired degree
+   *
+   * options: onlyLetters, alphaNumeric
+   */
+  public function sanatize($options='alphaNumeric') {
+    $i = &$this->getInstance();
+
+    switch ($options) {
+      case 'onlyLetters':
+        $pattern = '#[^a-z]*#i';
+        $replacement = '';
+        break;
+      case 'whiteAlphaNum':
+        $pattern = '#[^a-z0-9\s_-]*#i';
+        $replacement = '';
+        break;
+      default:
+      case 'alphaNumeric':
+        $pattern = '#[^a-z0-9_-]*#i';
+        $replacement = '';
+        break;
+    }
+
+    $i = preg_replace( $pattern, $replacement, $i );
     return $this;
   }
 

@@ -39,7 +39,7 @@ class Load {
 
   static function config() {
     // load configuration and default variables
-    self::file( c::get( 'root.liriope' ) . '/defaults.php' );
+    self::file( c::get( 'root.liriope' ) . '/configuration.php' );
     self::file( c::get( 'root.application' ) . '/defaults.php' );
   }
 

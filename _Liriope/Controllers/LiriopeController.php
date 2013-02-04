@@ -1,8 +1,12 @@
 <?php
 
+namespace Liriope\Controllers;
+
+use Liriope\c;
 use Liriope\Toolbox\A;
 use Liriope\Models\Liriope;
 use Liriope\Models\View;
+use Liriope\Component\Load;
 
 /**
  * LiriopeController.class.php
@@ -49,8 +53,8 @@ class LiriopeController {
     // and stretch the keys and values into an array of values
     $path = array();
     foreach( $params as $k => $v ) {
-      if( $k ) $path[] = tools::removeExtension( $k );
-      if( $v ) $path[] = tools::removeExtension( $v );
+      if( $k ) $path[] = pathinfo($k, PATHINFO_FILENAME);
+      if( $v ) $path[] = pathinfo($v, PATHINFO_FILENAME);
     }
 
     // check for home page
@@ -109,10 +113,10 @@ class LiriopeController {
     $page = $this->getPage();
 
     $check = $this->_controller . '/' . $this->_action . '_' . $modifier . '.php';
-    $file = load::exists( $check );
+    $file = Load::exists( $check );
     if( !$file ) {
         $fallback = $this->_controller . '/' . $this->_action . '.php';
-        $file = load::exists( $fallback );
+        $file = Load::exists( $fallback );
 
         if( !$file ) {
             throw new Exception("The view file you are attempting to use ($check) cannot be found");

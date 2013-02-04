@@ -2,8 +2,6 @@
 
 namespace Liriope\Component;
 
-use Liriope\Component\Load;
-
 //
 // --------------------------------------------------
 // Loading class
@@ -31,7 +29,7 @@ class Load {
   {
     // load controllers, model, helpers, or just anything that
     // is integral to the Liriope Framework
-    $root = c::get( 'root.liriope' );
+    $root = \c::get( 'root.liriope' );
     // Toolbox
     self::file( $root . '/library/search.class.php', TRUE );
     self::file( $root . '/controllers/LiriopeController.class.php', TRUE );
@@ -39,17 +37,14 @@ class Load {
 
   static function config() {
     // load configuration and default variables
-    self::file( c::get( 'root.liriope' ) . '/configuration.php' );
-    self::file( c::get( 'root.application' ) . '/defaults.php' );
+    self::file( \c::get( 'root.liriope' ) . '/configuration.php' );
+    self::file( \c::get( 'root.application' ) . '/defaults.php' );
   }
 
   static function models()
   {
     // load models related to the MVC
-    $root = c::get( 'root.liriope' );
-    self::file( $root . '/models/View.class.php', TRUE );
-    self::file( $root . '/models/Theme.class.php', TRUE );
-    self::file( $root . '/models/Page.class.php', TRUE );
+    $root = \c::get( 'root.liriope' );
     self::file( $root . '/models/SQLQuery.class.php', TRUE );
     self::file( $root . '/models/Xml.class.php', TRUE );
     self::file( $root . '/models/Files.class.php', TRUE );
@@ -57,14 +52,15 @@ class Load {
 
   static function helpers() {
     // load helpers and tools
-    $root = c::get( 'root.liriope' );
+    $root = \c::get( 'root.liriope' );
     self::file( $root . '/library/tools.class.php', TRUE );
-    self::file( $root . '/library/helpers.php', TRUE );
+    self::file( $root . '/Helpers/Liriope.php', TRUE );
+    self::file( $root . '/Helpers/Theme.php', TRUE);
   }
 
   static function plugins() {
     // load plugins
-    $root = c::get( 'root.liriope' );
+    $root = \c::get( 'root.liriope' );
     // self::file( $root . '/plugins/spyc.php', TRUE );
   }
 
@@ -91,7 +87,7 @@ class Load {
   // which returns the full path plus file name, and then
   // includes it using the file() function
   //
-  // (string) $file the file to be sought
+  // (string) $file  the file to be sought
   // returns  (bool) TRUE on success, or FALSE
   //
   static function seek( $file=NULL ) {
@@ -110,18 +106,17 @@ class Load {
   //
   // (string) $file       the file to be sought
   // (array)  $searchPath additional locations to seek
-  // returns  (string) discovered path/filename on SUCCESS, or FALSE
+  // returns  (string)    discovered path/filename on SUCCESS, or FALSE
   // 
   static function exists( $file=NULL, $searchPath=NULL )
   {
     if( empty( $file )) return false;
     
     // grab the default configuration paths
-    $paths = c::get( 'path' );
+    $paths = \c::get( 'path' );
 
     // get as much info from the passed $file as possible
     $info = pathinfo( $file );
-    //$file = $info['basename'];
     
     if( !empty( $searchPath )) {
       if( is_array( $searchPath )) {
@@ -141,9 +136,14 @@ class Load {
 
     foreach( $paths as $path ) { 
       // but what if the file passed has no extension?
+      // TODO: move this logic outside of the loop since you won't need to check the file every cycle.
       if( !isset( $info['extension'] )) {
-        foreach( c::get('load.filetypes', array( 'php', 'html', 'htm', 'txt', 'yml', 'yaml' )) as $ext ) {
-          if( file_exists( "$path/$file.$ext" ) && !is_dir( "$path/$file.$ext" )) return "$path/$file.$ext"; 
+        foreach( \c::get('load.filetypes',
+                 array( 'php', 'html', 'htm', 'txt', 'yml', 'yaml' ))
+                 as $ext ) {
+          if( file_exists( "$path/$file.$ext" ) && !is_dir( "$path/$file.$ext" )) {
+            return "$path/$file.$ext"; 
+          }
         }
       }
       if( file_exists( "$path/$file" ) && !is_dir( "$path/$file" )) return "$path/$file"; 

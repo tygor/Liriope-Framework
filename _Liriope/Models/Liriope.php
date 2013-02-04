@@ -2,10 +2,10 @@
 
 namespace Liriope\Models;
 
+use Liriope\Component\Load;
 use Liriope\Component\Content\Buffer;
-
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+use Liriope\Component\Search\Index;
+use Liriope\Toolbox\Uri;
 
 class Liriope {
   protected $root;
@@ -50,8 +50,8 @@ class Liriope {
     error_log("Attempted to visit '".uri::getRawURI()."' and was redirected to a 404 page");
     index::unstore(uri::get());
     header( 'HTTP/1.0 404 Not Found' );
-    $this->setFolder(c::get('default.404.folder','error'));
-    $this->setFile(c::get('default.404.file','404.php'));
+    $this->setFolder(\c::get('default.404.folder','error'));
+    $this->setFile(\c::get('default.404.file','404.php'));
     return TRUE;
   }
 
@@ -92,7 +92,7 @@ class Liriope {
     if( !empty( $this->folder )) $path .= '/' . $this->folder;
 
     // this will return the full path to the file, so in get() the folder is not needed
-    if( $found = \load::exists( $file, $path )) {
+    if( $found = load::exists( $file, $path )) {
       return $found;
     }
     return false;

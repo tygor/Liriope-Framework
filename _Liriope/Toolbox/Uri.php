@@ -108,7 +108,7 @@ class Uri {
   // This is the un-rewritten URI, passed through the url() function, then the md5() function
   //
   static function md5URI() {
-    return md5( url( self::$path ));
+    return md5( \url( self::$path ));
   }
 
   // toRelative()

@@ -4,12 +4,13 @@ namespace Liriope\Component\Content;
 use Liriope\Component\Content\Buffer;
 use Liriope\Toolbox\String;
 use Liriope\Toolbox\a;
+use Liriope\Models\obj;
 
 /**
  * This class represents a page object. It can be the whole page, or a building block of the page.
  */
 
-class Page extends \obj {
+class Page extends obj {
 
   // @var string The file to use for render
   private $_view;

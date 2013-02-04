@@ -2,8 +2,10 @@
 
 namespace Liriope\Toolbox;
 
+use Liriope\Controllers;
 use Liriope\Component\Load;
 use Liriope\Component\Search\Index;
+use Liriope\Toolbox\String;
 
 class Router {
 
@@ -148,11 +150,19 @@ die('calling the 404 b/c we can\'t find ' . $target);
     }
 
     // check that the class was loaded and that it has the correct method
-    if( !class_exists( $controller )) trigger_error( "We can't find the class file <b>" . ucfirst($controller) . ".class.php</b>.", E_USER_ERROR );
-    if( !method_exists( $controller, $action )) trigger_error( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>.", E_USER_ERROR );
+
+    $controllerNS = '\Liriope\Controllers\\';
+
+    if( !class_exists( $controllerNS . $controller )) trigger_error( "We can't find the class
+    file <b>" . ucfirst($controller) . ".php</b>.", E_USER_ERROR );
+
+    if( !method_exists( $controllerNS . $controller, $action )) trigger_error( "The view
+    <b>$action</b> doesn't seem to exist in the controller
+    <b>$controller</b>.", E_USER_ERROR );
 
     // Ok, run that object's function!
-    $dispatch = new $controller( $model, $controllerRaw, $action );
+    $object = $controllerNS . $controller;
+    $dispatch = new $object( $model, $controllerRaw, $action );
     $content = call_user_func( array( $dispatch,$action ), $getVars );
     if( $return ) return $content;
     return $dispatch;
@@ -195,8 +205,9 @@ var_dump($dispath);exit;
   static function callModule( $controller=NULL, $action=NULL, $getVars=NULL ) {
     // Controllers are uppercase on words (ex: Shovel) with "Module" appended
     // Models are the plural of the controller (ex: Shovels)
-    $controllerRaw = $controller;
-    $controller = ucwords( \tools::cleanInput( $controller, 'alphaOnly' ));
+    $C = new String($controller);
+    $controllerRaw = $C->raw();
+    $controller =  $C->sanatize('onlyLetters')->to_titlecase()->get();
     $model = rtrim( $controller, 's' );
     $controller .= 'Module';
     return self::callHook( $controller, $controllerRaw, $action, $model, $getVars, TRUE );

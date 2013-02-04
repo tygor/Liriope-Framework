@@ -2,6 +2,7 @@
 
 namespace Liriope\Component\Search;
 
+use Liriope\Toolbox\a;
 use Liriope\Component\c;
 use Liriope\Toolbox\String;
 use Liriope\Toolbox\File;

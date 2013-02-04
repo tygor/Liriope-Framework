@@ -2,12 +2,13 @@
 
 namespace Liriope\Models;
 
+use Liriope\Models\Obj;
 use Liriope\Component\Content\Buffer;
 use Liriope\Toolbox\String;
 use Liriope\Toolbox\a;
 use Liriope\Toolbox\Directory;
 
-class Blogs extends \obj {
+class Blogs extends Obj {
   // the name of the blog folder
   var $name;
   // the file system path to the blog's parent folder
@@ -59,7 +60,7 @@ class Blogs extends \obj {
     if( empty( $file )) trigger_error( 'The passed file is empty', E_USER_ERROR );
 
     // the pseudo-page object to act as surrogate page for the post to load into
-    $page = new \obj();
+    $page = new Obj();
 
     // grab the content with an output buffer
     Buffer::start();

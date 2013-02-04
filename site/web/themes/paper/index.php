@@ -1,7 +1,7 @@
 <?php
 // paper theme
 
-  $page->css( theme::$folder . '/style.css' );
+  $page->css( theme_folder() . '/style.css' );
 
   echo $site->DOCTYPE();
 ?>
@@ -14,7 +14,7 @@
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
 
-  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="<?= theme_folder() ?>/images/favicon.ico">
 
   <!-- CSS -->
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
@@ -26,13 +26,13 @@
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
+<body>
 
   <header id="main">
 
     <hgroup id="identity">
       <a href="/">
-        <img src="/<?= theme::$folder; ?>/images/Liriope-logo.gif" alt="Logo">
+        <img src="<?= theme_folder() ?>/images/Liriope-logo.gif" alt="Logo">
       </a>
     </hgroup>
 
@@ -64,8 +64,6 @@
       </div>
     </div>
   </footer>
-
-  <?php if( $error ) echo $error; ?>
 
   <!-- JavaScript at the bottom for fast page loading -->
 

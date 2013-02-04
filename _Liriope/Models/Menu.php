@@ -4,9 +4,6 @@ namespace Liriope\Models;
 
 use Liriope\Toolbox\Uri;
 
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
-
 class menu implements \RecursiveIterator, \Countable {
   // the text displayed for the menu item
   private $label;

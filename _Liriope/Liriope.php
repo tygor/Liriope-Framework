@@ -97,45 +97,17 @@ function unregisterGlobals() {
 }
 unregisterGlobals();
 
-// --------------------------------------------------
-// useHelper
-//
-// Look for a helper with the passed $name
-// and include the file.
-// 
-// Helpers are php files containing a set of functions
-// to be used in the view templates.
-// --------------------------------------------------
-function useHelper( $name=NULL )
-{
-  // rename "default" to "liriope"
-  if( strtolower( $name ) == 'default' ) $name = 'Liriope';
-  // work with the $name to follow the naming convention
-  $helperName = ucfirst( $name ) . 'Helpers.php';
-  // find out if the file exists
-  try {
-    if( !load::seek( $helperName )) throw new Exception( 'Unable to find that helper: ' . $helperName );
-  } catch( Exception $e ) {
-      header("HTTP/1.0 500 Internal Server Error");
-      echo $e->getMessage();
-      echo "<pre>";
-      var_dump( $e->getTrace());
-      echo "</pre>";
-      exit;
-  }
-}
-
 // set the root locations
-c::set( 'root.web',             $rootWeb );
-c::set( 'root.liriope',         realpath( $rootLiriope ));
-c::set( 'root.application',     realpath( $rootApplication ));
-c::set( 'root.content',         $rootWeb . '/content' );
-c::set( 'root.cache',           $rootWeb . '/cache' );
-c::set( 'root.index',           $rootWeb . '/index' );
-c::set( 'theme.folder',         'themes' );
-c::set( 'root.theme',           $rootWeb . '/themes' );
-c::set( 'root.snippets',        $rootWeb . '/snippets' );
-c::set( 'root.content.file',    'index' );
+c::set( 'root.web',          $rootWeb );
+c::set( 'root.liriope',      realpath( $rootLiriope ));
+c::set( 'root.application',  realpath( $rootApplication ));
+c::set( 'root.content',      $rootWeb . '/content' );
+c::set( 'root.cache',        $rootWeb . '/cache' );
+c::set( 'root.index',        $rootWeb . '/index' );
+c::set( 'theme.folder',      'themes' );
+c::set( 'root.theme',        $rootWeb . '/themes' );
+c::set( 'root.snippets',     $rootWeb . '/snippets' );
+c::set( 'root.content.file', 'index' );
 
 // clean up unsed variables
 unset( $rootWeb );
@@ -144,15 +116,13 @@ unset( $rootApplication );
 
 // setup the Liriope path
 c::set( 'path', array(
-  c::get( 'root' ) . '/library',
-  c::get( 'root' ) . '/library/helpers',
-  c::get( 'root' ) . '/_Liriope',
   c::get( 'root.application' ) . '/controllers',
   c::get( 'root.application' ) . '/models',
   c::get( 'root.application' ) . '/views',
+  c::get( 'root.liriope' ),
   c::get( 'root.liriope' ) . '/Controllers',
   c::get( 'root.liriope' ) . '/Models',
-  c::get( 'root.liriope' ) . '/views',
+  c::get( 'root.liriope' ) . '/Views',
   c::get( 'root.content' )
 ));
 
@@ -160,16 +130,17 @@ c::set( 'path', array(
 require_once( dirname(__FILE__) . '/Component/Load.php' );
 spl_autoload_register( 'Liriope\Component\Load::autoload', TRUE );
 
+
 // TODO: remove the underscore in front of Liriope/vendor...
 load::file(c::get('root.liriope').'/../_Liriope/vendor/SplClassLoader.php', TRUE);
 $classLoader = new \SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
 $classLoader->register();
 
-load::lib();
-load::models();
-load::helpers();
-load::plugins();
-load::config();
+Load::lib();
+Load::models();
+Load::helpers();
+Load::plugins();
+Load::config();
 
 // switch on error reporting
 if( c::get( 'debug' )) {

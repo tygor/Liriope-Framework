@@ -4,7 +4,7 @@
  * Grass theme
  */
 
-  $page->css( theme::$folder . '/stylesheets/style.css' );
+  $page->css( theme_folder() . '/stylesheets/style.css' );
 
   echo $site->DOCTYPE();
 ?>
@@ -26,7 +26,7 @@
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="<?= theme_folder() ?>/images/favicon.ico">
 
   <!-- CSS: implied media=all -->
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
@@ -40,7 +40,7 @@
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
+<body>
   <header class="site-header content">
 
     <h1 class="site-identity"><a href="/">Liriope</a></h1>

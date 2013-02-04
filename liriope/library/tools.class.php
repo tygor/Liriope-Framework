@@ -14,11 +14,6 @@ class tools
     echo( '</pre>' );
   }
 
-  // TODO: Move this to the file class
-  public static function removeExtension( $input ) {
-    return preg_replace( '/\.[^.]+/', '', $input );
-  }
-
   /**
    * cleanInput
    * removes or changes characters from $input so that it's nicer

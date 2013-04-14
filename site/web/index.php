@@ -24,7 +24,7 @@ $root = realpath( $rootWeb . '/../..' );
 // can move the folder and change the reference here
 // so that multiple sites can be run from one installation.
 //
-$rootLiriope = $root . '/liriope';
+$rootLiriope = $root . '/Liriope';
 
 // --------------------------------------------------
 // Site application folder
@@ -35,11 +35,18 @@ $rootLiriope = $root . '/liriope';
 //
 $rootApplication = $root . '/site';
 
+// --------------------------------------------------
+// Developement switch
+// --------------------------------------------------
+// Turn the switch on to enable development helpers
+// 
+$development = true;
+
 // Load Liriope: Monkey Grass
-if( !file_exists( $rootLiriope . '/start.php' )) {
+if( !file_exists( $rootLiriope . '/liriope.php' )) {
   die( 'The Liriope framework could not be found.' );
 }
 
-require_once( $rootLiriope . '/start.php' );
+require_once( $rootLiriope . '/liriope.php' );
 
 ?>

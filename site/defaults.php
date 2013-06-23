@@ -19,7 +19,7 @@ router::setRule( 'google', 'google', 'liriope/redirect/url/'.urlencode('http://g
 //
 // Site 
 // --------------------------------------------------
-c::set( 'url', 'http://liriope.ubun' );
+c::set( 'url', 'http://192.168.0.5:3501' );
 c::set( 'site.title', 'Liriope' );
 
 //

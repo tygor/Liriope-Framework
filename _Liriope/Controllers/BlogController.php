@@ -7,7 +7,7 @@ use Liriope\Models\Blogs;
 use Liriope\Toolbox\a;
 
 //
-// BlogController.class.php
+// BlogController.php
 //
 
 class BlogController Extends LiriopeController {

@@ -6,7 +6,10 @@ use Liriope\c;
 use Liriope\Toolbox\A;
 use Liriope\Models\Liriope;
 use Liriope\Models\View;
+use Liriope\Models\Cache;
+use Liriope\Models\Crawler;
 use Liriope\Component\Load;
+use Liriope\Toolbox\Router;
 
 /**
  * LiriopeController.class.php
@@ -80,13 +83,13 @@ class LiriopeController {
   }
 
   public function flush( $params=NULL ) {
-    cache::flush();
-    router::go();
+    Cache::flush();
+    Router::go();
   }
 
   public function crawl( $params=NULL ) {
     $page = $this->getPage();
-    $visited = crawler::crawl();
+    $visited = Crawler::crawl();
     $count = count((array)$visited);
     $page->set('visited', $visited);
     $page->set('crawled', $count);

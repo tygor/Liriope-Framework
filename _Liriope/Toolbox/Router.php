@@ -2,6 +2,7 @@
 
 namespace Liriope\Toolbox;
 
+use Liriope\c;
 use Liriope\Controllers;
 use Liriope\Component\Load;
 use Liriope\Component\Search\Index;

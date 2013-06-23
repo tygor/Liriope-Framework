@@ -1,14 +1,13 @@
 <?php
 
+namespace Liriope\Controllers;
+
 use Liriope\Models\Yaml;
 use Liriope\Toolbox\File;
 
-/**
- * GalleryController.class.php
- */
-
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+//
+// GalleryController.php
+//
 
 class GalleryController Extends LiriopeController {
 

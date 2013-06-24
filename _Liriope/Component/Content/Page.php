@@ -1,6 +1,7 @@
 <?php
 
 namespace Liriope\Component\Content;
+
 use Liriope\Component\Content\Buffer;
 use Liriope\Toolbox\String;
 use Liriope\Toolbox\a;
@@ -43,7 +44,7 @@ class Page extends obj {
     if( is_array( $key )) {
       self::$vars = array_merge( self::$vars, $key );
     } elseif( $value === NULL ) {
-      unset( self::$vars[$key] );
+      if(isset(self::$vars)) unset( self::$vars[$key] );
     } else {
       $this->vars[$key] = $value;
     }

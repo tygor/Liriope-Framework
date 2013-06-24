@@ -3,7 +3,7 @@
 namespace Liriope\Models;
 
 use Liriope\c;
-use Liriope\Components\Search\Index;
+use Liriope\Component\Search\Index;
 
 class Crawler {
   // this is the root of the site
@@ -25,20 +25,53 @@ class Crawler {
   static $external = array();
 
   static function crawl() {
+    /**/
     self::$root = c::get('url');
     $page = self::getPage('/');
-// TODO: Crawl is breaking, primarily because I'm running it by local IP. But, there needs to be a better way to
-// crawl the site pages.
-die($page);
+
     // index the home page
-    // TODO: this grabs and indexes the whole HTML where in the MVC process of a pageview, it only grabs the page body content
-die('break');
     self::visit( 'home', $page );
     self::getHREF($page);
-var_dump(self::$internal);
-exit;
     self::traverse();
     return self::$visited;
+    /**/
+    //self::crawl_page(c::get('url'), 2);
+  }
+
+  static function crawl_page($url, $depth = 5) {
+      static $seen = array();
+      if (isset($seen[$url]) || $depth === 0) {
+          return;
+      }
+
+      $seen[$url] = true;
+
+      $dom = new \DOMDocument('1.0');
+      @$dom->loadHTMLFile($url);
+
+      $anchors = $dom->getElementsByTagName('a');
+      foreach ($anchors as $element) {
+          $href = $element->getAttribute('href');
+          if (0 !== strpos($href, 'http')) {
+              $path = '/' . ltrim($href, '/');
+              if (extension_loaded('http')) {
+                  $href = http_build_url($url, array('path' => $path));
+              } else {
+                  $parts = parse_url($url);
+                  $href = $parts['scheme'] . '://';
+                  if (isset($parts['user']) && isset($parts['pass'])) {
+                      $href .= $parts['user'] . ':' . $parts['pass'] . '@';
+                  }
+                  $href .= $parts['host'];
+                  if (isset($parts['port'])) {
+                      $href .= ':' . $parts['port'];
+                  }
+                  $href .= $path;
+              }
+          }
+          crawl_page($href, $depth - 1);
+      }
+      echo "URL:",$url,PHP_EOL,"CONTENT:",PHP_EOL,$dom->saveHTML(),PHP_EOL,PHP_EOL;
   }
 
   static function traverse() {
@@ -64,7 +97,7 @@ exit;
   static function visit( $id, $html ) {
     if(!in_array($id, self::$visited)) {
       self::$visited[] = $id;
-      index::store( $id, $html );
+      Index::store( $id, $html );
     }
   }
 
@@ -77,6 +110,7 @@ exit;
     curl_setopt( $ch, CURLOPT_URL, $url );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE);
     $output = curl_exec($ch);
+var_dump(curl_error($ch));exit;
     curl_close($ch);
     return $output;
   }

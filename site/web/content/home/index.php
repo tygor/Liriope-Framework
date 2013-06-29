@@ -1,7 +1,5 @@
 <?php
 
-use Liriope\Models\Blogs;
-
 // Home
 
 $page->title = 'Home';
@@ -27,7 +25,7 @@ $page->keywords = 'Liriope,CMS,file,based,content,management';
     </div>
     <div class="four columns">
       <p><strong>Built by a web guy.</strong></p>
-      <p>Why Liriope? It’s simple. I built it for me, and found that it could work well for anyone. Do you know HTML, PHP? Then it's for you too.</p>
+      <p>Why Liriope? It&rsquo;s simple. I built it for me, and found that it could work well for anyone. Do you know HTML, PHP? Then it&rsquo;s for you too.</p>
     </div>
   </div>
 </section>

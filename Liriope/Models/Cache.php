@@ -3,6 +3,7 @@
 namespace Liriope\Models;
 
 use Liriope\c;
+use Liriope\Toolbox\Directory;
 
 //
 // Cache object
@@ -15,7 +16,7 @@ class Cache {
   // regrow()
   //
   static function regrow( $dir ) {
-    if( !is_dir( $dir )) dir::make( $dir, 0775 );
+    if( !is_dir( $dir )) Directory::make( $dir, 0775 );
   }
  
   // file()
@@ -57,7 +58,7 @@ class Cache {
   static function flush() {
     $root = c::get( 'root.cache' );
     if( !is_dir( $root )) return $root;
-    dir::clean( $root );
+    Directory::clean( $root );
   }
 
   // modified()

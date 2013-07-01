@@ -18,7 +18,7 @@ $rootWeb = dirname(__FILE__);
 // can move the folder and change the reference here
 // so that multiple sites can be run from one installation.
 //
-$rootLiriope = realpath('../../_Liriope');
+$rootLiriope = realpath('../../Liriope');
 
 // --------------------------------------------------
 // Site application folder

@@ -1,4 +1,7 @@
 <?php
+
+use Liriope\Toolbox\Uri;
+
 /* --------------------------------------------------
  * browser.class.php
  * --------------------------------------------------
@@ -114,7 +117,7 @@ class browser {
   }
 
   static function areWeHome( $homeclass='home' ) {
-    return uri::isHome() ? $homeclass : '';
+    return Uri::isHome() ? $homeclass : '';
   }
 }
 

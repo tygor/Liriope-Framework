@@ -1,4 +1,8 @@
 <?php
+
+use Liriope\Toolbox\String;
+use Liriope\Toolbox\Uri;
+
 //
 // helpers.php
 // Base helpers for the Liriope templates
@@ -96,8 +100,8 @@ function publish( $start=FALSE, $stop=FALSE ) {
 //
 function img($file) {
   $content = c::get('root.content', 'content');
-  $root = uri::toRelative($content);
-  $uri = uri::get();
+  $root = Uri::toRelative($content);
+  $uri = Uri::get();
   // check if the image exists in a folder named after the uri
   $path = "$root/$uri/$file";
   if(file_exists($content . '/' . $uri . '/' . $file)) return $path;

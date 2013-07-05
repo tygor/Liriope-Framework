@@ -1,5 +1,9 @@
 <?php
 
+use Liriope\Toolbox\a;
+use Liriope\Toolbox\String;
+use Liriope\Toolbox\File;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
@@ -289,7 +293,7 @@ class index {
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
     $file = $dir . '/' . self::prep( $id ) . '.txt';
 
-    f::write( $file, $store );
+    File::write( $file, $store );
   }
 
   // unstore()

@@ -1,7 +1,6 @@
 <?php
 
-// Direct access protection
-if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
+use Liriope\Toolbox\A;
 
 class obj implements Iterator {
 

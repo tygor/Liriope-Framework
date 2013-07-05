@@ -3,7 +3,10 @@
 // LiriopeModule.class.php
 //
 
+use Liriope\Models\Yaml;
+use Liriope\Models\Menu;
 use Liriope\Component\Content\Page;
+use Liriope\Toolbox\a;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );

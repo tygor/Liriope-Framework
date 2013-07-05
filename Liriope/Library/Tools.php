@@ -14,10 +14,6 @@ class tools
     echo( '</pre>' );
   }
 
-  public static function removeExtension( $input ) {
-    return preg_replace( '/\.[^.]+/', '', $input );
-  }
-
   /**
    * cleanInput
    * removes or changes characters from $input so that it's nicer
@@ -52,8 +48,10 @@ class tools
 
   /**
    * replaceSpaces
+   * DEPRECATED
    * swaps all spaces with a dash (-)
    */
+  // TODO: I think this is already in the String object.
   public static function replaceSpaces ( $input )
   {
     return preg_replace( "/\s/", "-", $input );

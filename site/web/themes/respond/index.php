@@ -5,7 +5,7 @@
  * plan: 3 sizes (small, medium, large)
  */
 
-  $page->css( theme::$folder . '/stylesheets/styles.css' );
+  $page->css( theme_folder() . '/stylesheets/styles.css' );
 
   echo $site->DOCTYPE();
 ?>
@@ -23,7 +23,7 @@
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <link rel="shortcut icon" href="/<?= theme::$folder; ?>/images/favicon.ico">
+  <link rel="shortcut icon" href="/<?= theme_folder() ?>/images/favicon.ico">
 
   <?php foreach( (array) $page->get( 'css' ) as $css ): ?>
   <link href="<?= $css['file']; ?>" rel="<?= $css['rel']; ?>">
@@ -35,7 +35,7 @@
   <script src="/js/libs/modernizr-2.0.6.min.js"></script>
 </head>
 
-<body class="<?= browser::getBodyClass(); ?> <?= browser::areWeHome(); ?>">
+<body>
 
   <header id="main" class="content">
 
@@ -72,7 +72,7 @@
     </div>
   </footer><!-- /footer#main -->
 
-  <?php if( $error ) echo $error; ?>
+  <?php if(isset($error)) echo $error; ?>
 
   <!-- JavaScript at the bottom for fast page loading -->
 

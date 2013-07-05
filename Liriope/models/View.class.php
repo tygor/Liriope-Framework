@@ -1,6 +1,10 @@
 <?php
 
 use Liriope\Component\Content\Page;
+use Liriope\Toolbox\Uri;
+use Liriope\Toolbox\Filter;
+use Liriope\Toolbox\Site;
+use Liriope\Toolbox\Router;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
@@ -44,7 +48,7 @@ class View extends obj {
     $page = new Page( $file );
     $page->controller = $controller;
     $page->action = $action;
-    $page->uri = uri::get();
+    $page->uri = Uri::get();
     $page->setTheme(c::get('theme'));
     $this->_page = &$page;
   }
@@ -57,13 +61,11 @@ class View extends obj {
     global $site;
     $page = &$this->_page;
 
-    if( c::get( 'debug' )) theme::set( 'error', error::render( TRUE ));
-    
     // CACHE
     // ----------
     $cache = NULL;
     $cacheModified = time();
-    $cacheID = uri::md5URI();
+    $cacheID = Uri::md5URI();
     $cacheExpiredTime = c::get('cache.expiration', (24*60*60));
 
     // if cache is enabled...
@@ -89,10 +91,10 @@ class View extends obj {
 
       if( $page->getTheme() !== NULL ) {
         $html = theme::load( $page->getTheme(), array( 'page'=>$page, 'content'=>$html ), TRUE );
-        $html = filter::doFilters( $html );
+        $html = Filter::doFilters( $html );
         if( c::get( 'cache' )) { cache::set( $cacheID, (string) $html, TRUE ); }
         // TODO: $page->is404 must be an overloaded variable. Is this a useless check?
-        if( c::get( 'index' ) && !$page->is404 ) { index::store( uri::get(), (string) $html, (string) $html ); }
+        if( c::get( 'index' ) && !$page->is404 ) { index::store( Uri::get(), (string) $html, (string) $html ); }
       }
 
       // Add a clear cache button if the configuration is set to [debug]

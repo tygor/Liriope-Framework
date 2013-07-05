@@ -9,6 +9,7 @@ use Liriope\Models\View;
 use Liriope\Models\Cache;
 use Liriope\Models\Crawler;
 use Liriope\Component\Load;
+use Liriope\Toolbox\String;
 use Liriope\Toolbox\Router;
 
 /**

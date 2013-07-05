@@ -130,9 +130,7 @@ c::set( 'path', array(
 require_once( dirname(__FILE__) . '/Component/Load.php' );
 spl_autoload_register( 'Liriope\Component\Load::autoload', TRUE );
 
-
-// TODO: remove the underscore in front of Liriope/vendor...
-load::file(c::get('root.liriope').'/../_Liriope/vendor/SplClassLoader.php', TRUE);
+load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
 $classLoader = new \SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
 $classLoader->register();
 

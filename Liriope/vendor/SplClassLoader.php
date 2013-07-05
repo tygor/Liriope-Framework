@@ -127,8 +127,7 @@ class SplClassLoader
             $namespace = '';
             if (false !== ($lastNsPos = strripos($className, $this->_namespaceSeparator))) {
                 $namespace = substr($className, 0, $lastNsPos);
-// TODO: remove this line adding an underscaore to the namespace
-                $namespace = "_" . $namespace;
+                $namespace = $namespace;
                 $className = substr($className, $lastNsPos + 1);
                 $fileName = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             }

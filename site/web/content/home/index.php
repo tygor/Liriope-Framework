@@ -45,19 +45,24 @@ $page->keywords = 'Liriope,CMS,file,based,content,management';
     </div>
     <div class="column last">
       <h2>Timed content</h2>
-      <?php if( publish( 'Aug 10, 2012, 8:00 AM', 'Aug 20, 2012, 8:54 AM' )): ?>
+      <?php
+        $pubStart = 'Jul 5, 2013, 8:45 PM';
+        $pubStop = 'Jul 5, 2013, 8:53 PM';
+      ?>
+      <p>Current Time: <?= date('Y-m-d H:i:s', time()) ?></p>
+      <?php if( publish( $pubStart, $pubStop )): ?>
       <p>This is a time sensative message. Using the publish() function, I will only show if the date range is satisfied.<br>
-        <em>This date today is between Aug 10 and Aug 20.</em>
+        <em>This date today is between <?= $pubStart ?> and <?= $pubStop ?>.</em>
       </p>
       <?php endif ?>
-      <?php if( publish( 'Aug 10, 2012, 8:00 AM' )): ?>
+      <?php if( publish( $pubStart )): ?>
       <p>This paragraph will display after the start date has passed.<br>
-        <em>Today must be later than Aug 10.</em>
+        <em>Today must be later than <?= $pubStart ?>.</em>
       </p>
       <?php endif ?>
-      <?php if( publish( '', 'Aug 20, 2012, 8:54 AM' )): ?>
+      <?php if( publish( '', $pubStop )): ?>
       <p>This paragraph will display until the end date has passed.<br>
-        <em>Today must be before Aug 20</em>
+        <em>Today must be before <?= $pubStop ?></em>
       </p>
       <?php endif ?>
     </div>

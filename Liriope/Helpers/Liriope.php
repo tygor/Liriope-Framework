@@ -101,7 +101,7 @@ function publish( $start=FALSE, $stop=FALSE ) {
 
 // img()
 // takes a guessed path to an image file and if it's not there, it searches for it
-// uses the current URI to help guess
+// using the current URI to help guess
 //
 // @param  string  $file The path plus file name to insert
 // @return string  Returns the source for <img src=""> relative to the root of the site
@@ -119,8 +119,12 @@ function img($file) {
   $uri = implode('/',$uri);
   $path2 = "$root/$uri/$file";
   if(file_exists($content . '/' . $uri . '/' . $file)) return $path2;
-  trigger_error("We couldn't guess the location for $file. We looked in $path and $path2", E_USER_WARNING);
-  return false;
+  // also, check within the site root 'images' folder
+  $content = c::get('root.web');
+  $root = uri::toRelative($content);
+  if(file_exists($content . '/images/' . $file)) return "$root/images/$file";
+  // Well, can't find it, so return the path as it was written
+  return $file;
 }
 
 ?>

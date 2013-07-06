@@ -2,7 +2,7 @@
 //
 // Liriope: a PHP site framework
 //
-// @version 0.1
+// @version 0.4BETA
 // @author Tyler Gordon <tyler@tygorden.com>
 // @copyright Copyright 2013 Tyler Gordon
 // @license http://www.opensource.org/license/mit-license.php MIT License
@@ -16,7 +16,7 @@ use Liriope\Component\Load;
 
 // load the configuration class
 require_once( dirname(__FILE__).'/Component/Config.php' );
-c::set( 'version', 0.1 );
+c::set( 'version', 0.4 );
 c::set( 'language', 'en' );
 c::set( 'charset', 'utf-8' );
 

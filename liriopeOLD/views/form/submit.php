@@ -1,5 +1,0 @@
-<?php
-
-// intentionall left blank
-
-?>

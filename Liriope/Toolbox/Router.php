@@ -190,7 +190,9 @@ die('calling the 404 b/c we can\'t find ' . $target);
     if( $return ) {
       return $dispatch;
     }
-var_dump($dispath);exit;
+var_dump($dispath);
+debug_print_backtrace();
+exit;
     $dispatch->load();
   }
 

@@ -14,7 +14,7 @@
         <?php echo $result['title'] ?>
       </a></p>
       <p class="url"><?php echo url( $id ) ?>
-        <abbr class="score" title="matched words: <?php echo $result['count'] ?>">+</abbr>
+        <abbr class="score" title="score: <?php echo $result['score'] ?>">+</abbr>
       </p>
       <p class="excerpt"><?php echo $result['excerpt'] ?></p>
     </li>

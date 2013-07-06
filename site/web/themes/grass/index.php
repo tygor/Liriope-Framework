@@ -51,6 +51,8 @@
 
     <?php echo module( 'liriope', 'menu', array( 'page'=>$page, 'from'=>'auto' )); ?>
 
+    <?php snippet('searchform.php') ?>
+
   </header><!-- /.site-header -->
 
   <div role="main" class="site-content content">

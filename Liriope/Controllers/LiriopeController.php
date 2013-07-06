@@ -11,6 +11,7 @@ use Liriope\Models\Crawler;
 use Liriope\Component\Load;
 use Liriope\Toolbox\String;
 use Liriope\Toolbox\Router;
+use Liriope\Component\Search\Search;
 
 /**
  * LiriopeController.class.php
@@ -79,7 +80,8 @@ class LiriopeController {
     $page = $this->getPage();
     c::set( 'cache', FALSE);
 
-    $search = new search( array( 'searchfield' => 'q', 'ignore'=>c::get('search.ignore', array('home','search'))));
+    $search = new Search( array( 'searchfield' => 'q', 'ignore'=>c::get('search.ignore', array('home','search','flush','crawl'))));
+    $page->title = 'Search results';
     $page->set( 'search', $search );
   }
 

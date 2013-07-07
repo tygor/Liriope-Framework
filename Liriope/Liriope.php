@@ -25,7 +25,12 @@ c::set( 'charset', 'utf-8' );
 // Begins the framework inner-workings
 // --------------------------------------------------
 function Liriope() {
-  extract( Router::getDispatch() );
+  $route = Router::getDispatch();
+  if(is_callable($route)) {
+    $route();
+    exit;
+  }
+  extract( $route );
   if( strtolower($use) === 'module' ) {
     $liriope = Router::callModule( $controller, $action, $params );
     exit;

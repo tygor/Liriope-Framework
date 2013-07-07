@@ -72,6 +72,14 @@ class LiriopeController {
     $page->set( 'content', $liriope->render( $page ));
   }
 
+  // 
+  // version()
+  // Returns the version of Liriope stored in the config variables
+  // 
+  public function version() {
+    return c::get('version');
+  }
+
   /**
    * serach()
    * the default search page

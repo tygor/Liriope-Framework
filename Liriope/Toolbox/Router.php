@@ -6,7 +6,6 @@ use Liriope\c;
 use Liriope\Controllers;
 use Liriope\Component\Load;
 use Liriope\Component\Search\Index;
-use Liriope\Toolbox\String;
 
 class Router {
 
@@ -30,6 +29,8 @@ class Router {
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     self::$use = $rule->getUse();
+    // if the fule is a closure, simply return the function
+    if(is_callable($rule->route)) return $rule->route;
     return( self::useRoute( $rule->translate( $request )));
   }
 
@@ -56,8 +57,9 @@ class Router {
   // stores a rule to use during dispatch
   //
   // @param  string $name The name for the routing rule
-  // @param  string $rule The rule to match to the request URI
+  // @param  string $rule The pattern to match to the request URI
   // @param  string $route The translation into controller/action?params
+  // @param  string $use  Switch to use either the controller or the module logic
   // @return bool   TRUE on sucess, FALSE on error
   //
   static function setRule( $name=NULL, $rule=NULL, $route=NULL, $use='controller' ) {

@@ -13,6 +13,7 @@ class Request {
   static function get( $key=FALSE, $default=NULL ) {
     if( self::method() == 'GET' ) $request = self::data();
     else $request = array_merge( self::data(), self::body() );
+    if(!$key) return $request;
     return a::get( $request, $key, $default );
   }
 

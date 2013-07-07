@@ -24,7 +24,7 @@ class search {
   // the uris to ignore
   var $ignore = array();
 
-  // the form's search field
+  // the form's search field (the variable to pull from the Request)
   var $searchfield;
 
   // the array of words to search for
@@ -37,9 +37,6 @@ class search {
   var $results = array();
 
   function __construct( $options=array() ) {
-    // start the timer
-    $this->start = microtime(TRUE);
-
     // set the options
     $this->ignore =        a::get( $options, 'ignore', c::get('search.ignore'));
     $this->query =         a::get( $options, 'query', FALSE );
@@ -47,10 +44,10 @@ class search {
     $this->casesensitive = a::get( $options, 'casesensitive', FALSE );
     $this->wholeword =     a::get( $options, 'wholeword', FALSE );
     
-    // clean it
+    // clean the user input
     if( $this->searchfield) $this->query = trim( urldecode( Request::get( $this->searchfield )));
 
-    // escape for an empty string
+    // escape for an empty query
     if( empty( $this->query )) return FALSE;
 
     // convert search to comma delimited string
@@ -67,6 +64,15 @@ class search {
       return FALSE;
     }
 
+  }
+
+  // 
+  // searchPages()
+  // Does the search for content within the indexed pages
+  public function searchPages() {
+    // start the timer
+    $this->start = microtime(TRUE);
+
     // get the set of pages to search within--our indexed pages
     $pages = $this->getIndexedPages();
 
@@ -82,9 +88,11 @@ class search {
     // TODO: The excerpt seems to only grab the final searchword to pull an excerpt from. Also, it doesn't account for fuzzySearch.
     // excerpt the results
     $this->excerpt( $this->results );
-    
+
     // stop the timer
     $this->stop = microtime(TRUE);
+
+    return $this;
   }
 
   // 
@@ -120,7 +128,7 @@ class search {
       else {
         // The resulting array contains every word that is within the Levenshtein threshold
         // and it's corresponding score.
-        $found = $this->fuzzySearch($page, 0);
+        $found = $this->fuzzySearch($page['index'], 0);
         if(count($found)) {
           // scoring the found matches by value would give skewed results for pages with less matched words
           // if there is an exact match, it will be on the top of the list probably with a negative score.
@@ -141,20 +149,23 @@ class search {
   // 
   // autocomplete()
   // 
-  public static function autocomplete($query) {
+  public function autocomplete($limit=10, $threshold=3) {
+    // init the results array
     $results = array();
+    // get the indexed pages to extract the words to guess from
     $pages = self::getIndexedPages();
+    // init the words array
     $words = array();
+    // loop the indexed pages and extract words
     foreach($pages as $p) {
       $words += $p['index'];
     }
-    $words = array_unique(array_keys($words));
-    foreach($words as $word) {
-      $lev = levenshtein($query, $word);
-      if($lev <= 5) $results[$word] = $lev;
-    }
-    asort($results);
-    return $results;
+    // get the unique words only
+    $words = array_flip(array_unique(array_keys($words)));
+    // calculate the edit distance from the search query
+    $results = $this->fuzzySearch($words, 3, false);
+    // return 
+    return array_slice($results, 0, $limit);
   }
 
   // 
@@ -187,9 +198,10 @@ class search {
   // 1) use edit distance to find relevant matches
   // 2) decrease edit distance for clustered substrings
   // 
-  // @param  int  The levenshtein distance for a match <http://en.wikipedia.org/wiki/Levenshtein_distance>
+  // @param  array The set of items to search within where the key is the term and the value is the multiplier
+  // @param  int   The levenshtein distance for a match <http://en.wikipedia.org/wiki/Levenshtein_distance>
   // 
-  private function fuzzySearch($item, $threshold=5) {
+  private function fuzzySearch($searchSet, $threshold=0, $useMultiplier=true) {
     // get the search query...
     $query = $this->searchwords;
     // init an empty results array
@@ -200,7 +212,7 @@ class search {
       // clean up spaces for the levenshtein function
       $q = strtolower(str_replace(' ', '', $q));
 
-      foreach($item['index'] as $k => $v) {
+      foreach($searchSet as $k => $v) {
         // calculate the edit distance
         $lev = levenshtein($q, $k);
         // extract a set of the unique characters from the query
@@ -218,9 +230,10 @@ class search {
         }
         // calculate the new lev score
         $lev = $lev - $discount;
-        // add to the results if the distance is <= $levThreshold
+        // add to the results if the distance is <= $threshold
         if($lev <= $threshold) {
-          // make the resulting value negative so that the higher score is the lower lev value
+          // multiple the lev score by the count of words in the searchSet
+          if(!$useMultiplier) { $v = 1; }
           $results[$k] = array('score' => $lev * $v);
         }
       }

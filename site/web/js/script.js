@@ -128,9 +128,13 @@ var SearchBox = {
   url: 'search/autocomplete',
 
   init: function() {
+    SearchBox.form = SearchBox.inputBox.closest('form');
     SearchBox.inputBox.after(SearchBox.resultsBox.hide());
     SearchBox.inputBox.on('keyup mouseup change', function() {
       SearchBox.suggest()
+    });
+    SearchBox.resultsBox.mouseup(function(e) {
+      SearchBox.guessSelect(e.target.innerHTML);
     });
   },
   hasQuery: function() {
@@ -148,6 +152,10 @@ var SearchBox = {
     } else {
       SearchBox.resultsBox.slideUp();
     }
+  },
+  guessSelect: function(item) {
+    SearchBox.inputBox.val(item);
+    SearchBox.form.submit();
   }
 };
 

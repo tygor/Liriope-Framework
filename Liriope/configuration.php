@@ -27,15 +27,7 @@ Router::setRule( 'blog',        'blog',        'blog/show' );
 Router::setRule( 'blogpost',    'blog/!id/*',  'blog/post/id/$id' );
 Router::setRule( 'bloglist',    'blog/show',   'blog/show' );
 Router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
-Router::setRule('searchAuto', 'search/autocomplete', function() {
-  $query = Request::get('q');
-  $search = \Liriope\Component\Search\Search::autocomplete($query);
-  echo "<ul>";
-  foreach($search as $k => $v) {
-    echo "<li>$k</li>";
-  }
-  echo "</ul>";
-});
+Router::setRule('searchAuto', 'search/autocomplete', 'liriope/search_autocomplete', 'module');
 
 //
 // Set some system defaults

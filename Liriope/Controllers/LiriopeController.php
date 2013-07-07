@@ -89,8 +89,9 @@ class LiriopeController {
     c::set( 'cache', FALSE);
 
     $search = new Search( array( 'searchfield' => 'q', 'ignore'=>c::get('search.ignore', array('home','search','flush','crawl'))));
+
     $page->title = 'Search results';
-    $page->set( 'search', $search );
+    $page->set( 'search', $search->searchPages());
   }
 
   public function flush( $params=NULL ) {

@@ -11,6 +11,7 @@ use Liriope\Models\Menu;
 use Liriope\Component\Content\Page;
 use Liriope\Component\Load;
 use Liriope\Toolbox\a;
+use Liriope\Toolbox\Request;
 
 class LiriopeModule {
   var $_controller;
@@ -78,6 +79,15 @@ class LiriopeModule {
 
     // set variables for the view file to use
     $module->menu = $menu;
+  }
+
+  function search_autocomplete($params=array()) {
+    // get the Page object as $module which looks for a view file as Controller/_action.php
+    global $module;
+
+    $search = new \Liriope\Component\Search\Search( array( 'searchfield' => 'q', 'ignore'=>c::get('search.ignore', array('home','search','flush','crawl'))));
+
+    $module->guesses = $search->autocomplete(5);
   }
 
   function setView( $name ) {

@@ -121,3 +121,36 @@ String.prototype.format = function() {
     ;
   });
 };
+
+var SearchBox = {
+  inputBox: $('#search-input'),
+  resultsBox: $('<div id="search-results" style="position: absolute; width: 600px; border: 1px solid #000; background: #eee; z-index: 10;"></div>'),
+  url: 'search/autocomplete',
+
+  init: function() {
+    SearchBox.inputBox.after(SearchBox.resultsBox.hide());
+    SearchBox.inputBox.on('keyup mouseup change', function() {
+      SearchBox.suggest()
+    });
+  },
+  hasQuery: function() {
+    if(SearchBox.inputBox.val().length===0) {
+      return false;
+    }
+    return true;
+  },
+  suggest: function() {
+    if(SearchBox.hasQuery()) {
+      SearchBox.resultsBox.load(SearchBox.url,{'q': SearchBox.inputBox.val()});
+      if(SearchBox.resultsBox.css('display')==='none') {
+        SearchBox.resultsBox.slideDown();
+      }
+    } else {
+      SearchBox.resultsBox.slideUp();
+    }
+  }
+};
+
+$(function() {
+  SearchBox.init();
+});

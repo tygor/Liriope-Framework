@@ -16,10 +16,6 @@ Router::setRule( 'image',       'gallery/!id', 'gallery/image/$id' );
 Router::setRule( 'crawl',       'crawl',       'liriope/crawl' ); // crawl the site and index page content
 Router::setRule( 'flush',       'flush',       'liriope/flush' ); // flush the cache
 Router::setRule( 'search',      'search/*',    'liriope/search' );
-Router::setRule('searchAuto', 'search/autocomplete', function() {
-  $liriope = new LiriopeController();
-  die($liriope->version());
-});
 Router::setRule( 'mail',        'mail/:rot13', 'liriope/mail' );
 Router::setRule( 'form',        'form',        'form/show' );
 Router::setRule( 'formpost',    'form/!id/*',  'form/get/id/$id' );
@@ -31,6 +27,15 @@ Router::setRule( 'blog',        'blog',        'blog/show' );
 Router::setRule( 'blogpost',    'blog/!id/*',  'blog/post/id/$id' );
 Router::setRule( 'bloglist',    'blog/show',   'blog/show' );
 Router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
+Router::setRule('searchAuto', 'search/autocomplete', function() {
+  $query = Request::get('q');
+  $search = \Liriope\Component\Search\Search::autocomplete($query);
+  echo "<ul>";
+  foreach($search as $k => $v) {
+    echo "<li>$k</li>";
+  }
+  echo "</ul>";
+});
 
 //
 // Set some system defaults

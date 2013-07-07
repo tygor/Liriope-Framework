@@ -98,7 +98,7 @@ class search {
     foreach( $pages as $id => $page ) {
       // ignore certain pages
       if( in_array( $id, $this->ignore )) {
-        trigger_error('Ignoring this page: ' . $id, E_USER_WARNING);
+        // trigger_error('Ignoring this page: ' . $id, E_USER_WARNING);
         continue;
       }
       // init an empty found array
@@ -136,6 +136,25 @@ class search {
     }
 
     return $result;
+  }
+
+  // 
+  // autocomplete()
+  // 
+  public static function autocomplete($query) {
+    $results = array();
+    $pages = self::getIndexedPages();
+    $words = array();
+    foreach($pages as $p) {
+      $words += $p['index'];
+    }
+    $words = array_unique(array_keys($words));
+    foreach($words as $word) {
+      $lev = levenshtein($query, $word);
+      if($lev <= 5) $results[$word] = $lev;
+    }
+    asort($results);
+    return $results;
   }
 
   // 
@@ -253,7 +272,7 @@ class search {
     foreach( $pages as $id => $page ) {
       // ignore certain pages
       if( in_array( $id, $this->ignore )) {
-        trigger_error('Ignoring this page: ' . $id, E_USER_WARNING);
+        // trigger_error('Ignoring this page: ' . $id, E_USER_WARNING);
         continue;
       }
       $idParts = explode('/', $id);

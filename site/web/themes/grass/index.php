@@ -104,6 +104,7 @@
       load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
     });
   </script>
+  <script type="text/javascript" src="/js/libs/jquery-1.10.2.min.js"></script>
 
 
   <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.

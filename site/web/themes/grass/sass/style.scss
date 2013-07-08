@@ -605,6 +605,28 @@ footer nav.menu
     }
 }
 
+// - Search suggestions
+// --------------------------------------------------
+.search-suggestions {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 10;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: inside none;
+
+    > li {
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+  }
+}
+
 
 // Code & Pre blocks
 // --------------------------------------------------

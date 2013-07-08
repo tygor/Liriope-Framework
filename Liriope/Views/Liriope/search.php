@@ -4,7 +4,7 @@
 
 <div clss="search-results">
   <h1>Search results</h1>
-  <?php snippet( 'searchform.php', array('idPrefix'=>'inpage-', 'autofocus'=>true) ) ?>
+  <?php snippet( 'searchform.php', array('idPrefix'=>'results-', 'autofocus'=>true) ) ?>
   <hr>
   <p>Results for: <strong><?php echo $search->words() ?></strong></p>
   <ol>

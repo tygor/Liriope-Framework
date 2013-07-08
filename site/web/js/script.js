@@ -123,42 +123,59 @@ String.prototype.format = function() {
 };
 
 var SearchBox = {
-  inputBox: $('#search-input'),
-  resultsBox: $('<div id="search-results" style="position: absolute; width: 600px; border: 1px solid #000; background: #eee; z-index: 10;"></div>'),
+  resultsBox: $('<div class="search-results" style="position: absolute; width: 600px; border: 1px solid #000; background: #eee; z-index: 10;"></div>'),
   url: 'search/autocomplete',
 
-  init: function() {
-    SearchBox.form = SearchBox.inputBox.closest('form');
-    SearchBox.inputBox.after(SearchBox.resultsBox.hide());
-    SearchBox.inputBox.on('keyup mouseup change', function() {
-      SearchBox.suggest()
+  init: function(id) {
+    this.inputBox = $(id);
+    this.form = this.inputBox.closest('form');
+    this.inputBox.after(this.resultsBox.hide());
+    this.inputBox.on('keyup mouseup change', null, this, function(event) {
+      event.data.suggest()
     });
-    SearchBox.resultsBox.mouseup(function(e) {
-      SearchBox.guessSelect(e.target.innerHTML);
+    this.resultsBox.mouseup(this, function(event) {
+      event.data.guessSelect(event.target.innerHTML);
     });
+    return this;
   },
   hasQuery: function() {
-    if(SearchBox.inputBox.val().length===0) {
+    if(this.inputBox.val().length===0) {
       return false;
     }
     return true;
   },
   suggest: function() {
-    if(SearchBox.hasQuery()) {
-      SearchBox.resultsBox.load(SearchBox.url,{'q': SearchBox.inputBox.val()});
-      if(SearchBox.resultsBox.css('display')==='none') {
-        SearchBox.resultsBox.slideDown();
+    if(this.hasQuery()) {
+      this.resultsBox.load(this.url,{'q': this.inputBox.val()});
+      if(this.resultsBox.css('display')==='none') {
+        this.resultsBox.slideDown();
       }
     } else {
-      SearchBox.resultsBox.slideUp();
+      this.resultsBox.slideUp();
     }
   },
   guessSelect: function(item) {
-    SearchBox.inputBox.val(item);
-    SearchBox.form.submit();
+    this.inputBox.val(item);
+    this.form.submit();
   }
 };
 
+// create a prototypal constructor for our SearchBox object
+function searchBox(id) {
+  function F() {};
+  F.prototype = SearchBox;
+  var f = new F();
+  f.init(id);
+  return f;
+}
+
 $(function() {
-  SearchBox.init();
+  // SearchBox.init('#results-search-input');
+  // SearchBox.init('#search-input');
+  // var search1 = SearchBox.initialize('#search-input');
+  // var search2 = SearchBox.initialize('#results-search-input');
+  var search1 = searchBox('#search-input');
+  search1.init('#search-input');
+  var search2 = searchBox('#results-search-input');
+  search2.init('#results-search-input');
 });

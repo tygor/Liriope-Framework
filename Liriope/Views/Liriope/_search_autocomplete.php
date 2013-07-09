@@ -4,6 +4,6 @@
 ?>
 <ul>
     <?php foreach($module->guesses as $item => $v): ?>
-    <li><?= $item ?></li>
+    <li><a href="/search?q=<?= $item ?>"><?= $item ?></a></li>
     <?php endforeach ?>
 </ul>

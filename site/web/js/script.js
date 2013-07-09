@@ -56,8 +56,19 @@ function str_rot13( a, map ) {
 // SearchBox object
 // used for autocomplete functionality in the page search input boxes
 // 
+// - only show the suggestions box if minLenght is satisfied
+// - if a suggestion is clicked, replace the input box with the suggestions and fire submit()
+// - if the input is blurred, close the suggestion box, but not if the blur is because
+//   of clicking on the suggestions
+// - enable up and down arrows to highlight the suggestions
+// - enable tab and enter to utilize the highlighted suggestion in the input box
+//   - tab will replace the input text with the suggestion
+//   - enter will replace and submit the form
+// 
 var SearchBox = {
   url: 'search/autocomplete',
+  animationSpeed: 100,
+  minLength: 2,
 
   init: function(id) {
     // get the jQuery version of the passed search input box
@@ -71,31 +82,17 @@ var SearchBox = {
     this.form = this.inputBox.closest('form');
     // drop in the resultsBox after the search input and hide it.
     this.inputBox.after(this.resultsBox.hide());
-    // position the resultsBox
-    inputOffset = this.inputBox.position();
-    inputHeight = this.inputBox.css("height").replace(/[^-\d\.]/g, '') * 1;
-console.log(inputOffset.top);
-console.log(inputHeight);
-console.log(inputOffset.top + inputHeight + 'px');
-    this.resultsBox.css('top', inputOffset.top + inputHeight + 'px');
-    this.resultsBox.css('left', inputOffset.left);
-    this.resultsBox.css('width', this.inputBox.css('width'));
+    // position the results box and listen for window resizing to do the same
+    $(window).on('resize', this, function(event) {
+      event.data.positionResults();
+    });
     // when the inputbox is clicked, types into, or changed, get suggestions
     this.inputBox.on('keyup mouseup change', null, this, function(event) {
       event.data.suggest()
     });
-    // when focus is removed from the input box, close the autocomplete box
-    this.inputBox.on('blur', this, function(event) {
-      event.data.closeSuggestions();
-    });
-    // when the results are clicked on, fill the input box with the value clicked
-    // and fire the submit action.
-    this.resultsBox.mouseup(this, function(event) {
-      event.data.guessSelect(event.target.innerHTML);
-    });
   },
   hasQuery: function() {
-    if(this.inputBox.val().length===0) {
+    if(this.inputBox.val().length < this.minLength) {
       return false;
     }
     return true;
@@ -104,7 +101,7 @@ console.log(inputOffset.top + inputHeight + 'px');
     if(this.hasQuery()) {
       this.resultsBox.load(this.url,{'q': this.inputBox.val()});
       if(this.resultsBox.css('display')==='none') {
-        this.resultsBox.slideDown();
+        this.openSuggestions();
       }
     } else {
       this.closeSuggestions();
@@ -114,8 +111,23 @@ console.log(inputOffset.top + inputHeight + 'px');
     this.inputBox.val(item);
     this.form.submit();
   },
+  openSuggestions: function() {
+    this.positionResults();
+    this.resultsBox.slideDown(this.animationSpeed);
+  },
   closeSuggestions: function () {
-    this.resultsBox.slideUp();
+    this.resultsBox.slideUp(this.animationSpeed);
+  },
+  positionResults: function() {
+    // position the resultsBox
+    var inputOffset = this.inputBox.position();
+    var inputHeight = this.inputBox.css('height');
+    if(inputHeight) {
+      var inputHeight = inputHeight.replace(/[^-\d\.]/g, '') * 1;
+      this.resultsBox.css('top', inputOffset.top + inputHeight + 'px');
+      this.resultsBox.css('left', inputOffset.left);
+      this.resultsBox.css('width', this.inputBox.css('width'));
+    }
   }
 };
 

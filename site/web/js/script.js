@@ -69,6 +69,7 @@ var SearchBox = {
   url: 'search/autocomplete',
   animationSpeed: 100,
   minLength: 2,
+  isActive: false,
 
   init: function(id) {
     // get the jQuery version of the passed search input box
@@ -78,6 +79,10 @@ var SearchBox = {
     resultsBox.className = 'search-suggestions';
     // get the jQuery version of the resultsBox
     this.resultsBox = $(resultsBox);
+
+    this.resultsBox.focusout(function() {
+      console.log('FOCUS OUT: results box has lost focus.')
+    });
     // get the jQuery version of the parent form element
     this.form = this.inputBox.closest('form');
     // drop in the resultsBox after the search input and hide it.
@@ -86,9 +91,35 @@ var SearchBox = {
     $(window).on('resize', this, function(event) {
       event.data.positionResults();
     });
+    this.inputBox.focusin(this, function(event) {
+      event.data.isActive = true;
+      event.data.suggest();
+    });
     // when the inputbox is clicked, types into, or changed, get suggestions
-    this.inputBox.on('keyup mouseup change', null, this, function(event) {
-      event.data.suggest()
+    this.inputBox.on('change keydown input', { '_self': this }, function(event) {
+      switch(event.which) {
+        case 9:
+          event.preventDefault();
+          console.log('9 Tab');
+          event.data._self.replaceInput(false);
+          return false;
+          break;
+        case 38:
+          event.preventDefault();
+          event.data._self.navigate(38);
+          return false;
+          break;
+        case 40:
+          event.preventDefault();
+          event.data._self.navigate(40);
+          return false;
+          break;
+        default:
+          event.data._self.suggest()
+      }
+    });
+    this.inputBox.on('focusout', { '_self': this }, function(event) {
+      event.data._self.closeSuggestions();
     });
   },
   hasQuery: function() {
@@ -128,6 +159,21 @@ var SearchBox = {
       this.resultsBox.css('left', inputOffset.left);
       this.resultsBox.css('width', this.inputBox.css('width'));
     }
+  },
+  navigate: function(key) {
+    console.log(key);
+    // move the .active class up or down on <li> item
+    item = this.resultsBox.find('.active');
+    if(key == 38) { newitem = item.prev('li') }
+    if(key == 40) { newitem = item.next('li') }
+    if(newitem.length) {
+      item.removeClass('active');
+      newitem.addClass('active');
+    }
+  },
+  replaceInput: function(submit) {
+    suggest = this.resultsBox.find('.active').find('a');
+    this.inputBox.val(suggest.text());
   }
 };
 

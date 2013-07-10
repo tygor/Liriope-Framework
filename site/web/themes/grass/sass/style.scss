@@ -621,9 +621,18 @@ footer nav.menu
     list-style: inside none;
 
     > li {
+      display: block;
       padding: 0;
       margin: 0;
       text-align: left;
+
+      &.active {
+        background-color: #AAe100;
+
+        > a {
+          color: #000;
+        }
+      }
     }
   }
 }

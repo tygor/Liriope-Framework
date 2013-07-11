@@ -149,6 +149,12 @@ class search {
   // 
   // autocomplete()
   // 
+  // TODO: use the Index model to store an autocomplete text file
+  //       from which the results will come, and use that here rather
+  //       than compiling the list of words every keypress.
+  // 
+  // TODO: when the above is satisfied, searh for more than a single word.
+  // 
   public function autocomplete($limit=10, $threshold=3) {
     // init the results array
     $results = array();

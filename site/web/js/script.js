@@ -69,7 +69,6 @@ var SearchBox = {
   url: 'search/autocomplete',
   animationSpeed: 100,
   minLength: 2,
-  isActive: false,
 
   init: function(id) {
     // get the jQuery version of the passed search input box
@@ -79,9 +78,10 @@ var SearchBox = {
     resultsBox.className = 'search-suggestions';
     // get the jQuery version of the resultsBox
     this.resultsBox = $(resultsBox);
-
-    this.resultsBox.focusout(function() {
-      console.log('FOCUS OUT: results box has lost focus.')
+    // allow for a click on the results to submit the form
+    console.log(this.resultsBox);
+    this.resultsBox.mousedown(this, function(event) {
+      event.data.guessSelect(event.target.innerText);
     });
     // get the jQuery version of the parent form element
     this.form = this.inputBox.closest('form');
@@ -92,7 +92,6 @@ var SearchBox = {
       event.data.positionResults();
     });
     this.inputBox.focusin(this, function(event) {
-      event.data.isActive = true;
       event.data.suggest();
     });
     // when the inputbox is clicked, types into, or changed, get suggestions

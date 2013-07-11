@@ -57,6 +57,7 @@ $default-radius: 4px;
   -webkit-border-radius: $top $right $bottom $left;
   border-radius: $top $right $bottom $left;
 }
+
 @mixin columns {
   .threecolumns {
     .column { float: left; width: 33%; }
@@ -320,7 +321,7 @@ div.image {
   padding: 10px;
   margin: 0 0 20px 20px;
   font-size: 12px;
-  @include border-radius( 10px, 10px, 4px, 4px );
+  @include border-radius( 10px 10px 4px 4px );
   @include box-shadow();
 
   &.alignright { float: right; margin: 0 0 20px 20px; }
@@ -611,9 +612,10 @@ footer nav.menu
   position: absolute;
   background-color: #fff;
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 2px;
   z-index: 10;
   @include box-shadow(0, 12px, 12px, rgba(0,0,0,0.25));
+  @include border-radius(0, 0, $default-radius, $default-radius);
 
   ul {
     margin: 0;
@@ -622,12 +624,18 @@ footer nav.menu
 
     > li {
       display: block;
-      padding: 0;
+      padding: 4px 8px;
       margin: 0;
       text-align: left;
+      @include transition(all, 0.2s);
+
+      > a {
+        text-decoration: none;
+      }
 
       &.active {
         background-color: #AAe100;
+        @include border-radius;
 
         > a {
           color: #000;

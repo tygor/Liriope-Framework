@@ -41,15 +41,24 @@ class index {
   // multiplier for title and meta tag words, giving them more importance
   static $multiplier;
 
+  // 
   // store()
+  // 
+  // Stores the passed HTML page in an index file. This index contains
+  // every word not in the ignore array, and it's associated count from
+  // this page.
   //
-  // @param  object  $html The page content to index
+  // @param  string  $id   The page URI after the domain name
+  // @param  string  $html The page content to index
+  // @param  string  $body (optional) Just the body of the page, ignoring the theme frame
   //
   static function store( $id, $html, $body=NULL ) {
     if( a::contains( self::$ignoreURLs, $id )) return false;
     self::$body = $body!==NULL ? $body : $html; // to index for content
     self::$html = $html; // for grabbing crawler links, title and meta
 
+    // grab the multiplier from the config settings
+    // this assigned a weighted value to special words like meta info and title tag text
     self::$multiplier = c::get('index.multiplier', 3);
 
     // first, process what we want from the full HTML
@@ -59,8 +68,8 @@ class index {
 
     // then index the content section of the page body (sans-template wrapper)
     $img = self::findImageText();
-    self::removeInline();
-    self::removeComments();
+    self::removeNonContentTags();
+    self::removeHtmlComments();
     self::$body = strip_tags( self::$body );
     $words = explode( ',', trim( self::stripToWords( self::$body ), ' ,' ));
 
@@ -115,10 +124,10 @@ class index {
     return $content;
   }
 
-  // removeInline()
+  // removeNonContentTags()
   // strips out <head>, <script> and <style> tags inlcuding their contents
   //
-  static function removeInline() {
+  static function removeNonContentTags() {
     $content = self::$body;
     $content = preg_replace( '/<\s*script.*>.*<\/script>/imsxU', '', $content );
     $content = preg_replace( '/<\s*style.*>.*<\/style>/imsxU', '', $content );
@@ -126,9 +135,9 @@ class index {
     self::$body = $content;
   }
 
-  // removeComments()
+  // removeHtmlComments()
   // strips out HTML comments
-  static function removeComments() {
+  static function removeHtmlComments() {
     $content = preg_replace( '/<!--.*-->/imsxU', '', self::$body );
     self::$body = $content;
   }

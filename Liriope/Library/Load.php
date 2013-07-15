@@ -9,6 +9,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // --------------------------------------------------
 //
 
+die('DEPRECATED class :' . __CLASS__ . ' (' . __FILE__ ')');
 class load {
 
   static function autoload( $className ) {

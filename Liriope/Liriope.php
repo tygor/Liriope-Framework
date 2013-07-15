@@ -131,14 +131,13 @@ c::set( 'path', array(
   c::get( 'root.content' )
 ));
 
-// load the must have Liriope objects
+// Get the autloader working
 require_once( dirname(__FILE__) . '/Component/Load.php' );
-spl_autoload_register( 'Liriope\Component\Load::autoload', TRUE );
-
-load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
+Load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
 $classLoader = new \SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
 $classLoader->register();
 
+// Preload some common Liriope objects
 Load::lib();
 Load::models();
 Load::helpers();

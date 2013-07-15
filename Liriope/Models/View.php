@@ -92,11 +92,22 @@ class View extends obj {
       $html = $page->render();
 
       if( $page->getTheme() !== NULL ) {
+        // Load the theme and pass in the page content
         $html = theme::load( $page->getTheme(), array( 'page'=>$page, 'content'=>$html ), TRUE );
+        // Run the $html through any final filters that were stored
         $html = Filter::doFilters( $html );
-        if( \c::get( 'cache' )) { cache::set( $cacheID, (string) $html, TRUE ); }
-        // TODO: $page->is404 must be an overloaded variable. Is this a useless check?
-        if( \c::get( 'index' ) && !$page->is404 ) { Index::store( Uri::get(), (string) $html, (string) $html ); }
+        // if cache is turned on, then cache this page.
+        if( \c::get( 'cache' )) {
+          cache::set( $cacheID, (string) $html, TRUE );
+        }
+        // TODO: $page->is404 must be an overloaded variable.
+        //       Is this a useless check?
+        if( \c::get( 'index' ) && !$page->is404 ) {
+          Index::store( Uri::get(), (string) $html, (string) $html );
+        }
+        // TODO: create a class that builds a sitemap.xml from each visited page
+        //       This will be better called from a crawling funciton so that deleted pages
+        //       are removed from the sitemap.xml file.
       }
 
       // Add a clear cache button if the configuration is set to [debug]

@@ -5,6 +5,12 @@ namespace Liriope\Models;
 use Liriope\c;
 use Liriope\Component\Search\Index;
 
+// 
+// Crawler
+// 
+// To ensure that this will work in your dev environment
+// set the vhost in your hosts file to 127.0.0.1
+// 
 class Crawler {
   // this is the root of the site
   static $root;
@@ -25,7 +31,6 @@ class Crawler {
   static $external = array();
 
   static function crawl() {
-    /**/
     self::$root = c::get('url');
     $page = self::getPage('/');
 
@@ -98,7 +103,9 @@ class Crawler {
     if(!in_array($id, self::$visited)) {
       self::$visited[] = $id;
       Index::store( $id, $html );
+      return true;
     }
+    return false;
   }
 
   // getPage()
@@ -110,7 +117,6 @@ class Crawler {
     curl_setopt( $ch, CURLOPT_URL, $url );
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE);
     $output = curl_exec($ch);
-var_dump(curl_error($ch));exit;
     curl_close($ch);
     return $output;
   }

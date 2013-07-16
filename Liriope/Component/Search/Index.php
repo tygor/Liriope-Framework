@@ -35,8 +35,8 @@ class index {
   // the words to ignore
   static $ignore = array( 'i', 'a', 'an', 'and', 'the', 'some', 'to', 'for', 'that', 'it', 'is', 'of', 'so', 's' );
 
-  // pattern for stripping out wanted characters to index
-  static $stripPattern = '/[^a-z0-9,\'"=:%]/iu';
+  // pattern for stripping out unwanted characters to index
+  static $stripPattern = '/[^a-z0-9\'"=:%]/iu';
 
   // multiplier for title and meta tag words, giving them more importance
   static $multiplier;
@@ -71,7 +71,10 @@ class index {
     self::removeNonContentTags();
     self::removeHtmlComments();
     self::$body = strip_tags( self::$body );
-    $words = explode( ',', trim( self::stripToWords( self::$body ), ' ,' ));
+    $words = trim( self::stripToWords( self::$body ), ' ,' );
+// TODO: flattening the word results to a string so that I can 
+//       capture phrases and not just words.
+die('words are no flattened');
 
     // get the words from the title and meta tags, multiplying their score by duplicating their words
     $goldwords = array();
@@ -83,7 +86,6 @@ class index {
       end($goldwords);
       $goldwords += array_fill( key($goldwords)+1, self::$multiplier, $t );
     }
-
     // combine our word results
     self::$content = array_filter(a::combine( $goldwords, $words, $img ));
 
@@ -119,8 +121,10 @@ class index {
   // removes all unwanted characters
   //
   static function stripToWords( $content ) {
-    $content = preg_replace( self::$stripPattern, ',', $content );
-    $content = preg_replace( '/[,]+/', ',', $content );
+    // first pass
+    $content = preg_replace( self::$stripPattern, ' ', $content );
+    // second pass
+    $content = preg_replace( '/[\s]+|:\s/', ' ', $content );
     return $content;
   }
 

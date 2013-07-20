@@ -24,8 +24,8 @@ c::set( 'charset', 'utf-8' );
 // main call function
 // Begins the framework inner-workings
 // --------------------------------------------------
-function Liriope() {
-  $route = Router::getDispatch();
+function Liriope($route=NULL) {
+  $route = $route ?: Router::getDispatch();
   if(is_callable($route)) {
     $route();
     exit;
@@ -151,6 +151,16 @@ if( c::get( 'debug' )) {
 } else {
   error_reporting( 0 );
   ini_set( 'display_errors', 0 );
+}
+
+// Check for a shell script command
+if(defined('SHELL_COMMAND')) {
+    if(SHELL_COMMAND == 'crawl') {
+        Liriope(array('controller'=>'liriope','action'=>'crawl','params'=>array(),'use'=>'module'));
+    }
+    // just in case the app doesn't have a previous exit;
+    echo "\nFIN\n";
+    exit;
 }
 
 // Begin

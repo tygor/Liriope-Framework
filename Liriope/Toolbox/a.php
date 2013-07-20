@@ -137,6 +137,10 @@ class a {
   static function combine() {
     $return = array();
     foreach( func_get_args() as $array ) {
+      if(!is_array($array)) {
+          $return[] = $array;
+          continue;
+      }
       foreach( $array as $v ) $return[] = $v;
     }
     return $return;

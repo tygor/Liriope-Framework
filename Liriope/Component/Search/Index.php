@@ -74,7 +74,7 @@ class index {
     $words = trim( self::stripToWords( self::$body ), ' ,' );
 // TODO: flattening the word results to a string so that I can 
 //       capture phrases and not just words.
-die('words are no flattened');
+// die('words are not flattened');
 
     // get the words from the title and meta tags, multiplying their score by duplicating their words
     $goldwords = array();

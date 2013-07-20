@@ -12,6 +12,7 @@ use Liriope\Component\Content\Page;
 use Liriope\Component\Load;
 use Liriope\Toolbox\a;
 use Liriope\Toolbox\Request;
+use Liriope\Models\Crawler;
 
 class LiriopeModule {
   var $_controller;
@@ -88,6 +89,16 @@ class LiriopeModule {
     $search = new \Liriope\Component\Search\Search( array( 'searchfield' => 'q', 'ignore'=>c::get('search.ignore', array('home','search','flush','crawl'))));
 
     $module->guesses = $search->autocomplete(5);
+  }
+
+  public function crawl( $params=NULL ) {
+    global $module;
+    $module->start = microtime();
+
+    $visited = Crawler::crawl();
+    $count = count((array)$visited);
+    $module->visited = $visited;
+    $module->crawled = $count;
   }
 
   function setView( $name ) {

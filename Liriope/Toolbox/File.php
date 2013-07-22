@@ -52,7 +52,7 @@ class File {
   }
 
   // read()
-  // Reads the content of a file
+  // Reads the content of a file and returns it.
   // 
   // @param  string  $file The path for the file
   // @param  mixed   $parse The str object parse method to use

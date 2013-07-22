@@ -47,6 +47,7 @@ c::set( 'cache', TRUE );
 c::set( 'cache.expiration', (24*60*60));
 c::set( 'index', TRUE );
 c::set( 'index.multiplier', 3 );
+c::set( 'index.ignore', array('search', 'search?*', 'mailto*'));
 c::set( 'form.folder', 'data/forms' );
 c::set( 'date.format', 'l, F jS, Y');
 

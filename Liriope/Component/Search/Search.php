@@ -69,6 +69,7 @@ class search {
   // 
   // searchPages()
   // Does the search for content within the indexed pages
+  //
   public function searchPages() {
     // start the timer
     $this->start = microtime(TRUE);
@@ -85,7 +86,7 @@ class search {
       return FALSE;
     }
 
-    // TODO: The excerpt seems to only grab the final searchword to pull an excerpt from. Also, it doesn't account for fuzzySearch.
+    // TODO: The excerpt seems to only grab the final searchword to pull an excerpt from and not the full set of searchwords. Also, it doesn't account for fuzzySearch.
     // excerpt the results
     $this->excerpt( $this->results );
 
@@ -99,22 +100,25 @@ class search {
   // search()
   // searches the passed set of pages for the $this->searchwords
   //
-  function search( $pages ) {
+  // @param array $pages The associative array of pages to look within
+  // @param mixed $query The thing to look for
+  //
+  function search( $pages, $query=NULL ) {
+// TODO: enable a passed querystring rather than assuming the query later on
     // init an empty result array
     $result = array();
     // loop through the set of pages to search within
     foreach( $pages as $id => $page ) {
+
       // ignore certain pages
-      if( in_array( $id, $this->ignore )) {
-        // trigger_error('Ignoring this page: ' . $id, E_USER_WARNING);
-        continue;
-      }
+      if( in_array( $id, $this->ignore )) { continue; }
+
       // init an empty found array
       $found = array();
-      // One option is to search by the whole word
 
       // SEARCH
       if( $this->wholeword ) {
+        // only search for the complete query string rather than the individual parts
         $found = $this->wholeWordSearch($page);
         // loop through the result and tally the score of word matches
         foreach($found as $f) {
@@ -128,10 +132,12 @@ class search {
       else {
         // The resulting array contains every word that is within the Levenshtein threshold
         // and it's corresponding score.
-        $found = $this->fuzzySearch($page['index'], 0);
+// TODO: First, search for a matched phrase by searching the content
+//       Then, search for a matched word by using the index
+        $found = $this->fuzzySearch($page['content'], 0);
         if(count($found)) {
-          // scoring the found matches by value would give skewed results for pages with less matched words
-          // if there is an exact match, it will be on the top of the list probably with a negative score.
+          // Scoring the results by word count alone would give skewed results for pages with less words to match.
+          // If there is an exact match, it will be on the top of the list probably with a negative score.
           $score = 0;
           foreach($found as $f) {
             $score += $f['score'];
@@ -210,15 +216,16 @@ class search {
   private function fuzzySearch($searchSet, $threshold=0, $useMultiplier=true) {
     // get the search query...
     $query = $this->searchwords;
+
     // init an empty results array
     $results = array();
 
     // loop through each searchword and compare it to the set
-    foreach($this->searchwords as $q) {
+    foreach($query as $q) {
       // clean up spaces for the levenshtein function
       $q = strtolower(str_replace(' ', '', $q));
 
-      foreach($searchSet as $k => $v) {
+      foreach((array)$searchSet as $k => $v) {
         // calculate the edit distance
         $lev = levenshtein($q, $k);
         // extract a set of the unique characters from the query

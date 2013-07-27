@@ -71,10 +71,8 @@ class index {
     self::removeNonContentTags();
     self::removeHtmlComments();
     self::$body = strip_tags( self::$body );
-    $words = trim( self::stripToWords( self::$body ), ' ,' );
-// TODO: flattening the word results to a string so that I can 
-//       capture phrases and not just words.
-// die('words are not flattened');
+    $naked = html_entity_decode(preg_replace("/\s+/", " ", self::$body), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $words = explode(' ', trim( self::stripToWords( self::$body ), ' ,' ));
 
     // get the words from the title and meta tags, multiplying their score by duplicating their words
     $goldwords = array();
@@ -96,6 +94,7 @@ class index {
       $id => array(
         'title' => $title,
         'meta' => $meta,
+        'content' => $naked,
         'index' => self::$tally
       )
     );
@@ -118,7 +117,8 @@ class index {
   }
 
   // stripToWords()
-  // removes all unwanted characters
+  // removes everything except letters and numbers and a colon (:)
+  // but leaves the words separated by a space
   //
   static function stripToWords( $content ) {
     // first pass
@@ -207,7 +207,7 @@ class index {
       if( in_array( $found[1][$c], self::$metaNames )) {
         $pattern = '/content=[\'"](.*)[\'"]/i';
         preg_match_all( $pattern, $found[0][$c], $content );
-        $return = a::trim( a::combine( $return, explode( ' ', $content[1][0] )), ' .' );
+        $return = a::trim( a::combine( $return, explode( ' ', self::stripToWords( $content[1][0] ))), ' .' );
       }
     }
     return $return;

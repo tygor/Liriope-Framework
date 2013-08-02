@@ -86,7 +86,8 @@ class LiriopeModule {
     // get the Page object as $module which looks for a view file as Controller/_action.php
     global $module;
 
-    $search = new \Liriope\Component\Search\Search( array( 'searchfield' => 'q', 'ignore'=>c::get('search.ignore', array('home','search','flush','crawl'))));
+    $query = Request::get( 'q' );
+    $search = new \Liriope\Component\Search\Search( array( 'ignore'=>c::get('search.ignore', array('home','search','flush','crawl'))), $query);
 
     $module->guesses = $search->autocomplete(5);
   }

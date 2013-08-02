@@ -6,7 +6,6 @@ use Liriope\c;
 use Liriope\Toolbox\a;
 use Liriope\Toolbox\String;
 use Liriope\Toolbox\File;
-use Liriope\Toolbox\Request;
 use Liriope\Toolbox\Router;
 use Liriope\Toolbox\Directory;
 
@@ -25,6 +24,7 @@ class search {
   var $ignore = array();
 
   // the form's search field (the variable to pull from the Request)
+  // DEPRECATED
   var $searchfield;
 
   // the array of words to search for
@@ -36,16 +36,18 @@ class search {
   // the found results
   var $results = array();
 
-  function __construct( $options=array() ) {
+  function __construct( $options=array(), $query = FALSE ) {
     // set the options
     $this->ignore =        a::get( $options, 'ignore', c::get('search.ignore'));
     $this->query =         a::get( $options, 'query', FALSE );
+    // searchfield is DEPRECATED
     $this->searchfield =   a::get( $options, 'searchfield', FALSE );
     $this->casesensitive = a::get( $options, 'casesensitive', FALSE );
     $this->wholeword =     a::get( $options, 'wholeword', FALSE );
     
     // clean the user input
-    if( $this->searchfield) $this->query = trim( urldecode( Request::get( $this->searchfield )));
+    //if( $this->searchfield) $this->query = trim( urldecode( Request::get( $this->searchfield )));
+    $this->query = trim( urldecode( $query ));
 
     // escape for an empty query
     if( empty( $this->query )) return FALSE;
@@ -103,8 +105,7 @@ class search {
   // @param array $pages The associative array of pages to look within
   // @param mixed $query The thing to look for
   //
-  function search( $pages, $query=NULL ) {
-// TODO: enable a passed querystring rather than assuming the query later on
+  function search( $pages ) {
     // init an empty result array
     $result = array();
     // loop through the set of pages to search within
@@ -132,9 +133,7 @@ class search {
       else {
         // The resulting array contains every word that is within the Levenshtein threshold
         // and it's corresponding score.
-// TODO: First, search for a matched phrase by searching the content
-//       Then, search for a matched word by using the index
-        $found = $this->fuzzySearch($page['content'], 0);
+        $found = $this->fuzzySearch($page['index'], 0);
         if(count($found)) {
           // Scoring the results by word count alone would give skewed results for pages with less words to match.
           // If there is an exact match, it will be on the top of the list probably with a negative score.
@@ -170,7 +169,11 @@ class search {
     $words = array();
     // loop the indexed pages and extract words
     foreach($pages as $p) {
-      $words += $p['index'];
+      if(is_array($p)) {
+          if(array_key_exists('index', $p)) {
+              $words += $p['index'];
+          }
+      }
     }
     // get the unique words only
     $words = array_flip(array_unique(array_keys($words)));
@@ -226,6 +229,8 @@ class search {
       $q = strtolower(str_replace(' ', '', $q));
 
       foreach((array)$searchSet as $k => $v) {
+        // limit the levenshtein parts to 255 characters
+        $k = strtolower(substr($k, 0, 255));
         // calculate the edit distance
         $lev = levenshtein($q, $k);
         // extract a set of the unique characters from the query
@@ -246,7 +251,7 @@ class search {
         // add to the results if the distance is <= $threshold
         if($lev <= $threshold) {
           // multiple the lev score by the count of words in the searchSet
-          if(!$useMultiplier) { $v = 1; }
+          if(!$useMultiplier || !isset($v)) { $v = 1; }
           $results[$k] = array('score' => $lev * $v);
         }
       }

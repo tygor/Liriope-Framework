@@ -62,7 +62,7 @@ class menu implements \RecursiveIterator, \Countable {
   }
   public function findURL($url) {
     if($this->url === $url) { return $this; }
-    $it = new ArrayIterator($this->getChildren());
+    $it = new \ArrayIterator($this->getChildren());
     foreach($it as $child) { if($found = $child->findURL($url)) return $found; }
     return FALSE;
   }

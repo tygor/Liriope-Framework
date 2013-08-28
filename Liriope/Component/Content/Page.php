@@ -38,6 +38,7 @@ class Page extends Obj {
     $this->description = \c::get( 'page.description' );
     $this->author = \c::get( 'page.author' );
     $this->theme = \c::get( 'theme' );
+    $this->keywords = \c::get('page.keywords');
   }
 
   public function set( $key, $value=FALSE ) {

@@ -7,7 +7,7 @@ $menuclass = $module->menuclass();
 
 <?php if( !$module->error ): ?>
 
-<ul class="top <?= $menuclass ?>">
+<ul class="menu top <?= $menuclass ?>">
   <?php foreach( $menu->getChildren() as $child ): ?>
   <?php partial( 'liriope', 'menuitem', array(
     'hasChildren' => $child->hasChildren(),

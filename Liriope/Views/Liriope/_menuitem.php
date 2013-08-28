@@ -1,7 +1,7 @@
 <li<?= $hasChildren ? ' class="deeper"' : '' ?>>
   <a href="<?= url( $url ) ?>" <?php echo ($isActive) ? ' class="active"' : '' ?>><?= html($label) ?></a>
   <?php if( $hasChildren ): ?>
-  <ul class="children">
+  <ul class="menu children">
     <?php foreach( $children as $child ): ?>
     <?php partial( 'liriope', 'menuitem', array(
       'hasChildren' => $child->hasChildren(),

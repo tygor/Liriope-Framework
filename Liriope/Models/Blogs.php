@@ -176,7 +176,9 @@ class Blogs extends Obj {
   public function getNext() {
     $this->initAll();
     $post = current($this->files);
-    next($this->files);
+    if($next($this->files) === false) {
+        return $post;
+    }
     return $post;
   }
 

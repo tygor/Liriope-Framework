@@ -148,7 +148,7 @@ class Router {
     $target = $controller . '.php';
 
     if( !Load::seek( $target )) {
-die('calling the 404 b/c we can\'t find ' . $target);
+      trigger_error( "calling the 404 b/c we can\'t find <b>" . $target . "</b>.", E_USER_ERROR );
       router::go( '/', 404 ); 
     }
 
@@ -156,12 +156,18 @@ die('calling the 404 b/c we can\'t find ' . $target);
 
     $controllerNS = '\Liriope\Controllers\\';
 
-    if( !class_exists( $controllerNS . $controller )) trigger_error( "We can't find the class
-    file <b>" . ucfirst($controller) . ".php</b>.", E_USER_ERROR );
+    if( !class_exists( $controllerNS . $controller )) {
+      // check for a global namespace controller
+      if(!class_exists($controller) {
+        trigger_error( "We can't find the class file <b>" . ucfirst($controller) . ".php</b>.", E_USER_ERROR );
+      } else {
+        $controllerNS = '';
+      }
+    }
 
-    if( !method_exists( $controllerNS . $controller, $action )) trigger_error( "The view
-    <b>$action</b> doesn't seem to exist in the controller
-    <b>$controller</b>.", E_USER_ERROR );
+    if( !method_exists( $controllerNS . $controller, $action )) {
+      trigger_error( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>.", E_USER_ERROR );
+    }
 
     // Ok, run that object's function!
     $object = $controllerNS . $controller;

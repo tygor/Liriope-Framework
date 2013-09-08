@@ -49,7 +49,7 @@ class LiriopeModule {
   // creates a menu object with navigation from the menu.yml file
   //
   // @param  int    $depth how deep should the menu display (default = NULL (everything))
-  // @param  string $from  what should the top item be? (default = home, 'auto' displays the decendants of the
+  // @param  string $from  what should the top item be? (default = home, 'auto' displays the descendants of the
   //                       current page, or level slug where from yaml file)
   public function menu( $params=array() ) {
     global $module;
@@ -63,6 +63,7 @@ class LiriopeModule {
 
     $depth = a::get($params, 'depth');
     $from  = a::get($params, 'from');
+    $view  = a::get($params, 'view');
 
     // extract params to the module
     foreach($params as $k=>$v ) { $module->$k = $v; }
@@ -76,6 +77,11 @@ class LiriopeModule {
       else { $swap = $menu->findURL($from); }
       if(!$swap) { $module->error = TRUE; }
       $menu = $swap;
+    }
+
+    // set view
+    if(!is_null($view)) {
+        $this->setView($view);
     }
 
     // set variables for the view file to use

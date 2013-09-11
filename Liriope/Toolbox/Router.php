@@ -158,7 +158,7 @@ class Router {
 
     if( !class_exists( $controllerNS . $controller )) {
       // check for a global namespace controller
-      if(!class_exists($controller) {
+      if(!class_exists($controller)) {
         trigger_error( "We can't find the class file <b>" . ucfirst($controller) . ".php</b>.", E_USER_ERROR );
       } else {
         $controllerNS = '';

@@ -134,6 +134,10 @@ c::set( 'path', array(
 // Get the autloader working
 require_once( dirname(__FILE__) . '/Component/Load.php' );
 Load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
+
+$appLoader = new \SplClassLoader(NULL, realpath(c::get('root.application').'/controllers'));
+$appLoader->register();
+
 $classLoader = new \SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
 $classLoader->register();
 

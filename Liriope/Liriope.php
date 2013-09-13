@@ -66,7 +66,7 @@ function LiriopeException( $exception )
 set_exception_handler( 'Liriope\LiriopeException' );
 
 function stripSlashesDeep( $value ) {
-  $value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
+  $value = is_array( $value ) ? array_map( 'Liriope\stripSlashesDeep', $value ) : stripslashes( $value );
   return $value;
 }
 

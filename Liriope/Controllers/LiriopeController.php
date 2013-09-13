@@ -42,8 +42,8 @@ class LiriopeController {
   // @return self    Returns itself as an object so that other methods can be chained
   //
   public function __construct($model, $controller, $action) {
-    $this->_controller = strtolower( $controller );
-    $this->_action = strtolower( $action );
+    $this->_controller = $controller;
+    $this->_action = $action;
     $this->_model =& $model;
     $this->_view = new View( $this->_controller, $this->_action );
   }
@@ -136,7 +136,7 @@ class LiriopeController {
         $file = Load::exists( $fallback );
 
         if( !$file ) {
-            throw new Exception("The view file you are attempting to use ($check) cannot be found");
+            throw new \Exception("The view file you are attempting to use ($check) cannot be found");
         }
     }
     $page->useView($file);

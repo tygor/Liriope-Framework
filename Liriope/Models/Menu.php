@@ -19,6 +19,7 @@ class menu implements \RecursiveIterator, \Countable {
   public $_ = array();
 
   public function __construct($array, $parent=NULL) {
+    $this->activeChild = FALSE;
     $this->parent = $parent!==NULL ? $parent : NULL;
     $this->label = isset($array['label']) ? $array['label'] : NULL;
     $this->url   = isset($array['url'])   ? $array['url']   : NULL;
@@ -35,7 +36,7 @@ class menu implements \RecursiveIterator, \Countable {
   }
   private function setStatus($active=FALSE) {
     if($active) {
-      $this->active = TRUE;
+      $this->activeChild = TRUE;
       if($parent = $this->getParent()) $parent->setStatus(TRUE);
     }
   }
@@ -53,6 +54,7 @@ class menu implements \RecursiveIterator, \Countable {
   public function getLabel() { return $this->label; }
   public function getURL() { return $this->url; }
   public function isActive() { return $this->active; }
+  public function hasActiveChild() { return $this->activeChild; }
   public function isCurrent() { return $this->current; }
   public function findCurrent() {
     if($this->isCurrent()) return $this;

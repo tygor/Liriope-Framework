@@ -90,7 +90,7 @@ class search {
 
     // TODO: The excerpt seems to only grab the final searchword to pull an excerpt from and not the full set of searchwords. Also, it doesn't account for fuzzySearch.
     // excerpt the results
-    $this->excerpt( $this->results );
+    // $this->excerpt( $this->results );
 
     // stop the timer
     $this->stop = microtime(TRUE);

@@ -16,7 +16,9 @@
       <p class="url"><?php echo url( $id ) ?>
         <abbr class="score" title="score: <?php echo $result['score'] ?>">+</abbr>
       </p>
+      <?php if(isset($result['excerpt'])): ?>
       <p class="excerpt"><?php echo $result['excerpt'] ?></p>
+      <?php endif; ?>
     </li>
   <?php endforeach ?>
   </ol>

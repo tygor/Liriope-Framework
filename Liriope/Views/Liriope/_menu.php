@@ -11,6 +11,7 @@ $menuclass = $module->menuclass();
   <?php foreach( $menu->getChildren() as $child ): ?>
   <?php partial( 'liriope', 'menuitem', array(
     'hasChildren' => $child->hasChildren(),
+    'hasActiveChild' => $child->hasActiveChild(),
     'children'    => $child->getChildren(),
     'url'         => $child->getURL(),
     'label'       => $child->getLabel(),

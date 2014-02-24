@@ -32,7 +32,8 @@ class Blogs extends Obj {
   public function __construct( $path=NULL, $file=NULL) {
     $data = Directory::contents( $path );
     $this->name = $data['name'];
-    $this->root = rtrim( $data['root'], '/'.$data['name']);
+    // remove the folder name from the end of the path
+    $this->root = rtrim( str_replace($data['name'], '', $data['root']), '/');
     $parent = new String($this->root);
     $this->parent = $parent->replace(\c::get('root.content'),'')->get();
     $this->modified = $data['modified'];
@@ -176,7 +177,7 @@ class Blogs extends Obj {
   public function getNext() {
     $this->initAll();
     $post = current($this->files);
-    if($next($this->files) === false) {
+    if(next($this->files) === false) {
         return $post;
     }
     return $post;

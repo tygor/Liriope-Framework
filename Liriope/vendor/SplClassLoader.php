@@ -134,7 +134,7 @@ class SplClassLoader
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
 
             $seek = (($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName);
-            $r = include($seek);
+            $r = @include($seek);
             if($r === 0) throw new Exception("The autloader couldn't find $seek");
         }
     }

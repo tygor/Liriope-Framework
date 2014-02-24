@@ -64,6 +64,7 @@ c::set( 'site.description', 'A learning PHP framework.' );
 c::set( 'page.title', 'Monkey Grass' );
 c::set( 'page.description', 'A learning project called Liriope.' );
 c::set( 'page.author', 'Tyler Gordon' );
+c::set( 'page.keywords', 'Liriope, framework, php, html, css, js, light, cms' );
 
 //
 // Set some blog defaults

@@ -2,6 +2,7 @@
 
 $page->title = 'Creating a new page';
 $page->date = 'July 19, 2012';
+$page->keywords = 'new, page, create, write, content';
 
 ?>
 

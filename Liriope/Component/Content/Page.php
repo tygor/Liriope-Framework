@@ -26,7 +26,7 @@ class Page extends Obj {
   // @var string The name of the theme folder that wraps the page
   public $theme;
 
-  // TODO: What's this $keywords for? Overloaded?
+  // @var string Keywords to use in the page <meta> tags.
   var $keywords;
 
   // TODO: What's this $vars for? Is it overloaded params?
@@ -34,6 +34,7 @@ class Page extends Obj {
 
   function __construct( $file=NULL ) {
     $this->_view = $file;
+    // get a default page title from the configuration settings
     $this->title = \c::get( 'page.title' );
     $this->description = \c::get( 'page.description' );
     $this->author = \c::get( 'page.author' );
@@ -66,6 +67,7 @@ class Page extends Obj {
    */
   public function title($title=NULL) {
       if($title === NULL) return $this->title ?: '';
+      // TODO: clean the title. HTML encode the string.
       $this->title = $title;
       return $this->title;
   }
@@ -155,13 +157,34 @@ class Page extends Obj {
     return $parts[0];
   }
 
-  public function keywords() {
-    if(empty($this->keywords)) {
-      $s = new String(\c::get('page.keywords'));
-      $s = $s->split(',');
-      $this->keywords = a::glue($s, ',');
-    }
-    return $this->keywords;
+  // Keywords()
+  // Adds to the configuration keywords, omits duplicates
+  //
+  // @param string $w Comma separated keywords to add
+  public function keywords($w = NULL) {
+      if(empty($this->keywords)) {
+          // populate with the default configuration keywords
+          $s = new String(\c::get('page.keywords'));
+          $s = $s->split(',');
+          $this->keywords = a::glue($s, ',');
+      } else {
+          // accept a string or an array
+          if( is_string( $this->keywords )) {
+              $this->keywords = new String( $this->keywords );
+              $this->keywords = $this->keywords->split( ',' );
+          }
+
+          // assume the configuration keywords have not been added, so add them
+          $cKeywords = \c::get('page.keywords');
+          if( is_string( $cKeywords )) {
+              $cKeywords = new String( $cKeywords );
+              $cKeywords = $cKeywords->split( ',' );
+          }
+
+          $this->keywords = a::glue( array_unique( a::combine( $cKeywords, $this->keywords )), ',' );
+      }
+
+      return $this->keywords;
   }
 
   public function add_keywords($s) {

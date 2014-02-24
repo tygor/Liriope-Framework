@@ -39,7 +39,7 @@ class LiriopeController {
   // @param  string  $model The model to use for the page
   // @param  string  $controller The controller that holds the action for this page's logic
   // @param  string  $action The method of that controller to call
-  // @return self    Returns itself as an object so that other methods can be chained
+  // @return void
   //
   public function __construct($model, $controller, $action) {
     $this->_controller = strtolower( $controller );

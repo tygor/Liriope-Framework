@@ -25,7 +25,7 @@ class View extends obj {
   // @var string The action to call
   var $_action;
 
-  // @var string The page object
+  // @var \Liriope\Component\Content\Page The page object
   var $_page;
 
   // @var boolean Cache flag (default FALSE)
@@ -36,6 +36,8 @@ class View extends obj {
    *
    * @param string $controller The name of the controller to use before rendering
    * @param string $action     The name of the method in the controller to call
+   *
+   * @return void
    */
   public function __construct( $controller, $action ) {
     global $site;

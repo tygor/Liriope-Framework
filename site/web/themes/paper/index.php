@@ -13,6 +13,7 @@
   <title><?= $page->title(); ?></title>
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
+  <meta name="keywords" content="<?= $page->keywords(); ?>">
 
   <link rel="shortcut icon" href="<?= theme_folder() ?>/images/favicon.ico">
 

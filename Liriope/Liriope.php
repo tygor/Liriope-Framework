@@ -2,7 +2,7 @@
 //
 // Liriope: a PHP site framework
 //
-// @version 0.4BETA
+// @version 0.4
 // @author Tyler Gordon <tyler@tygorden.com>
 // @copyright Copyright 2013 Tyler Gordon
 // @license http://www.opensource.org/license/mit-license.php MIT License
@@ -20,10 +20,13 @@ c::set( 'version', 0.4 );
 c::set( 'language', 'en' );
 c::set( 'charset', 'utf-8' );
 
-// --------------------------------------------------
-// main call function
-// Begins the framework inner-workings
-// --------------------------------------------------
+//
+// Liriope()
+// Main call function: begins the framework inner-workings
+//
+// @param  instance  Liriope\Toolbox\Router
+// @return void
+//
 function Liriope($route=NULL) {
   $route = $route ?: Router::getDispatch();
   if(is_callable($route)) {

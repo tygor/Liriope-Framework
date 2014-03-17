@@ -64,6 +64,7 @@ class View extends obj {
   function load() {
     global $site;
     $page = &$this->_page;
+    $html = false;
 
     // CACHE
     // ----------
@@ -72,25 +73,27 @@ class View extends obj {
     $cacheID = Uri::md5URI();
     $cacheExpiredTime = \c::get('cache.expiration', (24*60*60));
 
-    // if cache is enabled...
+    // if cache is enabled
     if(\c::get('cache')) {
       $cacheModified = cache::modified( $cacheID );
 
-      // ...and the cache file is newer than all of the content files...
+      // if the cache file is newer than all of the content files...
       if( $cacheModified >= dir::modified( \c::get( 'root.content' ))) {
 
-        // ...and the cache file created time is withing the expiration time
+        // if the cache file created time is within the expiration time
         if(!cache::expired($cacheID, $cacheExpiredTime)) {
 
-          $cacheData = cache::get( $cacheID, TRUE );
+          // then, get the cached page
+          $html = cache::get( $cacheID, TRUE );
 
         }
       }
     }
 
-    if( empty( $cacheData )) {
+    // If no cache was loaded, then process the page.
+    if( !$html ) {
 
-      // first, render the page and store the output
+      // first, render the page portion of the view to HTML
       $html = $page->render();
 
       if( $page->getTheme() !== NULL ) {
@@ -117,8 +120,7 @@ class View extends obj {
         $cclink = url( router::rule( 'flush' ));
         $html = preg_replace( '/<\/body>/i', '<div id="cacheBox" style="display:none;"><a href="'.$cclink.'">Clear Cache</a></div></body>', $html );
       }
-    } else {
-      $html = $cacheData;
+
     }
 
     // OUTPUT TO BROWSER

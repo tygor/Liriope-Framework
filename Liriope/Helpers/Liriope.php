@@ -128,4 +128,20 @@ function img($file) {
   return $file;
 }
 
+// list_defined()
+// List the defined variables
+// 
+// @param  array $array The passed array from get_defined_vars()
+// @param  bool  $full  If true, lists the keys and values. If false, lists only the keys
+//
+function list_defined( $array, $full=false ) {
+    foreach($array as $k => $v) {
+        if ( !$full ) {
+            echo "$k\n";
+        } else {
+            echo "[\"$k\"] => $v\n";
+        }
+    }
+}
+
 ?>

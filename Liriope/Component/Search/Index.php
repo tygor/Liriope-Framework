@@ -114,6 +114,7 @@ class index {
     $uri = new String($uri);
     $file = $dir . '/' . $uri->replace( '/', '|' ) . '.txt';
     $success = File::remove($file);
+    // TODO: Remove this link from the sitemap.xml too. Create/call a sitemap model to do this task.
   }
 
   // stripToWords()

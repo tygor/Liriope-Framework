@@ -248,6 +248,7 @@ exit;
       case 404:
         header( 'HTTP/1.0 404 Not Found' );
         error_log("Attempted to visit '".uri::getRawURI()."' and was redirected to a 404 page");
+        // attempt to remove the indexed file
         index::unstore(uri::get());
         $url = '/error/404';
         break;

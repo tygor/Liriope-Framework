@@ -14,35 +14,27 @@ namespace Liriope;
 use Liriope\Toolbox\Router;
 use Liriope\Component\Load;
 
-// load the configuration class
+// Load the configuration class
 require_once( dirname(__FILE__).'/Component/Config.php' );
 c::set( 'version', 0.4 );
 c::set( 'language', 'en' );
 c::set( 'charset', 'utf-8' );
 
-//
-// Liriope()
-// Main call function: begins the framework inner-workings
-//
-// @param  instance  Liriope\Toolbox\Router
-// @return void
-//
-function Liriope($route=NULL) {
-  $route = $route ?: Router::getDispatch();
-  if(is_callable($route)) {
-    $route();
-    exit;
-  }
-  extract( $route );
-  if( strtolower($use) === 'module' ) {
-    $liriope = Router::callModule( $controller, $action, $params );
-    exit;
-  } else {
-    $liriope = Router::callController( $controller, $action, $params );
-    $liriope->load();
-    exit;
-  }
-}
+// Attempt to load the configuration file to pre-define the below variables
+@include($_SERVER['DOCUMENT_ROOT'] . 'configuration.php');
+
+// Set the root locations
+// Use c::set(key, value, override=FALSE) so that previously set configuration variables are not overwritten
+c::set( 'root.liriope',      isset($rootLiriope) ? realpath($rootLiriope) : dirname(__FILE__), false);
+c::set( 'root.application',  isset($rootApplication) ? realpath( $rootApplication ) : realpath(c::get('root.liriope') . '/../app/'), false);
+c::set( 'root.web',          isset($rootWeb) ? $rootWeb : realpath(c::get('root.liriope') . '/../site'), false);
+c::set( 'root.content',      c::get('root.web') . '/content', false );
+c::set( 'root.cache',        c::get('root.web') . '/cache', false );
+c::set( 'root.index',        c::get('root.web') . '/index', false );
+c::set( 'theme.folder',      'themes', false );
+c::set( 'root.theme',        c::get('root.web') . '/themes', false );
+c::set( 'root.snippets',     c::get('root.web') . '/snippets', false );
+c::set( 'root.content.file', 'index', false );
 
 // secondary call function
 // uses the alternative controller, component
@@ -105,18 +97,6 @@ function unregisterGlobals() {
 }
 unregisterGlobals();
 
-// set the root locations
-c::set( 'root.web',          $rootWeb );
-c::set( 'root.liriope',      realpath( $rootLiriope ));
-c::set( 'root.application',  realpath( $rootApplication ));
-c::set( 'root.content',      $rootWeb . '/content' );
-c::set( 'root.cache',        $rootWeb . '/cache' );
-c::set( 'root.index',        $rootWeb . '/index' );
-c::set( 'theme.folder',      'themes' );
-c::set( 'root.theme',        $rootWeb . '/themes' );
-c::set( 'root.snippets',     $rootWeb . '/snippets' );
-c::set( 'root.content.file', 'index' );
-
 // clean up unsed variables
 unset( $rootWeb );
 unset( $rootLiriope );
@@ -149,6 +129,8 @@ Load::lib();
 Load::models();
 Load::helpers();
 Load::plugins();
+// Configuration loading depends on environment variables being set by index.php locking Liriope in to HTTP only
+// so these need to be set in the configuration file instead and loaded before this call.
 Load::config();
 
 // switch on error reporting
@@ -160,7 +142,10 @@ if( c::get( 'debug' )) {
   ini_set( 'display_errors', 0 );
 }
 
+//
 // Check for a shell script command
+// @param constant  SHELL_COMMAND Defined in the shell script file to help Liriope determine origin
+//
 if(defined('SHELL_COMMAND')) {
     if(SHELL_COMMAND == 'crawl') {
         Liriope(array('controller'=>'liriope','action'=>'crawl','params'=>array(),'use'=>'module'));
@@ -170,5 +155,40 @@ if(defined('SHELL_COMMAND')) {
     exit;
 }
 
-// Begin
+//
+// Liriope()
+// Main call function: begins the framework inner-workings
+//
+// @param  instance  Liriope\Toolbox\Router
+// @return void
+//
+function Liriope($route=NULL) {
+
+  // Detect terminal PHP scrupt
+  if( isset( $_SERVER['TERM'] ) || isset( $_SERVER['SHELL'] )) {
+      echo "\n\nSHELL SCRIPT RUNNING \n\n\n";
+  }
+
+  // Detect AJAX request
+  // Most JS libs send this header but it can be spoofed. Only accept cleaned input and return safe data.
+  // The server value for HTTP_X_REQUESTED_WITH is XMLHttpRequest for jQuery--others untested.
+  if( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest' ) {
+      die('AJAX detected.');
+  }
+
+  $route = $route ?: Router::getDispatch();
+  if(is_callable($route)) {
+    $route();
+    exit;
+  }
+  extract( $route );
+  if( strtolower($use) === 'module' ) {
+    $liriope = Router::callModule( $controller, $action, $params );
+    exit;
+  } else {
+    $liriope = Router::callController( $controller, $action, $params );
+    $liriope->load();
+    exit;
+  }
+}
 Liriope();

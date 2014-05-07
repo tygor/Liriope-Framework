@@ -2,7 +2,7 @@
 //
 // Liriope: a PHP site framework
 //
-// @version 0.4
+// @version 0.5
 // @author Tyler Gordon <tyler@tygorden.com>
 // @copyright Copyright 2013 Tyler Gordon
 // @license http://www.opensource.org/license/mit-license.php MIT License
@@ -16,7 +16,7 @@ use Liriope\Component\Load;
 
 // Load the configuration class
 require_once( dirname(__FILE__).'/Component/Config.php' );
-c::set( 'version', 0.4 );
+c::set( 'version', 0.5 );
 c::set( 'language', 'en' );
 c::set( 'charset', 'utf-8' );
 
@@ -166,7 +166,8 @@ function Liriope($route=NULL) {
 
   // Detect terminal PHP scrupt
   if( isset( $_SERVER['TERM'] ) || isset( $_SERVER['SHELL'] )) {
-      echo "\n\nSHELL SCRIPT RUNNING \n\n\n";
+      // echo "\n\nSHELL SCRIPT RUNNING \n\n\n";
+      return;
   }
 
   // Detect AJAX request

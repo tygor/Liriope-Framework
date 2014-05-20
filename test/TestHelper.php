@@ -81,74 +81,81 @@ class Expect {
         $this->count++;
     }
 
-    public function wantBool($subject, $value) {
-        $failed = 0;
-        echo "  - is an boolean: ";
-        if(is_bool($subject)) {
-            echo $this->color->text('PASS', 'green') . "\n";
-        } else {
-            echo $this->color->text('FAIL', 'red') . "\n";
-            $failed = 1;
-        }
-
-        if(isset($value)) {
-            echo "  - is " . $this->color->text(($value ? "TRUE" : "FALSE"), 'yellow') . ": ";
-            if( $subject === $value) {
-                echo $this->color->text('PASS', 'green') . "\n";
-            } else {
-                echo $this->color->text('FAIL', 'red') . "\n";
-                $failed = 1;
-            }
-        }
+    private function reportGrade($failed) {
         if( $failed ) { $this->failed++; }
         else { $this->passed++; }
         $this->count(1);
+    }
+
+    private function echoPass() { echo $this->color->text('PASS', 'green') . "\n"; }
+    private function echoFail() { echo $this->color->text('FAIL', 'red') . "\n"; }
+
+    public function wantBool($subject, $value) {
+        $failed = 0;
+        echo "  - is an boolean: ";
+        if(is_bool($subject)) { $this->echoPass(); }
+        else { $this->echoFail(); $failed = 1; }
+        if(isset($value)) {
+            echo "  - is " . $this->color->text(($value ? "TRUE" : "FALSE"), 'yellow') . ": ";
+            if( $subject === $value) { $this->echoPass(); }
+            else { $this->echoFail(); $failed = 1; }
+        }
+        $this->reportGrade($failed);
     }
 
     public function wantString($subject, $value=NULL, $equal=1) {
         $failed = 0;
         echo "  - is a string: ";
         if(is_string($subject)) {
-            echo $this->color->text('PASS', 'green') . "\n";
+            $this->echoPass();
         } else {
-            echo $this->color->text('FAIL', 'red') . "\n";
+            $this->echoFail();
             $failed = 1;
         }
         if(isset($value)) {
             echo "  - is " . ($equal ? '' : 'NOT ') . $this->color->text("'" . $value . "'", 'yellow') . ": ";
             if( !$equal || $subject === $value) {
-                echo $this->color->text('PASS', 'green') . "\n";
+                $this->echoPass();
             } else {
-                echo $this->color->text('FAIL', 'red') . "\n";
+                $this->echoFail();
                 $failed = 1;
             }
         }
-        if( $failed ) { $this->failed++; }
-        else { $this->passed++; }
-        $this->count(1);
+        $this->reportGrade($failed);
+    }
+
+    public function wantInteger($subject, $value=NULL) {
+        $failed = 0;
+        echo "  - is an integer: ";
+        if(is_int($subject)) {
+            $this->echoPass();
+        } else {
+            $this->echoFail();
+            $failed = 1;
+        }
+        if(isset($value)) {
+            echo "  - is $value: ";
+            if($subject == $value) { $this->echoPass(); }
+            else { $this->echoFail(); $failed = 1; }
+        }
+        $this->reportGrade($failed);
     }
 
     public function wantObject($subject, $type=NULL) {
         $failed = 0;
         echo "  - is an object: ";
         if( is_object($subject)) {
-            echo $this->color->text('PASS', 'green') . "\n";
+            $this->echoPass();
         } else {
-            echo $this->color->text('FAIL', 'red') . "\n";
+            $this->echoFail();
             $failed = 1;
         }
         if( isset($type)) {
             echo "  - is an instance of ". $this->color->text($type, 'yellow') . ": ";
-            if( is_a($subject, $type)) {
-                echo $this->color->text('PASS', 'green') . "\n";
-            } else {
-                echo $this->color->text('FAIL', 'red') . "\n";
-                $failed = 1;
-            }
+            if( is_a($subject, $type)) { $this->echoPass(); }
+            else { $this->echoFail(); $failed = 1; }
         }
-        if( $failed ) { $this->failed++; }
-        else { $this->passed++; }
-        $this->count(1);
+        $this->reportGrade($failed);
     }
 }
 

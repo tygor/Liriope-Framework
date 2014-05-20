@@ -14,6 +14,27 @@ require('TestHelper.php');
 $color = new Colors();
 $expect = new Expect();
 
+function doCURL($url) {
+    // create a new cURL resource
+    $ch = curl_init();
+
+    // set URL and other options
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    // grab URL and pass it to the browser
+    curl_exec($ch);
+
+    // get the response headers
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    // close cURL resource
+    curl_close($ch);
+
+    return $httpcode;
+}
+
 require('../Liriope/Liriope.php');
 
 // ------------------------
@@ -39,6 +60,18 @@ $rule2 = Router::getRule('func');
 
 echo "- Expect route to be an " . $color->text('(object) Closure', 'white') . ": " . "\n";
 $expect->wantObject(Router::getDispatch($rule2->_rule), 'Closure');
+
+// ------------------------
+echo "\nVisit a URLs and expect different responses: \n";
+echo "- Expect http://liriope.ubun/ response to be a " . $color->text('(int) 200', 'white') .": " . "\n";
+$expect->wantInteger(doCURL('http://liriope.ubun'), 200);
+echo "- Expect http://liriope.ubun/test/ response to be a " . $color->text('(int) 404', 'white') .": " . "\n";
+$expect->wantInteger(doCURL('http://liriope.ubun/test'), 404);
+echo "- Expect http://liriope.ubun/func/ response to be a " . $color->text('(int) 404', 'white') .": " . "\n";
+$expect->wantInteger(doCURL('http://liriope.ubun/func'), 404);
+
+$testRoute = Router::useRoute('test');
+var_dump(Router::callController($testRoute['controller'], $testRoute['action'], $testRoute['params']));
 
 echo $expect->getResults();
 echo "---\nFIN\n\n";

@@ -16,6 +16,9 @@ router::setRule( 'doc',  'docs/!id',          'blog/post/dir/docs/id/$id' );
 
 router::setRule( 'google', 'google', 'liriope/redirect/url/'.urlencode('http://google.com'));
 
+// this route is set for testing purposes and is used in the RouterTest.php file.
+router::setRule('func', 'func/*', function() { echo "this is a closure route"; });
+
 //
 // Site 
 // --------------------------------------------------

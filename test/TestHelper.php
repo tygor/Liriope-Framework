@@ -65,11 +65,12 @@ class Expect {
 
     public function getResults() {
         echo "\n" . $this->color->text($this->getCount() . " tests run", 'white') . " (" .
-            $this->color->text($this->passed . " PASSED", 'green') .
-            " / " .
-            $this->color->text($this->failed . " FAILED", 'red') .
-            ")" . "\n"
-            ;
+             $this->color->text($this->passed . " PASSED", 'green');
+        if($this->failed > 0) {
+        echo " / " .
+             $this->color->text($this->failed . " FAILED", 'red');
+        }
+        echo ")" . "\n";
     }
 
     public function getCount() {

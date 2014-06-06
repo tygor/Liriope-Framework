@@ -68,10 +68,13 @@ $expect->wantInteger(doCURL('http://liriope.ubun'), 200);
 echo "- Expect http://liriope.ubun/test/ response to be a " . $color->text('(int) 404', 'white') .": " . "\n";
 $expect->wantInteger(doCURL('http://liriope.ubun/test'), 404);
 echo "- Expect http://liriope.ubun/func/ response to be a " . $color->text('(int) 404', 'white') .": " . "\n";
-$expect->wantInteger(doCURL('http://liriope.ubun/func'), 404);
+// This is deceiving. If the func() closure isn't set in the actual hosted site then this will throw a 404.
+// This route was added to the Liriope configuration and so should now return a 200.
+// doCURL() returns the response code, not the response content.
+$expect->wantInteger(doCURL('http://liriope.ubun/func'), 200);
 
-$testRoute = Router::useRoute('test');
-var_dump(Router::callController($testRoute['controller'], $testRoute['action'], $testRoute['params']));
+//$testRoute = Router::useRoute('func');
+//var_dump(Router::callController($testRoute['controller'], $testRoute['action'], $testRoute['params']));
 
 echo $expect->getResults();
 echo "---\nFIN\n\n";

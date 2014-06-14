@@ -29,9 +29,8 @@ Router::setRule( 'bloglist',    'blog/show',   'blog/show' );
 Router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
 Router::setRule('searchAuto', 'search/autocomplete', 'liriope/search_autocomplete', 'module');
 
-Router::setRule('test', 'test/closure', function() {
-  echo "test works";
-});
+Router::setRule('test', 'test/closure', function() { echo "test works"; });
+
 
 //
 // Set some system defaults

@@ -42,7 +42,7 @@ echo "\nCreate a new standard Router rule: \n";
 echo "- Expect " . $color->text('(bool) TRUE', 'white') . " for successful Router route creation: " . "\n";
 $expect->wantBool(Router::setRule('test', 'test/route/:optional/*', 'liriope/show', 'controller'), true);
 
-$rule =  \Liriope\Toolbox\Router::getRule('test');
+$rule = Router::getRule('test');
 
 echo "- Expect route name to be " . $color->text("(object) \\Liriope\\Toolbox\\RouterRule", 'white') . ": " . "\n";
 $expect->wantObject($rule, '\\Liriope\\Toolbox\\routerRule');
@@ -55,26 +55,27 @@ $expect->wantString($rule->name, 'foo', 0);
 
 // ------------------------
 echo "\nCreate a new closure Router rule: \n";
-\Liriope\Toolbox\Router::setRule('func', 'func/*', function() { echo "this is a closure route"; });
+// This closure route is not accessable through CURLs since it's configuration is only here and not in any HTTP reachable site.
+Router::setRule( 'func', 'func/show', function() { echo "this is a closure route"; });
 $rule2 = Router::getRule('func');
 
 echo "- Expect route to be an " . $color->text('(object) Closure', 'white') . ": " . "\n";
 $expect->wantObject(Router::getDispatch($rule2->_rule), 'Closure');
 
+echo "- Expect route rule name to be " . $color->text('func', 'white') . ": " . "\n";
+$expect->wantString(router::rule('func'), 'func/show');
+
 // ------------------------
-echo "\nVisit a URLs and expect different responses: \n";
+echo "\nVisit URLs and expect different responses: \n";
+
 echo "- Expect http://liriope.ubun/ response to be a " . $color->text('(int) 200', 'white') .": " . "\n";
 $expect->wantInteger(doCURL('http://liriope.ubun'), 200);
-echo "- Expect http://liriope.ubun/test/ response to be a " . $color->text('(int) 404', 'white') .": " . "\n";
-$expect->wantInteger(doCURL('http://liriope.ubun/test'), 404);
-echo "- Expect http://liriope.ubun/func/ response to be a " . $color->text('(int) 404', 'white') .": " . "\n";
-// This is deceiving. If the func() closure isn't set in the actual hosted site then this will throw a 404.
-// This route was added to the Liriope configuration and so should now return a 200.
-// doCURL() returns the response code, not the response content.
-$expect->wantInteger(doCURL('http://liriope.ubun/func'), 200);
 
-//$testRoute = Router::useRoute('func');
-//var_dump(Router::callController($testRoute['controller'], $testRoute['action'], $testRoute['params']));
+// The test/closure route exists in Liriope and is so reachable through HTTP requests
+$testURL = "http://liriope.ubun/test/closure";
+echo "- Expect ".$testURL." response to be a " . $color->text('(int) 200', 'white') .": " . "\n";
+$expect->wantInteger(doCURL($testURL), 200);
+
 
 echo $expect->getResults();
 echo "---\nFIN\n\n";

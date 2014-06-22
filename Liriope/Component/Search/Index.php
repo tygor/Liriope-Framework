@@ -41,17 +41,17 @@ class index {
   // multiplier for title and meta tag words, giving them more importance
   static $multiplier;
 
-  // 
-  // store()
-  // 
-  // Stores the passed HTML page in an index file. This index contains
-  // every word not in the ignore array, and it's associated count from
-  // this page.
-  //
-  // @param  string  $id   The page URI after the domain name
-  // @param  string  $html The page content to index
-  // @param  string  $body (optional) Just the body of the page, ignoring the theme frame
-  //
+  /**
+   * store()
+   * 
+   * Stores the passed HTML page in an index file. This index contains
+   * every word not in the ignore array, and it's associated count from
+   * this page.
+   *
+   * @param  string  $id   The page URI after the domain name
+   * @param  string  $html The page content to index
+   * @param  string  $body (optional) Just the body of the page, ignoring the theme frame
+   */
   static function store( $id, $html, $body=NULL ) {
     if( a::contains( self::$ignoreURLs, $id )) return false;
     self::$body = $body!==NULL ? $body : $html; // to index for content

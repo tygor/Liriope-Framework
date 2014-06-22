@@ -26,6 +26,11 @@ class Sitemap {
     //
     public function addPage($loc) {
         $this->pages[] = $this->base . '/' . $loc;
+
+        /*
+        var_dump($this->pages);
+        exit;
+        */
     }
 
     public function save() {

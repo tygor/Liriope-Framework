@@ -5,6 +5,7 @@ namespace Liriope\Models;
 use Liriope\Component\Content\Page;
 use Liriope\Component\Load;
 use Liriope\Component\Search\Index;
+use Liriope\Component\Search\Sitemap;
 use Liriope\Models\Obj;
 use Liriope\Models\Theme;
 use Liriope\Toolbox\Uri;
@@ -55,6 +56,7 @@ class View extends obj {
     $page->uri = Uri::get();
     $page->setTheme(\c::get('theme'));
     $this->_page = &$page;
+    $this->sitemap = new Sitemap();
   }
 
   // load()
@@ -110,9 +112,7 @@ class View extends obj {
         if( \c::get( 'index' ) && !$page->is404 ) {
           Index::store( Uri::get(), (string) $html, (string) $html );
         }
-        // TODO: create a class that builds a sitemap.xml from each visited page
-        //       This will be better called from a crawling funciton so that deleted pages
-        //       are removed from the sitemap.xml file.
+        $this->sitemap->addPage(Uri::get());
       }
 
       // Add a clear cache button if the configuration is set to [debug]

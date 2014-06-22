@@ -48,7 +48,7 @@ class Liriope {
     // neither, so dump to 404
     // hijack the "content" and replace with 404 content
     error_log("Attempted to visit '".uri::getRawURI()."' and was redirected to a 404 page");
-    index::unstore(uri::get());
+    Index::unstore(uri::get());
     header( 'HTTP/1.0 404 Not Found' );
     $this->setFolder(\c::get('default.404.folder','error'));
     $this->setFile(\c::get('default.404.file','404.php'));

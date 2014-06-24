@@ -14,27 +14,6 @@ require('TestHelper.php');
 $color = new Colors();
 $expect = new Expect();
 
-function doCURL($url) {
-    // create a new cURL resource
-    $ch = curl_init();
-
-    // set URL and other options
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    // grab URL and pass it to the browser
-    curl_exec($ch);
-
-    // get the response headers
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    // close cURL resource
-    curl_close($ch);
-
-    return $httpcode;
-}
-
 require('../Liriope/Liriope.php');
 
 // ------------------------

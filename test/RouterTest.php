@@ -1,15 +1,13 @@
 <?php
 
-namespace Liriope;
-
+namespace Liriope\Component\Test;
 use Liriope\Toolbox\Router;
+require('../Liriope/Component/Test/TestHelper.php');
 
 echo "\n";
 echo "\nRouterTest ===================================================" . "\n";
 echo "\n";
 echo "\nTests:" . "\n";
-
-require('TestHelper.php');
 
 $color = new Colors();
 $expect = new Expect();

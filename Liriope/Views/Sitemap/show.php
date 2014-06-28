@@ -5,15 +5,18 @@
  * Render the sitemap XML
  */
 
+$urls = $this->get('urls');
 $xmlTag = '<?xml version="' . $this->get('version') . '" encoding="' . $this->get('encoding') . '"?>' . "\n";
 
 ?>
 <?php echo $xmlTag; ?>
 <urlset xmlns="<?= $this->get('xmlns'); ?>">
+<?php foreach($urls as $url): ?>
     <url>
-        <loc>http://www.example.com/</loc>
-        <lastmod>2005-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
+        <loc><?php echo $url['loc']; ?></loc>
+        <lastmod><?php echo $url['lastmod']; ?></lastmod>
+        <changefreq><?php echo $url['changefreq']; ?></changefreq>
+        <priority><?php echo $url['priority']; ?></priority>
     </url>
+<?php endforeach; ?>
 </urlset> 

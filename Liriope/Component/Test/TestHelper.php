@@ -1,6 +1,6 @@
 <?php
 
-namespace Liriope;
+namespace Liriope\Component\Test;
 
 function doCURL($url) {
     // create a new cURL resource

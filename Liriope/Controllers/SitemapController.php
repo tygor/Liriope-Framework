@@ -25,7 +25,8 @@ class SitemapController Extends LiriopeController {
         parent::__construct(new Sitemap(), $controller, $action);
 
         $this->model = new Sitemap();
-        $this->model->addPage();
+
+        // TODO: remove these once the controller reads and adds it's own
         $this->model->addPage();
 
         $this->page = $this->getPage();
@@ -59,6 +60,26 @@ class SitemapController Extends LiriopeController {
         $this->page->set('urls', $this->model->getPages());
         $return = $this->page->render();
         return $return;
+    }
+
+    /**
+     * read
+     * Reads the current sitemap file and stores its mysteries in the model
+     *
+     * @return integer The number of stored sitmap urls
+     */
+    public function read() {
+        // Get the current filename from the model
+        $filename = $this->model->getFilename();
+        // Read that file and pass it's contents to the model
+        $xml = File::read(c::get('root.web') . DIRECTORY_SEPARATOR . $filename, 'xml');
+        if($xml instanceof \SimpleXMLElement) {
+            foreach($xml as $url) {
+                $this->model->addPage($url->loc, $url->lastmod, $url->changefreq, $url->priority);
+            }
+            return count($xml);
+        }
+        return false;
     }
 
     /**

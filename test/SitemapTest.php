@@ -44,11 +44,23 @@ echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
 $expect->wantBool($sitemap->setFilename('test/sitemap-test.xml'), true);
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Read tests
+
+$sitemap->setFilename('sitemap-test.xml');
+
+echo "\nGet the current model filename: \n";
+echo "- Expect " . $color->text('(string)', 'white') . "\n";
+$expect->wantString($sitemap->model->getFilename(), 'sitemap-test.xml');
+
+echo "\nRead the current sitemap XML file: \n";
+echo "- Expect " . $color->text('(integer)', 'white') . "\n";
+$expect->wantInteger($sitemap->read());
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Save tests
 
 echo "\nTry to save the sitemap file: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$sitemap->setFilename('sitemap-test.xml');
 $expect->wantBool($sitemap->save(), true);
 
 echo "\nTry to save a file that (hopefully) doesn't exist: \n";

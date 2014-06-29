@@ -255,6 +255,9 @@ class String {
       case 'php':
         $result = @unserialize( $i );
         break;
+      case 'xml':
+        $result = new \SimpleXMLElement($i);
+        break;
       default:
         $result = $i;
         break;

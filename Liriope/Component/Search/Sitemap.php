@@ -27,7 +27,7 @@ class Sitemap {
     }
 
     // addPage()
-    // Add a new page to the sitemap.
+    // Add a new page to the sitemap only if it doesn't already exist.
     //
     // @param  string  $loc  The URL of the page
     //
@@ -36,6 +36,10 @@ class Sitemap {
         // <lastmod>2005-01-01</lastmod>
         // <changefreq>monthly</changefreq>
         // <priority>0.8</priority>
+
+        // TODO: Check to ensure this url location doesn't already exist.
+        // TODO: Decide how to handle "merged" urls in regard to change frequency and priority
+        // TODO: Allow for a fully-qualified location to be passed as well as a relative file URL.
 
         array_push($this->pages, array(
             'loc' => $this->base . DIRECTORY_SEPARATOR . $loc,
@@ -60,11 +64,12 @@ class Sitemap {
     public function readSitemap() {
     }
 
-    // setFilename()
-    // Changes the name of the sitemap file that is created
-    //
-    // @return boolean True on success, false on error
-    //
+    /**
+     * setFilename()
+     * Changes the name of the sitemap file that is created
+     *
+     * @return boolean True on success, false on error
+     */
     public function setFilename($filename="sitemap.xml") {
         // Bail if empty
         if( empty($filename) ) {
@@ -83,6 +88,16 @@ class Sitemap {
 
         $this->filename = $filename;
         return true;
+    }
+
+    /**
+     * getFilename()
+     * Returns the currently set filename
+     *
+     * @return string The path and filename of the current sitemap file
+     */
+    public function getFilename() {
+        return $this->filename;
     }
 
     public function getPath($withFile=true) {

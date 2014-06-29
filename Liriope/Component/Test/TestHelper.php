@@ -139,6 +139,7 @@ class Expect {
                 $this->echoPass();
             } else {
                 $this->echoFail();
+                echo '    - instead it was : ' . $this->color->text($subject, 'red') . "\n";
                 $failed = 1;
             }
         }

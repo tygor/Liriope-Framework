@@ -3,14 +3,12 @@
 namespace Liriope\Component\Search;
 
 use Liriope\c;
+use Liriope\Toolbox\a;
 use Liriope\Toolbox\File;
 use Liriope\Component\Load;
 use Liriope\Component\Content\Buffer;
 
 class Sitemap {
-
-    // @var string The site's base URL
-    var $base;
 
     // @var string The relative path to the file
     private $path;
@@ -22,16 +20,15 @@ class Sitemap {
     private $pages = array();
 
     public function __construct($filename='sitemap.xml') {
-        $this->filename = $filename;
-        $this->base = c::get('url');
+        $this->setFilename($filename);
     }
 
     // addPage()
     // Add a new page to the sitemap only if it doesn't already exist.
     //
-    // @param  string  $loc  The URL of the page
+    // @param boolean True if the page was added, False if it was not
     //
-    public function addPage($loc='http://www.example/com/', $lastmod='2000-01-01', $changefreq='monthly', $priority='0.8') {
+    public function addPage($loc='http://www.example.com/', $lastmod='2000-01-01', $changefreq='monthly', $priority='0.8') {
         // <loc>http://www.example.com/</loc>
         // <lastmod>2005-01-01</lastmod>
         // <changefreq>monthly</changefreq>
@@ -39,16 +36,18 @@ class Sitemap {
 
         // TODO: Check to ensure this url location doesn't already exist.
         // TODO: Decide how to handle "merged" urls in regard to change frequency and priority
-        // TODO: Allow for a fully-qualified location to be passed as well as a relative file URL.
 
-        array_push($this->pages, array(
-            'loc' => $this->base . DIRECTORY_SEPARATOR . $loc,
-            'lastmod' => $lastmod,
-            'changefreq' => $changefreq,
-            'priority' => $priority
-        ));
+        if(!$this->checkForPage($loc)) {
+            array_push($this->pages, array(
+                'loc'        => (string) $loc,
+                'lastmod'    => (string) $lastmod,
+                'changefreq' => (string) $changefreq,
+                'priority'   => (string) $priority
+            ));
 
-        return true;
+            return true;
+        }
+        return false;
     }
 
     // getPages()
@@ -58,10 +57,18 @@ class Sitemap {
         return $this->pages;
     }
 
-    // readSitemap()
-    // Reads the current sitemap.xml file so that it can be added to.
-    //
-    public function readSitemap() {
+    /**
+     * checkForPage()
+     * Looks in the pages for the existence of the test url.
+     *
+     * @return boolean True if the page is found, false if it is not.
+     */
+    private function checkForPage($url) {
+        if( count($this->pages < 1)) {
+            return -1;
+        }
+        var_dump(a::search($this->pages, $url));
+        return a::search($this->pages, $url);
     }
 
     /**
@@ -106,6 +113,34 @@ class Sitemap {
         } else {
             return c::get('root.web');
         }
+    }
+
+    /**
+     * read
+     * Reads the current sitemap file and stores its mysteries in the model
+     *
+     * @return integer The number of stored sitmap urls
+     */
+    public function read() {
+        // Determine if the file exists
+        $file = Load::exists($this->filename, c::get('root.web'));
+        if( !$file ) {
+            return false;
+        }
+        // Read that file and pass it's contents to the model
+        $xml = File::read($file, 'xml');
+        if($xml instanceof \SimpleXMLElement) {
+            foreach($xml as $url) {
+                $this->addPage(
+                    a::first((array) $url->loc),
+                    a::first((array) $url->lastmod),
+                    a::first((array) $url->changefreq),
+                    a::first((array) $url->priority)
+                );
+            }
+            return count($xml);
+        }
+        return false;
     }
 
     public function save($output) {

@@ -38,6 +38,16 @@ class SitemapController Extends LiriopeController {
     }
 
     /**
+     * addPage()
+     * Adds a new page to the sitemap model
+     *
+     * @return ?
+     */
+    public function addPage() {
+        return $this->model->addPage();
+    }
+
+    /**
      * setFilename()
      * Changes the name of the sitemap file that is created
      *
@@ -60,16 +70,6 @@ class SitemapController Extends LiriopeController {
         $this->page->set('urls', $this->model->getPages());
         $return = $this->page->render();
         return $return;
-    }
-
-    /**
-     * read
-     * Reads the current sitemap file and stores its mysteries in the model
-     *
-     * @return integer The number of stored sitmap urls
-     */
-    public function read() {
-        return $this->model->read();
     }
 
     /**

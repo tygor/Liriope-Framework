@@ -41,7 +41,13 @@ $expect->wantBool($sitemap->setFilename('.xml'), false);
 
 echo "\nWhat if I pass a file with a path: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($sitemap->setFilename('test/sitemap-test.xml'), true);
+try {
+    $sitemap->setFilename('text/sitemap-test.xml');
+    $result = true;
+} catch(\Exception $e) {
+    $result = false;
+}
+$expect->wantBool($result, true);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Read tests
@@ -52,9 +58,9 @@ echo "\nGet the current model filename: \n";
 echo "- Expect " . $color->text('(string)', 'white') . "\n";
 $expect->wantString($sitemap->model->getFilename(), 'sitemap-test.xml');
 
-echo "\nRead the current sitemap XML file: \n";
-echo "- Expect " . $color->text('(integer)', 'white') . "\n";
-$expect->wantInteger($sitemap->read());
+echo "\nAdd a new page: \n";
+echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
+$expect->wantBool($sitemap->addPage(), true);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Save tests

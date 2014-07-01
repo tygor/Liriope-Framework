@@ -20,24 +20,27 @@ class Sitemap {
     private $pages = array();
 
     public function __construct($filename='sitemap.xml') {
-        $this->setFilename($filename);
+        $this->setFilename($filename, false);
     }
 
     // addPage()
     // Add a new page to the sitemap only if it doesn't already exist.
     //
-    // @param boolean True if the page was added, False if it was not
+    // @retrun boolean True if the page was added, False if it was not
     //
-    public function addPage($loc='http://www.example.com/', $lastmod='2000-01-01', $changefreq='monthly', $priority='0.8') {
+    public function addPage($loc='http://www.example.com/', $lastmod=NULL, $changefreq='monthly', $priority='0.8') {
         // <loc>http://www.example.com/</loc>
         // <lastmod>2005-01-01</lastmod>
         // <changefreq>monthly</changefreq>
         // <priority>0.8</priority>
 
-        // TODO: Check to ensure this url location doesn't already exist.
+        $lastmod = is_null($lastmod) ? date('Y-m-d', time()) : date('Y-m-d', $lastmod);
+
         // TODO: Decide how to handle "merged" urls in regard to change frequency and priority
 
-        if(!$this->checkForPage($loc)) {
+        $pageExists = $this->checkForPage($loc);
+
+        if(!$pageExists) {
             array_push($this->pages, array(
                 'loc'        => (string) $loc,
                 'lastmod'    => (string) $lastmod,
@@ -61,11 +64,11 @@ class Sitemap {
      * checkForPage()
      * Looks in the pages for the existence of the test url.
      *
-     * @return boolean True if the page is found, false if it is not.
+     * @return mixed The index of the found page, False if it is not, and False if no pages exist
      */
     private function checkForPage($url) {
         if( count($this->pages < 1)) {
-            return -1;
+            return false;
         }
         var_dump(a::search($this->pages, $url));
         return a::search($this->pages, $url);
@@ -75,9 +78,12 @@ class Sitemap {
      * setFilename()
      * Changes the name of the sitemap file that is created
      *
+     * @param string The fielname to use for the XML sitemap
+     * @param boolean Whether or not to immediately read that file
+     *
      * @return boolean True on success, false on error
      */
-    public function setFilename($filename="sitemap.xml") {
+    public function setFilename($filename="sitemap.xml", $read=true) {
         // Bail if empty
         if( empty($filename) ) {
             return false;
@@ -94,6 +100,9 @@ class Sitemap {
         }
 
         $this->filename = $filename;
+        if($read) {
+            $this->read();
+        }
         return true;
     }
 
@@ -125,7 +134,7 @@ class Sitemap {
         // Determine if the file exists
         $file = Load::exists($this->filename, c::get('root.web'));
         if( !$file ) {
-            return false;
+            throw new \Exception('The sitemap file "'.$this->filename.'" could not be found.');
         }
         // Read that file and pass it's contents to the model
         $xml = File::read($file, 'xml');

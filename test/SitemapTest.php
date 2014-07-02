@@ -18,69 +18,65 @@ require('../Liriope/Liriope.php');
 // ---------------------------------------------------------------------------------------------------------------------
 // Show tests
 
-$sitemap = new SitemapController();
+$controller = new SitemapController();
 
 echo "\nCreate a new Sitemap controller: \n";
 echo "- Expect " . $color->text('(string)', 'white') . " for rendered Sitemap with no locations set: " . "\n";
-$expect->wantString($sitemap->show());
+$expect->wantString($controller->show());
 
 // ---------------------------------------------------------------------------------------------------------------------
 // SetFilename tests
 
 echo "\nTry to set a new filename to use: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($sitemap->setFilename('sitemap-test.xml'), true);
+$expect->wantBool($controller->setFilename('sitemap-test.xml'), true);
 
 echo "\nNow set the filename wrong. Don't pass an extension: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($sitemap->setFilename('sitemap-test'), false);
+$expect->wantBool($controller->setFilename('sitemap-test'), false);
 
 echo "\nNow set the filename wrong. Try to pass only an extension: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($sitemap->setFilename('.xml'), false);
+$expect->wantBool($controller->setFilename('.xml'), false);
 
 echo "\nWhat if I pass a file with a path: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-try {
-    $sitemap->setFilename('text/sitemap-test.xml');
-    $result = true;
-} catch(\Exception $e) {
-    $result = false;
-}
-$expect->wantBool($result, true);
+$expect->wantBool($controller->setFilename('test/sitemap-test.xml'), true);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Read tests
 
-$sitemap->setFilename('sitemap-test.xml');
+$controller->setFilename('sitemap-test.xml');
 
 echo "\nGet the current model filename: \n";
 echo "- Expect " . $color->text('(string)', 'white') . "\n";
-$expect->wantString($sitemap->model->getFilename(), 'sitemap-test.xml');
+$expect->wantString($controller->model->getFilename(), 'sitemap-test.xml');
 
 echo "\nAdd a new page: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($sitemap->addPage(), true);
+$expect->wantBool($controller->addPage(), true);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Save tests
 
 echo "\nTry to save the sitemap file: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($sitemap->save(), true);
+$expect->wantBool($controller->save(), true);
 
 echo "\nTry to save a file that (hopefully) doesn't exist: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$sitemap->setFilename('sitemap-abcd.xml');
-$expect->wantBool($sitemap->save(), true);
+$controller->setFilename('sitemap-abcd.xml');
+$expect->wantBool($controller->save(), true);
 
 echo "\nNow delete that file for next tests: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($sitemap->remove(), true);
+$expect->wantBool($controller->remove(), true);
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 echo $expect->getResults();
 echo "---\nFIN\n\n";
+
+exit;
 
 ?>

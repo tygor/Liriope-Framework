@@ -244,6 +244,7 @@ class String {
   //
   public function parse( $mode='json' ) {
     $i = &$this->getInstance();
+    if( empty($i)) return '';
     if( is_array( $i )) return $this;
     switch( $mode ) {
       case 'json':

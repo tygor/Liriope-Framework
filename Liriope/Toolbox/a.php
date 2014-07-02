@@ -65,10 +65,10 @@ class a {
   static function search( $array, $search ) {
     if( !is_array($array) || !is_string($search)  ) {
         if( !is_array($array) ) {
-            trigger_error('Liriope Array object error with the search() method. The search set passed was not an array.');
+            throw new \Exception('Liriope Array object error with the search() method. The search set passed was not an array.');
         }
         if( !is_string($search) ) {
-            trigger_error('Liriope Array object error with the search() method. The text to look for was not a string.');
+            throw new \Exception('Liriope Array object error with the search() method. The text to look for was not a string.');
         }
         return false;
     }

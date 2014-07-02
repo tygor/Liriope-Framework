@@ -34,9 +34,7 @@ class Sitemap {
         // <changefreq>monthly</changefreq>
         // <priority>0.8</priority>
 
-        $lastmod = is_null($lastmod) ? date('Y-m-d', time()) : date('Y-m-d', $lastmod);
-
-        // TODO: Decide how to handle "merged" urls in regard to change frequency and priority
+        $lastmod = is_null($lastmod) ? date('Y-m-d', time()) : date('Y-m-d', strtotime($lastmod));
 
         $pageExists = $this->checkForPage($loc);
 
@@ -49,7 +47,10 @@ class Sitemap {
             ));
 
             return true;
+        } else {
+            // TODO: Decide how to handle "merged" urls in regard to change frequency and priority
         }
+
         return false;
     }
 
@@ -67,11 +68,16 @@ class Sitemap {
      * @return mixed The index of the found page, False if it is not, and False if no pages exist
      */
     private function checkForPage($url) {
-        if( count($this->pages < 1)) {
+        if( count($this->pages) < 1) {
+            // No URLS are stored in the sitemap flie
             return false;
         }
-        var_dump(a::search($this->pages, $url));
-        return a::search($this->pages, $url);
+        foreach($this->pages as $page) {
+            if( a::contains($page, $url) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -128,13 +134,17 @@ class Sitemap {
      * read
      * Reads the current sitemap file and stores its mysteries in the model
      *
-     * @return integer The number of stored sitmap urls
+     * @return  mixed   The number of stored sitmap urls, or FALSE on failure
      */
     public function read() {
+        
         // Determine if the file exists
         $file = Load::exists($this->filename, c::get('root.web'));
+        
+        // If it does not, then create an empty file
         if( !$file ) {
-            throw new \Exception('The sitemap file "'.$this->filename.'" could not be found.');
+            // File::touch(c::get('root.web') . DIRECTORY_SEPARATOR . $this->filename);
+            return false;
         }
         // Read that file and pass it's contents to the model
         $xml = File::read($file, 'xml');

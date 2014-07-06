@@ -52,6 +52,10 @@ echo "\nGet the current model filename: \n";
 echo "- Expect " . $color->text('(string)', 'white') . "\n";
 $expect->wantString($controller->model->getFilename(), 'sitemap-test.xml');
 
+echo "\nClear the model so following tests are on a clean slate: \n";
+echo "- Expect " . $color->text('(boolean','white') . "\n";
+$expect->wantBool($controller->clearPages(), true);
+
 echo "\nAdd a new page: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
 $expect->wantBool($controller->addPage(), true);

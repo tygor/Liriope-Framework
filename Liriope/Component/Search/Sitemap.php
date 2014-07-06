@@ -23,6 +23,17 @@ class Sitemap {
         $this->setFilename($filename, false);
     }
 
+    /**
+     * flush()
+     * Removes all pages from the stored array.
+     *
+     * @return  boolean True on success, False on failure.
+     */
+    public function flush() {
+        $this->pages = array();
+        return true;
+    }
+
     // addPage()
     // Add a new page to the sitemap only if it doesn't already exist.
     //
@@ -36,9 +47,9 @@ class Sitemap {
 
         $lastmod = is_null($lastmod) ? date('Y-m-d', time()) : date('Y-m-d', strtotime($lastmod));
 
-        $pageExists = $this->checkForPage($loc);
+        $page = $this->checkForPage($loc);
 
-        if(!$pageExists) {
+        if(!$page) {
             array_push($this->pages, array(
                 'loc'        => (string) $loc,
                 'lastmod'    => (string) $lastmod,
@@ -47,9 +58,13 @@ class Sitemap {
             ));
 
             return true;
-        } else {
-            // TODO: Decide how to handle "merged" urls in regard to change frequency and priority
         }
+
+        // The page exists in the sitemap. Overwrite any new passed content.
+        // Since this function defines defaults if no value is passed to addPage, then the defaults will be used.
+        $page['lastmod'] = $lastmod;
+        $page['changefreq'] = $changefreq;
+        $page['priority'] = $priority;
 
         return false;
     }
@@ -74,7 +89,7 @@ class Sitemap {
         }
         foreach($this->pages as $page) {
             if( a::contains($page, $url) ) {
-                return true;
+                return $page;
             }
         }
         return false;

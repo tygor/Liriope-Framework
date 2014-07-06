@@ -38,10 +38,21 @@ class SitemapController Extends LiriopeController {
     }
 
     /**
+     * clearPages()
+     * Tells the model to remove any stored pages.
+     *
+     * @return  boolean True on succes, False on failure.
+     */
+    public function clearPages() {
+        return $this->model->flush();
+    }
+
+    /**
      * addPage()
      * Adds a new page to the sitemap model
+     * NOTE: This will not automatically save to file.
      *
-     * @return ?
+     * @return  boolean True if the page was added, False if it already existed (passed attributes overwrite that page)
      */
     public function addPage() {
         return $this->model->addPage();

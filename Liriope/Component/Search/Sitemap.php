@@ -37,7 +37,7 @@ class Sitemap {
     // addPage()
     // Add a new page to the sitemap only if it doesn't already exist.
     //
-    // @retrun boolean True if the page was added, False if it was not
+    // @retrun mixed The count of pages in the sitemap on success, False on failiure
     //
     public function addPage($loc='http://www.example.com/', $lastmod=NULL, $changefreq='monthly', $priority='0.8') {
         // <loc>http://www.example.com/</loc>
@@ -57,7 +57,7 @@ class Sitemap {
                 'priority'   => (string) $priority
             ));
 
-            return true;
+            return count($this->pages);
         }
 
         // The page exists in the sitemap. Overwrite any new passed content.

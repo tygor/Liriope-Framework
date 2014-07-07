@@ -26,9 +26,6 @@ class SitemapController Extends LiriopeController {
 
         $this->model = new Sitemap();
 
-        // TODO: remove these once the controller reads and adds it's own
-        $this->model->addPage();
-
         $this->page = $this->getPage();
         $this->page->setTheme('');
 
@@ -54,8 +51,8 @@ class SitemapController Extends LiriopeController {
      *
      * @return  boolean True if the page was added, False if it already existed (passed attributes overwrite that page)
      */
-    public function addPage() {
-        return $this->model->addPage();
+    public function addPage($loc=NULL, $lastmod=NULL, $changefreq=NULL, $priority=NULL) {
+        return $this->model->addPage($loc, $lastmod, $changefreq, $priority);
     }
 
     /**

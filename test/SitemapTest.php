@@ -58,7 +58,11 @@ $expect->wantBool($controller->clearPages(), true);
 
 echo "\nAdd a new page: \n";
 echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
-$expect->wantBool($controller->addPage(), true);
+$expect->wantInteger($controller->addPage('http://liriope.ubun/home'), 1);
+
+echo "\nAdd a second new page: \n";
+echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
+$expect->wantInteger($controller->addPage('http://liriope.ubun/about-us'), 2);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Save tests

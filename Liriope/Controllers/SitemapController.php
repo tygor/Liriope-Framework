@@ -56,6 +56,27 @@ class SitemapController Extends LiriopeController {
     }
 
     /**
+     * removePage()
+     * Removes a page from the sitemap model
+     * NOTE: This will not automatically save to file.
+     *
+     * @return  boolean     True if the page was removed, False on failure
+     */
+    public function removePage($loc=NULL) {
+        return $this->model->removePage($loc);
+    }
+
+    /**
+     * countPages()
+     * Return the number of pages in the sitemap.
+     *
+     * @return  integer     The number of pages that exist in the sitemap
+     */
+    public function countPages() {
+        return $this->model->countPages();
+    }
+
+    /**
      * setFilename()
      * Changes the name of the sitemap file that is created
      *

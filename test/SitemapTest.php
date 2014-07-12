@@ -61,8 +61,19 @@ echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
 $expect->wantInteger($controller->addPage('http://liriope.ubun/home'), 1);
 
 echo "\nAdd a second new page: \n";
-echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
+echo "- Expect " . $color->text('(integer)', 'white') . "\n";
 $expect->wantInteger($controller->addPage('http://liriope.ubun/about-us'), 2);
+
+echo "\nCount the number of pages now in the sitemap: \n";
+echo "- Expect " . $color->text('(integer)', 'white') . "\n";
+$expect->wantInteger($controller->countPages(), 2);
+
+echo "\nRemove an existing page: \n";
+echo "- Expect " . $color->text('(boolean)', 'white') . "\n";
+$expect->wantBool($controller->removePage('http://liriope.ubun/about-us'), true);
+
+// TODO: test adding an existing page and that newly passed information is used instead.
+// TODO: test removal of a page.
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Save tests

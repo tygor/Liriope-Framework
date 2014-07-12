@@ -57,7 +57,7 @@ class Sitemap {
                 'priority'   => (string) $priority
             ));
 
-            return count($this->pages);
+            return $this->countPages();
         }
 
         // The page exists in the sitemap. Overwrite any new passed content.
@@ -69,11 +69,34 @@ class Sitemap {
         return false;
     }
 
-    // getPages()
-    // Returns the array of pages
-    //
+    /**
+     * removePage()
+     * Removes a single page from the array of pages.
+     *
+     * @return  boolean     True on success, False onfailure
+     */
+    public function removePage($loc) {
+        return false;
+    }
+
+    /**
+     * getPages()
+     * Returns the array of pages
+     *
+     * @return  array       The model's array of pages which exist in the sitemap
+     */
     public function getPages() {
         return $this->pages;
+    }
+
+    /**
+     * countPages()
+     * Count the number of pages currently in the sitemap model
+     *
+     * @return  integer     The number of pages in the model
+     */
+    public function countPages() {
+        return count($this->pages);
     }
 
     /**

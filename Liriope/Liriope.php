@@ -14,6 +14,8 @@ namespace Liriope;
 use Liriope\Toolbox\Router;
 use Liriope\Component\Load;
 
+date_default_timezone_set('America/New_York');
+
 // load the configuration class
 require_once( dirname(__FILE__).'/Component/Config.php' );
 c::set( 'version', 0.4 );

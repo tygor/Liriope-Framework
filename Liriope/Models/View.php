@@ -62,7 +62,7 @@ class View extends obj {
   function load() {
     global $site;
     $page = &$this->_page;
-
+    
     // CACHE
     // ----------
     $cache = NULL;
@@ -85,7 +85,7 @@ class View extends obj {
         }
       }
     }
-
+    
     if( empty( $cacheData )) {
 
       // first, render the page and store the output
@@ -109,16 +109,10 @@ class View extends obj {
         //       This will be better called from a crawling funciton so that deleted pages
         //       are removed from the sitemap.xml file.
       }
-
-      // Add a clear cache button if the configuration is set to [debug]
-      if( \c::get('debug')) {
-        $cclink = url( router::rule( 'flush' ));
-        $html = preg_replace( '/<\/body>/i', '<div id="cacheBox" style="display:none;"><a href="'.$cclink.'">Clear Cache</a></div></body>', $html );
-      }
     } else {
       $html = $cacheData;
     }
-
+    
     // OUTPUT TO BROWSER
     echo trim( $html );
   }

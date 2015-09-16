@@ -47,7 +47,7 @@ class a {
   //
   static function show( $array, $print=TRUE ) {
     $r = "<pre>";
-    $r .= htmlspecialchars( print_r( $array, true ));
+    $r .= htmlspecialchars( print_r( $array, true ), ENT_COMPAT, 'utf-8');
     $r .= "</pre>";
     if( $print === TRUE ) echo $r;
     return $r;

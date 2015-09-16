@@ -173,6 +173,7 @@ class Router {
     $object = $controllerNS . $controller;
     $dispatch = new $object( $model, $controllerRaw, $action );
     $content = call_user_func( array( $dispatch,$action ), $getVars );
+    
     if( $return ) return $content;
     return $dispatch;
   }
@@ -195,12 +196,10 @@ class Router {
     $model = rtrim( $controller, 's' );
     $controller .= 'Controller';
     $dispatch = self::callHook( $controller, $controllerRaw, $action, $model, $getVars );
+    
     if( $return ) {
       return $dispatch;
     }
-var_dump($dispath);
-debug_print_backtrace();
-exit;
     $dispatch->load();
   }
 

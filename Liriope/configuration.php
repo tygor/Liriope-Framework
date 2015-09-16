@@ -144,7 +144,6 @@ function emailIncognito( $c ) {
   return preg_replace_callback(
       '#([A-Za-z0-9._%-]+)\@([A-Za-z0-9._%-]+)\.([A-Za-z]{2,4})#',
       function($matches) {
-          echo '<span style="unicode-bidi:bidi-override;direction:rtl;">'.strrev($matches[1].'@'.$matches[2].$matches[3]).'</span>';
           return '<span style="unicode-bidi:bidi-override;direction:rtl;">'.strrev($matches[1].'@'.$matches[2].$matches[3]).'</span>';
       },
       $firstpass

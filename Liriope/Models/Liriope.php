@@ -101,7 +101,6 @@ class Liriope {
   public function render( $page=NULL ) {
     Buffer::start();
     include( $this->file );
-
     $render = Buffer::end( TRUE );
     return $render;
   }

@@ -41,6 +41,7 @@ class load
     $root = c::get( 'root.liriope' );
     // Toolbox
     load::file( $root . '/library/string.class.php', TRUE );
+    load::file( $root . '/models/String.class.php', TRUE );
     load::file( $root . '/library/array.class.php', TRUE );
     load::file( $root . '/library/uri.class.php', TRUE );
     load::file( $root . '/library/router.class.php', TRUE );

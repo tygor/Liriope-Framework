@@ -3,6 +3,8 @@
 // Liriope's default configuration
 // 
 
+date_default_timezone_set('America/New_York');
+
 // Set some default router rules
 router::setRule( 'home',        '*',           'liriope/show' ); // catchall rule
 router::setRule( 'gallery',     'gallery',     'gallery/show' );

@@ -72,7 +72,17 @@ class String {
   public function to_html( $preserve=TRUE ) {
     $i = &$this->getInstance();
     if( $preserve ) {
-      $this->stripslashes(implode('', preg_replace('/^([^<].+[^>])$/e', "htmlentities('$1', ENT_COMPAT, 'utf-8')", preg_split('/(<.+?>)/', $i, -1, PREG_SPLIT_DELIM_CAPTURE))));
+        $pattern = '/^([^<].+[^>])$/'; 
+        $subject = preg_split('/(<.+?>)/', $i, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $replaced = preg_replace_callback($pattern, function($matches) {
+            return htmlentities($matches[0], ENT_COMPAT, 'utf-8');
+        }, $subject);
+      $this->stripslashes(
+          implode(
+              '',
+              $replaced
+          )
+      );
     } else {
       $i = htmlentities( $i, ENT_COMPAT, 'utf-8' );
     }

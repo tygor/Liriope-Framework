@@ -135,9 +135,11 @@ function emailIncognito( $c ) {
     $firstpass = preg_replace( "/".preg_quote($m,'/')."/", $anchors[$k], $firstpass );
   }
   // -----
-  $pattern = "#".$email_pattern."#e";
-  $replacement = "'<span style=\"unicode-bidi:bidi-override;direction:rtl;\">'.strrev('$1@$2.$3').'</span>'";
-  return preg_replace( $pattern, $replacement, $firstpass );
+  $pattern = "#".$email_pattern."#";
+  return preg_replace_callback( $pattern, function($matches) {
+      return '<span style="unicode-bidi:bidi-override;direction:rtl;">'.strrev($matches[0]).'</span>';
+      var_dump($matches);
+  }, $firstpass );
 }
 filter::addFilter( 'emailIncognito', 'emailIncognito' );
 

@@ -9,7 +9,7 @@ use Liriope\Models\View;
 use Liriope\Models\Cache;
 use Liriope\Models\Crawler;
 use Liriope\Component\Load;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\Router;
 use Liriope\Toolbox\Request;
 use Liriope\Component\Search\Search;
@@ -111,7 +111,7 @@ class LiriopeController {
 
   public function mail( $encoded=NULL ) {
     $page = $this->getPage();
-    $covert_email = new String($encoded[0]);
+    $covert_email = new StringExtensions($encoded[0]);
     list( $user, $host, $tld ) = $covert_email->rot()->split('+');
     $email = sprintf( '%s@%s.%s', $user, $host, $tld );
     $page->set( 'email', $email );

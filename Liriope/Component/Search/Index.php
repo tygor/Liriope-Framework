@@ -4,7 +4,7 @@ namespace Liriope\Component\Search;
 
 use Liriope\Toolbox\a;
 use Liriope\Component\c;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\File;
 
 class index {
@@ -111,7 +111,7 @@ class index {
   //
   static function unstore( $uri ) {
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
-    $uri = new String($uri);
+    $uri = new StringExtensions($uri);
     $file = $dir . '/' . $uri->replace( '/', '|' ) . '.txt';
     $success = File::remove($file);
   }
@@ -230,7 +230,7 @@ class index {
     if( $array === NULL ) $array = self::$content;
     $tally = array();
     foreach( $array as $word ) {
-      $word = new String($word);
+      $word = new StringExtensions($word);
       $word_id = $word->to_lowercase()->trim(' .,-"\'')->get();
       if( !isset( $tally[$word_id] )) $tally[$word_id] = 1;
       else $tally[$word_id] = $tally[$word_id] + 1;

@@ -71,7 +71,7 @@ function slugify( $input=NULL ) {
 // HTML
 // creates safe html
 function html( $string ) {
-  $html = new String( $string );
+  $html = new StringExtensions( $string );
   return $html->to_html();
 }
 

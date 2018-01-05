@@ -3,7 +3,7 @@
 namespace Liriope\Component\Content;
 
 use Liriope\Component\Content\Buffer;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\a;
 use Liriope\Models\Obj;
 
@@ -157,7 +157,7 @@ class Page extends Obj {
 
   public function keywords() {
     if(empty($this->keywords)) {
-      $s = new String(\c::get('page.keywords'));
+      $s = new StringExtensions(\c::get('page.keywords'));
       $s = $s->split(',');
       $this->keywords = a::glue($s, ',');
     }
@@ -166,7 +166,7 @@ class Page extends Obj {
 
   public function add_keywords($s) {
     if(!is_array($s)) {
-      $s = new String($s);
+      $s = new StringExtensions($s);
       $s = $s->split(',');
     }
     $this->keywords = $this->keywords() . ',' . a::glue($s, ',');

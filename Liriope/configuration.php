@@ -111,7 +111,7 @@ function emailIncognito( $c ) {
   $classes = array();
   foreach($matches[1] as $k=>$m) {
     preg_match('/class=[\'"](.*)[\'"]/iU', $m, $match);
-    $classes[$k] = !empty($match[1]) ? explode( ' ', trim($match[1])) : '';
+    $classes[$k] = !empty($match[1]) ? explode( ' ', trim($match[1])) : array();
     $classes[$k][] = 'obf';
   }
   // save the href settings
@@ -124,11 +124,11 @@ function emailIncognito( $c ) {
   $anchors = array();
   foreach( $matches[0] as $k=>$m) {
     $class = trim(implode(' ', $classes[$k]));
-    $one = new String($emails[$k][1]);
+    $one = new StringExtensions($emails[$k][1]);
     $one = $one->rot()->get();
-    $two = new String($emails[$k][2]);
+    $two = new StringExtensions($emails[$k][2]);
     $two = $two->rot()->get();
-    $three = new String($emails[$k][3]);
+    $three = new StringExtensions($emails[$k][3]);
     $three = $three->rot()->get();
     $email = "$one+$two+$three";
     if($emails[$k][4]) $email = $email . '?' . $emails[$k][4];

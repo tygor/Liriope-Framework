@@ -6,6 +6,7 @@ use Liriope\c;
 use Liriope\Controllers;
 use Liriope\Component\Load;
 use Liriope\Component\Search\Index;
+use Liriope\Toolbox\StringExtensions;
 
 class Router {
 
@@ -190,7 +191,7 @@ class Router {
   static function callController( $controller=NULL, $action=NULL, $getVars=NULL, $return=TRUE ) {
     // Controllers are uppercase on words (ex: Shovel) with "Controller" appended
     // Models are the plural of the controller (ex: Shovels)
-    $C = new String($controller);
+    $C = new StringExtensions($controller);
     $controllerRaw = $C->raw();
     $controller =  $C->sanatize('onlyLetters')->to_titlecase()->get();
     $model = rtrim( $controller, 's' );
@@ -215,7 +216,7 @@ class Router {
   static function callModule( $controller=NULL, $action=NULL, $getVars=NULL ) {
     // Controllers are uppercase on words (ex: Shovel) with "Module" appended
     // Models are the plural of the controller (ex: Shovels)
-    $C = new String($controller);
+    $C = new StringExtensions($controller);
     $controllerRaw = $C->raw();
     $controller =  $C->sanatize('onlyLetters')->to_titlecase()->get();
     $model = rtrim( $controller, 's' );

@@ -4,7 +4,7 @@ namespace Liriope\Component\Search;
 
 use Liriope\c;
 use Liriope\Toolbox\a;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\File;
 use Liriope\Toolbox\Router;
 use Liriope\Toolbox\Directory;
@@ -53,7 +53,7 @@ class search {
     if( empty( $this->query )) return FALSE;
 
     // convert search to comma delimited string
-    $searchwords = new String(preg_replace( Index::$stripPattern, ',', $this->query ));
+    $searchwords = new StringExtensions(preg_replace( Index::$stripPattern, ',', $this->query ));
     if( !$this->casesensitive ) $searchwords->to_lowercase();
     $this->searchwords = $searchwords->split(',');
 

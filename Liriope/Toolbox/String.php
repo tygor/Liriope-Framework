@@ -2,7 +2,7 @@
 
 namespace Liriope\Toolbox;
 
-class String {
+class StringExtensions {
   // the string
   var $_;
 

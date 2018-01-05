@@ -1,6 +1,6 @@
 <?php
 
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\Filter;
 use Liriope\Toolbox\Router;
 use Liriope\Toolbox\Request;

@@ -2,7 +2,7 @@
 
 // global namespace
 
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\Uri;
 use Liriope\Component\Load;
 use Liriope\Toolbox\Router;

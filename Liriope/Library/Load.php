@@ -47,7 +47,6 @@ class load {
     load::file( $root . '/Library/Files.php', TRUE );
     load::file( $root . '/Library/Filter.php', TRUE );
     load::file( $root . '/Library/Tools.php', TRUE );
-    load::file( $root . '/Library/Search.php', TRUE );
     load::file( $root . '/Library/Content.php', TRUE );
     load::file( $root . '/Library/Error.php', TRUE );
     load::file( $root . '/Library/Dir.php', TRUE );

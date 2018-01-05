@@ -5,6 +5,7 @@ namespace Liriope\Models;
 use Liriope\Component\Content\Page;
 use Liriope\Component\Load;
 use Liriope\Component\Search\Index;
+use Liriope\Component\Search\Sitemap;
 use Liriope\Models\Obj;
 use Liriope\Models\Theme;
 use Liriope\Toolbox\Uri;
@@ -25,7 +26,7 @@ class View extends obj {
   // @var string The action to call
   var $_action;
 
-  // @var string The page object
+  // @var \Liriope\Component\Content\Page The page object
   var $_page;
 
   // @var boolean Cache flag (default FALSE)
@@ -36,6 +37,8 @@ class View extends obj {
    *
    * @param string $controller The name of the controller to use before rendering
    * @param string $action     The name of the method in the controller to call
+   *
+   * @return void
    */
   public function __construct( $controller, $action ) {
     global $site;
@@ -53,6 +56,7 @@ class View extends obj {
     $page->uri = Uri::get();
     $page->setTheme(\c::get('theme'));
     $this->_page = &$page;
+    $this->sitemap = new Sitemap();
   }
 
   // load()
@@ -62,6 +66,7 @@ class View extends obj {
   function load() {
     global $site;
     $page = &$this->_page;
+    $html = false;
 
     // CACHE
     // ----------
@@ -70,25 +75,27 @@ class View extends obj {
     $cacheID = Uri::md5URI();
     $cacheExpiredTime = \c::get('cache.expiration', (24*60*60));
 
-    // if cache is enabled...
+    // if cache is enabled
     if(\c::get('cache')) {
       $cacheModified = cache::modified( $cacheID );
 
-      // ...and the cache file is newer than all of the content files...
+      // if the cache file is newer than all of the content files...
       if( $cacheModified >= dir::modified( \c::get( 'root.content' ))) {
 
-        // ...and the cache file created time is withing the expiration time
+        // if the cache file created time is within the expiration time
         if(!cache::expired($cacheID, $cacheExpiredTime)) {
 
-          $cacheData = cache::get( $cacheID, TRUE );
+          // then, get the cached page
+          $html = cache::get( $cacheID, TRUE );
 
         }
       }
     }
 
-    if( empty( $cacheData )) {
+    // If no cache was loaded, then process the page.
+    if( !$html ) {
 
-      // first, render the page and store the output
+      // first, render the page portion of the view to HTML
       $html = $page->render();
 
       if( $page->getTheme() !== NULL ) {
@@ -105,9 +112,7 @@ class View extends obj {
         if( \c::get( 'index' ) && !$page->is404 ) {
           Index::store( Uri::get(), (string) $html, (string) $html );
         }
-        // TODO: create a class that builds a sitemap.xml from each visited page
-        //       This will be better called from a crawling funciton so that deleted pages
-        //       are removed from the sitemap.xml file.
+        $this->sitemap->addPage(Uri::get());
       }
 
       // Add a clear cache button if the configuration is set to [debug]
@@ -115,8 +120,7 @@ class View extends obj {
         $cclink = url( router::rule( 'flush' ));
         $html = preg_replace( '/<\/body>/i', '<div id="cacheBox" style="display:none;"><a href="'.$cclink.'">Clear Cache</a></div></body>', $html );
       }
-    } else {
-      $html = $cacheData;
+
     }
 
     // OUTPUT TO BROWSER

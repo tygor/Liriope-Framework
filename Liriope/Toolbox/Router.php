@@ -24,12 +24,14 @@ class Router {
   // reads the router rules, compares to the URI parts
   // and returns the $controller, $action, and $params
   //
+  // @param array $request The requested URI converted to an array on the '/'
+  //
   static function getDispatch( $request=NULL ) {
     if( $request===NULL ) $request = Uri::getArray();
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     self::$use = $rule->getUse();
-    // if the fule is a closure, simply return the function
+    // if the rule is a closure, simply return the function
     if(is_callable($rule->route)) return $rule->route;
     return( self::useRoute( $rule->translate( $request )));
   }
@@ -60,7 +62,7 @@ class Router {
   // @param  string $rule The pattern to match to the request URI
   // @param  string $route The translation into controller/action?params
   // @param  string $use  Switch to use either the controller or the module logic
-  // @return bool   TRUE on sucess, FALSE on error
+  // @return bool   TRUE on success, FALSE on error
   //
   static function setRule( $name=NULL, $rule=NULL, $route=NULL, $use='controller' ) {
     if( $name === NULL || $rule === NULL || $route === NULL ) {
@@ -76,7 +78,7 @@ class Router {
   // returns a rule by $name, or the whole set if empty
   //
   // @param  string  $name The rule to return by name
-  // @return string  The resulting value of that name
+  // @return object  \Liriope\Toolbox\routerRule  The resulting object of that name
   // 
   static function getRule( $name=NULL ) {
     if( $name === NULL ) return array_reverse( self::$rules, TRUE );
@@ -104,7 +106,6 @@ class Router {
   // rules.
   //
   // @param  array  $request The URI array
-  // @parm   bool   $return If this method is called outside normal flow, return values, and don't set them
   // @return bool   TRUE on succes, FALSE on error
   //
   static function matchRule( $request ) {
@@ -248,7 +249,8 @@ exit;
       case 404:
         header( 'HTTP/1.0 404 Not Found' );
         error_log("Attempted to visit '".uri::getRawURI()."' and was redirected to a 404 page");
-        index::unstore(uri::get());
+        // attempt to remove the indexed file
+        Index::unstore(uri::get());
         $url = '/error/404';
         break;
     }
@@ -281,7 +283,7 @@ class routerRule {
   }
 
   // readRule()
-  // Reads the rule, breaks it appart, and sets rule info
+  // Reads the rule, breaks it apart, and sets rule info
   //
   function readRule( $rule ) {
     $this->rule = $rule;

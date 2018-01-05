@@ -53,15 +53,28 @@ class a {
     return $r;
   }
 
-  //
-  // search()
-  // search for values in an array by regular expression
-  //
-  // @param  array  $array The array to look in
-  // @param  string $search The regular expression
-  // @return array  The array of results
-  //
+  /**
+   * search()
+   * search for values in an array by regular expression
+   *
+   * @param  array  $array The array to look in
+   * @param  string $search The regular expression
+   *
+   * @return array  The array of results
+   */
   static function search( $array, $search ) {
+    if( !is_array($array) || !is_string($search)  ) {
+        if( !is_array($array) ) {
+            throw new \Exception('Liriope Array object error with the search() method. The search set passed was not an array.');
+        }
+        if( !is_string($search) ) {
+            throw new \Exception('Liriope Array object error with the search() method. The text to look for was not a string.');
+        }
+        return false;
+    }
+    if( count($array) < 1) {
+        return false;
+    }
     return preg_grep( "#" . preg_quote( $search ) . "#i", $array );
   }
 

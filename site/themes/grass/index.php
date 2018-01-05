@@ -20,7 +20,7 @@
   <meta name="description" content="<?= $page->description(); ?>">
   <meta name="author" content="<?= $page->author(); ?>">
   <meta name="copyright" content="<?= c::get('page.copyright') ?>">
-  <meta name="keywords" content="<?= $page->keywords; ?>">
+  <meta name="keywords" content="<?= $page->keywords() ?>">
   <?php echo $page->META ?>
 
   <!-- Mobile viewport optimized: j.mp/bplateviewport -->

@@ -26,14 +26,16 @@ class Page extends Obj {
   // @var string The name of the theme folder that wraps the page
   public $theme;
 
-  // TODO: What's this $keywords for? Overloaded?
+  // @var string Keywords to use in the page <meta> tags.
   var $keywords;
 
   // TODO: What's this $vars for? Is it overloaded params?
+  //       - one use is to store the "scripts" from within the page partials
   var $vars = array();
 
   function __construct( $file=NULL ) {
     $this->_view = $file;
+    // get a default page title from the configuration settings
     $this->title = \c::get( 'page.title' );
     $this->description = \c::get( 'page.description' );
     $this->author = \c::get( 'page.author' );
@@ -57,15 +59,15 @@ class Page extends Obj {
     return $default;
   }
 
-  /**
-   * Manages the page title, either setting or getting
-   *
-   * @param  string $title The title for the page
-   *
-   * @return string Will return the page title on set and get, or '' if no title is set
-   */
+  // title()
+  // Manages the page title, either setting or getting
+  //
+  // @param  string $title The title for the page
+  // @return Returns the set title if the params are blank, or $this for method chaining
+  //
   public function title($title=NULL) {
       if($title === NULL) return $this->title ?: '';
+      // TODO: clean the title. HTML encode the string.
       $this->title = $title;
       return $this->title;
   }
@@ -122,16 +124,34 @@ class Page extends Obj {
     return $file;
   }
 
+  // js()
+  // Unlike the script() function, this enquque's a new JS file for the theme to use.
+  //
+  // @param file $file
+  // @param string $type
+  //
   public function js( $file=NULL, $type='text/javascript' ) {
     if( $file===NULL ) return false;
     $this->vars['js'][] = array( 'file' => $file, 'type' => $type );
   }
 
+  // script()
+  // Store a snippet of script to use during view render
+  // An alternate way to store a script is to overload it right from the page by using $page->script = "" but this 
+  // does not allow for many scripts to be stored whereas the function method keeps them in an array.
+  //
+  // @param  string $script The script of string to pass to the theme for render
+  // @return $this Returns false on error or $this for method chaining
+  // 
   public function script( $script=NULL ) {
     if( $script===NULL ) return false;
     $this->vars['script'][] = $script;
+    return $this;
   }
 
+  // transferStored()
+  // Convert variables stored using $this->get() into overloaded object variables
+  //
   private function transferStored() {
     // loop through the $this->get() variables and overload them
     foreach( $this->get() as $k => $v ) {
@@ -155,13 +175,34 @@ class Page extends Obj {
     return $parts[0];
   }
 
-  public function keywords() {
-    if(empty($this->keywords)) {
-      $s = new String(\c::get('page.keywords'));
-      $s = $s->split(',');
-      $this->keywords = a::glue($s, ',');
-    }
-    return $this->keywords;
+  // Keywords()
+  // Adds to the configuration keywords, omits duplicates
+  //
+  // @param string $w Comma separated keywords to add
+  public function keywords($w = NULL) {
+      if(empty($this->keywords)) {
+          // populate with the default configuration keywords
+          $s = new String(\c::get('page.keywords'));
+          $s = $s->split(',');
+          $this->keywords = a::glue($s, ',');
+      } else {
+          // accept a string or an array
+          if( is_string( $this->keywords )) {
+              $this->keywords = new String( $this->keywords );
+              $this->keywords = $this->keywords->split( ',' );
+          }
+
+          // assume the configuration keywords have not been added, so add them
+          $cKeywords = \c::get('page.keywords');
+          if( is_string( $cKeywords )) {
+              $cKeywords = new String( $cKeywords );
+              $cKeywords = $cKeywords->split( ',' );
+          }
+
+          $this->keywords = a::glue( array_unique( a::combine( $cKeywords, $this->keywords )), ',' );
+      }
+
+      return $this->keywords;
   }
 
   public function add_keywords($s) {
@@ -184,18 +225,25 @@ class Page extends Obj {
 
   //
   // render()
-  // attempts to render the page
+  // Converts the page content to output
   //
   // @param  bool   $return if TRUE, return the buffer string, if FALSE print it
   // @param  string $alias  the variable name to use in the _view file for $this
   // @return mixed  Returns the output buffer string, or echos it
+  //
   public function render( $return=TRUE, $alias='page' ) {
-    Buffer::start();
     $this->transferStored();
-    // TODO: This alias idea, is it necessary? Why not use $this in page?
-    $$alias = $this;
+
+    Buffer::start();
+
+    // for more semantic reference within the view or module file, create an alias by reference for $this
+    $$alias = &$this;
+
+    // when including $this->_view, the varible scope contians $this... so why amd I using $page?
     include( $this->_view );
+
     $render = Buffer::end( $return );
+
     if( $return ) return $render;
     echo $render;
   }

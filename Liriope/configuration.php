@@ -29,6 +29,9 @@ Router::setRule( 'bloglist',    'blog/show',   'blog/show' );
 Router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
 Router::setRule('searchAuto', 'search/autocomplete', 'liriope/search_autocomplete', 'module');
 
+Router::setRule('test', 'test/closure', function() { echo "test works"; });
+
+
 //
 // Set some system defaults
 // --------------------------------------------------
@@ -64,6 +67,7 @@ c::set( 'site.description', 'A learning PHP framework.' );
 c::set( 'page.title', 'Monkey Grass' );
 c::set( 'page.description', 'A learning project called Liriope.' );
 c::set( 'page.author', 'Tyler Gordon' );
+c::set( 'page.keywords', 'Liriope, framework, php, html, css, js, light, cms' );
 
 //
 // Set some blog defaults

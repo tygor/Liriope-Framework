@@ -2,54 +2,80 @@
 
 namespace Liriope\Toolbox;
 
+use Liriope\c;
+use Liriope\Toolbox\Directory;
+
 //
 // File.php
 //
 
 class File {
-  public $path;
-  public $fullpath;
-  public $file;
-  public $extension;
-  public $modified;
-  public $error = FALSE;
+    public $path;
+    public $fullpath;
+    public $file;
+    public $extension;
+    public $modified;
+    public $error = FALSE;
 
-  //
-  // __construct
-  // initiates a file object
-  //
-  // @param  string  $path The URI path, or the full URI (autodetect $file)
-  // @param  string  $file The file portion at the end of the URI
-  // @return object  returns self for chaining
-  //
-  public function __construct( $path=NULL, $file=NULL ) {
-    if( $path === NULL || $file === NULL ) return false;
-    if( empty( $file )) {
-      $this->autodetectPath( $path );
-    } else {
-      $this->setPath( $path );
-      $this->setFile( $file );
+    //
+    // __construct
+    // initiates a file object
+    //
+    // @param  string  $path The URI path, or the full URI (autodetect $file)
+    // @param  string  $file The file portion at the end of the URI
+    // @return object  returns self for chaining
+    //
+    public function __construct( $path=NULL, $file=NULL ) {
+        if( $path === NULL || $file === NULL ) return false;
+        if( empty( $file )) {
+            $this->autodetectPath( $path );
+        } else {
+            $this->setPath( $path );
+            $this->setFile( $file );
+        }
+        if( $this->error ) trigger_error( "The file could not be properly initiated.", E_USER_ERROR );
+        $this->fullpath = load::exists( $this->file, $this->path );
+        $this->extension = $this->getExtension( $this->file );
     }
-    if( $this->error ) trigger_error( "The file could not be properly initiated.", E_USER_ERROR );
-    $this->fullpath = load::exists( $this->file, $this->path );
-    $this->extension = $this->getExtension( $this->file );
-  }
 
-  // write()
-  // Creates a new file
-  // 
-  // @param  string  $file The path for the new file
-  // @param  mixed   $content Either a string or an array. Arrays will be converted to JSON. 
-  // @param  bool    $append true: append the content to an exisiting file if available. false: overwrite. 
-  // @return bool    
-  //   
-  static function write($file,$content,$append=false){
-    if( is_array( $content )) $content = json_encode( $content );
-    $mode = ( $append ) ? FILE_APPEND : false;
-    $write = file_put_contents( $file, $content, $mode );
-    @chmod( $file, 0666 );
-    return $write;
-  }
+    // write()
+    // Creates a new file
+    // 
+    // @param  string  $file The path for the new file
+    // @param  mixed   $content Either a string or an array. Arrays will be converted to JSON. 
+    // @param  bool    $append true: append the content to an exisiting file if available. false: overwrite. 
+    // @return mixed   Returns the number of bytes written into the file, or FALSE on failure
+    //   
+    static function write($file,$content,$append=false){
+        // If the $file variable contains directories, create them
+        $info = pathinfo($file);
+        if( $info['dirname'] ) {
+            // Strip off any configuration "root" paths
+            $newDir = str_replace(c::get('root.web') . '/', '', $info['dirname']);
+            $newDir = c::get('root.web') . DIRECTORY_SEPARATOR . $newDir;
+            Directory::make($newDir);
+        }
+        
+        // Convert any content arrays to JSON encoded strings
+        if( is_array( $content )) $content = json_encode( $content );
+
+        $mode = ( $append ) ? FILE_APPEND : false;
+        $write = file_put_contents( $file, $content, $mode );
+        @chmod( $file, 0666 );
+        return $write;
+    }
+
+    /** 
+     * touch()
+     * Creates an empty file
+     *
+     * @param     string  $file The path and file to create
+     *
+     * @return    mixed   Returns the number of bytes written into the file, or FALSE on failure
+     */
+    static function touch($file) {
+        return self::write($file, '');
+    }
 
   // read()
   // Reads the content of a file and returns it.

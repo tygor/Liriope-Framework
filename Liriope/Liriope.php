@@ -116,7 +116,7 @@ c::set( 'root.theme',        $rootWeb . '/themes' );
 c::set( 'root.snippets',     $rootWeb . '/snippets' );
 c::set( 'root.content.file', 'index' );
 
-// clean up unsed variables
+// clean up unused variables
 unset( $rootWeb );
 unset( $rootLiriope );
 unset( $rootApplication );

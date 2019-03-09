@@ -1,6 +1,4 @@
 <?php
-namespace Liriope;
-
 // gist: 221634
 
 /**

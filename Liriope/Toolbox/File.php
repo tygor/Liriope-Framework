@@ -59,7 +59,7 @@ class File {
   // @return mixed 
   //   
   static function read( $file, $parse=FALSE ) {
-    $content = new String(@file_get_contents($file));
+    $content = new StringExtensions(@file_get_contents($file));
     return ( $parse) ? $content->parse($parse) : $content->get();
   }
 

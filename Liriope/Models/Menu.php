@@ -23,6 +23,7 @@ class menu implements \RecursiveIterator, \Countable {
     $this->parent = $parent!==NULL ? $parent : NULL;
     $this->label = isset($array['label']) ? $array['label'] : NULL;
     $this->url   = isset($array['url'])   ? $array['url']   : NULL;
+    $this->anchorClass = isset($array['class']) ? $array['class']   : NULL;
     if(isset($array['children'])) {
       foreach($array['children'] as $v) {
         $this->_[] = new menu($v, $this);
@@ -53,6 +54,7 @@ class menu implements \RecursiveIterator, \Countable {
   public function getParent() { return $this->parent; }
   public function getLabel() { return $this->label; }
   public function getURL() { return $this->url; }
+  public function getClass() { return $this->anchorClass; }
   public function isActive() { return $this->active; }
   public function hasActiveChild() { return $this->activeChild; }
   public function isCurrent() { return $this->current; }

@@ -22,5 +22,5 @@ As it goes with code projects, they need a name, and generally a person chooses 
 not expecting it to thrive and become public. Well, Liriope isn't famous, and its name means nothing. It was a silly
 title, and it worked. I chose it for the abundant flora in my back yard. And who doesn't like monkeys, or grass?
 
-- @version 0.4 BETA
+- @version 0.5 BETA
 - @author Tyler Gordon

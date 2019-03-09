@@ -2,24 +2,29 @@
 
 namespace Liriope\Component\Content;
 
+use Liriope\Component\Content\Buffer;
+use Liriope\Toolbox\StringExtensions;
+use Liriope\Toolbox\a;
+use Liriope\Models\Obj;
+
 /**
  * This class represents a page object. It can be the whole page, or a building block of the page.
  */
 
-class Page extends \obj {
+class Page extends Obj {
 
   // @var string The file to use for render
   private $_view;
 
   // @var string The title of the page
-  private $title;
+  public $title;
 
   // @var string The date for the page
-  private $date;
-  private $time;
+  public $date;
+  public $time;
 
   // @var string The name of the theme folder that wraps the page
-  private $theme;
+  public $theme;
 
   // TODO: What's this $keywords for? Overloaded?
   var $keywords;
@@ -33,13 +38,14 @@ class Page extends \obj {
     $this->description = \c::get( 'page.description' );
     $this->author = \c::get( 'page.author' );
     $this->theme = \c::get( 'theme' );
+    $this->keywords = \c::get('page.keywords');
   }
 
   public function set( $key, $value=FALSE ) {
     if( is_array( $key )) {
       self::$vars = array_merge( self::$vars, $key );
     } elseif( $value === NULL ) {
-      unset( self::$vars[$key] );
+      if(isset(self::$vars)) unset( self::$vars[$key] );
     } else {
       $this->vars[$key] = $value;
     }
@@ -151,19 +157,19 @@ class Page extends \obj {
 
   public function keywords() {
     if(empty($this->keywords)) {
-      $s = new \LiriopeString(\c::get('page.keywords'));
+      $s = new StringExtensions(\c::get('page.keywords'));
       $s = $s->split(',');
-      $this->keywords = \a::glue($s, ',');
+      $this->keywords = a::glue($s, ',');
     }
     return $this->keywords;
   }
 
   public function add_keywords($s) {
     if(!is_array($s)) {
-      $s = new \LiriopeString($s);
+      $s = new StringExtensions($s);
       $s = $s->split(',');
     }
-    $this->keywords = $this->keywords() . ',' . \a::glue($s, ',');
+    $this->keywords = $this->keywords() . ',' . a::glue($s, ',');
   }
 
   public function isHomePage() {
@@ -184,12 +190,12 @@ class Page extends \obj {
   // @param  string $alias  the variable name to use in the _view file for $this
   // @return mixed  Returns the output buffer string, or echos it
   public function render( $return=TRUE, $alias='page' ) {
-    \content::start();
+    Buffer::start();
     $this->transferStored();
     // TODO: This alias idea, is it necessary? Why not use $this in page?
     $$alias = $this;
     include( $this->_view );
-    $render = \content::end( $return );
+    $render = Buffer::end( $return );
     if( $return ) return $render;
     echo $render;
   }

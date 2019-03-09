@@ -1,0 +1,23 @@
+---
+label: Home
+url: /
+children:
+    - label: Features
+      url: features
+      children:
+        - label: Gallery
+          url: gallery
+        - label: Responsive
+          url: responsive
+    - label: Blog
+      url: blog
+    - label: Docs
+      url: docs
+    - label: News
+      url: news
+      children:
+        - label: Chicken
+          url: news/chicken
+    - label: About Liriope
+      url: about
+...

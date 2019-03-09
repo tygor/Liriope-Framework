@@ -1,0 +1,26 @@
+#!/usr/bin/php
+<?php
+// $argc = the count of arguments
+// $argv = an array of arguments
+?>
+
+Liriope Crawl script
+--------------------
+
+Uses the Index component to crawl the existing pages and index their content.
+These pages are only those within the 'content' folder.
+
+<?php
+// print_r($argv);
+
+// Tell Liriope where the important folder starting points are
+$rootLiriope = '.';
+$rootWeb = '../site/web';
+$rootApplication = '../site';
+
+define('SHELL_COMMAND','crawl');
+
+require_once( 'Liriope.php' );
+
+?>
+

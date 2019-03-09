@@ -128,16 +128,15 @@ class SplClassLoader
             $namespace = '';
             if (false !== ($lastNsPos = strripos($className, $this->_namespaceSeparator))) {
                 $namespace = substr($className, 0, $lastNsPos);
+                $namespace = $namespace;
                 $className = substr($className, $lastNsPos + 1);
                 $fileName = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             }
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
 
-            $path = ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '');
-
-            echo("SplClassLoader seeking: ");
-            var_dump($path . $fileName);
-            require $path . $fileName;
+            $seek = (($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName);
+            $r = @include($seek);
+            if($r === 0) throw new Exception("The autoloader couldn't find $seek");
         }
     }
 }

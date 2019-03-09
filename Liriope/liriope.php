@@ -1,33 +1,40 @@
 <?php
-
-// Liriope
-// @version 0.2BETA
+//
+// Liriope: a PHP site framework
+//
+// @version 0.4BETA
 // @author Tyler Gordon <tyler@tygorden.com>
-// @copyright Copyright 2012 Tyler Gordon
+// @copyright Copyright 2013 Tyler Gordon
 // @license http://www.opensource.org/license/mit-license.php MIT License
 // @package Liriope
+//
 
-if($development) {
-	error_reporting( E_ALL );
-	ini_set( 'display_errors', 1 );
-} else {
-  error_reporting( 0 );
-  ini_set( 'display_errors', 0 );
-}
+namespace Liriope;
 
-// direct access protection
-if( !isset( $root )) die( 'Direct access is not allowed' );
-
-// future direct access protection
-define( 'LIRIOPE', true );
+use Liriope\Toolbox\Router;
+use Liriope\Component\Load;
 
 // load the configuration class
-require_once( 'Library/Config.php' );
-
-// set some ground-work
-c::set( 'version', 0.2 );
+require_once( dirname(__FILE__).'/Component/Config.php' );
+c::set( 'version', 0.4 );
 c::set( 'language', 'en' );
 c::set( 'charset', 'utf-8' );
+
+// --------------------------------------------------
+// main call function
+// Begins the framework inner-workings
+// --------------------------------------------------
+function Liriope() {
+  extract( Router::getDispatch() );
+  if( strtolower($use) === 'module' ) {
+    $liriope = Router::callModule( $controller, $action, $params );
+    exit;
+  } else {
+    $liriope = Router::callController( $controller, $action, $params );
+    $liriope->load();
+    exit;
+  }
+}
 
 // secondary call function
 // uses the alternative controller, component
@@ -40,7 +47,8 @@ function module( $controller, $action, $params=array() ) {
 // This will be where we define what to do with
 // uncaught exceptions.
 // --------------------------------------------------
-function LiriopeException( $exception ) {
+function LiriopeException( $exception )
+{
   //error message
   $errorMsg = '<b>Liriope Exception:</b> Error on line '.$exception->getLine().' in '.$exception->getFile()
   .': <b>'.$exception->getMessage().'</b>';
@@ -50,11 +58,11 @@ function LiriopeException( $exception ) {
   echo "</pre>";
   exit;
 }
-set_exception_handler( 'LiriopeException' );
+set_exception_handler( 'Liriope\LiriopeException' );
 
 function stripSlashesDeep( $value ) {
-	$value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
-	return $value;
+  $value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
+  return $value;
 }
 
 // --------------------------------------------------
@@ -89,86 +97,57 @@ function unregisterGlobals() {
 }
 unregisterGlobals();
 
-// --------------------------------------------------
-// useHelper
-//
-// Look for a helper with the passed $name
-// and include the file.
-// 
-// Helpers are php files containing a set of functions
-// to be used in the view templates.
-// --------------------------------------------------
-function useHelper( $name=NULL ) {
-  // rename "default" to "liriope"
-  if( strtolower( $name ) == 'default' ) $name = 'Liriope';
-  // work with the $name to follow the naming convention
-  $helperName = ucfirst( $name ) . 'Helpers.php';
-  // find out if the file exists
-  try {
-    if( !load::seek( $helperName )) throw new Exception( 'Unable to find that helper: ' . $helperName );
-  } catch( Exception $e ) {
-      header("HTTP/1.0 500 Internal Server Error");
-      echo $e->getMessage();
-      echo "<pre>";
-      var_dump( $e->getTrace());
-      echo "</pre>";
-      exit;
-  }
-}
-
 // set the root locations
-c::set( 'root',                 realpath( $root ));
-c::set( 'root.web',             $rootWeb );
-c::set( 'root.liriope',         realpath( $rootLiriope ));
-c::set( 'root.application',     realpath( $rootApplication ));
-c::set( 'root.content',         $rootWeb . '/content' );
-c::set( 'root.cache',           $rootWeb . '/cache' );
-c::set( 'root.index',           $rootWeb . '/index' );
-c::set( 'theme.folder',         'themes' );
-c::set( 'root.theme',           $rootWeb . '/themes' );
-c::set( 'root.snippets',        $rootWeb . '/snippets' );
-c::set( 'root.content.file',    'index' );
+c::set( 'root.web',          $rootWeb );
+c::set( 'root.liriope',      realpath( $rootLiriope ));
+c::set( 'root.application',  realpath( $rootApplication ));
+c::set( 'root.content',      $rootWeb . '/content' );
+c::set( 'root.cache',        $rootWeb . '/cache' );
+c::set( 'root.index',        $rootWeb . '/index' );
+c::set( 'theme.folder',      'themes' );
+c::set( 'root.theme',        $rootWeb . '/themes' );
+c::set( 'root.snippets',     $rootWeb . '/snippets' );
+c::set( 'root.content.file', 'index' );
 
 // clean up unsed variables
-unset($root, $rootWeb, $rootLiriope, $rootApplication);
+unset( $rootWeb );
+unset( $rootLiriope );
+unset( $rootApplication );
 
 // setup the Liriope path
 c::set( 'path', array(
-  c::get( 'root' ) . '/library',
-  c::get( 'root' ) . '/library/helpers',
   c::get( 'root.application' ) . '/controllers',
   c::get( 'root.application' ) . '/models',
   c::get( 'root.application' ) . '/views',
-  c::get( 'root.liriope' ) . '/Library',
-  c::get( 'root.liriope' ) . '/controllers',
-  c::get( 'root.liriope' ) . '/models',
-  c::get( 'root.liriope' ) . '/views',
+  c::get( 'root.liriope' ),
+  c::get( 'root.liriope' ) . '/Controllers',
+  c::get( 'root.liriope' ) . '/Models',
+  c::get( 'root.liriope' ) . '/Views',
   c::get( 'root.content' )
 ));
 
-// load the rest of the system
-require_once( c::get( 'root.liriope' ) . '/Library/Load.php' );
-load::lib();
-load::models();
-load::helpers();
-load::plugins();
-load::config();
-spl_autoload_register( 'load::autoload', TRUE );
+// load the must have Liriope objects
+require_once( dirname(__FILE__) . '/Component/Load.php' );
+spl_autoload_register( 'Liriope\Component\Load::autoload', TRUE );
 
-load::file(c::get('root.liriope').'/vendor/SplClassLoader.php', TRUE);
-$classLoader = new SplClassLoader('Liriope', realpath(c::get('root')));
+load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
+$classLoader = new \SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
 $classLoader->register();
 
-// Begin
-function Liriope() {
-  extract( router::getDispatch() );
-  if( strtolower($use) === 'module' ) {
-    $liriope = router::callModule( $controller, $action, $params );
-    exit;
-  } else {
-    $liriope = router::callController( $controller, $action, $params );
-    $liriope->load();
-    exit;
-  }
+Load::lib();
+Load::models();
+Load::helpers();
+Load::plugins();
+Load::config();
+
+// switch on error reporting
+if( c::get( 'debug' )) {
+  error_reporting( E_ALL );
+  ini_set( 'display_errors', c::get('errors.display',1) );
+} else {
+  error_reporting( 0 );
+  ini_set( 'display_errors', 0 );
 }
+
+// Begin
 Liriope();

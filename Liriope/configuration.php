@@ -1,8 +1,9 @@
 <?php
 
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\Filter;
 use Liriope\Toolbox\Router;
+use Liriope\Toolbox\Request;
 
 //
 // Liriope's default configuration
@@ -10,22 +11,23 @@ use Liriope\Toolbox\Router;
 
 // Set some default router rules
 Router::setRule( 'home',        '*',           'liriope/show' ); // catchall rule
-router::setRule( 'gallery',     'gallery',     'gallery/show' );
-router::setRule( 'image',       'gallery/!id', 'gallery/image/$id' );
-router::setRule( 'crawl',       'crawl',       'liriope/crawl' ); // crawl the site and index page content
-router::setRule( 'flush',       'flush',       'liriope/flush' ); // flush the cache
-router::setRule( 'search',      'search/*',    'liriope/search' );
-router::setRule( 'mail',        'mail/:rot13', 'liriope/mail' );
-router::setRule( 'form',        'form',        'form/show' );
-router::setRule( 'formpost',    'form/!id/*',  'form/get/id/$id' );
-router::setRule( 'formlist',    'form/show',   'form/show' );
-router::setRule( 'formprocess', 'form/submit', 'form/submit' );
-router::setRule( 'formsuccess', 'form/success','form/success' );
-router::setRule( 'formerror',   'form/error',  'form/error' );
-router::setRule( 'blog',        'blog',        'blog/show' );
-router::setRule( 'blogpost',    'blog/!id/*',  'blog/post/id/$id' );
-router::setRule( 'bloglist',    'blog/show',   'blog/show' );
-router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
+Router::setRule( 'gallery',     'gallery',     'gallery/show' );
+Router::setRule( 'image',       'gallery/!id', 'gallery/image/$id' );
+Router::setRule( 'crawl',       'crawl',       'liriope/crawl' ); // crawl the site and index page content
+Router::setRule( 'flush',       'flush',       'liriope/flush' ); // flush the cache
+Router::setRule( 'search',      'search/*',    'liriope/search' );
+Router::setRule( 'mail',        'mail/:rot13', 'liriope/mail' );
+Router::setRule( 'form',        'form',        'form/show' );
+Router::setRule( 'formpost',    'form/!id/*',  'form/get/id/$id' );
+Router::setRule( 'formlist',    'form/show',   'form/show' );
+Router::setRule( 'formprocess', 'form/submit', 'form/submit' );
+Router::setRule( 'formsuccess', 'form/success','form/success' );
+Router::setRule( 'formerror',   'form/error',  'form/error' );
+Router::setRule( 'blog',        'blog',        'blog/show' );
+Router::setRule( 'blogpost',    'blog/!id/*',  'blog/post/id/$id' );
+Router::setRule( 'bloglist',    'blog/show',   'blog/show' );
+Router::setRule( 'blogfeed',    'blog/feed',   'blog/feed' );
+Router::setRule('searchAuto', 'search/autocomplete', 'liriope/search_autocomplete', 'module');
 
 //
 // Set some system defaults
@@ -45,6 +47,7 @@ c::set( 'cache', TRUE );
 c::set( 'cache.expiration', (24*60*60));
 c::set( 'index', TRUE );
 c::set( 'index.multiplier', 3 );
+c::set( 'index.ignore', array('search', 'search?*', 'mailto*'));
 c::set( 'form.folder', 'data/forms' );
 c::set( 'date.format', 'l, F jS, Y');
 
@@ -108,7 +111,7 @@ function emailIncognito( $c ) {
   $classes = array();
   foreach($matches[1] as $k=>$m) {
     preg_match('/class=[\'"](.*)[\'"]/iU', $m, $match);
-    $classes[$k] = !empty($match[1]) ? explode( ' ', trim($match[1])) : '';
+    $classes[$k] = !empty($match[1]) ? explode( ' ', trim($match[1])) : array();
     $classes[$k][] = 'obf';
   }
   // save the href settings
@@ -121,11 +124,11 @@ function emailIncognito( $c ) {
   $anchors = array();
   foreach( $matches[0] as $k=>$m) {
     $class = trim(implode(' ', $classes[$k]));
-    $one = new String($emails[$k][1]);
+    $one = new StringExtensions($emails[$k][1]);
     $one = $one->rot()->get();
-    $two = new String($emails[$k][2]);
+    $two = new StringExtensions($emails[$k][2]);
     $two = $two->rot()->get();
-    $three = new String($emails[$k][3]);
+    $three = new StringExtensions($emails[$k][3]);
     $three = $three->rot()->get();
     $email = "$one+$two+$three";
     if($emails[$k][4]) $email = $email . '?' . $emails[$k][4];
@@ -138,9 +141,13 @@ function emailIncognito( $c ) {
     $firstpass = preg_replace( "/".preg_quote($m,'/')."/", $anchors[$k], $firstpass );
   }
   // -----
-  $pattern = "#".$email_pattern."#e";
-  $replacement = "'<span style=\"unicode-bidi:bidi-override;direction:rtl;\">'.strrev('$1@$2.$3').'</span>'";
-  return preg_replace( $pattern, $replacement, $firstpass );
+  return preg_replace_callback(
+      '#' . $email_pattern . '#',
+      function($matches) {
+          return '<span style="unicode-bidi:bidi-override;direction:rtl;">'.strrev($matches[1].'@'.$matches[2].'.'.$matches[3]).'</span>';
+      },
+      $firstpass
+  );
 }
 filter::addFilter( 'emailIncognito', 'emailIncognito' );
 

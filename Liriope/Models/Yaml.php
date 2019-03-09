@@ -2,10 +2,10 @@
 
 namespace Liriope\Models;
 
+use Liriope\c;
 use Liriope\Toolbox\a;
-use Liriope\Component\Load;
 
-Load::seek('/vendor/Spyc.php', TRUE);
+require_once(c::get('root.liriope').'/vendor/Spyc.php');
 
 class Yaml {
   var $yaml;

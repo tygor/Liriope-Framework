@@ -2,9 +2,10 @@
 
 // global namespace
 
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\Uri;
 use Liriope\Component\Load;
+use Liriope\Toolbox\Router;
 
 //
 // helpers.php
@@ -70,7 +71,7 @@ function slugify( $input=NULL ) {
 // HTML
 // creates safe html
 function html( $string ) {
-  $html = new String( $string );
+  $html = new StringExtensions( $string );
   return $html->to_html();
 }
 

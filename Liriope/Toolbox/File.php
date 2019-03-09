@@ -52,14 +52,14 @@ class File {
   }
 
   // read()
-  // Reads the content of a file
+  // Reads the content of a file and returns it.
   // 
   // @param  string  $file The path for the file
   // @param  mixed   $parse The str object parse method to use
   // @return mixed 
   //   
   static function read( $file, $parse=FALSE ) {
-    $content = new String(@file_get_contents($file));
+    $content = new StringExtensions(@file_get_contents($file));
     return ( $parse) ? $content->parse($parse) : $content->get();
   }
 

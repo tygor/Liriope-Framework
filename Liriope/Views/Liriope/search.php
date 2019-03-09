@@ -4,7 +4,7 @@
 
 <div clss="search-results">
   <h1>Search results</h1>
-  <?php snippet( 'searchform.php' ) ?>
+  <?php snippet( 'searchform.php', array('idPrefix'=>'results-', 'autofocus'=>true) ) ?>
   <hr>
   <p>Results for: <strong><?php echo $search->words() ?></strong></p>
   <ol>
@@ -14,9 +14,11 @@
         <?php echo $result['title'] ?>
       </a></p>
       <p class="url"><?php echo url( $id ) ?>
-        <abbr class="score" title="matched words: <?php echo $result['count'] ?>">+</abbr>
+        <abbr class="score" title="score: <?php echo $result['score'] ?>">+</abbr>
       </p>
+      <?php if(isset($result['excerpt'])): ?>
       <p class="excerpt"><?php echo $result['excerpt'] ?></p>
+      <?php endif; ?>
     </li>
   <?php endforeach ?>
   </ol>

@@ -43,6 +43,8 @@ class BlogModule Extends LiriopeModule {
     $blogs = new Blogs( $contentDir . '/' . $blogDir );
     $posts = $blogs->getList( a::get( $vars, 'limit', 5 ), a::get( $vars, 'page', 1 ));
 
+    // var_dump($posts);exit;
+
     if( $customView ) {
         $module->useView($customView);
     }

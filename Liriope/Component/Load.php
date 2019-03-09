@@ -10,23 +10,7 @@ namespace Liriope\Component;
 
 class Load {
 
-  /**
-   * Attempts to find the file to be loaded within Liriope.
-   *
-   * @param string The name of the file to be found.
-   *
-   * @return void So that further registered autoloaders can make the attempt
-   */
-  static function autoload( $className ) {
-    // Apply the naming convention for classes
-    // DEPRECATED: this naming convention is prior to namespaces and the SPL autoloader.
-    $className = ucfirst( $className ) . '.class.php';
-
-    echo "<span style='background-color: red; color: white; margin-right: 1em;'>" . self::seek( $className ) . "</span>";
-  }
-
-  static function lib()
-  {
+  static function lib() {
     // load controllers, model, helpers, or just anything that
     // is integral to the Liriope Framework
     $root = \c::get( 'root.liriope' );
@@ -41,8 +25,7 @@ class Load {
     self::file( \c::get( 'root.application' ) . '/defaults.php' );
   }
 
-  static function models()
-  {
+  static function models() {
     // load models related to the MVC
     $root = \c::get( 'root.liriope' );
     self::file( $root . '/models/SQLQuery.class.php', TRUE );

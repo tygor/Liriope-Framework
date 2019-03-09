@@ -3,15 +3,15 @@
 namespace Liriope\Component\Content;
 
 use Liriope\Component\Content\Buffer;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\a;
-use Liriope\Models\obj;
+use Liriope\Models\Obj;
 
 /**
  * This class represents a page object. It can be the whole page, or a building block of the page.
  */
 
-class Page extends obj {
+class Page extends Obj {
 
   // @var string The file to use for render
   private $_view;
@@ -38,6 +38,7 @@ class Page extends obj {
     $this->description = \c::get( 'page.description' );
     $this->author = \c::get( 'page.author' );
     $this->theme = \c::get( 'theme' );
+    $this->keywords = \c::get('page.keywords');
   }
 
   public function set( $key, $value=FALSE ) {
@@ -156,7 +157,7 @@ class Page extends obj {
 
   public function keywords() {
     if(empty($this->keywords)) {
-      $s = new String(\c::get('page.keywords'));
+      $s = new StringExtensions(\c::get('page.keywords'));
       $s = $s->split(',');
       $this->keywords = a::glue($s, ',');
     }
@@ -165,7 +166,7 @@ class Page extends obj {
 
   public function add_keywords($s) {
     if(!is_array($s)) {
-      $s = new String($s);
+      $s = new StringExtensions($s);
       $s = $s->split(',');
     }
     $this->keywords = $this->keywords() . ',' . a::glue($s, ',');

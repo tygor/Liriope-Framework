@@ -52,8 +52,9 @@ class theme {
     // the $liriope variable is used in each theme as the dynamic content holder
     $liriope = $content;
     Buffer::start();
-    require( $file );
-    return Buffer::end( $return );
+    require_once( $file );
+    $output = Buffer::end( $return );
+    return $output;
   }
 }
 

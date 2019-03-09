@@ -13,6 +13,7 @@ class Request {
   static function get( $key=FALSE, $default=NULL ) {
     if( self::method() == 'GET' ) $request = self::data();
     else $request = array_merge( self::data(), self::body() );
+    if(!$key) return $request;
     return a::get( $request, $key, $default );
   }
 
@@ -37,7 +38,7 @@ class Request {
   static function sanatize( $data ) {
     foreach( $data as $k => $v ) {
       if( !is_array( $v )) {
-        $v = new String($v);
+        $v = new LiriopeString($v);
         $v = $v->stripslashes()->get();
       } else {
         $v = self::sanatize( $v );

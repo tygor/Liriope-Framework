@@ -14,6 +14,8 @@ namespace Liriope;
 use Liriope\Toolbox\Router;
 use Liriope\Component\Load;
 
+date_default_timezone_set('America/New_York');
+
 // load the configuration class
 require_once( dirname(__FILE__).'/Component/Config.php' );
 c::set( 'version', 0.4 );
@@ -24,8 +26,13 @@ c::set( 'charset', 'utf-8' );
 // main call function
 // Begins the framework inner-workings
 // --------------------------------------------------
-function Liriope() {
-  extract( Router::getDispatch() );
+function Liriope($route=NULL) {
+  $route = $route ?: Router::getDispatch();
+  if(is_callable($route)) {
+    $route();
+    exit;
+  }
+  extract( $route );
   if( strtolower($use) === 'module' ) {
     $liriope = Router::callModule( $controller, $action, $params );
     exit;
@@ -61,7 +68,7 @@ function LiriopeException( $exception )
 set_exception_handler( 'Liriope\LiriopeException' );
 
 function stripSlashesDeep( $value ) {
-  $value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );
+  $value = is_array( $value ) ? array_map( 'Liriope\stripSlashesDeep', $value ) : stripslashes( $value );
   return $value;
 }
 
@@ -109,7 +116,7 @@ c::set( 'root.theme',        $rootWeb . '/themes' );
 c::set( 'root.snippets',     $rootWeb . '/snippets' );
 c::set( 'root.content.file', 'index' );
 
-// clean up unsed variables
+// clean up unused variables
 unset( $rootWeb );
 unset( $rootLiriope );
 unset( $rootApplication );
@@ -126,14 +133,17 @@ c::set( 'path', array(
   c::get( 'root.content' )
 ));
 
-// load the must have Liriope objects
+// Get the autloader working
 require_once( dirname(__FILE__) . '/Component/Load.php' );
-spl_autoload_register( 'Liriope\Component\Load::autoload', TRUE );
+Load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
 
-load::file(c::get('root.liriope').'/../Liriope/vendor/SplClassLoader.php', TRUE);
+$appLoader = new \SplClassLoader(NULL, realpath(c::get('root.application').'/controllers'));
+$appLoader->register();
+
 $classLoader = new \SplClassLoader('Liriope', realpath(c::get('root.liriope').'/..'));
 $classLoader->register();
 
+// Preload some common Liriope objects
 Load::lib();
 Load::models();
 Load::helpers();
@@ -147,6 +157,16 @@ if( c::get( 'debug' )) {
 } else {
   error_reporting( 0 );
   ini_set( 'display_errors', 0 );
+}
+
+// Check for a shell script command
+if(defined('SHELL_COMMAND')) {
+    if(SHELL_COMMAND == 'crawl') {
+        Liriope(array('controller'=>'liriope','action'=>'crawl','params'=>array(),'use'=>'module'));
+    }
+    // just in case the app doesn't have a previous exit;
+    echo "\nFIN\n";
+    exit;
 }
 
 // Begin

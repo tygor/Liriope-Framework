@@ -1,4 +1,5 @@
 <?php
+// namespace Liriope;
 
 namespace Liriope\Toolbox;
 
@@ -47,7 +48,7 @@ class a {
   //
   static function show( $array, $print=TRUE ) {
     $r = "<pre>";
-    $r .= htmlspecialchars( print_r( $array, true ));
+    $r .= htmlspecialchars( print_r( $array, true ), ENT_COMPAT, 'utf-8');
     $r .= "</pre>";
     if( $print === TRUE ) echo $r;
     return $r;
@@ -137,6 +138,10 @@ class a {
   static function combine() {
     $return = array();
     foreach( func_get_args() as $array ) {
+      if(!is_array($array)) {
+          $return[] = $array;
+          continue;
+      }
       foreach( $array as $v ) $return[] = $v;
     }
     return $return;

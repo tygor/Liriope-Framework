@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
@@ -9,6 +10,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // --------------------------------------------------
 //
 
+die('DEPRECATED class :' . __CLASS__ . ' (' . __FILE__ . ')');
 class load {
 
   static function autoload( $className ) {
@@ -98,6 +100,8 @@ class load {
   static function file( $file=NULL, $require=FALSE, $params=NULL ) {
     // inlude the global page file so that snippets can see it
     if( !file_exists( $file )) return false;
+    echo("load::file  ");
+    var_dump($file);
     @extract( $params );
     if( $require ) require_once( $file );
     else include( $file );
@@ -133,7 +137,12 @@ class load {
   // 
   static function exists( $file=NULL, $searchPath=NULL )
   {
-    if( empty( $file )) return false;
+    echo("load::exists  seeking ");
+    var_dump($file);
+    if( empty( $file )) {
+      die('failed to find the file: '.$file);
+      return false;
+    }
     
     // grab the default configuration paths
     $paths = c::get( 'path' );
@@ -165,7 +174,12 @@ class load {
           if( file_exists( "$path/$file.$ext" ) && !is_dir( "$path/$file.$ext" )) return "$path/$file.$ext"; 
         }
       }
-      if( file_exists( "$path/$file" ) && !is_dir( "$path/$file" )) return "$path/$file"; 
+      if( file_exists( "$path/$file" ) && !is_dir( "$path/$file" )) {
+        echo("FOUND $path/$file\n");
+        return "$path/$file"; 
+      } else {
+        echo("Didn't find $path/$file\n");
+      }
     } 
 
     return false;

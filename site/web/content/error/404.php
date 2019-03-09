@@ -1,3 +1,6 @@
+<?php
+$page->title = '404';
+?>
 <div class="error404">
   <section id="message">
     <h1><span>The Grass is in fact</span> Greener!</h1>

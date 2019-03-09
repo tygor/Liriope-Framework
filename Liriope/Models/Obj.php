@@ -4,7 +4,7 @@ namespace Liriope\Models;
 
 use Liriope\Toolbox\A;
 
-class obj implements \Iterator {
+class Obj implements \Iterator {
 
   public $_ = array();
 

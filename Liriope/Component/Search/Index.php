@@ -4,7 +4,7 @@ namespace Liriope\Component\Search;
 
 use Liriope\Toolbox\a;
 use Liriope\Component\c;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\File;
 
 class index {
@@ -35,21 +35,30 @@ class index {
   // the words to ignore
   static $ignore = array( 'i', 'a', 'an', 'and', 'the', 'some', 'to', 'for', 'that', 'it', 'is', 'of', 'so', 's' );
 
-  // pattern for stripping out wanted characters to index
-  static $stripPattern = '/[^a-z0-9,\'"=:%]/iu';
+  // pattern for stripping out unwanted characters to index
+  static $stripPattern = '/[^a-z0-9\'"=:%]/iu';
 
   // multiplier for title and meta tag words, giving them more importance
   static $multiplier;
 
+  // 
   // store()
+  // 
+  // Stores the passed HTML page in an index file. This index contains
+  // every word not in the ignore array, and it's associated count from
+  // this page.
   //
-  // @param  object  $html The page content to index
+  // @param  string  $id   The page URI after the domain name
+  // @param  string  $html The page content to index
+  // @param  string  $body (optional) Just the body of the page, ignoring the theme frame
   //
   static function store( $id, $html, $body=NULL ) {
     if( a::contains( self::$ignoreURLs, $id )) return false;
     self::$body = $body!==NULL ? $body : $html; // to index for content
     self::$html = $html; // for grabbing crawler links, title and meta
 
+    // grab the multiplier from the config settings
+    // this assigned a weighted value to special words like meta info and title tag text
     self::$multiplier = c::get('index.multiplier', 3);
 
     // first, process what we want from the full HTML
@@ -59,10 +68,11 @@ class index {
 
     // then index the content section of the page body (sans-template wrapper)
     $img = self::findImageText();
-    self::removeInline();
-    self::removeComments();
+    self::removeNonContentTags();
+    self::removeHtmlComments();
     self::$body = strip_tags( self::$body );
-    $words = explode( ',', trim( self::stripToWords( self::$body ), ' ,' ));
+    $naked = html_entity_decode(preg_replace("/\s+/", " ", self::$body), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $words = explode(' ', trim( self::stripToWords( self::$body ), ' ,' ));
 
     // get the words from the title and meta tags, multiplying their score by duplicating their words
     $goldwords = array();
@@ -74,7 +84,6 @@ class index {
       end($goldwords);
       $goldwords += array_fill( key($goldwords)+1, self::$multiplier, $t );
     }
-
     // combine our word results
     self::$content = array_filter(a::combine( $goldwords, $words, $img ));
 
@@ -85,6 +94,7 @@ class index {
       $id => array(
         'title' => $title,
         'meta' => $meta,
+        'content' => $naked,
         'index' => self::$tally
       )
     );
@@ -101,24 +111,27 @@ class index {
   //
   static function unstore( $uri ) {
     $dir = c::get( 'root.index', c::get( 'root.web' ) . '/index' );
-    $uri = new String($uri);
+    $uri = new StringExtensions($uri);
     $file = $dir . '/' . $uri->replace( '/', '|' ) . '.txt';
     $success = File::remove($file);
   }
 
   // stripToWords()
-  // removes all unwanted characters
+  // removes everything except letters and numbers and a colon (:)
+  // but leaves the words separated by a space
   //
   static function stripToWords( $content ) {
-    $content = preg_replace( self::$stripPattern, ',', $content );
-    $content = preg_replace( '/[,]+/', ',', $content );
+    // first pass
+    $content = preg_replace( self::$stripPattern, ' ', $content );
+    // second pass
+    $content = preg_replace( '/[\s]+|:\s/', ' ', $content );
     return $content;
   }
 
-  // removeInline()
+  // removeNonContentTags()
   // strips out <head>, <script> and <style> tags inlcuding their contents
   //
-  static function removeInline() {
+  static function removeNonContentTags() {
     $content = self::$body;
     $content = preg_replace( '/<\s*script.*>.*<\/script>/imsxU', '', $content );
     $content = preg_replace( '/<\s*style.*>.*<\/style>/imsxU', '', $content );
@@ -126,9 +139,9 @@ class index {
     self::$body = $content;
   }
 
-  // removeComments()
+  // removeHtmlComments()
   // strips out HTML comments
-  static function removeComments() {
+  static function removeHtmlComments() {
     $content = preg_replace( '/<!--.*-->/imsxU', '', self::$body );
     self::$body = $content;
   }
@@ -194,7 +207,7 @@ class index {
       if( in_array( $found[1][$c], self::$metaNames )) {
         $pattern = '/content=[\'"](.*)[\'"]/i';
         preg_match_all( $pattern, $found[0][$c], $content );
-        $return = a::trim( a::combine( $return, explode( ' ', $content[1][0] )), ' .' );
+        $return = a::trim( a::combine( $return, explode( ' ', self::stripToWords( $content[1][0] ))), ' .' );
       }
     }
     return $return;
@@ -217,7 +230,7 @@ class index {
     if( $array === NULL ) $array = self::$content;
     $tally = array();
     foreach( $array as $word ) {
-      $word = new String($word);
+      $word = new StringExtensions($word);
       $word_id = $word->to_lowercase()->trim(' .,-"\'')->get();
       if( !isset( $tally[$word_id] )) $tally[$word_id] = 1;
       else $tally[$word_id] = $tally[$word_id] + 1;

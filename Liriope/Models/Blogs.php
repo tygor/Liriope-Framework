@@ -4,7 +4,7 @@ namespace Liriope\Models;
 
 use Liriope\Models\Obj;
 use Liriope\Component\Content\Buffer;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\a;
 use Liriope\Toolbox\Directory;
 
@@ -32,8 +32,9 @@ class Blogs extends Obj {
   public function __construct( $path=NULL, $file=NULL) {
     $data = Directory::contents( $path );
     $this->name = $data['name'];
-    $this->root = rtrim( $data['root'], '/'.$data['name']);
-    $parent = new String($this->root);
+    // remove the folder name from the end of the path
+    $this->root = rtrim( str_replace($data['name'], '', $data['root']), '/');
+    $parent = new StringExtensions($this->root);
     $this->parent = $parent->replace(\c::get('root.content'),'')->get();
     $this->modified = $data['modified'];
     // now store recursively from the blog root
@@ -76,10 +77,10 @@ class Blogs extends Obj {
 
     // and set some info about each post
     $info = pathinfo( $file );
-    $dir = new String($info['dirname']);
+    $dir = new StringExtensions($info['dirname']);
     $page->dir = $dir->minus(\c::get('root.content').'/')->get();
     $page->file = $info['basename'];
-    $url = new String($info['filename']);
+    $url = new StringExtensions($info['filename']);
     $page->url = ($url->to_lowercase()->get() === 'index') ? $page->dir : $page->dir . '/' . $info['filename'];
     $page->date = ($page->date()===NULL) ? date( 'Y-m-d H:i:s', filemtime($file)) : $page->date();
     $page->time = strtotime( $page->date );
@@ -176,7 +177,9 @@ class Blogs extends Obj {
   public function getNext() {
     $this->initAll();
     $post = current($this->files);
-    next($this->files);
+    if(next($this->files) === false) {
+        return $post;
+    }
     return $post;
   }
 

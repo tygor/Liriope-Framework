@@ -4,6 +4,7 @@ namespace Liriope\Models;
 
 use Liriope\c;
 use Liriope\Toolbox\Directory;
+use Liriope\Toolbox\File;
 
 //
 // Cache object
@@ -33,7 +34,7 @@ class Cache {
     if( !c::get( 'cache' )) return FALSE;
     if( $raw == FALSE ) $content = @serialize( $content );
     if( $content ) {
-      f::write( self::file( $file ), $content );
+      File::write( self::file( $file ), $content );
     }
   }
 
@@ -42,7 +43,7 @@ class Cache {
   static function get( $file, $raw=FALSE, $expires=FALSE ) {
     if( !c::get( 'cache' )) return FALSE;
     if( $expires && self::expired( $file, $expires )) return FALSE;
-    $content = f::read( self::file( $file ));
+    $content = File::read( self::file( $file ));
     if( $raw == FALSE ) $content = $unserialize( $content );
     return $content;
   }
@@ -50,7 +51,7 @@ class Cache {
   // remove()
   //
   static function remove( $file ) {
-    f::remove( self::file( $file ));
+    File::remove( self::file( $file ));
   }
 
   // flush()

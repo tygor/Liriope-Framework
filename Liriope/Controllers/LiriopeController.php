@@ -9,8 +9,10 @@ use Liriope\Models\View;
 use Liriope\Models\Cache;
 use Liriope\Models\Crawler;
 use Liriope\Component\Load;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 use Liriope\Toolbox\Router;
+use Liriope\Toolbox\Request;
+use Liriope\Component\Search\Search;
 
 /**
  * LiriopeController.class.php
@@ -40,8 +42,8 @@ class LiriopeController {
   // @return self    Returns itself as an object so that other methods can be chained
   //
   public function __construct($model, $controller, $action) {
-    $this->_controller = strtolower( $controller );
-    $this->_action = strtolower( $action );
+    $this->_controller = $controller;
+    $this->_action = $action;
     $this->_model =& $model;
     $this->_view = new View( $this->_controller, $this->_action );
   }
@@ -71,6 +73,14 @@ class LiriopeController {
     $page->set( 'content', $liriope->render( $page ));
   }
 
+  // 
+  // version()
+  // Returns the version of Liriope stored in the config variables
+  // 
+  public function version() {
+    return c::get('version');
+  }
+
   /**
    * serach()
    * the default search page
@@ -79,8 +89,11 @@ class LiriopeController {
     $page = $this->getPage();
     c::set( 'cache', FALSE);
 
-    $search = new search( array( 'searchfield' => 'q', 'ignore'=>c::get('search.ignore', array('home','search'))));
-    $page->set( 'search', $search );
+    $query = Request::get( 'q' );
+    $search = new Search( array( 'ignore'=>c::get('search.ignore', array('home','search','flush','crawl'))), $query);
+
+    $page->title = 'Search results';
+    $page->set( 'search', $search->searchPages());
   }
 
   public function flush( $params=NULL ) {
@@ -98,7 +111,7 @@ class LiriopeController {
 
   public function mail( $encoded=NULL ) {
     $page = $this->getPage();
-    $covert_email = new String($encoded[0]);
+    $covert_email = new StringExtensions($encoded[0]);
     list( $user, $host, $tld ) = $covert_email->rot()->split('+');
     $email = sprintf( '%s@%s.%s', $user, $host, $tld );
     $page->set( 'email', $email );
@@ -123,7 +136,7 @@ class LiriopeController {
         $file = Load::exists( $fallback );
 
         if( !$file ) {
-            throw new Exception("The view file you are attempting to use ($check) cannot be found");
+            throw new \Exception("The view file you are attempting to use ($check) cannot be found");
         }
     }
     $page->useView($file);

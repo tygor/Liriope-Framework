@@ -1,5 +1,7 @@
 <?php
 
+namespace Liriope;
+
 //
 // uri Model
 // --------------------------------------------------
@@ -13,7 +15,7 @@
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
-class uri {
+class LiriopeUri {
   static protected $route;
   static $uri;
   static $isHome = false;
@@ -88,7 +90,7 @@ class uri {
 
   static function getURI() {
     if( empty( self::$route )) {
-      $route = new String(parse_url( self::getRawURI(), PHP_URL_PATH));
+      $route = new LiriopeString(parse_url( self::getRawURI(), PHP_URL_PATH));
       $result = $route->minus('index.php')->trim("/")->get();
       if( $result === "" ) {
         self::$isHome = TRUE;
@@ -123,7 +125,7 @@ class uri {
   // @param  string  $path The path to convert
   // @return string  Returns the new path relative to the web root
   static function toRelative($path) {
-    $return = new String($path);
+    $return = new LiriopeString($path);
     return $return->minus(c::get('root.web', 'web'))->get();
   }
 

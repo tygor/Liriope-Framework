@@ -6,7 +6,7 @@ use Liriope\c;
 use Liriope\Controllers;
 use Liriope\Component\Load;
 use Liriope\Component\Search\Index;
-use Liriope\Toolbox\String;
+use Liriope\Toolbox\StringExtensions;
 
 class Router {
 
@@ -30,6 +30,8 @@ class Router {
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     self::$use = $rule->getUse();
+    // if the fule is a closure, simply return the function
+    if(is_callable($rule->route)) return $rule->route;
     return( self::useRoute( $rule->translate( $request )));
   }
 
@@ -56,8 +58,9 @@ class Router {
   // stores a rule to use during dispatch
   //
   // @param  string $name The name for the routing rule
-  // @param  string $rule The rule to match to the request URI
+  // @param  string $rule The pattern to match to the request URI
   // @param  string $route The translation into controller/action?params
+  // @param  string $use  Switch to use either the controller or the module logic
   // @return bool   TRUE on sucess, FALSE on error
   //
   static function setRule( $name=NULL, $rule=NULL, $route=NULL, $use='controller' ) {
@@ -146,7 +149,7 @@ class Router {
     $target = $controller . '.php';
 
     if( !Load::seek( $target )) {
-die('calling the 404 b/c we can\'t find ' . $target);
+      trigger_error( "calling the 404 b/c we can\'t find <b>" . $target . "</b>.", E_USER_ERROR );
       router::go( '/', 404 ); 
     }
 
@@ -154,17 +157,24 @@ die('calling the 404 b/c we can\'t find ' . $target);
 
     $controllerNS = '\Liriope\Controllers\\';
 
-    if( !class_exists( $controllerNS . $controller )) trigger_error( "We can't find the class
-    file <b>" . ucfirst($controller) . ".php</b>.", E_USER_ERROR );
+    if( !class_exists( $controllerNS . $controller )) {
+      // check for a global namespace controller
+      if(!class_exists($controller)) {
+        trigger_error( "We can't find the class file <b>" . ucfirst($controller) . ".php</b>.", E_USER_ERROR );
+      } else {
+        $controllerNS = '';
+      }
+    }
 
-    if( !method_exists( $controllerNS . $controller, $action )) trigger_error( "The view
-    <b>$action</b> doesn't seem to exist in the controller
-    <b>$controller</b>.", E_USER_ERROR );
+    if( !method_exists( $controllerNS . $controller, $action )) {
+      trigger_error( "The view <b>$action</b> doesn't seem to exist in the controller <b>$controller</b>.", E_USER_ERROR );
+    }
 
     // Ok, run that object's function!
     $object = $controllerNS . $controller;
     $dispatch = new $object( $model, $controllerRaw, $action );
     $content = call_user_func( array( $dispatch,$action ), $getVars );
+    
     if( $return ) return $content;
     return $dispatch;
   }
@@ -181,16 +191,16 @@ die('calling the 404 b/c we can\'t find ' . $target);
   static function callController( $controller=NULL, $action=NULL, $getVars=NULL, $return=TRUE ) {
     // Controllers are uppercase on words (ex: Shovel) with "Controller" appended
     // Models are the plural of the controller (ex: Shovels)
-    $C = new String($controller);
+    $C = new StringExtensions($controller);
     $controllerRaw = $C->raw();
     $controller =  $C->sanatize('onlyLetters')->to_titlecase()->get();
     $model = rtrim( $controller, 's' );
     $controller .= 'Controller';
     $dispatch = self::callHook( $controller, $controllerRaw, $action, $model, $getVars );
+    
     if( $return ) {
       return $dispatch;
     }
-var_dump($dispath);exit;
     $dispatch->load();
   }
 
@@ -206,7 +216,7 @@ var_dump($dispath);exit;
   static function callModule( $controller=NULL, $action=NULL, $getVars=NULL ) {
     // Controllers are uppercase on words (ex: Shovel) with "Module" appended
     // Models are the plural of the controller (ex: Shovels)
-    $C = new String($controller);
+    $C = new StringExtensions($controller);
     $controllerRaw = $C->raw();
     $controller =  $C->sanatize('onlyLetters')->to_titlecase()->get();
     $model = rtrim( $controller, 's' );

@@ -14,10 +14,6 @@ use Liriope\Toolbox\Router;
 use Liriope\Toolbox\Request;
 use Liriope\Component\Search\Search;
 
-/**
- * LiriopeController.class.php
- */
-
 class LiriopeController {
 
   // @var string The name of the model to use

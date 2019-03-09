@@ -143,11 +143,11 @@ class Router {
   // $getVars       @array  Any name/value pairs for the action to use
   //
   static function callHook( $controller, $controllerRaw, $action, $model, $getVars=array(), $return=FALSE ) {
-    // $getVars nees to be an array
+    // $getVars needs to be an array
     if( empty( $getVars )) $getVars = array();
 
     $target = $controller . '.php';
-
+ 
     if( !Load::seek( $target )) {
       trigger_error( "calling the 404 b/c we can\'t find <b>" . $target . "</b>.", E_USER_ERROR );
       router::go( '/', 404 ); 

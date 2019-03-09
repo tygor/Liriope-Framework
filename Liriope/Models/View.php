@@ -7,6 +7,7 @@ use Liriope\Component\Load;
 use Liriope\Component\Search\Index;
 use Liriope\Models\Obj;
 use Liriope\Models\Theme;
+use Liriope\Toolbox\Directory;
 use Liriope\Toolbox\Uri;
 use Liriope\Toolbox\Filter;
 use Liriope\Toolbox\Site;
@@ -72,15 +73,15 @@ class View extends obj {
 
     // if cache is enabled...
     if(\c::get('cache')) {
-      $cacheModified = cache::modified( $cacheID );
+      $cacheModified = Cache::modified( $cacheID );
 
       // ...and the cache file is newer than all of the content files...
-      if( $cacheModified >= dir::modified( \c::get( 'root.content' ))) {
+      if( $cacheModified >= Directory::modified( \c::get( 'root.content' ))) {
 
         // ...and the cache file created time is withing the expiration time
-        if(!cache::expired($cacheID, $cacheExpiredTime)) {
+        if(!Cache::expired($cacheID, $cacheExpiredTime)) {
 
-          $cacheData = cache::get( $cacheID, TRUE );
+          $cacheData = Cache::get( $cacheID, TRUE );
 
         }
       }

@@ -16,7 +16,7 @@ class Load {
     $root = \c::get( 'root.liriope' );
     // Toolbox
     self::file( $root . '/library/search.class.php', TRUE );
-    self::file( $root . '/controllers/LiriopeController.class.php', TRUE );
+    // self::file( $root . '/controllers/LiriopeController.php', TRUE );
   }
 
   static function config() {

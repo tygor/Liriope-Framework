@@ -1,6 +1,6 @@
 <?php
 
-$tyler = new String( "<p>I wish I were a link to http://google.com or was it http://www.google.com </p>");
+$tyler = new LiriopeString( "<p>I wish I were a link to http://google.com or was it http://www.google.com </p>");
 
 ?>
 

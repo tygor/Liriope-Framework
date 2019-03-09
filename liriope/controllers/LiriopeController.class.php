@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 /**
  * LiriopeController.class.php
  */
@@ -88,7 +89,7 @@ class LiriopeController {
 
   public function mail( $encoded=NULL ) {
     $page = $this->getPage();
-    $covert_email = new String($encoded[0]);
+    $covert_email = new LiriopeString($encoded[0]);
     list( $user, $host, $tld ) = $covert_email->rot()->split('+');
     $email = sprintf( '%s@%s.%s', $user, $host, $tld );
     $page->set( 'email', $email );
@@ -125,6 +126,7 @@ class LiriopeController {
   }
 
   function load() {
+    die('loading breakpoint');
     $this->_view->load();
   }
 

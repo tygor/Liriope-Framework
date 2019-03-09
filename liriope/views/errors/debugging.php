@@ -9,7 +9,7 @@
 <h1>Debugging <a href="#" onclick="toggle_visibility('debug-content');return false;">Show/Hide</a></h1>
 
 <ol id="debug-content">
-<?php foreach( error::get() as $k => $error ): ?>
+<?php foreach( LiriopeError::get() as $k => $error ): ?>
   <?php if( !is_array( $error )): ?>
   <li><?= $error ?></li>
   <?php else: ?>

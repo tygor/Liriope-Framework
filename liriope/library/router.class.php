@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 // --------------------------------------------------
 // router.class.php
 // --------------------------------------------------
@@ -24,7 +25,7 @@ class router {
   // and returns the $controller, $action, and $params
   //
   static function getDispatch( $request=NULL ) {
-    if( $request===NULL ) $request = uri::getArray();
+    if( $request===NULL ) $request = LiriopeUri::getArray();
     $rule = ($request[0]==='home') ? self::getRule( 'home' ) : self::matchRule( $request );
     if( !$rule ) trigger_error( 'Fatal Liriope Error: No router rule was matched.', E_USER_ERROR );
     self::$use = $rule->getUse();
@@ -144,8 +145,11 @@ class router {
     $target = $controller . '.class.php';
 
     if( !load::seek( $target )) {
+      die('ERROR 404');
       router::go( '/', 404 ); 
     }
+
+    include($controller);
 
     // check that the class was loaded and that it has the correct method
     if( !class_exists( $controller )) trigger_error( "We can't find the class file <b>" . ucfirst($controller) . ".class.php</b>.", E_USER_ERROR );
@@ -170,10 +174,19 @@ class router {
   static function callController( $controller=NULL, $action=NULL, $getVars=NULL, $return=TRUE ) {
     // Controllers are uppercase on words (ex: Shovel) with "Controller" appended
     // Models are the plural of the controller (ex: Shovels)
+    
     $controllerRaw = $controller;
     $controller = ucwords( tools::cleanInput( $controller, 'alphaOnly' ));
     $model = rtrim( $controller, 's' );
     $controller .= 'Controller';
+    /*
+    DEBUGGING
+    echo("<pre>");
+    print_r($controller);
+    print_r($action);
+    print_r($getVars);
+    die("</pre>");
+    */
     $dispatch = self::callHook( $controller, $controllerRaw, $action, $model, $getVars );
     if( $return ) {
       return $dispatch;
@@ -223,8 +236,8 @@ class router {
         break;
       case 404:
         header( 'HTTP/1.0 404 Not Found' );
-        error_log("Attempted to visit '".uri::getRawURI()."' and was redirected to a 404 page");
-        index::unstore(uri::get());
+        error_log("Attempted to visit '" . LiriopeUri::getRawURI()."' and was redirected to a 404 page");
+        index::unstore(LiriopeUri::get());
         $url = '/error/404';
         break;
     }

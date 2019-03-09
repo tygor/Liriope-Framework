@@ -31,7 +31,7 @@ adipiscing nec, bibendum id risus. Sed vitae diam massa. Nulla lacus nunc, commo
 In hac habitasse platea dictumst. Etiam quis leo arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
 posuere cubilia Curae; In felis justo, accumsan et porttitor ut, faucibus eu quam. 
 LOREM;
-$lorem = new String($lorem);
+$lorem = new LiriopeString($lorem);
 
 ?>
 

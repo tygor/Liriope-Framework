@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
@@ -34,7 +35,7 @@ class c
       return $default;
     }
     // or, tattle about the missing config and move on
-    error::report( array(
+    LiriopeError::report( array(
       "file" => __FILE__,
       "class" => __CLASS__,
       "method" => __METHOD__,

@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 //
 // Liriope's default configuration
 // 
@@ -118,11 +119,11 @@ function emailIncognito( $c ) {
   $anchors = array();
   foreach( $matches[0] as $k=>$m) {
     $class = trim(implode(' ', $classes[$k]));
-    $one = new String($emails[$k][1]);
+    $one = new LiriopeString($emails[$k][1]);
     $one = $one->rot()->get();
-    $two = new String($emails[$k][2]);
+    $two = new LiriopeString($emails[$k][2]);
     $two = $two->rot()->get();
-    $three = new String($emails[$k][3]);
+    $three = new LiriopeString($emails[$k][3]);
     $three = $three->rot()->get();
     $email = "$one+$two+$three";
     if($emails[$k][4]) $email = $email . '?' . $emails[$k][4];

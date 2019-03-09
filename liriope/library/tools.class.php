@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 /**
  * LiriopeTools.class.php
  */

@@ -38,7 +38,7 @@ class r {
   static function sanatize( $data ) {
     foreach( $data as $k => $v ) {
       if( !is_array( $v )) {
-        $v = new String($v);
+        $v = new LiriopeString($v);
         $v = $v->stripslashes()->get();
       } else {
         $v = self::sanatize( $v );

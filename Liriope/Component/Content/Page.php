@@ -151,7 +151,7 @@ class Page extends \obj {
 
   public function keywords() {
     if(empty($this->keywords)) {
-      $s = new \String(\c::get('page.keywords'));
+      $s = new \LiriopeString(\c::get('page.keywords'));
       $s = $s->split(',');
       $this->keywords = \a::glue($s, ',');
     }
@@ -160,7 +160,7 @@ class Page extends \obj {
 
   public function add_keywords($s) {
     if(!is_array($s)) {
-      $s = new \String($s);
+      $s = new \LiriopeString($s);
       $s = $s->split(',');
     }
     $this->keywords = $this->keywords() . ',' . \a::glue($s, ',');

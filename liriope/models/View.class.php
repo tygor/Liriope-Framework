@@ -1,5 +1,5 @@
 <?php
-
+namespace Liriope;
 use Liriope\Component\Content\Page;
 
 // Direct access protection
@@ -44,7 +44,7 @@ class View extends obj {
     $page = new Page( $file );
     $page->controller = $controller;
     $page->action = $action;
-    $page->uri = uri::get();
+    $page->uri = LiriopeUri::get();
     $page->setTheme(c::get('theme'));
     $this->_page = &$page;
   }
@@ -57,13 +57,13 @@ class View extends obj {
     global $site;
     $page = &$this->_page;
 
-    if( c::get( 'debug' )) theme::set( 'error', error::render( TRUE ));
+    if( c::get( 'debug' )) theme::set( 'error', LiriopeError::render( TRUE ));
     
     // CACHE
     // ----------
     $cache = NULL;
     $cacheModified = time();
-    $cacheID = uri::md5URI();
+    $cacheID = LiriopeUri::md5URI();
     $cacheExpiredTime = c::get('cache.expiration', (24*60*60));
 
     // if cache is enabled...
@@ -92,7 +92,7 @@ class View extends obj {
         $html = filter::doFilters( $html );
         if( c::get( 'cache' )) { cache::set( $cacheID, (string) $html, TRUE ); }
         // TODO: $page->is404 must be an overloaded variable. Is this a useless check?
-        if( c::get( 'index' ) && !$page->is404 ) { index::store( uri::get(), (string) $html, (string) $html ); }
+        if( c::get( 'index' ) && !$page->is404 ) { index::store( LiriopeUri::get(), (string) $html, (string) $html ); }
       }
 
       // Add a clear cache button if the configuration is set to [debug]

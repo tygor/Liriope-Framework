@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 //
 // Liriope: a PHP site framework
 //
@@ -20,7 +21,17 @@ c::set( 'charset', 'utf-8' );
 // Begins the framework inner-workings
 // --------------------------------------------------
 function Liriope() {
+  // extract creates local variables for: controller, action, params, use
   extract( router::getDispatch() );
+  /*
+  echo("<pre>");
+  echo("controller = " . $controller);
+  echo("\naction = " . $action);
+  echo("\nparams = ");
+  print_r($params);
+  echo("\nuse = " . $use);
+  echo("</pre>");
+  */
   if( strtolower($use) === 'module' ) {
     $liriope = router::callModule( $controller, $action, $params );
     exit;
@@ -53,7 +64,7 @@ function LiriopeException( $exception )
   echo "</pre>";
   exit;
 }
-set_exception_handler( 'LiriopeException' );
+set_exception_handler( 'Liriope\LiriopeException' );
 
 function stripSlashesDeep( $value ) {
 	$value = is_array( $value ) ? array_map( 'stripSlashesDeep', $value ) : stripslashes( $value );

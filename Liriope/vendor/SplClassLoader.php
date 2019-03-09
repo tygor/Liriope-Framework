@@ -1,4 +1,5 @@
 <?php
+namespace Liriope;
 
 // gist: 221634
 
@@ -132,7 +133,11 @@ class SplClassLoader
             }
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
 
-            require ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
+            $path = ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '');
+
+            echo("SplClassLoader seeking: ");
+            var_dump($path . $fileName);
+            require $path . $fileName;
         }
     }
 }

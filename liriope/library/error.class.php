@@ -1,5 +1,7 @@
 <?php
 
+namespace Liriope;
+
 // Direct access protection
 if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 
@@ -8,7 +10,7 @@ if( !defined( 'LIRIOPE' )) die( 'Direct access is not allowed.' );
 // collects and displays issues and errors
 //
 
-class error {
+class LiriopeError {
   static $_ = array();
 
   public static function report( $params=array() ) {
